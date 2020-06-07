@@ -1,9 +1,16 @@
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-/* Credential credential = Credential(credential.displayName, credential.email,
-    credential.userId, credential.accessToken, credential.photoUrl);
+class User with ChangeNotifier{
+  String displayName;
+  String userId;
+  String email;
+  String accessToken;
+  String photoUrl;
 
-Future<void> attemptSignIn(Credential credential) async {
+  Future<void> attemptSignIn() async {
   String credentials = "appuser:frj936epae293e9c6epae29";
   Codec<String, String> stringToBase64 = utf8.fuse(base64);
   String encoded = stringToBase64.encode(credentials);
@@ -15,15 +22,17 @@ Future<void> attemptSignIn(Credential credential) async {
   final response = await http.post(url,
       headers: headers,
       body: json.encode({
-        "DisplayName": '${credential.displayName}',
-        "Email": '${credential.email}',
-        "ID": '${credential.userId}',
-        "PhotoUrl": '${credential.photoUrl}',
+        "DisplayName": displayName,
+        "Email": email,
+        "ID": userId,
+        "PhotoUrl": photoUrl,
         "RegisterMode": '',
-        "access_token": '${credential.accessToken}',
+        "access_token": displayName,
         "pw": "",
         "refresh_token": "",
         "token_type": ""
       }));
   print(response);
-} */
+}
+}
+

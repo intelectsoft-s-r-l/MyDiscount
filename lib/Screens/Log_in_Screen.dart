@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:guid_gen/models/auth.dart';
-import 'package:provider/provider.dart';
+import 'package:guid_gen/models/facebook_auth.dart';
+import 'package:guid_gen/models/google_auth.dart';
+//import 'package:provider/provider.dart';
 
 
-import 'Home_screen.dart';
+
 import 'Sign_in_Screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -83,41 +84,12 @@ class _StateLoginPage extends State<LoginPage> {
                   child: Text('Login'),
                   onPressed: () {},
                 ),
-                FlatButton(
-                  color: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  onPressed: () {
-                    Provider.of<Credential>(context, listen: false)
-                        .authFb();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ),
-                    );
-                  },
-                  child: Text('Login with Facebook'),
-                ),
-                FlatButton(
-                  color: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  onPressed: () {
-                    Provider.of<Credential>(context, listen: false)
-                        .logwithG();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ),
-                    );
-                  },
-                  child: Text('Login with Google'),
-                ),
+               FbAuth(),
+               GAuth(),
+                
                 GestureDetector(
                   child: Text('Create an Account'),
-                  onTap: () {Provider.of<Credential>(context).logwithG();
+                  onTap: () {//Provider.of<Credential>(context).logwithG();
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => SignInScreen(),
