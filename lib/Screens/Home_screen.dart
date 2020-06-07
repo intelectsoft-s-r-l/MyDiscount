@@ -10,10 +10,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
-   void signoutFb(){
-     FacebookLogin _facebookLogin = FacebookLogin();
-     _facebookLogin.logOut();
-   }
+    void signoutFb() {
+      FacebookLogin _facebookLogin = FacebookLogin();
+      _facebookLogin.logOut();
+      
+      print("1");
+    }
+
     void signOut() {
       GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email'],
@@ -29,8 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
-              signOut();
               signoutFb();
+              signOut();
+
               Navigator.of(context).pop();
             },
           ),
