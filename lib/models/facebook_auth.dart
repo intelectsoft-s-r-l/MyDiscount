@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:guid_gen/models/auth_to_service.dart';
 //import 'package:guid_gen/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -7,6 +8,7 @@ import 'dart:convert';
 import '../Screens/Home_screen.dart';
 
 class FbAuth extends StatelessWidget {
+  AuthServ attemptSignIn = AuthServ();
   String displayName;
   String userId;
   String email;
@@ -30,7 +32,7 @@ class FbAuth extends StatelessWidget {
 
         print(_accessToken.token);
         if (_accessToken != null) {
-          attemptSignIn(displayName, email, userId, photoUrl, accessToken);
+          attemptSignIn.attemptSignIn(displayName, email, userId, photoUrl, accessToken);
         } else {
           print('error');
         }
@@ -42,7 +44,7 @@ class FbAuth extends StatelessWidget {
     }
   }
   
-  Future<void> attemptSignIn(String displayName,String email, String userId, String photoUrl,String accessToken) async {
+  /* Future<void> attemptSignIn(String displayName,String email, String userId, String photoUrl,String accessToken) async {
   String credentials = "appuser:frj936epae293e9c6epae29";
   Codec<String, String> stringToBase64 = utf8.fuse(base64);
   String encoded = stringToBase64.encode(credentials);
@@ -64,7 +66,7 @@ class FbAuth extends StatelessWidget {
         "refresh_token": "",
         "token_type": ""
       }));
-  print(response.body);}
+  print(response.body);} */
   @override
   Widget build(BuildContext context) {
   
