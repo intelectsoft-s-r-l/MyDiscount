@@ -3,7 +3,7 @@ import 'package:guid_gen/models/facebook_auth.dart';
 import 'package:guid_gen/models/google_auth.dart';
 //import 'package:provider/provider.dart';
 
-import 'Sign_in_Screen.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -84,17 +84,6 @@ class _StateLoginPage extends State<LoginPage> {
                 ),
                 FbAuth(),
                 GAuth(),
-                GestureDetector(
-                  child: Text('Create an Account'),
-                  onTap: () {
-                    //Provider.of<Credential>(context).logwithG();
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => SignInScreen(),
-                      ),
-                    );
-                  },
-                ),
               ],
             ),
           ),
