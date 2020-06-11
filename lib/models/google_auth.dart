@@ -12,7 +12,11 @@ class GAuth extends StatelessWidget {
   String _email;
   String _accessToken;
   String _photoUrl;
-  void logwithG() async {
+  
+
+  @override
+  Widget build(BuildContext context) {
+    void logwithG() async {
     GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: ['email'],
     );
@@ -27,13 +31,15 @@ class GAuth extends StatelessWidget {
         _accessToken = auth.accessToken;
         _photoUrl = account.photoUrl;
         attemptSignIn.attemptSignIn(_displayName, _email, _userId, _photoUrl, _accessToken);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ),
+        );
       },
     );
   }
   
-
-  @override
-  Widget build(BuildContext context) {
     return FlatButton(
       color: Colors.red,
       shape: RoundedRectangleBorder(

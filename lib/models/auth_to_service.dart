@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthServ {
+class AuthServ with ChangeNotifier {
+
   Future<void> attemptSignIn(String displayName, String email, String userId,
       String photoUrl, String accessToken) async {
     String credentials = "appuser:frj936epae293e9c6epae29";
@@ -22,8 +25,10 @@ class AuthServ {
           "PhotoUrl": photoUrl,
           "access_token": accessToken,
         }));
-    print(response);
-
-  }
+    print(response.body);
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+   prefs.setString('data', response.body);
+   notifyListeners();
+  } 
  
 }
