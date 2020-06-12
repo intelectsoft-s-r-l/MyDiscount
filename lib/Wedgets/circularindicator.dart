@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_guid/flutter_guid.dart';
+import 'package:guid_gen/models/SharedPref.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CircularProgres extends StatefulWidget {
   @override
@@ -12,6 +14,14 @@ class _CircularProgresState extends State with TickerProviderStateMixin  {
   AnimationController progressController;
   Animation<double> animation;
 
+ SharedPref sPref = SharedPref();
+
+ _loadSharedPref() async {
+  String id = await sPref.readTID();
+  return id;
+}
+  //String tID = _loadSharedPref();
+  
   @override
   void initState() {
     super.initState();
@@ -23,7 +33,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin  {
       });
   }
 
-  var _guid = Guid.defaultValue;
+  //var _guid = Guid.defaultValue;
   @override
   Widget build(BuildContext context) {
     void progressForward() {
@@ -46,16 +56,15 @@ class _CircularProgresState extends State with TickerProviderStateMixin  {
     return GestureDetector(
       onTap: () {
         tapFunction();
-        setState(() {
+       /*  setState(() {
           _guid = Guid.newGuid;
-        });
+        }); */
       },
       child: Column(
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(10),
-            height: 150,
-            width: 200,
+            
             decoration: BoxDecoration(
               color: Colors.green,
               border: Border.all(
@@ -64,13 +73,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin  {
               ),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Text(
-              '$_guid',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-              ),
-            ),
+            child: QrImage(data: '',size: 150,)
           ),
           SizedBox(height: 80),
           Container(
@@ -90,6 +93,8 @@ class _CircularProgresState extends State with TickerProviderStateMixin  {
     );
   }
 }
+
+
 
 class ShapePainter extends CustomPainter  {
   double currentProgress;

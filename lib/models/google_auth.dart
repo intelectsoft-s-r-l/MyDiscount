@@ -30,12 +30,20 @@ class GAuth extends StatelessWidget {
         _userId = account.id;
         _accessToken = auth.accessToken;
         _photoUrl = account.photoUrl;
-        attemptSignIn.attemptSignIn(_displayName, _email, _userId, _photoUrl, _accessToken);
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
-          ),
-        );
+        //save to shared preference
+        
+        /* var testTest = false; */
+       /*  testTest = await */ attemptSignIn.attemptSignIn(_displayName, _email, _userId, _photoUrl, _accessToken);
+
+       /*  if (testTest){ */
+          Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
+                    ),
+                  );
+        //}
+
+        
       },
     );
   }
@@ -47,11 +55,7 @@ class GAuth extends StatelessWidget {
       ),
       onPressed: () {
         logwithG();
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
-          ),
-        );
+        
       },
       child: Text('Login with Google'),
     );

@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       googleSignIn.signOut();
       print('object');
     }
-
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Guid'),
@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     child: Text(''),
                   ),
+                
                   CircularProgres(),
                 ],
               ),
