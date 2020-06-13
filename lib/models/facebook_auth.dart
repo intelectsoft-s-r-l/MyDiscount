@@ -54,6 +54,7 @@ class _FbAuthState extends State<FbAuth> {
                 setState(() {
                   isLoged = !isLoged;
                 });
+                prefs.setLogStatus(isLoged);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => HomeScreen(),

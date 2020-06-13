@@ -20,4 +20,12 @@ class SharedPref {
     final authData = await SharedPreferences.getInstance();
     authData.getString('userID');
   }
+  setLogStatus(isLoged)async{
+    final authData = await SharedPreferences.getInstance();
+    authData.setBool('logedIn',isLoged);
+  }
+  getLogStatus(isLoged)async{
+    final authData = await SharedPreferences.getInstance();
+    authData.getBool('logedIn');
+  }
 }

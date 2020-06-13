@@ -24,6 +24,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
   String accessToken;
   String photoUrl;
   AuthServ serv = AuthServ();
+  
   bool img = true;
   @override
   void initState() {

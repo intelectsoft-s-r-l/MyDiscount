@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _StateLoginPage extends State<LoginPage> {
-  var isLogin = false;
+  //
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -79,14 +79,8 @@ class _StateLoginPage extends State<LoginPage> {
                   child: Text('Login'),
                   onPressed: () {},
                 ),
-                FbAuth(),
                 GAuth(),
-                GestureDetector(
-                  child: Text('Create an Account'),
-                  onTap: () {
-                   
-                  },
-                ),
+                FbAuth(),
               ],
             ),
           ),

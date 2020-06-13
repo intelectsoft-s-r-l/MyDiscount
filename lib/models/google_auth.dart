@@ -12,7 +12,7 @@ class GAuth extends StatefulWidget {
 }
 
 class _GAuthState extends State<GAuth> {
-   bool isLoged = false;
+  bool isLoged = false;
 
   AuthServ attemptSignIn = AuthServ();
 
@@ -34,6 +34,7 @@ class _GAuthState extends State<GAuth> {
       GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email'],
       );
+      perfs.setLogStatus(isLoged);
 
       googleSignIn.signIn().then(
         (GoogleSignInAccount account) async {
@@ -45,21 +46,20 @@ class _GAuthState extends State<GAuth> {
           accessToken = auth.accessToken;
           photoUrl = account.photoUrl;
           //save to shared preference
+
           perfs.saveResp(userId);
-          var testTest = false;
-          testTest = await attemptSignIn.attemptSignIn(
+
+          setState(() {
+            isLoged = !isLoged;
+          });
+          await attemptSignIn.attemptSignIn(
               displayName, email, userId, photoUrl, accessToken);
-            
-          if (testTest) {
-            setState(() {
-              isLoged = !isLoged;
-            });
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => HomeScreen(),
-              ),
-            );
-          }
+
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+          );
         },
       );
     }
@@ -74,13 +74,17 @@ class _GAuthState extends State<GAuth> {
         onPressed: () {
           logwithG();
         },
-        child: Row(mainAxisAlignment:MainAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Image.asset(
               'assets/icons/google.png',
               width: 30,
               height: 30,
-            ),SizedBox(width: 10,),
+            ),
+            SizedBox(
+              width: 10,
+            ),
             Text(
               'Login with Google',
               style:

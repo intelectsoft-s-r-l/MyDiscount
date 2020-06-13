@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         body:[HomeScreen(), Companies(), Info()]
             .elementAt(_selectedIndex),
-        bottomNavigationBar:isLogin? LoginPage(): BottomNavigationBar(
+        bottomNavigationBar:isLogin?  BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onitemtaped,
           items: <BottomNavigationBarItem>[
@@ -53,8 +53,8 @@ class _MyAppState extends State<MyApp> {
               title: Text('Info'),
               icon: Icon(Icons.info_outline),
             ),
-          ],
-        )
+          ]
+        ):LoginPage(),
       ),
     );
   }
