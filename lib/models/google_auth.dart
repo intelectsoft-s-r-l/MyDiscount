@@ -1,63 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:guid_gen/models/SharedPref.dart';
 import 'package:guid_gen/models/auth_to_service.dart';
 // import 'package:http/http.dart'as http;
 // import 'dart:convert';
 import '../Screens/Home_screen.dart';
 
 class GAuth extends StatelessWidget {
-  AuthServ  attemptSignIn = AuthServ();
-  String _displayName;
-  String _userId;
-  String _email;
-  String _accessToken;
-  String _photoUrl;
-  
-
+  AuthServ attemptSignIn = AuthServ();
+  String displayName;
+  String userId;
+  String email;
+  String accessToken;
+  String photoUrl;
+  SharedPref perfs = SharedPref();
   @override
   Widget build(BuildContext context) {
     void logwithG() async {
-    GoogleSignIn googleSignIn = GoogleSignIn(
-      scopes: ['email'],
-    );
+      GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: ['email'],
+      );
 
-    googleSignIn.signIn().then(
-      (GoogleSignInAccount account) async {
-        GoogleSignInAuthentication auth = await account.authentication;
-        print(auth);
-        _displayName = account.displayName;
-        _email = account.email;
-        _userId = account.id;
-        _accessToken = auth.accessToken;
-        _photoUrl = account.photoUrl;
-        //save to shared preference
-        
-        /* var testTest = false; */
-       /*  testTest = await */ attemptSignIn.attemptSignIn(_displayName, _email, _userId, _photoUrl, _accessToken);
+      googleSignIn.signIn().then(
+        (GoogleSignInAccount account) async {
+          GoogleSignInAuthentication auth = await account.authentication;
+          print(auth);
+          displayName = account.displayName;
+          email = account.email;
+          userId = account.id;
+          accessToken = auth.accessToken;
+          photoUrl = account.photoUrl;
+          //save to shared preference
+          perfs.saveResp(userId);
+          var testTest = false;
+          testTest = await attemptSignIn.attemptSignIn(
+              displayName, email, userId, photoUrl, accessToken);
+            
+          if (testTest) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(),
+              ),
+            );
+          }
+        },
+      );
+    }
 
-       /*  if (testTest){ */
-          Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ),
-                  );
-        //}
-
-        
-      },
-    );
-  }
-  
-    return FlatButton(
-      color: Colors.red,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+    return Container(
+      width: 200,
+      child: FlatButton(
+        color: Color.fromRGBO(52, 122, 246, 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        onPressed: () {
+          logwithG();
+        },
+        child: Row(mainAxisAlignment:MainAxisAlignment.start,
+          children: <Widget>[
+            Image.asset(
+              'assets/icons/google.png',
+              width: 30,
+              height: 30,
+            ),SizedBox(width: 10,),
+            Text(
+              'Login with Google',
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          ],
+        ),
       ),
-      onPressed: () {
-        logwithG();
-        
-      },
-      child: Text('Login with Google'),
     );
   }
 }

@@ -1,15 +1,16 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:guid_gen/models/SharedPref.dart';
 //import 'package:guid_gen/Wedgets/circularindicator.dart';
+import 'package:guid_gen/Screens/Home_screen.dart';
+import 'package:guid_gen/models/SharedPref.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthServ with ChangeNotifier {
-  String tid ;
+class AuthServ {
+ 
   SharedPref sPref = SharedPref();
-  
+  HomeScreen progres = HomeScreen();
   Future<bool> attemptSignIn(
     String displayName,
     String email,
@@ -39,19 +40,18 @@ class AuthServ with ChangeNotifier {
         },
       ),
     );
+   
     print(response.body);
     var resp = json.decode(response.body);
-
+      
     sPref.saveTID(resp['TID']);
 
-    //tid = resp['TID'];
-    //setTID(tid);
     return true;
+    
   }
 
-setTID(String id) async{
-  SharedPreferences prefs =await SharedPreferences.getInstance();
+  setTID(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
-}
-
+  }
 }

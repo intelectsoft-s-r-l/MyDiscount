@@ -1,16 +1,23 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref {
-
-  saveTID(String id) async{
-    final prefs =await SharedPreferences.getInstance();
+  saveTID(String id) async {
+    final prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
   }
-  
 
   readTID() async {
-    final prefs =await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     return prefs.getString('Tid');
+  }
+
+  saveResp(userId) async {
+    final authData = await SharedPreferences.getInstance();
+    authData.setString('userID', userId);
+  }
+
+  getResp(userId) async {
+    final authData = await SharedPreferences.getInstance();
+    authData.getString('userID');
   }
 }
