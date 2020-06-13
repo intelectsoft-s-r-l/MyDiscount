@@ -8,14 +8,28 @@ import 'dart:convert';
 
 import '../Screens/Home_screen.dart';
 
-class FbAuth extends StatelessWidget {
+class FbAuth extends StatefulWidget {
+  @override
+  _FbAuthState createState() => _FbAuthState();
+}
+
+class _FbAuthState extends State<FbAuth> {
+  bool isLoged = false;
+
   AuthServ attemptSignIn = AuthServ();
+
   String displayName;
+
   String userId;
+
   String email;
+
   String accessToken;
+
   String photoUrl;
+
   SharedPref prefs = SharedPref();
+
   @override
   Widget build(BuildContext context) {
     final FacebookLogin _facebookLogin = FacebookLogin();
@@ -37,6 +51,9 @@ class FbAuth extends StatelessWidget {
             await attemptSignIn.attemptSignIn(
                 displayName, email, userId, photoUrl, accessToken);
                 prefs.saveResp(userId);
+                setState(() {
+                  isLoged = !isLoged;
+                });
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => HomeScreen(),

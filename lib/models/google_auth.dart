@@ -6,14 +6,28 @@ import 'package:guid_gen/models/auth_to_service.dart';
 // import 'dart:convert';
 import '../Screens/Home_screen.dart';
 
-class GAuth extends StatelessWidget {
+class GAuth extends StatefulWidget {
+  @override
+  _GAuthState createState() => _GAuthState();
+}
+
+class _GAuthState extends State<GAuth> {
+   bool isLoged = false;
+
   AuthServ attemptSignIn = AuthServ();
+
   String displayName;
+
   String userId;
+
   String email;
+
   String accessToken;
+
   String photoUrl;
+
   SharedPref perfs = SharedPref();
+
   @override
   Widget build(BuildContext context) {
     void logwithG() async {
@@ -37,6 +51,9 @@ class GAuth extends StatelessWidget {
               displayName, email, userId, photoUrl, accessToken);
             
           if (testTest) {
+            setState(() {
+              isLoged = !isLoged;
+            });
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => HomeScreen(),
