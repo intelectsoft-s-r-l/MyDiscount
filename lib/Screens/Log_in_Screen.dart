@@ -14,7 +14,11 @@ class _StateLoginPage extends State<LoginPage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Log In'),
+         backgroundColor: Color.fromRGBO(42, 86, 198, 1),
+        title: Text(
+          'Y-Qr',
+          style: TextStyle(fontSize: 30),
+        ),
         ),
         body: Center(
           child: Container(
@@ -22,63 +26,6 @@ class _StateLoginPage extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.blue,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      icon: Icon(
-                        Icons.email,
-                      ),
-                      labelText: 'E-mail',
-                    ),
-                    /* validator: (value) {
-        if (value.isEmpty || !value.contains('@')) {
-    return 'Invalid Email';
-        }
-      },
-      onSaved: (value) {
-        _authData['email'] = value;
-      }, */
-                  ),
-                ),
-                Divider(),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.blue,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      icon: Icon(
-                        Icons.lock,
-                      ),
-                      labelText: 'Password',
-                    ),
-                    /*  validator: (value) {
-        if (value.isEmpty || value.length < 5) {
-    return 'Invalid Password';
-        }
-      }, */
-                    /*  onSaved: (value) {
-        _authData['pw'] = value;
-      }, */
-                  ),
-                ),
-                RaisedButton(
-                  color: Colors.blue,
-                  child: Text('Login'),
-                  onPressed: () {},
-                ),
                 GAuth(),
                 FbAuth(),
               ],
