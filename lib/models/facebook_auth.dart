@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import '../main.dart';
 import '../models/SharedPref.dart';
 import '../models/auth_to_service.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import '../Screens/Home_screen.dart';
 
 class FbAuth extends StatefulWidget {
   @override
@@ -14,8 +13,6 @@ class FbAuth extends StatefulWidget {
 }
 
 class _FbAuthState extends State<FbAuth> {
-  bool isLoged = false;
-
   AuthServ attemptSignIn = AuthServ();
 
   String displayName;
@@ -45,19 +42,29 @@ class _FbAuthState extends State<FbAuth> {
           var profile = json.decode(_graphResponse.body);
           email = profile['email'];
           userId = _accessToken.userId;
-
-          print(_accessToken.token);
+          displayName = profile['name'];
+          photoUrl = profile['picture']['data']['url'];
+          accessToken = _accessToken.token;
+          print(photoUrl);
+        final authData = json.encode(
+            {
+              'email': email,
+              'userId': userId,
+              'displayName': displayName,
+              'photoUrl': photoUrl,
+              'accessToken': accessToken,
+            },
+          );
+          prefs.setLogStatus(authData);
           if (_accessToken != null) {
+            // prefs.saveResp(userId);
             await attemptSignIn.attemptSignIn(
                 displayName, email, userId, photoUrl, accessToken);
-                prefs.saveResp(userId);
-                setState(() {
-                  isLoged = !isLoged;
-                });
-                prefs.setLogStatus(isLoged);
-            Navigator.of(context).push(
+
+            //prefs.setLogStatus(userId);
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => HomeScreen(),
+                builder: (context) => MyBottomNavigationBar(),
               ),
             );
           } else {

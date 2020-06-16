@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:guid_gen/models/SharedPref.dart';
-import 'package:guid_gen/models/auth_to_service.dart';
-// import 'package:http/http.dart'as http;
-// import 'dart:convert';
-import '../Screens/Home_screen.dart';
+import '../main.dart';
+import '../models/SharedPref.dart';
+import '../models/auth_to_service.dart';
 
 class GAuth extends StatefulWidget {
   @override
@@ -12,7 +10,7 @@ class GAuth extends StatefulWidget {
 }
 
 class _GAuthState extends State<GAuth> {
-  bool isLoged = false;
+  bool isLoged = true;
 
   AuthServ attemptSignIn = AuthServ();
 
@@ -34,8 +32,6 @@ class _GAuthState extends State<GAuth> {
       GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email'],
       );
-      perfs.setLogStatus(isLoged);
-
       googleSignIn.signIn().then(
         (GoogleSignInAccount account) async {
           GoogleSignInAuthentication auth = await account.authentication;
@@ -45,19 +41,18 @@ class _GAuthState extends State<GAuth> {
           userId = account.id;
           accessToken = auth.accessToken;
           photoUrl = account.photoUrl;
-          //save to shared preference
-
           perfs.saveResp(userId);
-
-          setState(() {
-            isLoged = !isLoged;
-          });
           await attemptSignIn.attemptSignIn(
-              displayName, email, userId, photoUrl, accessToken);
+            displayName,
+            email,
+            userId,
+            photoUrl,
+            accessToken,
+          );
 
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => MyBottomNavigationBar(),
             ),
           );
         },

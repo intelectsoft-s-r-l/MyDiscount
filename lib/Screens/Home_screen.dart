@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:guid_gen/models/auth_to_service.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import '../models/SharedPref.dart';
+import '../models/auth_to_service.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'Log_in_Screen.dart';
+
 //import '../Wedgets/circularindicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,35 +26,40 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
   String accessToken;
   String photoUrl;
   AuthServ serv = AuthServ();
-  
+
   bool img = true;
   @override
   void initState() {
     super.initState();
     progressController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: Duration(seconds: 11),
     );
-    animation = Tween<double>(begin: 10, end: 0).animate(progressController)
+    animation = Tween<double>(begin: 11, end: 0).animate(progressController)
       ..addListener(() {
         setState(() {});
       });
+    tapFunction();
   }
 
   void progressForward() {
     progressController.forward();
   }
 
-  void progressReset() {
+  //8D:B1:8A:A7:41:4A:65:03:7F:CF:91:F4:44:46:27:09:4C:1E:16:EE
+
+  void progressReset() async {
     progressController.reset();
-    serv.attemptSignIn(displayName, email, userId, photoUrl, accessToken);
+   await serv.getuserData();
+    //await serv.attemptSignIn(displayName, email, userId, photoUrl, accessToken);
   }
 
-  void tapFunction() {
-    if (animation.value == 10) {
+  void tapFunction() async {
+    if (animation.value == 11) {
       progressForward();
-    } else {
+    } else if (animation.value == 0) {
       progressReset();
+      
       progressForward();
     }
   }
@@ -62,7 +69,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
       FacebookLogin _facebookLogin = FacebookLogin();
       _facebookLogin.logOut();
 
-      print("1");
+      print("1"); 
     }
 
     void signOut() {
@@ -77,6 +84,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
 
     Future<String> _loadSharedPref() async {
       var id = await sPref.readTID();
+
       return id;
     }
 
@@ -93,7 +101,11 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
             onPressed: () {
               signoutFb();
               signOut();
-              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
             },
           ),
         ],

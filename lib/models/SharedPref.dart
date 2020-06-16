@@ -16,16 +16,16 @@ class SharedPref {
     authData.setString('userID', userId);
   }
 
-  getResp(userId) async {
+  getResp() async {
     final authData = await SharedPreferences.getInstance();
     authData.getString('userID');
   }
-  setLogStatus(isLoged)async{
-    final authData = await SharedPreferences.getInstance();
-    authData.setBool('logedIn',isLoged);
+  setLogStatus(authData)async{
+    final userData = await SharedPreferences.getInstance();
+    userData.setString('logedIn',authData);
   }
-  getLogStatus(isLoged)async{
-    final authData = await SharedPreferences.getInstance();
-    authData.getBool('logedIn');
+  getLogStatus()async{
+    final userData = await SharedPreferences.getInstance();
+    userData.getString('logedIn');
   }
 }
