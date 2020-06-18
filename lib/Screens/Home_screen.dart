@@ -3,16 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/SharedPref.dart';
 import '../models/auth_to_service.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'Log_in_Screen.dart';
 
-//import '../Wedgets/circularindicator.dart';
-
 class HomeScreen extends StatefulWidget {
-  //static const routeName = '/home';
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -27,17 +24,25 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
   String photoUrl;
   AuthServ serv = AuthServ();
 
+  int countGetID = 0;
+
   bool img = true;
   @override
   void initState() {
     super.initState();
     progressController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 11),
+      duration: Duration(seconds: 8),
     );
-    animation = Tween<double>(begin: 11, end: 0).animate(progressController)
+    animation = Tween<double>(begin: 8, end: 0).animate(progressController)
       ..addListener(() {
-        setState(() {});
+        setState(() {
+          if (animation.value == 0) {
+            print(animation.value);
+
+            tapFunction();
+          }
+        });
       });
     tapFunction();
   }
@@ -46,22 +51,32 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
     progressController.forward();
   }
 
-  //8D:B1:8A:A7:41:4A:65:03:7F:CF:91:F4:44:46:27:09:4C:1E:16:EE
-
   void progressReset() async {
     progressController.reset();
-   await serv.getuserData();
-    //await serv.attemptSignIn(displayName, email, userId, photoUrl, accessToken);
+    //serv.getuserData();
+    await serv.attemptSignIn();
+    countGetID += 1;
+    progressForward();
   }
 
   void tapFunction() async {
-    if (animation.value == 11) {
-      progressForward();
-    } else if (animation.value == 0) {
+    if (countGetID == 2) {
+      setState(() {
+        img = !img;
+      });
+    } else {
       progressReset();
-      
-      progressForward();
     }
+  }
+
+  void dispose() {
+    progressController.dispose();
+    super.dispose();
+  }
+
+  removeSaredData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.clear();
   }
 
   Widget build(BuildContext context) {
@@ -69,7 +84,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
       FacebookLogin _facebookLogin = FacebookLogin();
       _facebookLogin.logOut();
 
-      print("1"); 
+      print("1");
     }
 
     void signOut() {
@@ -99,6 +114,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
           IconButton(
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
+              removeSaredData();
               signoutFb();
               signOut();
               Navigator.of(context).pushReplacement(
@@ -143,24 +159,48 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
                           style: TextStyle(fontSize: 20),
                         ),
                         SizedBox(height: 40),
-                        GestureDetector(
-                          onTap: tapFunction,
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            alignment: Alignment.center,
-                            child: CustomPaint(
-                              foregroundPainter: ShapePainter(animation.value),
-                              painter: ShapePainter(animation.value),
-                              child: Container(
-                                child: Text('${animation.value.toInt()}'),
-                              ),
+                        Container(
+                          width: 20,
+                          height: 20,
+                          alignment: Alignment.center,
+                          child: CustomPaint(
+                            foregroundPainter: ShapePainter(animation.value),
+                            
+                            child: Container(
+                              child: Text('${animation.value.toInt()}'),
                             ),
+                            painter: ShapePainter(animation.value),
                           ),
                         ),
                       ],
                     )
-                  : Image.asset('assets/icons/om.jpg'),
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Image.asset('assets/icons/om.jpg'),
+                        SizedBox(height: 10.0),
+                        Text('We have generated QR codes many times'),
+                        Text('Generate a new code?'),
+                        SizedBox(height: 10.0),
+                        RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              img = !img;
+                            });
+                            countGetID = 0;
+                            tapFunction();
+                          },
+                          child: Text(
+                            'Generate',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          color: Color.fromRGBO(42, 86, 198, 1),
+                        ),
+                      ],
+                    ),
             ),
           ],
         ),

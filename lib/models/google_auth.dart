@@ -1,3 +1,5 @@
+//import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../main.dart';
@@ -10,8 +12,6 @@ class GAuth extends StatefulWidget {
 }
 
 class _GAuthState extends State<GAuth> {
-  bool isLoged = true;
-
   AuthServ attemptSignIn = AuthServ();
 
   String displayName;
@@ -24,8 +24,9 @@ class _GAuthState extends State<GAuth> {
 
   String photoUrl;
 
-  SharedPref perfs = SharedPref();
-
+  SharedPref prefs = SharedPref();
+  
+  
   @override
   Widget build(BuildContext context) {
     void logwithG() async {
@@ -41,14 +42,14 @@ class _GAuthState extends State<GAuth> {
           userId = account.id;
           accessToken = auth.accessToken;
           photoUrl = account.photoUrl;
-          perfs.saveResp(userId);
-          await attemptSignIn.attemptSignIn(
-            displayName,
-            email,
-            userId,
-            photoUrl,
-            accessToken,
-          );
+
+          prefs.saveID(userId);
+          prefs.setDisplayName(displayName);
+          prefs.setEmail(email);
+          prefs.setPhotoUrl(photoUrl);
+          prefs.setAccessToken(accessToken);
+
+          await attemptSignIn.attemptSignIn();
 
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(

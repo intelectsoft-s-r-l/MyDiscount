@@ -6,14 +6,14 @@ import '../models/SharedPref.dart';
 
 class AuthServ {
   SharedPref sPref = SharedPref();
-
-  Future<bool> attemptSignIn(
-    String displayName,
-    String email,
-    String userId,
-    String photoUrl,
-    String accessToken,
-  ) async {
+  String _userID;
+bool get isLogin {
+    return userID != null;
+  }
+  String get userID{
+    return _userID;
+  }
+  Future<bool> attemptSignIn() async {
     String credentials = "appuser:frj936epae293e9c6epae29";
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(credentials);
@@ -21,30 +21,34 @@ class AuthServ {
       'Content-type': 'application/json; charset=utf-8',
       'Authorization': 'Basic ' + encoded,
     };
-    //getuserData();
-    var authData = json.encode(
+    SharedPref sPrefs = SharedPref();
+    final _accessToken = await sPrefs.getAccessToken();
+    final _userID = await sPrefs.getID();
+    final _displayName = await sPrefs.getDisplayName();
+    final _email = await sPrefs.getEmail();
+    //final photoUrl = await sPrefs.getPhotoUrl();
+
+    var bodyData = json.encode(
       {
-        "DisplayName": displayName,
-        "Email": email,
-        "ID": userId,
-        "PhotoUrl": photoUrl,
+        "DisplayName": _displayName,
+        "Email": _email,
+        "ID": _userID,
+        //"PhotoUrl": photoUrl,
         "RegisterMode": 1,
-        "access_token": accessToken,
+        "access_token": _accessToken,
       },
     );
-
+    print(bodyData);
     const url = 'http://api.efactura.md:8585/AppCardService/json/GetTID';
     final response = await http.post(
       url,
       headers: headers,
-      body: authData,
+      body: bodyData,
     );
 
-    print(response.body);
     var resp = json.decode(response.body);
 
     sPref.saveTID(resp['TID']);
-    
 
     return true;
   }
@@ -53,28 +57,18 @@ class AuthServ {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
   }
-getuserData() {
-    AuthServ serv = AuthServ();
-    /* String displayName;
-    String email;
-    String userId;
-    String photoUrl;
-    String accessToken; */
-    SharedPref sPrefs = SharedPref();
-    final userData = json.decode(sPrefs.getLogStatus()) as Map<String, Object>;
-    /* displayName = 
-    email = ;
-    userId = ;
-    photoUrl = ;
-    accessToken = ; */
-    serv.attemptSignIn(
-      userData['displayName'].toString(),
-      userData['email'].toString(),
-      userData['photoUrl'].toString(),
-      userData['userId'].toString(),
-      userData['accessToken'].toString(),
-    );
-  
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('userID')) {
+      return false;
+    } else {
+      final extractId = prefs.getString('userID');
+      _userID = extractId;
+      
+      return true;
+    }
   }
+
   
 }
