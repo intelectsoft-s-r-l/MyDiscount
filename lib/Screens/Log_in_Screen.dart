@@ -14,11 +14,11 @@ class _StateLoginPage extends State<LoginPage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-         backgroundColor: Color.fromRGBO(42, 86, 198, 1),
-        title: Text(
-          'Y-Qr',
-          style: TextStyle(fontSize: 30),
-        ),
+          backgroundColor: Color.fromRGBO(42, 86, 198, 1),
+          title: Text(
+            'Y-Qr',
+            style: TextStyle(fontSize: 30),
+          ),
         ),
         body: Center(
           child: Container(

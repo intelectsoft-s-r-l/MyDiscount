@@ -25,39 +25,40 @@ class _GAuthState extends State<GAuth> {
   String photoUrl;
 
   SharedPref prefs = SharedPref();
-  
-  
+
   @override
   Widget build(BuildContext context) {
     void logwithG() async {
       GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email'],
       );
-      googleSignIn.signIn().then(
-        (GoogleSignInAccount account) async {
-          GoogleSignInAuthentication auth = await account.authentication;
-          print(auth);
-          displayName = account.displayName;
-          email = account.email;
-          userId = account.id;
-          accessToken = auth.accessToken;
-          photoUrl = account.photoUrl;
+      try {
+        googleSignIn.signIn().then(
+          (GoogleSignInAccount account) async {
+            GoogleSignInAuthentication auth = await account.authentication;
+            print(auth);
+            displayName = account.displayName;
+            email = account.email;
+            userId = account.id;
+            accessToken = auth.accessToken;
+            photoUrl = account.photoUrl;
 
-          prefs.saveID(userId);
-          prefs.setDisplayName(displayName);
-          prefs.setEmail(email);
-          prefs.setPhotoUrl(photoUrl);
-          prefs.setAccessToken(accessToken);
+            prefs.saveID(userId);
+            prefs.setDisplayName(displayName);
+            prefs.setEmail(email);
+            prefs.setPhotoUrl(photoUrl);
+            prefs.setAccessToken(accessToken);
 
-          await attemptSignIn.attemptSignIn();
-
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => MyBottomNavigationBar(),
-            ),
-          );
-        },
-      );
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => MyBottomNavigationBar(),
+              ),
+            );
+          },
+        );
+      } catch (e) {
+        throw Exception(e);
+      }
     }
 
     return Container(

@@ -30,7 +30,7 @@ class _FbAuthState extends State<FbAuth> {
   @override
   Widget build(BuildContext context) {
     final FacebookLogin _facebookLogin = FacebookLogin();
-    
+
     Future<void> authFb() async {
       FacebookLoginResult result = await _facebookLogin.logIn(['email']);
       switch (result.status) {
@@ -45,7 +45,6 @@ class _FbAuthState extends State<FbAuth> {
           displayName = profile['name'];
           photoUrl = profile['picture']['data']['url'];
           accessToken = _accessToken.token;
-          print(photoUrl);
 
           prefs.saveID(userId);
           prefs.setDisplayName(displayName);
@@ -54,8 +53,6 @@ class _FbAuthState extends State<FbAuth> {
           prefs.setAccessToken(accessToken);
 
           if (_accessToken != null) {
-            await attemptSignIn.attemptSignIn();
-
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => MyBottomNavigationBar(),
@@ -68,7 +65,6 @@ class _FbAuthState extends State<FbAuth> {
         case FacebookLoginStatus.cancelledByUser:
           break;
         case FacebookLoginStatus.error:
-        SnackBar(content: Text('Error',),);
           break;
       }
     }

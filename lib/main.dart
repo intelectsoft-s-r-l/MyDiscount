@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:guid_gen/Screens/Log_in_Screen.dart';
-import 'package:guid_gen/models/auth_to_service.dart';
+
 import './Screens/Home_screen.dart';
 import './Screens/companii.dart';
 import './Screens/info_screen.dart';
+import 'models/auth_to_service.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,17 +17,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     AuthServ serv = AuthServ();
-    return MaterialApp(
-      home: serv.isLogin
-          ? MyBottomNavigationBar()
-          : FutureBuilder(
-              future: serv.tryAutoLogin(),
-              builder: (context, authSnapshot) =>
-                  authSnapshot.connectionState == ConnectionState.waiting
-                      ? CircularProgressIndicator()
-                      : LoginPage(),
-            ),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false,
+        home: FutureBuilder(
+            future: serv.tryAutoLogin(),
+            builder: (context, snapshot) =>
+                snapshot.hasData && snapshot.data == true
+                    ? MyBottomNavigationBar()
+                    : LoginPage()));
   }
 }
 
@@ -49,9 +46,9 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       body: [HomeScreen(), Companies(), Info()].elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color.fromRGBO(42, 86, 198, 1),
+        selectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
         onTap: _onitemtaped,
-        selectedItemColor: Colors.white,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             title: Text('Home'),
@@ -60,7 +57,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             ),
           ),
           BottomNavigationBarItem(
-            title: Text('Companies'),
+            title: Text('Companii'),
             icon: Icon(Icons.person_pin),
           ),
           BottomNavigationBarItem(

@@ -3,7 +3,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref {
-
   saveTID(String id) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
@@ -17,7 +16,6 @@ class SharedPref {
   saveID(String userId) async {
     final authData = await SharedPreferences.getInstance();
     authData.setString('userID', userId);
-   
   }
 
   getID() async {
@@ -25,45 +23,47 @@ class SharedPref {
     return authData.getString('userID');
   }
 
-
-  setDisplayName(dispalyName)async{
+  setDisplayName(dispalyName) async {
     final userData = await SharedPreferences.getInstance();
-    userData.setString('displayName',dispalyName);
+    userData.setString('displayName', dispalyName);
     //print(authData);
-  } 
-    
-  getDisplayName()async{
-    final userData = await SharedPreferences.getInstance();
-   return  userData.getString('displayName');
   }
-   setEmail(email)async{
+
+  getDisplayName() async {
     final userData = await SharedPreferences.getInstance();
-    userData.setString('email',email);
+    return userData.getString('displayName');
+  }
+
+  setEmail(email) async {
+    final userData = await SharedPreferences.getInstance();
+    userData.setString('email', email);
     //print(authData);
-  } 
-    
-  getEmail()async{
+  }
+
+  getEmail() async {
     final userData = await SharedPreferences.getInstance();
     return userData.getString('email');
   }
-   setPhotoUrl(photoUrl)async{
+
+  setPhotoUrl(photoUrl) async {
     final userData = await SharedPreferences.getInstance();
-    userData.setString('photoUrl',photoUrl);
+    userData.setString('photoUrl', photoUrl);
     //print(authData);
-  } 
-    
-  getPhotoUrl()async{
+  }
+
+  getPhotoUrl() async {
     final userData = await SharedPreferences.getInstance();
     return userData.getString('photoUrl');
   }
-   setAccessToken(accessToken)async{
+
+  setAccessToken(accessToken) async {
     final userData = await SharedPreferences.getInstance();
-    userData.setString('accessToken',accessToken);
+    userData.setString('accessToken', accessToken);
     //print(authData);
-  } 
-    
-  getAccessToken()async{
+  }
+
+  getAccessToken() async {
     final userData = await SharedPreferences.getInstance();
-     return userData.getString('accessToken');
+    return userData.getString('accessToken');
   }
 }

@@ -6,13 +6,16 @@ import '../models/SharedPref.dart';
 
 class AuthServ {
   SharedPref sPref = SharedPref();
-  String _userID;
-bool get isLogin {
-    return userID != null;
+  bool _isLogedIn = false;
+
+  bool get state {
+    return _isLogedIn = isLoggedIn;
   }
-  String get userID{
-    return _userID;
+
+  bool get isLoggedIn {
+    return _isLogedIn;
   }
+
   Future<bool> attemptSignIn() async {
     String credentials = "appuser:frj936epae293e9c6epae29";
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
@@ -28,7 +31,7 @@ bool get isLogin {
     final _email = await sPrefs.getEmail();
     //final photoUrl = await sPrefs.getPhotoUrl();
 
-    var bodyData = json.encode(
+    var _bodyData = json.encode(
       {
         "DisplayName": _displayName,
         "Email": _email,
@@ -38,17 +41,25 @@ bool get isLogin {
         "access_token": _accessToken,
       },
     );
-    print(bodyData);
+    print(_bodyData);
     const url = 'http://api.efactura.md:8585/AppCardService/json/GetTID';
-    final response = await http.post(
-      url,
-      headers: headers,
-      body: bodyData,
-    );
 
-    var resp = json.decode(response.body);
-
-    sPref.saveTID(resp['TID']);
+    if (_bodyData != null) {
+      try {
+        final response = await http.post(
+          url,
+          headers: headers,
+          body: _bodyData,
+        );
+        _isLogedIn = true;
+        var resp = json.decode(response.body);
+        sPref.saveTID(resp['TID']);
+      } catch (e) {
+        throw Exception(e);
+      }
+    } else {
+      _isLogedIn = false;
+    }
 
     return true;
   }
@@ -59,16 +70,11 @@ bool get isLogin {
   }
 
   Future<bool> tryAutoLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('userID')) {
-      return false;
-    } else {
-      final extractId = prefs.getString('userID');
-      _userID = extractId;
-      
+    var prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('userID')) {
       return true;
+    } else {
+      return false;
     }
   }
-
-  
 }
