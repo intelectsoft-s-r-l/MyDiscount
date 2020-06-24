@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guid_gen/Screens/Log_in_Screen.dart';
+
+import './Screens/Log_in_Screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import './Screens/Home_screen.dart';
