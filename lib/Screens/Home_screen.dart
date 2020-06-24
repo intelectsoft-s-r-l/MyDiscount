@@ -67,6 +67,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
+              //decoration: BoxDecoration(color: Colors.white),
               child: CircularProgres(),
             ),
           ],
@@ -168,7 +169,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                   builder: (context, snapshot) {
                     return QrImage(
                       data: '${snapshot.data}',
-                      size: 300,
+                      size: 250,
                     );
                   },
                 ),
@@ -185,7 +186,9 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                   alignment: Alignment.center,
                   height: 100,
                   width: 100,
-                  child: Center(child: Text('${animation.value.toInt()}')),
+                  child: Center(
+                    child: Text('${animation.value.toInt()}'),
+                  ),
                 ),
                 painter: ShapePainter(animation.value),
               ),
@@ -194,7 +197,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
         : Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Image.asset('assets/icons/om.jpg'),
+              Container(child: Image.asset('assets/icons/om.jpg')),
               SizedBox(height: 10.0),
               Text('We have generated QR codes many times'),
               Text('Generate a new code?'),
@@ -244,7 +247,7 @@ class ShapePainter extends CustomPainter {
     double angle = 2 * pi * (currentProgress / 10);
     double radius = min(size.width / 2, size.height / 2) - 20;
 
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -pi / 2 ,
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -pi / 2,
         angle, false, completeArc);
   }
 

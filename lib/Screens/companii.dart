@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -6,7 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Log_in_Screen.dart';
 
-class Companies extends StatelessWidget {
+class Companies extends StatefulWidget {
+  @override
+  _CompaniesState createState() => _CompaniesState();
+}
+
+class _CompaniesState extends State<Companies> {
+ 
   @override
   Widget build(BuildContext context) {
     removeSharedData() async {
@@ -54,16 +62,20 @@ class Companies extends StatelessWidget {
       ),
       body: Container(
         child: FutureBuilder<RemoteConfig>(
-        future: setupRemoteConfig(),
-        builder: (BuildContext context, AsyncSnapshot<RemoteConfig> snapshot) {
-          return snapshot.hasData
-              ? WelcomeWidget(remoteConfig: snapshot.data)
-              : Container();
-        },
-      ))
+          future: setupRemoteConfig(),
+          builder:
+              (BuildContext context, AsyncSnapshot<RemoteConfig> snapshot) {
+            print(snapshot.data);
+            return snapshot.hasData
+                ? WelcomeWidget(remoteConfig: snapshot.data)
+                : Container();
+          },
+        ),
+      ),
     );
   }
 }
+
 class WelcomeWidget extends AnimatedWidget {
   WelcomeWidget({this.remoteConfig}) : super(listenable: remoteConfig);
 
@@ -71,37 +83,42 @@ class WelcomeWidget extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
+    var companies = json.decode(remoteConfig.getString('list_companies'))
+        as Map<String, dynamic>;
+    var list = companies['companies'] as List;
     return Scaffold(
-      
-      
-      body: Center(child: Text('Welcome ${remoteConfig.getString('welcome')}')),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.refresh),
-          onPressed: () async {
-            try {
-              // Using default duration to force fetching from remote server.
-              await remoteConfig.fetch(expiration: const Duration(seconds: 0));
-              await remoteConfig.activateFetched();
-            } on FetchThrottledException catch (exception) {
-              // Fetch throttled.
-              print(exception);
-            } catch (exception) {
-              print(
-                  'Unable to fetch remote config. Cached or default values will be '
-                  'used');
-            }
-          }),
+      body: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) => Card(
+          child: ListTile(
+            contentPadding: EdgeInsets.all(10),
+            leading: Container(
+                width: 60,
+                height: 60,
+                child: Image.network(
+                  '${list[index]['image']}',
+                )),
+            title: Text(
+              '${list[index]['name']}',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
 
+
 Future<RemoteConfig> setupRemoteConfig() async {
   final RemoteConfig remoteConfig = await RemoteConfig.instance;
-  // Enable developer mode to relax fetch throttling
   remoteConfig.setConfigSettings(RemoteConfigSettings(debugMode: true));
-  remoteConfig.setDefaults(<String, dynamic>{
-    'welcome': 'default welcome',
-    'hello': 'default hello',
-  });
+
+  remoteConfig.fetch(expiration: const Duration(seconds: 0));
+  remoteConfig.activateFetched();
+
   return remoteConfig;
 }
