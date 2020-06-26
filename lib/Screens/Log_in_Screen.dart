@@ -17,7 +17,7 @@ class _StateLoginPage extends State<LoginPage> {
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(42, 86, 198, 1),
           title: Text(
-            'Y-Qr',
+            'MyDiscount',
             style: TextStyle(fontSize: 30),
           ),
         ),

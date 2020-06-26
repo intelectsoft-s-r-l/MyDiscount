@@ -9,11 +9,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Log_in_Screen.dart';
 
 class Companies extends StatefulWidget {
-  @override
+   @override
   _CompaniesState createState() => _CompaniesState();
 }
 
 class _CompaniesState extends State<Companies> {
+ @override
+  void initState() {
+     RemoteConfig remoteConfig = RemoteConfig();
+   remoteConfig.fetch();
+   remoteConfig.activateFetched();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     removeSharedData() async {
@@ -60,10 +67,9 @@ class _CompaniesState extends State<Companies> {
         ],
       ),
       body: Container(
-        child: FutureBuilder<RemoteConfig>(
+        child: FutureBuilder<dynamic>(
           future: setupRemoteConfig(),
-          builder:
-              (BuildContext context, AsyncSnapshot<RemoteConfig> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             print(snapshot.data);
             return snapshot.hasData
                 ? WelcomeWidget(remoteConfig: snapshot.data)
@@ -110,6 +116,12 @@ class WelcomeWidget extends AnimatedWidget {
     );
   }
 }
+
+ getData(){
+   RemoteConfig remoteConfig = RemoteConfig();
+   remoteConfig.fetch();
+   remoteConfig.activateFetched();
+ }
 
 Future<RemoteConfig> setupRemoteConfig() async {
   final RemoteConfig remoteConfig = await RemoteConfig.instance;

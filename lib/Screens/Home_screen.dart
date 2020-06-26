@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -43,7 +44,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(42, 86, 198, 1),
         title: Text(
-          'Y-Qr',
+          'MyDiscount',
           style: TextStyle(fontSize: 30),
         ),
         actions: <Widget>[
@@ -62,12 +63,19 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
+      body: Container(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+                'Your Qr-code',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.07,),
             Container(
-              //decoration: BoxDecoration(color: Colors.white),
+              //height: MediaQuery.of(context).size.height,
+              width: double.infinity,
               child: CircularProgres(),
             ),
           ],
@@ -89,7 +97,8 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
   AuthServ serv = AuthServ();
 
   int countGetID = 0;
-
+  bool text = true;
+  bool internetStatus = false;
   bool img = true;
   @override
   void initState() {
@@ -104,11 +113,11 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
           if (animation.value == 0) {
             print(animation.value);
 
-            _tapFunction();
+            checkInternetConection();
           }
         });
       });
-    _tapFunction();
+    checkInternetConection();
   }
 
   void progressForward() {
@@ -117,16 +126,32 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
 
   void progressReset() async {
     progressController.reset();
+
     //serv.getuserData();
     await serv.attemptSignIn();
     countGetID += 1;
     progressForward();
   }
 
+  void checkInternetConection() async {
+    DataConnectionStatus status = await internetConection();
+    if (status == DataConnectionStatus.connected) {
+      _tapFunction();
+    } else {
+      setState(() {
+        img = false;
+        internetStatus = false;
+        text = false;
+      });
+    }
+  }
+
   void _tapFunction() async {
     if (countGetID == 2) {
       setState(() {
         img = !img;
+        internetStatus = false;
+        text = true;
       });
     } else {
       progressReset();
@@ -136,10 +161,6 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
   void dispose() {
     progressController.dispose();
     super.dispose();
-  }
-
-  get tapFunction {
-    return _tapFunction;
   }
 
   @override
@@ -152,35 +173,41 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
       return id;
     }
 
-    return img
-        ? Column(
+    return img || internetStatus
+        ? Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
+              /* Text(
                 'Your Qr-code',
                 style: TextStyle(fontSize: 20),
-              ),
+              ), */
               SizedBox(
-                height: 40.0,
+                height: MediaQuery.of(context).size.height * 0.07,
               ),
               Container(
+                alignment: Alignment.center,
+                //height: MediaQuery.of(context).size.height * 0.3,
                 padding: EdgeInsets.all(10),
                 child: FutureBuilder<String>(
                   future: _loadSharedPref(),
                   builder: (context, snapshot) {
                     return QrImage(
-                      data: '${snapshot.data}',
-                      size: 250,
-                    );
+                        data: '${snapshot.data}',
+                        size: MediaQuery.of(context).size.height * 0.3);
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
               Text(
                 'Qr-code available:',
                 style: TextStyle(fontSize: 20),
               ),
-              SizedBox(height: 20),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
               CustomPaint(
+                size: MediaQuery.of(context).size,
                 foregroundPainter: ShapePainter(animation.value),
                 child: Container(
                   alignment: Alignment.center,
@@ -197,19 +224,49 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
         : Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Container(child: Image.asset('assets/icons/om.jpg')),
-              SizedBox(height: 10.0),
-              Text('We have generated QR codes many times'),
-              Text('Generate a new code?'),
+              text
+                  ? Container(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: Image.asset('assets/icons/om.jpg')),
+                          SizedBox(height: 10.0),
+                          Text(
+                            'We have generated QR codes many times',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Generate a new code?',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ))
+                  : Container(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              child:
+                                  Image.asset('assets/icons/no internet.png')),
+                          SizedBox(height: 20.0),
+                          Text(
+                            'You do not have Internet connection',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
               SizedBox(height: 10.0),
               RaisedButton(
                 onPressed: () {
                   setState(() {
                     img = !img;
+                    internetStatus = true;
                   });
                   countGetID = 0;
-
-                  tapFunction();
+                  checkInternetConection();
+                  /* tapFunction(); */
                 },
                 child: Text(
                   'Generate',

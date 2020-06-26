@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,17 +8,23 @@ import '../models/SharedPref.dart';
 
 class AuthServ {
   SharedPref sPref = SharedPref();
-  bool _isLogedIn = false;
 
-  bool get state {
-    return _isLogedIn = isLoggedIn;
+  removeSharedData() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 
-  bool get isLoggedIn {
-    return _isLogedIn;
+  Future<bool> tryAutoLogin() async {
+    var prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('userID')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<bool> attemptSignIn() async {
+    DataConnectionStatus status = await internetConection();
     String credentials = "appuser:frj936epae293e9c6epae29";
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(credentials);
@@ -45,22 +52,20 @@ class AuthServ {
     print(_bodyData);
     const url = 'http://api.efactura.md:8585/AppCardService/json/GetTID';
 
-    if (_bodyData != null) {
+    if (_bodyData != null && status == DataConnectionStatus.connected) {
       try {
         final response = await http.post(
           url,
           headers: headers,
           body: _bodyData,
         );
-        _isLogedIn = true;
+
         var resp = json.decode(response.body);
         sPref.saveTID(resp['TID']);
       } catch (e) {
         throw Exception(e);
       }
-    } else {
-      _isLogedIn = false;
-    }
+    } else {}
 
     return true;
   }
@@ -69,13 +74,27 @@ class AuthServ {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
   }
+}
 
-  Future<bool> tryAutoLogin() async {
-    var prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('userID')) {
-      return true;
-    } else {
-      return false;
+internetConection() async {
+  print("The statement 'this machine is connected to the Internet' is: ");
+  print(await DataConnectionChecker().hasConnection);
+
+  print("Current status: ${await DataConnectionChecker().connectionStatus}");
+
+  print("Last results: ${DataConnectionChecker().lastTryResults}");
+
+  var listener = DataConnectionChecker().onStatusChange.listen((status) {
+    switch (status) {
+      case DataConnectionStatus.connected:
+        print('Data connection is available.');
+        break;
+      case DataConnectionStatus.disconnected:
+        print('You are disconnected from the internet.');
+        break;
     }
-  }
+  });
+  listener.cancel();
+  await Future.delayed(Duration(seconds: 0));
+  return await DataConnectionChecker().connectionStatus;
 }
