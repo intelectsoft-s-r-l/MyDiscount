@@ -9,20 +9,18 @@ import './Screens/Home_screen.dart';
 import './Screens/companii.dart';
 import './Screens/info_screen.dart';
 import 'models/auth_to_service.dart';
-//import 'models/remote_Config.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   try {
-     RemoteConfig remoteConfig = RemoteConfig();
-   remoteConfig.fetch();
-   remoteConfig.activateFetched();
-   } on FetchThrottledException catch (e) {
-     print(e);
-   } catch(e){
-     print(e);
-   }
+  try {
+    RemoteConfig remoteConfig = RemoteConfig();
+    remoteConfig.fetch();
+    remoteConfig.activateFetched();
+  } on FetchThrottledException catch (e) {
+    print(e);
+  } catch (e) {
+    print(e);
+  }
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runApp(MyApp());

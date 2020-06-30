@@ -1,9 +1,10 @@
 import 'dart:math';
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -41,6 +42,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white70,
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(42, 86, 198, 1),
         title: Text(
@@ -49,7 +51,7 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.exit_to_app),
+            icon: Icon(MdiIcons.locationExit),
             onPressed: () {
               removeSharedData();
               signoutFb();
@@ -64,15 +66,10 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
         ],
       ),
       body: Container(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-                'Your Qr-code',
-                style: TextStyle(fontSize: 20),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.07,),
             Container(
               //height: MediaQuery.of(context).size.height,
               width: double.infinity,
@@ -97,6 +94,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
   AuthServ serv = AuthServ();
 
   int countGetID = 0;
+  bool serviceConection = false;
   bool text = true;
   bool internetStatus = false;
   bool img = true;
@@ -105,9 +103,9 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
     super.initState();
     progressController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: Duration(seconds: 7),
     );
-    animation = Tween<double>(begin: 10, end: 0).animate(progressController)
+    animation = Tween<double>(begin: 7, end: 0).animate(progressController)
       ..addListener(() {
         setState(() {
           if (animation.value == 0) {
@@ -120,16 +118,27 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
     checkInternetConection();
   }
 
-  void progressForward() {
-    progressController.forward();
+  void progressForward() async {
+    serviceConection = await serv.attemptSignIn();
+    if (serviceConection != true) {
+      /* showDialog(
+          context: (context),
+          child: AlertDialog(
+            title: Text('Nu aveti acces la serviciu'),
+          )); */
+
+      setState(() {
+        img = false;
+        text = false;
+      });
+    } else {
+      countGetID += 1;
+      progressController.forward();
+    }
   }
 
-  void progressReset() async {
+  void progressReset() {
     progressController.reset();
-
-    //serv.getuserData();
-    await serv.attemptSignIn();
-    countGetID += 1;
     progressForward();
   }
 
@@ -174,18 +183,21 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
     }
 
     return img || internetStatus
-        ? Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              /* Text(
-                'Your Qr-code',
-                style: TextStyle(fontSize: 20),
+              /*  SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
               ), */
+              Text(
+                'Your Qr-code',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.07,
+                height: MediaQuery.of(context).size.height * 0.06,
               ),
               Container(
                 alignment: Alignment.center,
-                //height: MediaQuery.of(context).size.height * 0.3,
                 padding: EdgeInsets.all(10),
                 child: FutureBuilder<String>(
                   future: _loadSharedPref(),
@@ -197,14 +209,14 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
+                height: MediaQuery.of(context).size.height * 0.02,
               ),
               Text(
                 'Qr-code available:',
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
+                height: MediaQuery.of(context).size.height * 0.02,
               ),
               CustomPaint(
                 size: MediaQuery.of(context).size,
@@ -231,7 +243,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                         children: <Widget>[
                           Container(
                               height: MediaQuery.of(context).size.height * 0.5,
-                              child: Image.asset('assets/icons/om.jpg')),
+                              child: Image.asset('assets/icons/om.png')),
                           SizedBox(height: 10.0),
                           Text(
                             'We have generated QR codes many times',
@@ -251,7 +263,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                                   Image.asset('assets/icons/no internet.png')),
                           SizedBox(height: 20.0),
                           Text(
-                            'You do not have Internet connection',
+                            'You do not have Internet connection or service is not aviable',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -260,21 +272,35 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
               SizedBox(height: 10.0),
               RaisedButton(
                 onPressed: () {
-                  setState(() {
-                    img = !img;
-                    internetStatus = true;
-                  });
-                  countGetID = 0;
-                  checkInternetConection();
-                  /* tapFunction(); */
+                  if (serviceConection != true) {
+                    setState(() {
+                      img = false;
+                      text = false;
+                    });
+                  } else {
+                    setState(() {
+                      img = !img;
+                      internetStatus = true;
+                    });
+                    countGetID = 0;
+                    checkInternetConection();
+                  }
                 },
-                child: Text(
-                  'Generate',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: text
+                    ? Text(
+                        'Generate',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : Text(
+                        'Retry',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                 color: Color.fromRGBO(42, 86, 198, 1),
               ),
             ],
@@ -289,7 +315,7 @@ class ShapePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.blue
+      ..color = Colors.white70
       ..strokeWidth = 5
       ..style = PaintingStyle.stroke;
     var completeArc = Paint()
@@ -301,7 +327,7 @@ class ShapePainter extends CustomPainter {
     Offset center = Offset(size.width / 2, size.height / 2);
 
     canvas.drawCircle(center, 30, paint);
-    double angle = 2 * pi * (currentProgress / 10);
+    double angle = -2 * pi * (currentProgress / 7);
     double radius = min(size.width / 2, size.height / 2) - 20;
 
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -pi / 2,

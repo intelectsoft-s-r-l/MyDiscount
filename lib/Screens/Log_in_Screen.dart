@@ -13,6 +13,7 @@ class _StateLoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(42, 86, 198, 1),
@@ -28,6 +29,7 @@ class _StateLoginPage extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 GAuth(),
+                SizedBox(height: 20),
                 FbAuth(),
               ],
             ),

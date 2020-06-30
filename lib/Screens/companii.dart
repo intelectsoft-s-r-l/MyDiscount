@@ -4,23 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Log_in_Screen.dart';
 
 class Companies extends StatefulWidget {
-   @override
+  @override
   _CompaniesState createState() => _CompaniesState();
 }
 
 class _CompaniesState extends State<Companies> {
- @override
+  @override
   void initState() {
-     RemoteConfig remoteConfig = RemoteConfig();
-   remoteConfig.fetch();
-   remoteConfig.activateFetched();
+    RemoteConfig remoteConfig = RemoteConfig();
+    remoteConfig.fetch();
+    remoteConfig.activateFetched();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     removeSharedData() async {
@@ -52,7 +54,7 @@ class _CompaniesState extends State<Companies> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.exit_to_app),
+            icon: Icon(MdiIcons.locationExit),
             onPressed: () {
               signoutFb();
               signOut();
@@ -117,11 +119,11 @@ class WelcomeWidget extends AnimatedWidget {
   }
 }
 
- getData(){
-   RemoteConfig remoteConfig = RemoteConfig();
-   remoteConfig.fetch();
-   remoteConfig.activateFetched();
- }
+getData() {
+  RemoteConfig remoteConfig = RemoteConfig();
+  remoteConfig.fetch();
+  remoteConfig.activateFetched();
+}
 
 Future<RemoteConfig> setupRemoteConfig() async {
   final RemoteConfig remoteConfig = await RemoteConfig.instance;

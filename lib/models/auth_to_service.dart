@@ -24,7 +24,7 @@ class AuthServ {
   }
 
   Future<bool> attemptSignIn() async {
-    DataConnectionStatus status = await internetConection();
+    // DataConnectionStatus status = await internetConection();
     String credentials = "appuser:frj936epae293e9c6epae29";
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(credentials);
@@ -39,7 +39,7 @@ class AuthServ {
     final _email = await sPrefs.getEmail();
     //final photoUrl = await sPrefs.getPhotoUrl();
 
-    var _bodyData = json.encode(
+    final _bodyData = json.encode(
       {
         "DisplayName": _displayName,
         "Email": _email,
@@ -49,25 +49,21 @@ class AuthServ {
         "access_token": _accessToken,
       },
     );
-    print(_bodyData);
+
     const url = 'http://api.efactura.md:8585/AppCardService/json/GetTID';
 
-    if (_bodyData != null && status == DataConnectionStatus.connected) {
-      try {
-        final response = await http.post(
-          url,
-          headers: headers,
-          body: _bodyData,
-        );
-
-        var resp = json.decode(response.body);
-        sPref.saveTID(resp['TID']);
-      } catch (e) {
-        throw Exception(e);
-      }
-    } else {}
-
-    return true;
+    final response = await http.post(
+      url,
+      headers: headers,
+      body: _bodyData,
+    );
+    if (response.statusCode == 200) {
+      final resp = json.decode(response.body);
+      sPref.saveTID(resp['TID']);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   setTID(String id) async {
@@ -77,12 +73,12 @@ class AuthServ {
 }
 
 internetConection() async {
-  print("The statement 'this machine is connected to the Internet' is: ");
-  print(await DataConnectionChecker().hasConnection);
+  // print("The statement 'this machine is connected to the Internet' is: ");
+  // print(await DataConnectionChecker().hasConnection);
 
-  print("Current status: ${await DataConnectionChecker().connectionStatus}");
+  // print("Current status: ${await DataConnectionChecker().connectionStatus}");
 
-  print("Last results: ${DataConnectionChecker().lastTryResults}");
+  // print("Last results: ${DataConnectionChecker().lastTryResults}");
 
   var listener = DataConnectionChecker().onStatusChange.listen((status) {
     switch (status) {

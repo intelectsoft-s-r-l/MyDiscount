@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Log_in_Screen.dart';
@@ -38,7 +39,7 @@ class Info extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.exit_to_app),
+            icon: Icon(MdiIcons.locationExit),
             onPressed: () {
               signoutFb();
               signOut();
