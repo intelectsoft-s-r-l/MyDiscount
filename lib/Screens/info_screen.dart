@@ -53,8 +53,18 @@ class Info extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: Text('data'),
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.topLeft,
+          child: Center(
+            child: Text(
+              'Informatie',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -8,7 +8,6 @@ import '../main.dart';
 import '../models/SharedPref.dart';
 import '../models/auth_to_service.dart';
 
-
 class FbAuth extends StatefulWidget {
   @override
   _FbAuthState createState() => _FbAuthState();
@@ -83,15 +82,13 @@ class _FbAuthState extends State<FbAuth> {
         },
         child: Row(
           children: <Widget>[
-            Expanded(
-              child: Image.asset(
-                'assets/icons/redf.png',
-                width: 30,
-                height: 30,
-              ),
+            Image.asset(
+              'assets/icons/redf.png',
+              width: 30,
+              height: 30,
             ),
             SizedBox(
-              width: 10,
+              width: 5,
             ),
             Text(
               'Login with Facebook',

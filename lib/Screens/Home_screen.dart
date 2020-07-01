@@ -71,7 +71,6 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              //height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: CircularProgres(),
             ),
@@ -121,12 +120,6 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
   void progressForward() async {
     serviceConection = await serv.attemptSignIn();
     if (serviceConection != true) {
-      /* showDialog(
-          context: (context),
-          child: AlertDialog(
-            title: Text('Nu aveti acces la serviciu'),
-          )); */
-
       setState(() {
         img = false;
         text = false;
@@ -156,7 +149,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
   }
 
   void _tapFunction() async {
-    if (countGetID == 2) {
+    if (countGetID == 5) {
       setState(() {
         img = !img;
         internetStatus = false;
@@ -186,9 +179,6 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
         ? Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              /*  SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ), */
               Text(
                 'Your Qr-code',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -263,9 +253,13 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                                   Image.asset('assets/icons/no internet.png')),
                           SizedBox(height: 20.0),
                           Text(
-                            'You do not have Internet connection or service is not aviable',
+                            'You do not have Internet connection ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
+                          Text(
+                            'or service is not aviable',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )
                         ],
                       ),
                     ),

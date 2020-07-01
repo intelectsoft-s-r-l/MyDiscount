@@ -80,7 +80,7 @@ class _GAuthState extends State<GAuth> {
               height: 30,
             ),
             SizedBox(
-              width: 10,
+              width: 5,
             ),
             Text(
               'Login with Google',
