@@ -8,24 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Log_in_Screen.dart';
 
 class Info extends StatelessWidget {
-  removeSharedData() async {
+  void signOut() async {
+    final FacebookLogin _facebookLogin = FacebookLogin();
+    final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
     final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-  }
-
-  void signoutFb() {
-    FacebookLogin _facebookLogin = FacebookLogin();
     _facebookLogin.logOut();
-
-    print("1");
-  }
-
-  void signOut() {
-    GoogleSignIn googleSignIn = GoogleSignIn(
-      scopes: ['email'],
-    );
     googleSignIn.signOut();
-    print('object');
+    prefs.clear();
   }
 
   @override
@@ -33,17 +22,15 @@ class Info extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(42, 86, 198, 1),
-        title: Text(
+        title: const Text(
           'About',
           style: TextStyle(fontSize: 30),
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(MdiIcons.locationExit),
+            icon: const Icon(MdiIcons.locationExit),
             onPressed: () {
-              signoutFb();
               signOut();
-              removeSharedData();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => LoginPage(),
@@ -57,7 +44,7 @@ class Info extends StatelessWidget {
         child: Container(
           alignment: Alignment.topLeft,
           child: Center(
-            child: Text(
+            child: const Text(
               'Informatie',
               style: TextStyle(
                 fontSize: 20,

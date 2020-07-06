@@ -30,7 +30,7 @@ flutter:
 
   uses-material-design: true
   assets:
-    - assets/icons/redf.png
+    - assets/icons/facebook.png
     - assets/icons/google.png
     - assets/icons/om.png
     - assets/icons/qr.jpg

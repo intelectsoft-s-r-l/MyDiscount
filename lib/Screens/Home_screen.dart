@@ -18,27 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State with TickerProviderStateMixin {
-  bool img = true;
-
-  removeSharedData() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-  }
-
   Widget build(BuildContext context) {
-    void signoutFb() {
-      FacebookLogin _facebookLogin = FacebookLogin();
+    void signOut() async {
+      final FacebookLogin _facebookLogin = FacebookLogin();
+      final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+      final prefs = await SharedPreferences.getInstance();
       _facebookLogin.logOut();
-
-      print("1");
-    }
-
-    void signOut() {
-      GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: ['email'],
-      );
       googleSignIn.signOut();
-      print('object');
+      prefs.clear();
     }
 
     return Scaffold(
@@ -51,10 +38,8 @@ class _HomeScreenState extends State with TickerProviderStateMixin {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(MdiIcons.locationExit),
+            icon: const Icon(MdiIcons.locationExit),
             onPressed: () {
-              removeSharedData();
-              signoutFb();
               signOut();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
@@ -94,9 +79,9 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
 
   int countGetID = 0;
   bool serviceConection = false;
-  bool text = true;
+  bool checkCountGetID = true;
   bool internetStatus = false;
-  bool img = true;
+  bool setImage = true;
   @override
   void initState() {
     super.initState();
@@ -105,15 +90,15 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
       duration: Duration(seconds: 7),
     );
     animation = Tween<double>(begin: 7, end: 0).animate(progressController)
-      ..addListener(() {
-        setState(() {
-          if (animation.value == 0) {
-            print(animation.value);
-
-            checkInternetConection();
-          }
-        });
-      });
+      ..addListener(
+        () {
+          setState(() {
+            if (animation.value == 0) {
+              checkInternetConection();
+            }
+          });
+        },
+      );
     checkInternetConection();
   }
 
@@ -121,8 +106,8 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
     serviceConection = await serv.attemptSignIn();
     if (serviceConection != true) {
       setState(() {
-        img = false;
-        text = false;
+        setImage = false;
+        checkCountGetID = false;
       });
     } else {
       countGetID += 1;
@@ -141,9 +126,9 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
       _tapFunction();
     } else {
       setState(() {
-        img = false;
+        setImage = false;
         internetStatus = false;
-        text = false;
+        checkCountGetID = false;
       });
     }
   }
@@ -151,9 +136,9 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
   void _tapFunction() async {
     if (countGetID == 5) {
       setState(() {
-        img = !img;
+        setImage = !setImage;
         internetStatus = false;
-        text = true;
+        checkCountGetID = true;
       });
     } else {
       progressReset();
@@ -167,19 +152,18 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    SharedPref sPref = SharedPref();
+    final SharedPref sPref = SharedPref();
 
     Future<String> _loadSharedPref() async {
-      var id = await sPref.readTID();
-
+      final id = await sPref.readTID();
       return id;
     }
 
-    return img || internetStatus
+    return setImage || internetStatus
         ? Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
+              const Text(
                 'Your Qr-code',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
@@ -201,7 +185,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-              Text(
+              const Text(
                 'Qr-code available:',
                 style: TextStyle(fontSize: 20),
               ),
@@ -226,20 +210,21 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
         : Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              text
+              checkCountGetID
                   ? Container(
                       height: MediaQuery.of(context).size.height * 0.6,
                       child: Column(
                         children: <Widget>[
                           Container(
-                              height: MediaQuery.of(context).size.height * 0.5,
-                              child: Image.asset('assets/icons/om.png')),
+                            height: MediaQuery.of(context).size.height * 0.5,
+                            child: Image.asset('assets/icons/om.png'),
+                          ),
                           SizedBox(height: 10.0),
-                          Text(
+                          const Text(
                             'We have generated QR codes many times',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(
+                          const Text(
                             'Generate a new code?',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -249,46 +234,46 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                       child: Column(
                         children: <Widget>[
                           Container(
-                              child:
-                                  Image.asset('assets/icons/no internet.png')),
-                          SizedBox(height: 20.0),
-                          Text(
+                            child: Image.asset('assets/icons/no internet.png'),
+                          ),
+                          const SizedBox(height: 20.0),
+                          const Text(
                             'You do not have Internet connection ',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(
+                          const Text(
                             'or service is not aviable',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
                     ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               RaisedButton(
                 onPressed: () {
                   if (serviceConection != true) {
                     setState(() {
-                      img = false;
-                      text = false;
+                      setImage = false;
+                      checkCountGetID = false;
                     });
                   } else {
                     setState(() {
-                      img = !img;
+                      setImage = !setImage;
                       internetStatus = true;
                     });
                     countGetID = 0;
                     checkInternetConection();
                   }
                 },
-                child: text
-                    ? Text(
+                child: checkCountGetID
+                    ? const Text(
                         'Generate',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       )
-                    : Text(
+                    : const Text(
                         'Retry',
                         style: TextStyle(
                           color: Colors.white,

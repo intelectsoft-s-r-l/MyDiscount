@@ -1,10 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../main.dart';
 import '../models/SharedPref.dart';
-import '../models/auth_to_service.dart';
 
 class GAuth extends StatefulWidget {
   @override
@@ -12,19 +13,7 @@ class GAuth extends StatefulWidget {
 }
 
 class _GAuthState extends State<GAuth> {
-  AuthServ attemptSignIn = AuthServ();
-
-  String displayName;
-
-  String userId;
-
-  String email;
-
-  String accessToken;
-
-  String photoUrl;
-
-  SharedPref prefs = SharedPref();
+  final SharedPref prefs = SharedPref();
 
   @override
   Widget build(BuildContext context) {
@@ -34,26 +23,26 @@ class _GAuthState extends State<GAuth> {
       );
       try {
         googleSignIn.signIn().then(
-          (GoogleSignInAccount account) async {
-            GoogleSignInAuthentication auth = await account.authentication;
-            print(auth);
-            displayName = account.displayName;
-            email = account.email;
-            userId = account.id;
-            accessToken = auth.accessToken;
-            photoUrl = account.photoUrl;
-
-            prefs.saveID(userId);
-            prefs.setDisplayName(displayName);
-            prefs.setEmail(email);
-            prefs.setPhotoUrl(photoUrl);
-            prefs.setAccessToken(accessToken);
-
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => MyBottomNavigationBar(),
-              ),
-            );
+          (final GoogleSignInAccount account) async {
+            final GoogleSignInAuthentication auth =
+                await account.authentication;
+            final _credentials = {
+              "DisplayName": account.displayName,
+              "Email": account.email,
+              "ID": account.id,
+              "PhotoUrl": auth.accessToken,
+              "RegisterMode": 1,
+              "access_token": account.photoUrl,
+            };
+            final String _data = json.encode(_credentials);
+            prefs.credentials(_data);
+            if (auth != null) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => MyBottomNavigationBar(),
+                ),
+              );
+            }
           },
         );
       } catch (e) {
@@ -79,10 +68,10 @@ class _GAuthState extends State<GAuth> {
               width: 30,
               height: 30,
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
-            Text(
+            const Text(
               'Login with Google',
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),

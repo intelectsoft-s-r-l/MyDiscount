@@ -8,15 +8,14 @@ import '../models/SharedPref.dart';
 
 class AuthServ {
   SharedPref sPref = SharedPref();
-
   removeSharedData() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
   }
 
   Future<bool> tryAutoLogin() async {
-    var prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('userID')) {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('credentials')) {
       return true;
     } else {
       return false;
@@ -24,37 +23,22 @@ class AuthServ {
   }
 
   Future<bool> attemptSignIn() async {
-    // DataConnectionStatus status = await internetConection();
-    String credentials = "appuser:frj936epae293e9c6epae29";
+    const String credentials = "appuser:frj936epae293e9c6epae29";
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     String encoded = stringToBase64.encode(credentials);
-    Map<String, String> headers = {
+    Map<String, String> _headers = {
       'Content-type': 'application/json; charset=utf-8',
       'Authorization': 'Basic ' + encoded,
     };
     SharedPref sPrefs = SharedPref();
-    final _accessToken = await sPrefs.getAccessToken();
-    final _userID = await sPrefs.getID();
-    final _displayName = await sPrefs.getDisplayName();
-    final _email = await sPrefs.getEmail();
-    //final photoUrl = await sPrefs.getPhotoUrl();
 
-    final _bodyData = json.encode(
-      {
-        "DisplayName": _displayName,
-        "Email": _email,
-        "ID": _userID,
-        //"PhotoUrl": photoUrl,
-        "RegisterMode": 1,
-        "access_token": _accessToken,
-      },
-    );
+    final _bodyData = await sPrefs.credential();
 
     const url = 'http://api.efactura.md:8585/AppCardService/json/GetTID';
 
     final response = await http.post(
       url,
-      headers: headers,
+      headers: _headers,
       body: _bodyData,
     );
     if (response.statusCode == 200) {
@@ -81,7 +65,7 @@ internetConection() async {
 
   // print("Last results: ${DataConnectionChecker().lastTryResults}");
 
-  var listener = DataConnectionChecker().onStatusChange.listen((status) {
+  final listener = DataConnectionChecker().onStatusChange.listen((status) {
     switch (status) {
       case DataConnectionStatus.connected:
         print('Data connection is available.');

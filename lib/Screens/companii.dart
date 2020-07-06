@@ -9,40 +9,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Log_in_Screen.dart';
 
-class Companies extends StatefulWidget {
-  @override
-  _CompaniesState createState() => _CompaniesState();
-}
-
-class _CompaniesState extends State<Companies> {
-  @override
-  void initState() {
-    RemoteConfig remoteConfig = RemoteConfig();
-    remoteConfig.fetch();
-    remoteConfig.activateFetched();
-    super.initState();
-  }
-
+class Companies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    removeSharedData() async {
+    void signOut() async {
+      final FacebookLogin _facebookLogin = FacebookLogin();
+      final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
       final prefs = await SharedPreferences.getInstance();
-      prefs.clear();
-    }
-
-    void signoutFb() {
-      FacebookLogin _facebookLogin = FacebookLogin();
       _facebookLogin.logOut();
-
-      print("1");
-    }
-
-    void signOut() {
-      GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: ['email'],
-      );
       googleSignIn.signOut();
-      print('object');
+      prefs.clear();
     }
 
     return Scaffold(
@@ -56,9 +32,7 @@ class _CompaniesState extends State<Companies> {
           IconButton(
             icon: Icon(MdiIcons.locationExit),
             onPressed: () {
-              signoutFb();
               signOut();
-              removeSharedData();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => LoginPage(),
@@ -75,7 +49,9 @@ class _CompaniesState extends State<Companies> {
             print(snapshot.data);
             return snapshot.hasData
                 ? WelcomeWidget(remoteConfig: snapshot.data)
-                : Container();
+                : Container(
+                    child: Center(child: const CircularProgressIndicator()),
+                  );
           },
         ),
       ),
@@ -117,12 +93,6 @@ class WelcomeWidget extends AnimatedWidget {
       ),
     );
   }
-}
-
-getData() {
-  RemoteConfig remoteConfig = RemoteConfig();
-  remoteConfig.fetch();
-  remoteConfig.activateFetched();
 }
 
 Future<RemoteConfig> setupRemoteConfig() async {

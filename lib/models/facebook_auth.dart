@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 
 import '../main.dart';
 import '../models/SharedPref.dart';
-import '../models/auth_to_service.dart';
 
 class FbAuth extends StatefulWidget {
   @override
@@ -14,18 +13,6 @@ class FbAuth extends StatefulWidget {
 }
 
 class _FbAuthState extends State<FbAuth> {
-  AuthServ attemptSignIn = AuthServ();
-
-  String displayName;
-
-  String userId;
-
-  String email;
-
-  String accessToken;
-
-  String photoUrl;
-
   SharedPref prefs = SharedPref();
 
   @override
@@ -33,26 +20,23 @@ class _FbAuthState extends State<FbAuth> {
     final FacebookLogin _facebookLogin = FacebookLogin();
 
     Future<void> authFb() async {
-      FacebookLoginResult result = await _facebookLogin.logIn(['email']);
+      final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
-          FacebookAccessToken _accessToken = result.accessToken;
-
+          final FacebookAccessToken _accessToken = result.accessToken;
           final _graphResponse = await http.get(
               'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=${_accessToken.token}');
-          var profile = json.decode(_graphResponse.body);
-          email = profile['email'];
-          userId = _accessToken.userId;
-          displayName = profile['name'];
-          photoUrl = profile['picture']['data']['url'];
-          accessToken = _accessToken.token;
-
-          prefs.saveID(userId);
-          prefs.setDisplayName(displayName);
-          prefs.setEmail(email);
-          prefs.setPhotoUrl(photoUrl);
-          prefs.setAccessToken(accessToken);
-
+          final profile = json.decode(_graphResponse.body);
+          final _credentials = {
+            "DisplayName": profile['name'],
+            "Email": profile['email'],
+            "ID": _accessToken.userId,
+            "PhotoUrl": profile['picture']['data']['url'],
+            "RegisterMode": 1,
+            "access_token": _accessToken.token,
+          };
+          final String _data = json.encode(_credentials);
+          prefs.credentials(_data);
           if (_accessToken != null) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
@@ -60,7 +44,7 @@ class _FbAuthState extends State<FbAuth> {
               ),
             );
           } else {
-            print('error');
+            throw Exception();
           }
           break;
         case FacebookLoginStatus.cancelledByUser:
@@ -83,14 +67,14 @@ class _FbAuthState extends State<FbAuth> {
         child: Row(
           children: <Widget>[
             Image.asset(
-              'assets/icons/redf.png',
+              'assets/icons/facebook.png',
               width: 30,
               height: 30,
             ),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
-            Text(
+            const Text(
               'Login with Facebook',
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
