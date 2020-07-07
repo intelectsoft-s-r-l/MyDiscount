@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:MyDiscount/Screens/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -163,8 +164,8 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
         ? Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              const Text(
-                'Your Qr-code',
+              Text(
+                AppLocalizations.of(context).translate('text1'),
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -185,8 +186,8 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-              const Text(
-                'Qr-code available:',
+              Text(
+                AppLocalizations.of(context).translate('text2'),
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(
@@ -220,12 +221,12 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                             child: Image.asset('assets/icons/om.png'),
                           ),
                           SizedBox(height: 10.0),
-                          const Text(
-                            'We have generated QR codes many times',
+                          Text(
+                            AppLocalizations.of(context).translate('text3'),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          const Text(
-                            'Generate a new code?',
+                          Text(
+                            AppLocalizations.of(context).translate('text4'),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -237,12 +238,12 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                             child: Image.asset('assets/icons/no internet.png'),
                           ),
                           const SizedBox(height: 20.0),
-                          const Text(
-                            'You do not have Internet connection ',
+                          Text(
+                            AppLocalizations.of(context).translate('text6'),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          const Text(
-                            'or service is not aviable',
+                          Text(
+                            AppLocalizations.of(context).translate('text7'),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )
                         ],
@@ -266,15 +267,15 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
                   }
                 },
                 child: checkCountGetID
-                    ? const Text(
-                        'Generate',
+                    ? Text(
+                        AppLocalizations.of(context).translate('text5'),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       )
-                    : const Text(
-                        'Retry',
+                    : Text(
+                        AppLocalizations.of(context).translate('text8'),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

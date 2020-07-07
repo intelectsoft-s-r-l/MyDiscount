@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../models/facebook_auth.dart';
 import '../models/google_auth.dart';
+import 'app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,6 +15,30 @@ class _StateLoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ro', 'RO'),
+        Locale('ru', 'RU'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      localeResolutionCallback:
+          (Locale locale, Iterable<Locale> supportedLocales) {
+        var retLocale = supportedLocales.first;
+        print(locale);
+
+        for (Locale supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode) {
+            print(supportedLocale);
+            return supportedLocale;
+          }
+        }
+
+        return retLocale;
+      },
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(

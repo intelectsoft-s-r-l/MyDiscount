@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import './Screens/Log_in_Screen.dart';
 import './Screens/Home_screen.dart';
 import './Screens/companii.dart';
 import './Screens/info_screen.dart';
+import 'Screens/app_localizations.dart';
 import 'models/auth_to_service.dart';
 
 void main() async {
@@ -38,6 +40,30 @@ class _MyAppState extends State<MyApp> {
     final AuthServ serv = AuthServ();
 
     return MaterialApp(
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ro', 'RO'),
+        Locale('ru', 'RU'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      localeResolutionCallback:
+          (Locale locale, Iterable<Locale> supportedLocales) {
+        var retLocale = supportedLocales.first;
+        print(locale);
+
+        for (Locale supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode) {
+            print(supportedLocale);
+            return supportedLocale;
+          }
+        }
+
+        return retLocale;
+      },
       debugShowCheckedModeBanner: false,
       home: FutureBuilder(
         future: serv.tryAutoLogin(),
@@ -64,36 +90,62 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: [HomeScreen(), Companies(), Info()].elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: Color.fromRGBO(42, 86, 198, 1),
-        currentIndex: _selectedIndex,
-        onTap: _onitemtaped,
-        items: <BottomNavigationBarItem>[
-          const BottomNavigationBarItem(
+    return MaterialApp(
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ro', 'RO'),
+        Locale('ru', 'RU'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      localeResolutionCallback:
+          (Locale locale, Iterable<Locale> supportedLocales) {
+        var retLocale = supportedLocales.first;
+        print(locale);
+
+        for (Locale supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode) {
+            print(supportedLocale);
+            return supportedLocale;
+          }
+        }
+
+        return retLocale;
+      },
+      home: Scaffold(
+        body: [HomeScreen(), Companies(), Info()].elementAt(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          selectedItemColor: Color.fromRGBO(42, 86, 198, 1),
+          currentIndex: _selectedIndex,
+          onTap: _onitemtaped,
+          items: <BottomNavigationBarItem>[
+            const BottomNavigationBarItem(
+                title: Text(
+                  'Qr',
+                ),
+                icon: const Icon(MdiIcons.qrcode)),
+            BottomNavigationBarItem(
               title: Text(
-                'Qr',
+                AppLocalizations.of(context).translate('companies'),
               ),
-              icon: const Icon(MdiIcons.qrcode)),
-          const BottomNavigationBarItem(
-            title: const Text(
-              'Companies',
+              icon: const Icon(
+                Icons.person_pin,
+              ),
             ),
-            icon: const Icon(
-              Icons.person_pin,
+            BottomNavigationBarItem(
+              title: Text(
+                AppLocalizations.of(context).translate('text10'),
+              ),
+              icon: const Icon(
+                Icons.info_outline,
+              ),
             ),
-          ),
-          const BottomNavigationBarItem(
-            title: const Text(
-              'Info',
-            ),
-            icon: const Icon(
-              Icons.info_outline,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/Screens/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -71,8 +72,8 @@ class _GAuthState extends State<GAuth> {
             const SizedBox(
               width: 5,
             ),
-            const Text(
-              'Login with Google',
+            Text(
+              AppLocalizations.of(context).translate('text12'),
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),

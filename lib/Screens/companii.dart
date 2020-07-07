@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Screens/app_localizations.dart';
 import 'Log_in_Screen.dart';
 
 class Companies extends StatelessWidget {
@@ -25,7 +26,7 @@ class Companies extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(42, 86, 198, 1),
         title: Text(
-          'Companies',
+          AppLocalizations.of(context).translate('companies'),
           style: TextStyle(fontSize: 30),
         ),
         actions: <Widget>[

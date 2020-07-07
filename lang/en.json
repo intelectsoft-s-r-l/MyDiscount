@@ -1,0 +1,16 @@
+{
+    "companies":"Companies",
+    "text1":"Your Qr-Code",
+    "text2":"Qr-code available:",
+    "text3":"You have generate QR code too many times",
+    "text4":"Generate a new QR code?",
+    "text5":"Generate",
+    "text6":"You do not have Internet connection",
+    "text7":"or service is not available",
+    "text8":"Retry",
+    "text9":"About",
+    "text10":"Info",
+    "text11":"Login with Facebook",
+    "text12":"Login with Google",
+    "Info":"Information"   
+}

@@ -6,6 +6,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Log_in_Screen.dart';
+import 'app_localizations.dart';
 
 class Info extends StatelessWidget {
   void signOut() async {
@@ -22,8 +23,8 @@ class Info extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(42, 86, 198, 1),
-        title: const Text(
-          'About',
+        title: Text(
+          AppLocalizations.of(context).translate('text9'),
           style: TextStyle(fontSize: 30),
         ),
         actions: <Widget>[
@@ -44,8 +45,8 @@ class Info extends StatelessWidget {
         child: Container(
           alignment: Alignment.topLeft,
           child: Center(
-            child: const Text(
-              'Informatie',
+            child: Text(
+              AppLocalizations.of(context).translate('Info'),
               style: TextStyle(
                 fontSize: 20,
               ),

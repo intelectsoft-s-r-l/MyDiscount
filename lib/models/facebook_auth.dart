@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:MyDiscount/Screens/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -74,8 +75,8 @@ class _FbAuthState extends State<FbAuth> {
             const SizedBox(
               width: 5,
             ),
-            const Text(
-              'Login with Facebook',
+            Text(
+              AppLocalizations.of(context).translate('text11'),
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),
