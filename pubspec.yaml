@@ -39,6 +39,7 @@ flutter:
     - assets/icons/om.png
     - assets/icons/qr.jpg
     - assets/icons/no internet.png
+    - assets/icons/companie.jpg
     - lang/en.json
     - lang/ro.json
     - lang/ru.json

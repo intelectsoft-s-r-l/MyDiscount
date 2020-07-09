@@ -8,7 +8,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="MyDiscount"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/images">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

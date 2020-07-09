@@ -56,7 +56,7 @@ class _FbAuthState extends State<FbAuth> {
     }
 
     return Container(
-      width: 200,
+      width: MediaQuery.of(context).size.width * 0.6,
       child: FlatButton(
         color: Color.fromRGBO(65, 90, 147, 1),
         shape: RoundedRectangleBorder(
@@ -77,8 +77,10 @@ class _FbAuthState extends State<FbAuth> {
             ),
             Text(
               AppLocalizations.of(context).translate('text11'),
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 17),
             ),
           ],
         ),

@@ -36,17 +36,25 @@ class AuthServ {
 
     const url = 'http://api.efactura.md:8585/AppCardService/json/GetTID';
 
-    final response = await http.post(
-      url,
-      headers: _headers,
-      body: _bodyData,
-    );
-    if (response.statusCode == 200) {
-      final resp = json.decode(response.body);
-      sPref.saveTID(resp['TID']);
+    try {
+      final response = await http
+          .post(
+            url,
+            headers: _headers,
+            body: _bodyData,
+          )
+          .timeout(Duration(seconds: 5));
 
-      return true;
-    } else {
+      print(response..body);
+      if (response.statusCode == 200) {
+        final resp = json.decode(response.body);
+        sPref.saveTID(resp['TID']);
+
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
       return false;
     }
   }
@@ -58,7 +66,7 @@ class AuthServ {
 }
 
 internetConection() async {
-  // print("The statement 'this machine is connected to the Internet' is: ");
+  // print(" The statement 'this machine is connected to the Internet' is: ");
   // print(await DataConnectionChecker().hasConnection);
 
   // print("Current status: ${await DataConnectionChecker().connectionStatus}");

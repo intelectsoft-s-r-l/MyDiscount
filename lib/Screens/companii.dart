@@ -48,7 +48,7 @@ class Companies extends StatelessWidget {
           future: setupRemoteConfig(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             print(snapshot.data);
-            return snapshot.hasData
+            return snapshot.hasData && snapshot.data != null
                 ? WelcomeWidget(remoteConfig: snapshot.data)
                 : Container(
                     child: Center(child: const CircularProgressIndicator()),
@@ -71,28 +71,56 @@ class WelcomeWidget extends AnimatedWidget {
         as Map<String, dynamic>;
     var list = companies['companies'] as List;
     return Scaffold(
-      body: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) => Card(
-          child: ListTile(
-            contentPadding: EdgeInsets.all(10),
-            leading: Container(
-                width: 60,
-                height: 60,
-                child: Image.network(
-                  '${list[index]['image']}',
-                )),
-            title: Text(
-              '${list[index]['name']}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+        body: list.length != 0
+            ? ListView.builder(
+                padding: EdgeInsets.all(10),
+                itemCount: list.length,
+                itemBuilder: (context, index) => Card(
+                  //color: Colors.amber,
+                  elevation: 2.0,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(10),
+                    leading: Container(
+                        width: 60,
+                        height: 60,
+                        child: Image.memory(
+                          Base64Decoder().convert('${list[index]['images']}'),
+                        )),
+                    title: Text(
+                      '${list[index]['name']}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : Container(
+                alignment: Alignment.center,
+                child: Column(
+                  //crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    Image.asset('assets/icons/companie.jpg'),
+                    Text(
+                      AppLocalizations.of(context).translate('text13'),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      AppLocalizations.of(context).translate('text14'),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ));
   }
 }
 

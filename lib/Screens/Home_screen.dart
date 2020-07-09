@@ -19,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State with TickerProviderStateMixin {
+  AuthServ serv = AuthServ();
+
   Widget build(BuildContext context) {
     void signOut() async {
       final FacebookLogin _facebookLogin = FacebookLogin();
@@ -75,14 +77,14 @@ class CircularProgres extends StatefulWidget {
 class _CircularProgresState extends State with TickerProviderStateMixin {
   AnimationController progressController;
   Animation<double> animation;
-
+  BuildContext dialogContext;
   AuthServ serv = AuthServ();
 
-  int countGetID = 0;
-  bool serviceConection = false;
-  bool checkCountGetID = true;
-  bool internetStatus = false;
-  bool setImage = true;
+  int countGetID = 0; //numara de cite ori a fost chemat serviciu
+  bool serviceConection = false; //verifica conexiunea la serviciu
+  bool checkCountGetID = true; //arata imaginea cu om sau imaginea cu reteaua
+  bool internetStatus = false; //verifica conexiunea la internet
+  bool setImage = true; //arata imaginea cu om sau Qr
   @override
   void initState() {
     super.initState();
@@ -103,17 +105,36 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
     checkInternetConection();
   }
 
-  void progressForward() async {
-    serviceConection = await serv.attemptSignIn();
-    if (serviceConection != true) {
-      setState(() {
-        setImage = false;
-        checkCountGetID = false;
-      });
-    } else {
-      countGetID += 1;
-      progressController.forward();
-    }
+  showDialogto() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        dialogContext = context;
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.all(10),
+            height: 60,
+            decoration: BoxDecoration(color: Colors.white),
+            child: new Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                new CircularProgressIndicator(),
+                SizedBox(
+                  width: 10,
+                ),
+                new Text("Loading"),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void progressForward() {
+    countGetID += 1;
+    progressController.forward();
   }
 
   void progressReset() {
@@ -123,14 +144,36 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
 
   void checkInternetConection() async {
     DataConnectionStatus status = await internetConection();
-    if (status == DataConnectionStatus.connected) {
-      _tapFunction();
-    } else {
-      setState(() {
-        setImage = false;
-        internetStatus = false;
-        checkCountGetID = false;
-      });
+
+    switch (status) {
+      case DataConnectionStatus.connected:
+        {
+          showDialogto();
+          serviceConection = await serv.attemptSignIn();
+          if (serviceConection == true) {
+            Navigator.pop(dialogContext);
+            _tapFunction();
+          } else {
+            Navigator.pop(dialogContext);
+            setState(() {
+              setImage = false;
+              internetStatus = false;
+              checkCountGetID = false;
+            });
+          }
+        }
+        break;
+      case DataConnectionStatus.disconnected:
+        {
+          print("false connected");
+          setState(() {
+            setImage = false;
+            internetStatus = false;
+            checkCountGetID = false;
+          });
+          if (dialogContext != null) Navigator.of(dialogContext).pop();
+        }
+        break;
     }
   }
 
@@ -211,7 +254,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
         : Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              checkCountGetID
+              checkCountGetID && serviceConection
                   ? Container(
                       height: MediaQuery.of(context).size.height * 0.6,
                       child: Column(
@@ -252,19 +295,12 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
               const SizedBox(height: 10.0),
               RaisedButton(
                 onPressed: () {
-                  if (serviceConection != true) {
-                    setState(() {
-                      setImage = false;
-                      checkCountGetID = false;
-                    });
-                  } else {
-                    setState(() {
-                      setImage = !setImage;
-                      internetStatus = true;
-                    });
-                    countGetID = 0;
-                    checkInternetConection();
-                  }
+                  setState(() {
+                    setImage = true;
+                    internetStatus = true;
+                  });
+                  checkInternetConection();
+                  countGetID = 0;
                 },
                 child: checkCountGetID
                     ? Text(

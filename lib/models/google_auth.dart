@@ -52,7 +52,7 @@ class _GAuthState extends State<GAuth> {
     }
 
     return Container(
-      width: 200,
+      width: MediaQuery.of(context).size.width * 0.6,
       child: FlatButton(
         color: Color.fromRGBO(52, 122, 246, 1),
         shape: RoundedRectangleBorder(
@@ -74,8 +74,10 @@ class _GAuthState extends State<GAuth> {
             ),
             Text(
               AppLocalizations.of(context).translate('text12'),
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 17),
             ),
           ],
         ),

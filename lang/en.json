@@ -1,7 +1,7 @@
 {
     "companies":"Companies",
-    "text1":"Your Qr-Code",
-    "text2":"Qr-code available:",
+    "text1":"Your QR-Code",
+    "text2":"QR-code available:",
     "text3":"You have generate QR code too many times",
     "text4":"Generate a new QR code?",
     "text5":"Generate",
@@ -12,5 +12,7 @@
     "text10":"Info",
     "text11":"Login with Facebook",
     "text12":"Login with Google",
+    "text13":"Companies where you can use QR-Code.",
+    "text14":"There are currently not companies",
     "Info":"Information"   
 }
