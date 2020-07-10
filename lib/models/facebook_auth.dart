@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:MyDiscount/Screens/app_localizations.dart';
+import '../Screens/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -36,6 +36,7 @@ class _FbAuthState extends State<FbAuth> {
             "RegisterMode": 1,
             "access_token": _accessToken.token,
           };
+          print(_credentials);
           final String _data = json.encode(_credentials);
           prefs.credentials(_data);
           if (_accessToken != null) {

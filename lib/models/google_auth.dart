@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/Screens/app_localizations.dart';
+import '../Screens/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -35,6 +35,7 @@ class _GAuthState extends State<GAuth> {
               "RegisterMode": 1,
               "access_token": account.photoUrl,
             };
+            print(_credentials);
             final String _data = json.encode(_credentials);
             prefs.credentials(_data);
             if (auth != null) {

@@ -11,7 +11,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _StateLoginPage extends State<LoginPage> {
-  //
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -152,6 +152,7 @@ class _CircularProgresState extends State with TickerProviderStateMixin {
           serviceConection = await serv.attemptSignIn();
           if (serviceConection == true) {
             Navigator.pop(dialogContext);
+
             _tapFunction();
           } else {
             Navigator.pop(dialogContext);

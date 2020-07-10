@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,10 +10,10 @@ import 'app_localizations.dart';
 
 class Info extends StatelessWidget {
   void signOut() async {
-    final FacebookLogin _facebookLogin = FacebookLogin();
+    //final FacebookLogin _facebookLogin = FacebookLogin();
     final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
     final prefs = await SharedPreferences.getInstance();
-    _facebookLogin.logOut();
+    //_facebookLogin.logOut();
     googleSignIn.signOut();
     prefs.clear();
   }

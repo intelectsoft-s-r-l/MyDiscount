@@ -45,7 +45,7 @@ class AuthServ {
           )
           .timeout(Duration(seconds: 5));
 
-      print(response..body);
+      print(response.body);
       if (response.statusCode == 200) {
         final resp = json.decode(response.body);
         sPref.saveTID(resp['TID']);
