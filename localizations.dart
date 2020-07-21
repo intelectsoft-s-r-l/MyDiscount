@@ -20,7 +20,7 @@ class AppLocalizations {
     var prefs = await SharedPreferences.getInstance();
     String jsonString =
         await rootBundle.loadString('lang/${locale.languageCode}.json');
-    // Map<String, dynamic> jsonMap = json.decode(jsonString);
+    /* Map<String, dynamic> jsonMap =  */ json.decode(jsonString);
     /* var data = */ prefs.setString('key', jsonString);
     var jsonM = json.decode(prefs.getString("key"));
     Map<String, dynamic> jsonMap = jsonM;

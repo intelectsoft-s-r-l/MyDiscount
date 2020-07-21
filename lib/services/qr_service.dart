@@ -1,12 +1,12 @@
 import 'dart:convert';
-
-import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/SharedPref.dart';
+import '../services/shared_preferences_service.dart';
 
-class AuthServ {
+class QrService extends ChangeNotifier {
   SharedPref sPref = SharedPref();
   removeSharedData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -60,30 +60,7 @@ class AuthServ {
   }
 
   setTID(String id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('Tid', id);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    //prefs.setString('Tid', id);
   }
-}
-
-internetConection() async {
-  // print(" The statement 'this machine is connected to the Internet' is: ");
-  // print(await DataConnectionChecker().hasConnection);
-
-  // print("Current status: ${await DataConnectionChecker().connectionStatus}");
-
-  // print("Last results: ${DataConnectionChecker().lastTryResults}");
-
-  final listener = DataConnectionChecker().onStatusChange.listen((status) {
-    switch (status) {
-      case DataConnectionStatus.connected:
-        print('Data connection is available.');
-        break;
-      case DataConnectionStatus.disconnected:
-        print('You are disconnected from the internet.');
-        break;
-    }
-  });
-  listener.cancel();
-  await Future.delayed(Duration(seconds: 0));
-  return await DataConnectionChecker().connectionStatus;
 }
