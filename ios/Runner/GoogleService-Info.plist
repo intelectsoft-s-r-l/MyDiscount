@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>866892099029-1uslukg046h3vnem7cfgc696mri3ris5.apps.googleusercontent.com</string>
+	<string>866892099029-0ga67e28vnsfa3beflc7a7l05691s4qd.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.866892099029-1uslukg046h3vnem7cfgc696mri3ris5</string>
+	<string>com.googleusercontent.apps.866892099029-0ga67e28vnsfa3beflc7a7l05691s4qd</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>866892099029-r9deofi9j8t6tujs50eiv71but1aceab.apps.googleusercontent.com</string>
+	<string>866892099029-889hg3npmabs66f0lu34iu35tfler7tn.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCG0DLPW-2ZFp1yk43aXpoP4tb-Qpkvn-g</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.flutter.flutter.app</string>
+	<string>com.example.guidGen</string>
 	<key>PROJECT_ID</key>
 	<string>qr-generator-d11f1</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:866892099029:ios:b8ab4ca645c14d1c90a15c</string>
+	<string>1:866892099029:ios:027e67d91d48a27190a15c</string>
 	<key>DATABASE_URL</key>
 	<string>https://qr-generator-d11f1.firebaseio.com</string>
 </dict>

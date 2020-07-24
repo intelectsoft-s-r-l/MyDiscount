@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:MyDiscount/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -62,12 +63,13 @@ class AuthService extends ChangeNotifier {
           };
           final String _data = json.encode(_credentials);
           prefs.credentials(_data);
+          print(_credentials);
         },
-      );
+      ).whenComplete(() => main());
+
       return true;
     } catch (e) {
       return false;
-      //throw Exception(e);
     }
   }
 

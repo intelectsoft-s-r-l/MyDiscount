@@ -33,7 +33,7 @@ class QrService extends ChangeNotifier {
     SharedPref sPrefs = SharedPref();
 
     final _bodyData = await sPrefs.credential();
-
+    //print(_bodyData);
     const url = 'http://api.efactura.md:8585/AppCardService/json/GetTID';
 
     try {
@@ -57,10 +57,5 @@ class QrService extends ChangeNotifier {
     } catch (e) {
       return false;
     }
-  }
-
-  setTID(String id) async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    //prefs.setString('Tid', id);
   }
 }
