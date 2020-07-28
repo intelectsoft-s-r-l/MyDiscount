@@ -185,8 +185,8 @@ class _FirstScreenState extends State<FirstScreen>
                     const Tab(
                       child: Text('QR'),
                       icon: Icon(
-                        MyFlutterApp.drawing,
-                        size: 10,
+                        MyFlutterApp.images,
+                        size: 20,
                       ),
                       //const FaIcon(FontAwesomeIcons.qrcode),
                     ),

@@ -21,5 +21,5 @@ class MyFlutterApp {
   static const _kFontFam = 'MyFlutterApp';
   static const _kFontPkg = null;
 
-  static const IconData drawing = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData images = IconData(0xe900, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
