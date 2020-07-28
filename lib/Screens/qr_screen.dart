@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'package:MyDiscount/main.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 
-import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
@@ -46,7 +43,7 @@ class _QrScreenState extends State<QrScreen> {
   void startTimer() {
     countTID++;
     print('Count:$countTID');
-    _counter = 10;
+    _counter = 7;
     _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       if (_counter > 0) {
         _counter--;
@@ -73,7 +70,7 @@ class _QrScreenState extends State<QrScreen> {
   getAuthorization() async {
     DataConnectionStatus status = await internetConnection.internetConection();
 
-    _counter = 10;
+    _counter = 7;
     switch (status) {
       case DataConnectionStatus.connected:
         try {
@@ -162,13 +159,21 @@ class _QrScreenState extends State<QrScreen> {
                               FutureBuilder<String>(
                                 future: _loadSharedPref(),
                                 builder: (context, snapshot) {
-                                  return RepaintBoundary(
-                                    child: QrImage(
-                                      data: '${snapshot.data}',
-                                      size: MediaQuery.of(context).size.height *
-                                          0.3,
-                                    ),
-                                  );
+                                  if (snapshot.hasData) {
+                                    return RepaintBoundary(
+                                      child: QrImage(
+                                        data: '${snapshot.data}',
+                                        size:
+                                            MediaQuery.of(context).size.height *
+                                                0.3,
+                                      ),
+                                    );
+                                  } else {
+                                    return CircularProgressIndicator(
+                                      valueColor:
+                                          AlwaysStoppedAnimation(Colors.green),
+                                    );
+                                  }
                                 },
                               ),
                             ],
@@ -196,30 +201,34 @@ class _QrScreenState extends State<QrScreen> {
                                         SizedBox(height: 10.0),
                                       ],
                                     ))
-                                : Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Image.asset(
-                                              'assets/icons/no internet.png'),
-                                        ),
-                                        const SizedBox(height: 20.0),
-                                        Text(
-                                          AppLocalizations.of(context)
-                                              .translate('text6'),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          AppLocalizations.of(context)
-                                              .translate('text7'),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
+                                : Center(
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            child: Image.asset(
+                                                'assets/icons/no internet.png'),
+                                          ),
+                                          const SizedBox(height: 20.0),
+                                          Text(
+                                            AppLocalizations.of(context)
+                                                .translate('text6'),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            AppLocalizations.of(context)
+                                                .translate('text7'),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                            //const SizedBox(height: 10.0),
+                            const SizedBox(height: 10.0),
                             RaisedButton(
                               onPressed: () {
                                 setState(() {
@@ -255,102 +264,6 @@ class _QrScreenState extends State<QrScreen> {
                 ],
               ),
             )),
-      ),
-    );
-  }
-}
-
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
-  Widget build(BuildContext context) {
-    var data = Provider.of<AuthService>(context);
-
-    return Container(
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(240, 242, 241, 1),
-      ),
-      child: Center(
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          elevation: 3,
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: MediaQuery.of(context).size.width * 0.7,
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  'Sign In',
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: GestureDetector(
-                        onTap: () async {
-                          data.logwithG();
-                          //main(); //.then((value) => main());
-                        },
-                        child: CircleAvatar(
-                          radius: 28,
-                          backgroundColor: Colors.green,
-                          child: Image.asset(
-                            'assets/icons/google.png',
-                            scale: 0.7,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 40),
-                    Container(
-                      child: GestureDetector(
-                        onTap: () {
-                          data.authWithFacebook().whenComplete(
-                            () {
-                              main();
-                              //setState(() {});
-                              // getAuthorization();
-                            },
-                          );
-                        },
-                        child: CircleAvatar(
-                          radius: 28,
-                          backgroundColor: Colors.green,
-                          child: Container(
-                            constraints: BoxConstraints.expand(
-                              width: 28,
-                              height: 28,
-                            ),
-                            decoration: BoxDecoration(color: Colors.white),
-                            child: Image.asset(
-                              'assets/icons/facebook.png',
-                              scale: 0.7,
-                              color: Color.fromRGBO(65, 90, 147, 1),
-                              width: 40,
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
