@@ -39,13 +39,17 @@ flutter:
     - assets/icons/facebook.png
     - assets/icons/google.png
     - assets/icons/om.png
-    - assets/icons/qr.jpg
+    - assets/icons/qr.png
+    - assets/icons/news1.png
     - assets/icons/no internet.png
-    - assets/icons/companie.jpg
+    - assets/icons/qrlogo.png
     - lang/en.json
     - lang/ro.json
     - lang/ru.json
-    - assets/icons/companies.png
+    - lang/md.json
+  #  - assets/icons/home.png
+  #  - assets/icons/gh.png
+  #  - assets/icons/comp.png
 fonts:
   - family: MyFlutterApp
     fonts:

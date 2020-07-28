@@ -9,12 +9,13 @@ class InfoScreen extends StatelessWidget {
         color: Color.fromRGBO(240, 242, 241, 1),
       ),
       child: Padding(
-        padding: EdgeInsets.all(30),
+        padding: EdgeInsets.only(top: 8),
         child: Container(
-          padding: EdgeInsets.only(top: 16, bottom: 16, left: 4, right: 4),
+          padding: EdgeInsets.only(top: 11, bottom: 11, left: 8, right: 8),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           ),
           child: Center(
             child: SingleChildScrollView(
@@ -64,7 +65,7 @@ MyDiscount este o aplicație mobilă pe care o puteți instala gratuit atât pen
                 overflow: TextOverflow.visible,
                 //AppLocalizations.of(context).translate('Info'),
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 17,
                 ),
               ),
             ),

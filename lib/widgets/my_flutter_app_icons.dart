@@ -12,6 +12,10 @@
 ///       - asset: fonts/MyFlutterApp.ttf
 ///
 /// 
+/// * Elusive, Copyright (C) 2013 by Aristeides Stathopoulos
+///         Author:    Aristeides Stathopoulos
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://aristeides.com/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,5 +25,9 @@ class MyFlutterApp {
   static const _kFontFam = 'MyFlutterApp';
   static const _kFontPkg = null;
 
+<<<<<<< HEAD
   static const IconData images = IconData(0xe900, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+=======
+  static const IconData qrcode = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+>>>>>>> 83f0b35e95271b1bd062a6c1c5a16b9faf53445b
 }
