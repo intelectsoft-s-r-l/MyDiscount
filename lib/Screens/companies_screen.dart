@@ -56,7 +56,7 @@ class WelcomeWidget extends AnimatedWidget {
             ? ListView.separated(
                 padding: EdgeInsets.all(10),
                 separatorBuilder: (context, index) => SizedBox(
-                  height: 5,
+                  height: 3,
                 ),
                 itemCount: list.length,
                 itemBuilder: (context, index) => Card(

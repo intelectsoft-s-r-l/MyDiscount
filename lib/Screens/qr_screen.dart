@@ -132,7 +132,7 @@ class _QrScreenState extends State<QrScreen> {
         color: Color.fromRGBO(240, 242, 241, 1),
       ),
       child: Padding(
-        padding: EdgeInsets.all(30),
+        padding: EdgeInsets.only(top: 70, bottom: 70, left: 30, right: 30),
         child: Container(
             height: MediaQuery.of(context).size.height * 0.5,
             padding: EdgeInsets.all(20),
@@ -185,20 +185,33 @@ class _QrScreenState extends State<QrScreen> {
                                 ? Container(
                                     alignment: Alignment.center,
                                     height: MediaQuery.of(context).size.height *
-                                        0.4,
+                                        0.3,
                                     child: Column(
                                       children: <Widget>[
                                         Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.3,
+                                              0.2,
                                           child: Image.asset(
                                             'assets/icons/om.png',
                                             scale: 0.5,
                                           ),
                                         ),
                                         SizedBox(height: 10.0),
+                                        Text(
+                                          AppLocalizations.of(context)
+                                              .translate('text3'),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          AppLocalizations.of(context)
+                                              .translate('text4'),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ],
                                     ))
                                 : Center(

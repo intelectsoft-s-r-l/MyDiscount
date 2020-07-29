@@ -74,15 +74,20 @@ class MyApp extends StatelessWidget {
         ],
         localeResolutionCallback:
             (Locale locale, Iterable<Locale> supportedLocales) {
-          var retLocale = supportedLocales.first;
+          var retLocale = supportedLocales?.first;
           print('$locale 2');
 
-          for (Locale supportedLocale in supportedLocales) {
-            if (supportedLocale.countryCode == /*  locale.languageCode|| */ locale
-                .countryCode) {
-              print(supportedLocale);
-              return supportedLocale;
+          try {
+            for (Locale supportedLocale in supportedLocales) {
+              if (supportedLocale.countryCode == /*  locale.languageCode|| */ locale
+                      .countryCode &&
+                  locale.countryCode != null) {
+                print(supportedLocale);
+                return supportedLocale;
+              }
             }
+          } catch (e) {
+            throw Exception();
           }
 
           return retLocale;
@@ -138,28 +143,26 @@ class _FirstScreenState extends State<FirstScreen>
                 icon: const Icon(MdiIcons.locationExit),
                 onPressed: () {
                   data.signOut();
-                  setState(() {
-                    // isLogin = false;
-                  });
+                  setState(() {});
                 },
               ),
             ),
           ],
           centerTitle: true,
           bottom: PreferredSize(
-            preferredSize: MediaQuery.of(context).size * 0.11,
+            preferredSize: MediaQuery.of(context).size * 0.13,
             child: Container(
               decoration:
                   const BoxDecoration(color: Color.fromRGBO(240, 242, 241, 1)),
               child: Container(
                 alignment: Alignment.center,
                 //height: 110,
-                padding: EdgeInsets.all(5),
+                //padding: EdgeInsets.all(5),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: const Radius.circular(50),
-                    bottomRight: const Radius.circular(50),
+                    bottomLeft: const Radius.circular(45),
+                    bottomRight: const Radius.circular(45),
                   ),
                 ),
                 child: Column(
@@ -167,76 +170,84 @@ class _FirstScreenState extends State<FirstScreen>
                   children: <Widget>[
                     TabBar(
                       //dragStartBehavior: DragStartBehavior.start,
-                      isScrollable: true,
-                      //indicatorWeight: 0,
-                      labelPadding: const EdgeInsets.all(3),
+                      //isScrollable: true,
+                      indicatorWeight: 0,
+                      //labelPadding: const EdgeInsets.only(left: 1, right: 2.5),
                       unselectedLabelColor: Colors.green,
                       labelColor: Colors.white,
-                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorSize: TabBarIndicatorSize.label,
                       indicator: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.green,
-                        border: Border.fromBorderSide(BorderSide(
-                            width: 5.1,
-                            style: BorderStyle.solid,
-                            color: Colors.white)),
                       ),
                       controller: _tabController,
                       tabs: <Widget>[
-                        Tab(
-                          icon: ImageIcon(
-                            AssetImage('assets/icons/qrlogo.png'),
-                            size: 120,
-                          ),
+                        Column(
+                          children: <Widget>[
+                            Tab(
+                              icon: ImageIcon(
+                                AssetImage('assets/icons/qrlogo.png'),
+                                size: 53,
+                              ),
+                            ),
+                          ],
                         ),
                         const Tab(
                           icon: ImageIcon(
-                            AssetImage('assets/icons/qr.png'),
-                            size: 90,
+                            AssetImage('assets/icons/qq3.png'),
+                            size: 53,
                           ),
                         ),
                         Tab(
                           icon: ImageIcon(
                             AssetImage('assets/icons/news1.png'),
-                            size: 120,
+                            size: 53,
                           ),
                         ),
                       ],
                     ),
                     Container(
-                      width: 300,
+                      padding: EdgeInsets.only(
+                        bottom: 10, /* top: 2 */
+                      ),
+                      alignment: Alignment.center,
+                      //width: MediaQuery.of(context).size.width * 0.85,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          SizedBox(
-                            width: 8,
-                          ),
                           Container(
+                            padding: EdgeInsets.only(left: 10),
+                            alignment: Alignment.center,
+                            width:
+                                MediaQuery.of(context).size.width * 0.33, //74,
                             child: Text(
                               AppLocalizations.of(context)
                                   .translate('companies'),
-                              style: TextStyle(color: Colors.green),
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(
-                            width: 65,
-                          ),
-                          SizedBox(),
                           Container(
+                            alignment: Alignment.center,
+                            width:
+                                MediaQuery.of(context).size.width * 0.33, //50,
                             child: Text(
                               'QR',
-                              style: TextStyle(color: Colors.green),
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(
-                            width: 65,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
                           Container(
+                            alignment: Alignment.center,
+                            width:
+                                MediaQuery.of(context).size.width * 0.33, //70,
                             child: Text(
                               AppLocalizations.of(context).translate('text10'),
-                              style: TextStyle(color: Colors.green),
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -249,7 +260,7 @@ class _FirstScreenState extends State<FirstScreen>
           ),
         ),
         body: TabBarView(
-          physics: ClampingScrollPhysics(),
+          //physics: ClampingScrollPhysics(),
           controller: _tabController,
           children: [
             Container(
@@ -261,6 +272,7 @@ class _FirstScreenState extends State<FirstScreen>
               child: Companies(),
             ),
             Container(
+              height: MediaQuery.of(context).size.height * 0.4,
               child: FutureBuilder(
                 future: _qrService.tryAutoLogin(),
                 builder: (context, snapshot) {
