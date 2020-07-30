@@ -5,10 +5,10 @@ class RemoteConfigService extends ChangeNotifier {
   Future<RemoteConfig> setupRemoteConfig() async {
     final RemoteConfig remoteConfig = await RemoteConfig.instance;
     try {
-      //remoteConfig.setConfigSettings(RemoteConfigSettings(debugMode: true));
+      remoteConfig.setConfigSettings(RemoteConfigSettings(debugMode: true));
 
       try {
-        remoteConfig.fetch(/* expiration: const Duration(seconds: 0) */);
+        remoteConfig.fetch(expiration: const Duration(seconds: 0));
       } on FetchThrottledException catch (e) {
         throw Exception(e);
       }
