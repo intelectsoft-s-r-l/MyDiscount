@@ -143,7 +143,9 @@ class _FirstScreenState extends State<FirstScreen>
                 icon: const Icon(MdiIcons.locationExit),
                 onPressed: () {
                   data.signOut();
-                  setState(() {});
+                  setState(() {
+                    _tabController.index = 1;
+                  });
                 },
               ),
             ),
