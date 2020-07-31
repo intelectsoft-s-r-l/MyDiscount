@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +22,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     final RemoteConfig remoteConfig = RemoteConfig();
+
     remoteConfig.fetch();
     remoteConfig.activateFetched();
   } on FetchThrottledException catch (e) {
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
         ],
         localeResolutionCallback:
             (Locale locale, Iterable<Locale> supportedLocales) {
-          var retLocale = supportedLocales?.first;
+          final retLocale = supportedLocales?.first;
           print('$locale 2');
 
           try {
@@ -108,7 +108,7 @@ class _FirstScreenState extends State<FirstScreen>
   TabController _tabController;
 
   static QrService _qrService = QrService();
-  // bool isLogin;
+
   @override
   void initState() {
     _tabController = TabController(
@@ -122,7 +122,7 @@ class _FirstScreenState extends State<FirstScreen>
 
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<AuthService>(context);
+    final data = Provider.of<AuthService>(context);
 
     return DefaultTabController(
       length: 3,
@@ -171,14 +171,11 @@ class _FirstScreenState extends State<FirstScreen>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     TabBar(
-                      //dragStartBehavior: DragStartBehavior.start,
-                      //isScrollable: true,
                       indicatorWeight: 0,
-                      //labelPadding: const EdgeInsets.only(left: 1, right: 2.5),
                       unselectedLabelColor: Colors.green,
                       labelColor: Colors.white,
                       indicatorSize: TabBarIndicatorSize.label,
-                      indicator: BoxDecoration(
+                      indicator: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.green,
                       ),
@@ -186,9 +183,9 @@ class _FirstScreenState extends State<FirstScreen>
                       tabs: <Widget>[
                         Column(
                           children: <Widget>[
-                            Tab(
+                            const Tab(
                               icon: ImageIcon(
-                                AssetImage('assets/icons/qrlogo.png'),
+                                const AssetImage('assets/icons/qrlogo.png'),
                                 size: 53,
                               ),
                             ),
@@ -196,29 +193,28 @@ class _FirstScreenState extends State<FirstScreen>
                         ),
                         const Tab(
                           icon: ImageIcon(
-                            AssetImage('assets/icons/qq3.png'),
+                            const AssetImage('assets/icons/qq3.png'),
                             size: 53,
                           ),
                         ),
-                        Tab(
+                        const Tab(
                           icon: ImageIcon(
-                            AssetImage('assets/icons/news1.png'),
+                            const AssetImage('assets/icons/news1.png'),
                             size: 53,
                           ),
                         ),
                       ],
                     ),
                     Container(
-                      padding: EdgeInsets.only(
-                        bottom: 10, /* top: 2 */
+                      padding: const EdgeInsets.only(
+                        bottom: 10,
                       ),
                       alignment: Alignment.center,
-                      //width: MediaQuery.of(context).size.width * 0.85,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.only(left: 10),
+                            padding: const EdgeInsets.only(left: 10),
                             alignment: Alignment.center,
                             width:
                                 MediaQuery.of(context).size.width * 0.33, //74,
@@ -262,7 +258,6 @@ class _FirstScreenState extends State<FirstScreen>
           ),
         ),
         body: TabBarView(
-          //physics: ClampingScrollPhysics(),
           controller: _tabController,
           children: [
             Container(

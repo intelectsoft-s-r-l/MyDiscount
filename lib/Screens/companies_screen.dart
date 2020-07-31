@@ -10,10 +10,10 @@ import '../services/remote_config_service.dart';
 class Companies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<RemoteConfigService>(context);
+    final data = Provider.of<RemoteConfigService>(context);
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 10,
           bottom: 5, /*  left: 2, right: 2 */
         ),
@@ -43,19 +43,19 @@ class WelcomeWidget extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    var companies = json.decode(remoteConfig.getString('list_companies'))
+    final companies = json.decode(remoteConfig.getString('list_companies'))
         as Map<String, dynamic>;
-    var list = companies['companies'] as List;
+    final list = companies['companies'] as List;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(240, 242, 241, 1),
+        decoration: const BoxDecoration(
+          color: const Color.fromRGBO(240, 242, 241, 1),
         ),
         //padding: EdgeInsets.all(10),
         child: list.length != 0
             ? ListView.separated(
-                padding: EdgeInsets.all(10),
-                separatorBuilder: (context, index) => SizedBox(
+                padding: const EdgeInsets.all(10),
+                separatorBuilder: (context, index) => const SizedBox(
                   height: 3,
                 ),
                 itemCount: list.length,
@@ -73,7 +73,7 @@ class WelcomeWidget extends AnimatedWidget {
                         )),
                     title: Text(
                       '${list[index]['name']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
                       ),

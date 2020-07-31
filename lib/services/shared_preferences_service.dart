@@ -20,4 +20,14 @@ class SharedPref {
     final authData = await SharedPreferences.getInstance();
     return authData.getString('credentials');
   }
+
+/*   saveRemote(var data) async {
+    final authData = await SharedPreferences.getInstance();
+    authData.setString('remote', data);
+  }
+
+  readRemote() async {
+    final authData = await SharedPreferences.getInstance();
+    return authData.getString('remote');
+  } */
 }
