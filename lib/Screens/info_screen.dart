@@ -1,54 +1,72 @@
+//import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/material.dart';
 
-//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'Log_in_Screen.dart';
-import 'app_localizations.dart';
-
-class Info extends StatelessWidget {
-  void signOut() async {
-    //final FacebookLogin _facebookLogin = FacebookLogin();
-    final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-    final prefs = await SharedPreferences.getInstance();
-    //_facebookLogin.logOut();
-    googleSignIn.signOut();
-    prefs.clear();
-  }
-
+class InfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromRGBO(42, 86, 198, 1),
-        title: Text(
-          AppLocalizations.of(context).translate('text9'),
-          style: TextStyle(fontSize: 30),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(MdiIcons.locationExit),
-            onPressed: () {
-              signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                ),
-              );
-            },
-          ),
-        ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(240, 242, 241, 1),
       ),
-      body: SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(top: 8),
         child: Container(
-          alignment: Alignment.topLeft,
+          padding: EdgeInsets.only(top: 11, bottom: 11, left: 8, right: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          ),
           child: Center(
-            child: Text(
-              AppLocalizations.of(context).translate('Info'),
-              style: TextStyle(
-                fontSize: 20,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Text(
+                ''' 
+            Politica de confidențialitate
+
+	•	Informații generale
+Confidențialitatea datelor dumneavoastră cu caracter personal reprezintă una dintre preocupările principale ale companiei IntelectSoft Srl în calitate de operator de date, cu sediul pe str. Alba Iulia 154 et.3, Chișinău, MD- 2064, Republica Moldova.
+Acest document are rolul de a vă informa cu privire la prelucrarea datelor dumneavoastră cu caracter personal, în contextul utilizării aplicației My Discount. (în continuare Aplicație)
+	•	Utilizarea și Colectarea datelor 
+
+	•	Date furnizate prin interacțiuni directe
+Când vă înregistrați pentru utilizarea Aplicației noastre, este posibil să colectăm următoarele informații despre dumneavoastră:
+	•	dacă vă înregistrați folosind contul Google: prenume, nume și adresa de email;
+	•	dacă vă înregistrați utilizând contul de Facebook: colectăm prenumele și numele așa cum apar în contul dumneavoastră de Facebook și Numărul de Identificare Facebook. În cazul în care ați acordat Facebook permisiunea prin opțiunea de confidențialitate din cadrul aplicației (care apare chiar înainte să vă înregistrați pe Aplicația noastră), este posibil să colectăm sexul, vârsta sau adresa dumneavoastră de email, în funcție de permisiunile date de dumneavoastră.
+
+	•	În vederea asigurării funcţionalitaţii Aplicaţiei, vom prelucra datele referitoare la dispozitivul utilizat (hardware) şi sistemul de operare, informaţii de jurnal, precum adresa IP, data şi ora utilizării Aplicaţiei. 
+
+	•	Prin intermediul Aplicaţiei nu vor fi colectate şi divulgate date privind originea rasială sau etnică, convingerile politice, religioase, filozofice sau de natură similară, de apartenenţă sindicală sau date cu caracter personal privind starea de sănătate sau viaţa sexuală.
+	•	Informaţiile confidenţiale preluate de pe Aplicație sunt folosite numai în sensul utilizării cu succes a serviciilor oferite, dar şi pentru a lua legătura cu Dumneavoastră în caz de necesitate. În plus, vor putea fi folosite pentru a vă prezenta noi oportunităţi, oferte sau alte informaţii.
+
+	•	Utilizarea aplicației
+Te rugăm să furnizezi numai date şi informaţii reale şi, în mod special, să nu furnizezi date de identificare care nu îţi aparţin (spre exemplu să nu foloseşti o adresă de email falsă sau care aparţine unei alte persoane). Pe cale de consecinţă, IntelectSoft îşi rezervă dreptul de a verifica veridicitatea datelor şi informaţiilor furnizate de tine în procedura creării contului de utilizator, precum şi dreptul de a refuza deschiderea unui cont de utilizator dacă informaţiile furnizate sunt nereale sau, după caz, de a suspenda sau închide un astfel de cont. Totodata, în calitate de utilizator înţelegi şi accepţi că eşti exclusiv şi deplin responsabil pentru informaţiile furnizate în procedura creării contului de utilizator.
+	•	Actulizarea informațiilor incluse în această politică
+IntelectSoft poate actualiza periodic prezenta Politică, pe măsură ce activitatea şi serviciile prestate de aceasta se extind sau se schimbă, sau în situaţia în care IntelectSoft este obligată potrivit legii să aducă modificări. În cazul în care IntelectSoft face acest lucru, va afişa cea mai actuală versiune in Aplicatie. Prin urmare, te rugăm să verifici periodic dacă există actualizări. În cazul în care IntelectSoft aduce modificări majore practicilor specificate în prezenta Politică, te vom notifica utilizând datele de contact disponibile.
+
+
+
+
+
+
+
+
+Informații juridice
+Adresa office: str. Alba Iulia 154 et.3
+Adresa juridică: MD-2051,Republica Moldova, mun. Chisinau, str. Alba-Iulia, nr. 200, ap. 105.
+Telefon:  (+373) 22 835 312
+Contacte
+Pentru orice informații cu privire la aplicația My Discount, vă rugăm să apelați la nr. (+373) 22 835 312
+Informații generale 
+MyDiscount este o aplicație mobilă pe care o puteți instala gratuit atât pentru telefoanele care utilizeaza sistemul de operare Android, accesând Magazinul Google Play, cât și pe telefoanele cu iOS accesând App Store.
+
+
+              ''',
+                overflow: TextOverflow.visible,
+                //AppLocalizations.of(context).translate('Info'),
+                style: TextStyle(
+                  fontSize: 17,
+                ),
               ),
             ),
           ),
