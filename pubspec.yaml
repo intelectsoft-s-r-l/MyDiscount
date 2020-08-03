@@ -47,13 +47,13 @@ flutter:
     - lang/ro.json
     - lang/ru.json
     - lang/md.json
-    - assets/icons/qq1.png
-    - assets/icons/qq2.png
+   # - assets/icons/qq1.png
+  #  - assets/icons/qq2.png
     - assets/icons/qq3.png
-fonts:
-  - family: MyFlutterApp
-    fonts:
-      - asset: fonts/MyFlutterApp.ttf
+#fonts:
+  #- family: MyFlutterApp
+   # fonts:
+   #   - asset: fonts/MyFlutterApp.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
