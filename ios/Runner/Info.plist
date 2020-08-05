@@ -11,6 +11,9 @@
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>
+		<string>ru</string>
+		<string>ro</string>
+		<string>md</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>MyDiscount</string>
@@ -74,5 +77,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<true/>
+	<key>FirebaseScreenReportingEnabled</key>
+	<true/>
 </dict>
 </plist>

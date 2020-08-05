@@ -74,26 +74,50 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (chengeImage && serviceConection) {
       switch (state) {
-        case AppLifecycleState.detached:
-          break;
-        case AppLifecycleState.inactive:
-          setState(() {
-            _timer.cancel();
-            _counter = 7;
-          });
-          break;
-        case AppLifecycleState.paused:
-          setState(() {
-            _timer.cancel();
-            _counter = 7;
-          });
-          break;
         case AppLifecycleState.resumed:
+          print('resumed');
+          _timer.cancel();
           getAuthorization();
           countTID = 0;
           _counter = 7;
           _progress = 1;
+          break;
+
+        case AppLifecycleState.inactive:
+          print('inactive');
+          setState(() {
+            _timer.cancel();
+            _counter = 7;
+          });
+
+          break;
+        case AppLifecycleState.paused:
+          print('paused');
+          setState(() {
+            _timer.cancel();
+            _counter = 7;
+          });
+          break;
+        case AppLifecycleState.detached:
+          print('detached');
+          setState(() {
+            _timer.cancel();
+            _counter = 7;
+          });
+
+          break;
+        default:
+          _timer.cancel();
+          break;
       }
+    } else {
+      print('object else');
+      getAuthorization();
+      setState(() {
+        _counter = 7;
+        countTID = 0;
+        chengeImage = true;
+      });
     }
   }
 
