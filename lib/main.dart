@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: [
           Locale('en', 'US'),
           Locale('ru', 'RU'),
-          Locale('ro', 'MD'),
+          Locale('md', 'MD'),
           Locale('ro', 'RO'),
         ],
         localizationsDelegates: [
@@ -76,12 +76,18 @@ class MyApp extends StatelessWidget {
             (Locale locale, Iterable<Locale> supportedLocales) {
           final retLocale = supportedLocales?.first;
           print('$locale 2');
-
+          if (locale == null) {
+            debugPrint("*language locale is null!!!");
+            return supportedLocales.first;
+          }
           try {
             for (Locale supportedLocale in supportedLocales) {
-              if (supportedLocale.countryCode == /*  locale.languageCode|| */ locale
-                      .countryCode &&
-                  locale.countryCode != null) {
+              if (supportedLocale.languageCode ==
+                      locale
+                          .languageCode /* ||  locale
+                      .countryCode */
+                  &&
+                  locale.languageCode != null) {
                 print(supportedLocale);
                 return supportedLocale;
               }

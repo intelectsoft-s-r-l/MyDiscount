@@ -15,16 +15,16 @@ class Companies extends StatelessWidget {
       body: Container(
         padding: const EdgeInsets.only(
           top: 10,
-          bottom: 5, /*  left: 2, right: 2 */
+          bottom: 5,
         ),
         decoration: BoxDecoration(
           color: Color.fromRGBO(240, 242, 241, 1),
         ),
         child: FutureBuilder<dynamic>(
-          future: data.setupRemoteConfig().whenComplete(() => null),
+          future: data.setupRemoteConfig(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             print(snapshot.data);
-            return /* snapshot.hasData &&  */ snapshot.data != null
+            return snapshot.data != null
                 ? WelcomeWidget(remoteConfig: snapshot.data)
                 : Container(
                     child: Center(child: const CircularProgressIndicator()),
@@ -51,7 +51,6 @@ class WelcomeWidget extends AnimatedWidget {
         decoration: const BoxDecoration(
           color: const Color.fromRGBO(240, 242, 241, 1),
         ),
-        //padding: EdgeInsets.all(10),
         child: list.length != 0
             ? ListView.separated(
                 padding: const EdgeInsets.all(10),
@@ -84,7 +83,6 @@ class WelcomeWidget extends AnimatedWidget {
             : Container(
                 alignment: Alignment.center,
                 child: Column(
-                  //crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
