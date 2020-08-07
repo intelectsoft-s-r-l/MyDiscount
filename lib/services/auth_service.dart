@@ -28,9 +28,10 @@ class AuthService extends ChangeNotifier {
             "Email": profile['email'],
             "ID": _accessToken.userId,
             "PhotoUrl": profile['picture']['data']['url'],
-            "RegisterMode": 1,
+            "RegisterMode": 2,
             "access_token": _accessToken.token,
           };
+          // print(_credentials);
           final String _data = json.encode(_credentials);
           prefs.credentials(_data);
           return true;
@@ -63,7 +64,8 @@ class AuthService extends ChangeNotifier {
           };
           final String _data = json.encode(_credentials);
           prefs.credentials(_data);
-          print(_credentials);
+
+          ///print(_credentials);
         },
       ).whenComplete(() => main());
 

@@ -43,68 +43,76 @@ class WelcomeWidget extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final companies = json.decode(remoteConfig.getString('list_companies'))
-        as Map<String, dynamic>;
-    final list = companies['companies'] as List;
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: const Color.fromRGBO(240, 242, 241, 1),
-        ),
-        child: list.length != 0
-            ? ListView.separated(
-                padding: const EdgeInsets.all(10),
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 3,
-                ),
-                itemCount: list.length,
-                itemBuilder: (context, index) => Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  elevation: 2.0,
-                  child: ListTile(
-                    contentPadding: EdgeInsets.all(20),
-                    leading: Container(
-                        width: 80,
-                        height: 80,
-                        child: Image.memory(
-                          Base64Decoder().convert('${list[index]['logo']}'),
-                        )),
-                    title: Text(
-                      '${list[index]['name']}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
+    if (remoteConfig.getString('list_companies').contains('companies')) {
+      final companies = json.decode(remoteConfig.getString('list_companies'))
+          as Map<String, dynamic>;
+      final list = companies['companies'] as List;
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            color: const Color.fromRGBO(240, 242, 241, 1),
+          ),
+          child: list.length != 0
+              ? ListView.separated(
+                  padding: const EdgeInsets.all(10),
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 3,
+                  ),
+                  itemCount: list.length,
+                  itemBuilder: (context, index) => Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    elevation: 2.0,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.all(20),
+                      leading: Container(
+                          width: 80,
+                          height: 80,
+                          child: Image.memory(
+                            Base64Decoder().convert('${list[index]['logo']}'),
+                          )),
+                      title: Text(
+                        '${list[index]['name']}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
                       ),
                     ),
                   ),
+                )
+              : Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                      ),
+                      Image.asset('assets/icons/companie.jpg'),
+                      Text(
+                        AppLocalizations.of(context).translate('text13'),
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        AppLocalizations.of(context).translate('text14'),
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
-              )
-            : Container(
-                alignment: Alignment.center,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                    ),
-                    Image.asset('assets/icons/companie.jpg'),
-                    Text(
-                      AppLocalizations.of(context).translate('text13'),
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      AppLocalizations.of(context).translate('text14'),
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-      ),
-    );
+        ),
+      );
+    } else {
+      return Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+        ),
+      );
+    }
   }
 }
