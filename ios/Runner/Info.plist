@@ -78,8 +78,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
-	<true/>
+	<false/>
 	<key>FirebaseScreenReportingEnabled</key>
-	<true/>
+	<false/>
 </dict>
 </plist>
