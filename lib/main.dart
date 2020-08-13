@@ -164,8 +164,7 @@ class _FirstScreenState extends State<FirstScreen>
                   const BoxDecoration(color: Color.fromRGBO(240, 242, 241, 1)),
               child: Container(
                 alignment: Alignment.center,
-                //height: 110,
-                //padding: EdgeInsets.all(5),
+               
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.only(
