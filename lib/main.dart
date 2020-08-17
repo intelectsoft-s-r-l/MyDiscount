@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -16,21 +16,10 @@ import './Screens/qr_screen.dart';
 import './widgets/localizations.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
-import './services/remote_config_service.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    final RemoteConfig remoteConfig = RemoteConfig();
-
-    remoteConfig.fetch();
-    remoteConfig.activateFetched();
-  } on FetchThrottledException catch (e) {
-    throw Exception(e);
-  } catch (e) {
-    throw Exception(e);
-  }
-
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.white,
   ));
@@ -54,9 +43,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => QrService(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => RemoteConfigService(),
-        ),
+        
+       
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -64,8 +64,6 @@ class AuthService extends ChangeNotifier {
           };
           final String _data = json.encode(_credentials);
           prefs.credentials(_data);
-
-          ///print(_credentials);
         },
       ).whenComplete(() => main());
 
