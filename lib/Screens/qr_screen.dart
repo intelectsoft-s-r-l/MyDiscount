@@ -16,9 +16,9 @@ class QrScreen extends StatefulWidget {
   _QrScreenState createState() => _QrScreenState();
 }
 
-class _QrScreenState extends State<QrScreen> {
+class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
   static QrService _qrService = QrService();
-  InternetConnection internetConnection = InternetConnection();
+  final InternetConnection internetConnection = InternetConnection();
 
   int countTID = 0;
   bool chengeImage = true;
@@ -27,11 +27,13 @@ class _QrScreenState extends State<QrScreen> {
   double _counter;
   Timer _timer;
   int index = 1;
+  double _progress = 1;
 
   @override
   void initState() {
     getAuthorization();
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   changeImages() {
@@ -47,13 +49,19 @@ class _QrScreenState extends State<QrScreen> {
     _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       if (_counter > 0) {
         _counter--;
+        setState(() {
+          _progress -= 0.1428;
+        });
+
         print(_counter);
       } else if (_counter == 0) {
         if (countTID < 3) {
           getAuthorization();
+          _progress = 1;
           _timer.cancel();
         } else {
           changeImages();
+          _progress = 1;
           _timer.cancel();
         }
       } else {
@@ -62,14 +70,66 @@ class _QrScreenState extends State<QrScreen> {
     });
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (chengeImage && serviceConection) {
+      switch (state) {
+        case AppLifecycleState.resumed:
+          print('resumed');
+          _timer.cancel();
+          getAuthorization();
+          countTID = 0;
+          _counter = 7;
+          _progress = 1;
+          break;
+
+        case AppLifecycleState.inactive:
+          print('inactive');
+          setState(() {
+            _timer.cancel();
+            _counter = 7;
+          });
+
+          break;
+        case AppLifecycleState.paused:
+          print('paused');
+          setState(() {
+            _timer.cancel();
+            _counter = 7;
+          });
+          break;
+        case AppLifecycleState.detached:
+          print('detached');
+          setState(() {
+            _timer.cancel();
+            _counter = 7;
+          });
+
+          break;
+        default:
+          _timer.cancel();
+          break;
+      }
+    } else {
+      print('object else');
+      getAuthorization();
+      setState(() {
+        _counter = 7;
+        countTID = 0;
+        chengeImage = true;
+      });
+    }
+  }
+
+  @override
   void dispose() {
     _timer.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   getAuthorization() async {
     DataConnectionStatus status = await internetConnection.internetConection();
-
     _counter = 7;
     switch (status) {
       case DataConnectionStatus.connected:
@@ -109,13 +169,13 @@ class _QrScreenState extends State<QrScreen> {
         }
         break;
       case DataConnectionStatus.disconnected:
-        setState(() {
-          chengeImage = false;
-          serviceConection = false;
-          /*   if (_timer.isActive) {
-            _timer.cancel();
-          } */
-        });
+        setState(
+          () {
+            chengeImage = false;
+            serviceConection = false;
+          },
+        );
+        _timer.cancel();
     }
   }
 
@@ -128,11 +188,12 @@ class _QrScreenState extends State<QrScreen> {
     }
 
     return Container(
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(240, 242, 241, 1),
+      decoration: const BoxDecoration(
+        color: const Color.fromRGBO(240, 242, 241, 1),
       ),
       child: Padding(
-        padding: EdgeInsets.all(30),
+        padding:
+            const EdgeInsets.only(top: 70, bottom: 70, left: 30, right: 30),
         child: Container(
             height: MediaQuery.of(context).size.height * 0.5,
             padding: EdgeInsets.all(20),
@@ -153,20 +214,37 @@ class _QrScreenState extends State<QrScreen> {
                       ? Container(
                           width: MediaQuery.of(context).size.width * 0.6,
                           alignment: Alignment.center,
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             children: <Widget>[
                               FutureBuilder<String>(
                                 future: _loadSharedPref(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    return RepaintBoundary(
-                                      child: QrImage(
-                                        data: '${snapshot.data}',
-                                        size:
-                                            MediaQuery.of(context).size.height *
+                                    return Column(
+                                      children: <Widget>[
+                                        RepaintBoundary(
+                                          child: QrImage(
+                                            data: '${snapshot.data}',
+                                            size: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.3,
-                                      ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.2,
+                                          child: LinearProgressIndicator(
+                                            backgroundColor: Colors.white,
+                                            valueColor: AlwaysStoppedAnimation(
+                                                Colors.green),
+                                            value: _progress,
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   } else {
                                     return CircularProgressIndicator(
@@ -185,20 +263,33 @@ class _QrScreenState extends State<QrScreen> {
                                 ? Container(
                                     alignment: Alignment.center,
                                     height: MediaQuery.of(context).size.height *
-                                        0.4,
+                                        0.3,
                                     child: Column(
                                       children: <Widget>[
                                         Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.3,
+                                              0.2,
                                           child: Image.asset(
                                             'assets/icons/om.png',
                                             scale: 0.5,
                                           ),
                                         ),
-                                        SizedBox(height: 10.0),
+                                        const SizedBox(height: 10.0),
+                                        Text(
+                                          AppLocalizations.of(context)
+                                              .translate('text3'),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          AppLocalizations.of(context)
+                                              .translate('text4'),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ],
                                     ))
                                 : Center(
@@ -256,8 +347,7 @@ class _QrScreenState extends State<QrScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                              color: Colors
-                                  .green, //Color.fromRGBO(42, 86, 198, 1),
+                              color: Colors.green,
                             ),
                           ],
                         ),

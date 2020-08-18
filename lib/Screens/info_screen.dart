@@ -1,4 +1,3 @@
-//import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/material.dart';
 
 class InfoScreen extends StatelessWidget {
@@ -11,16 +10,17 @@ class InfoScreen extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(top: 8),
         child: Container(
-          padding: EdgeInsets.only(top: 11, bottom: 11, left: 8, right: 8),
+          padding:
+              const EdgeInsets.only(top: 11, bottom: 11, left: 8, right: 8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           ),
-          child: Center(
+          child: const Center(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: Text(
+              child: const Text(
                 ''' 
             Politica de confidențialitate
 
@@ -63,7 +63,6 @@ MyDiscount este o aplicație mobilă pe care o puteți instala gratuit atât pen
 
               ''',
                 overflow: TextOverflow.visible,
-                //AppLocalizations.of(context).translate('Info'),
                 style: TextStyle(
                   fontSize: 17,
                 ),

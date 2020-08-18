@@ -11,6 +11,9 @@
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>
+		<string>ru</string>
+		<string>ro</string>
+		<string>md</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>MyDiscount</string>
@@ -36,17 +39,19 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.866892099029-0ga67e28vnsfa3beflc7a7l05691s4qd</string>
+				<string>com.googleusercontent.apps.866892099029-2movaqovabkttl7vttnpq948opehnaka</string>
 				<string>fb710684789730528</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	
 	<key>FacebookAppID</key>
 	<string>710684789730528</string>
 	<key>FacebookDisplayName</key>
 	<string>MyDiscount</string>
+	
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

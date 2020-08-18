@@ -4,8 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -17,20 +16,10 @@ import './Screens/qr_screen.dart';
 import './widgets/localizations.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
-import './services/remote_config_service.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    final RemoteConfig remoteConfig = RemoteConfig();
-    remoteConfig.fetch();
-    remoteConfig.activateFetched();
-  } on FetchThrottledException catch (e) {
-    throw Exception(e);
-  } catch (e) {
-    throw Exception(e);
-  }
-
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.white,
   ));
@@ -54,16 +43,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => QrService(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => RemoteConfigService(),
-        ),
+        
+       
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         supportedLocales: [
           Locale('en', 'US'),
           Locale('ru', 'RU'),
-          Locale('ro', 'MD'),
+          Locale('md', 'MD'),
           Locale('ro', 'RO'),
         ],
         localizationsDelegates: [
@@ -74,15 +62,26 @@ class MyApp extends StatelessWidget {
         ],
         localeResolutionCallback:
             (Locale locale, Iterable<Locale> supportedLocales) {
-          var retLocale = supportedLocales.first;
+          final retLocale = supportedLocales?.first;
           print('$locale 2');
-
-          for (Locale supportedLocale in supportedLocales) {
-            if (supportedLocale.countryCode == /*  locale.languageCode|| */ locale
-                .countryCode) {
-              print(supportedLocale);
-              return supportedLocale;
+          if (locale == null) {
+            debugPrint("*language locale is null!!!");
+            return supportedLocales.first;
+          }
+          try {
+            for (Locale supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode ==
+                      locale
+                          .languageCode /* ||  locale
+                      .countryCode */
+                  &&
+                  locale.languageCode != null) {
+                print(supportedLocale);
+                return supportedLocale;
+              }
             }
+          } catch (e) {
+            throw Exception();
           }
 
           return retLocale;
@@ -103,7 +102,7 @@ class _FirstScreenState extends State<FirstScreen>
   TabController _tabController;
 
   static QrService _qrService = QrService();
-  // bool isLogin;
+
   @override
   void initState() {
     _tabController = TabController(
@@ -117,7 +116,7 @@ class _FirstScreenState extends State<FirstScreen>
 
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<AuthService>(context);
+    final data = Provider.of<AuthService>(context);
 
     return DefaultTabController(
       length: 3,
@@ -139,7 +138,7 @@ class _FirstScreenState extends State<FirstScreen>
                 onPressed: () {
                   data.signOut();
                   setState(() {
-                    // isLogin = false;
+                    _tabController.index = 1;
                   });
                 },
               ),
@@ -147,96 +146,99 @@ class _FirstScreenState extends State<FirstScreen>
           ],
           centerTitle: true,
           bottom: PreferredSize(
-            preferredSize: MediaQuery.of(context).size * 0.11,
+            preferredSize: MediaQuery.of(context).size * 0.13,
             child: Container(
               decoration:
                   const BoxDecoration(color: Color.fromRGBO(240, 242, 241, 1)),
               child: Container(
                 alignment: Alignment.center,
-                //height: 110,
-                padding: EdgeInsets.all(5),
+               
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: const Radius.circular(50),
-                    bottomRight: const Radius.circular(50),
+                    bottomLeft: const Radius.circular(45),
+                    bottomRight: const Radius.circular(45),
                   ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     TabBar(
-                      //dragStartBehavior: DragStartBehavior.start,
-                      isScrollable: true,
-                      //indicatorWeight: 0,
-                      labelPadding: const EdgeInsets.all(3),
+                      indicatorWeight: 0,
                       unselectedLabelColor: Colors.green,
                       labelColor: Colors.white,
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      indicator: BoxDecoration(
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicator: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.green,
-                        border: Border.fromBorderSide(BorderSide(
-                            width: 5.1,
-                            style: BorderStyle.solid,
-                            color: Colors.white)),
                       ),
                       controller: _tabController,
                       tabs: <Widget>[
-                        Tab(
+                        Column(
+                          children: <Widget>[
+                            const Tab(
+                              icon: ImageIcon(
+                                const AssetImage('assets/icons/qrlogo.png'),
+                                size: 53,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Tab(
                           icon: ImageIcon(
-                            AssetImage('assets/icons/qrlogo.png'),
-                            size: 120,
+                            const AssetImage('assets/icons/qq3.png'),
+                            size: 53,
                           ),
                         ),
                         const Tab(
                           icon: ImageIcon(
-                            AssetImage('assets/icons/qr.png'),
-                            size: 90,
-                          ),
-                        ),
-                        Tab(
-                          icon: ImageIcon(
-                            AssetImage('assets/icons/news1.png'),
-                            size: 120,
+                            const AssetImage('assets/icons/news1.png'),
+                            size: 53,
                           ),
                         ),
                       ],
                     ),
                     Container(
-                      width: 300,
+                      padding: const EdgeInsets.only(
+                        bottom: 10,
+                      ),
+                      alignment: Alignment.center,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          SizedBox(
-                            width: 8,
-                          ),
                           Container(
+                            padding: const EdgeInsets.only(left: 10),
+                            alignment: Alignment.center,
+                            width:
+                                MediaQuery.of(context).size.width * 0.33, //74,
                             child: Text(
                               AppLocalizations.of(context)
                                   .translate('companies'),
-                              style: TextStyle(color: Colors.green),
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(
-                            width: 65,
-                          ),
-                          SizedBox(),
                           Container(
+                            alignment: Alignment.center,
+                            width:
+                                MediaQuery.of(context).size.width * 0.33, //50,
                             child: Text(
                               'QR',
-                              style: TextStyle(color: Colors.green),
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(
-                            width: 65,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
                           Container(
+                            alignment: Alignment.center,
+                            width:
+                                MediaQuery.of(context).size.width * 0.33, //70,
                             child: Text(
                               AppLocalizations.of(context).translate('text10'),
-                              style: TextStyle(color: Colors.green),
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -249,7 +251,6 @@ class _FirstScreenState extends State<FirstScreen>
           ),
         ),
         body: TabBarView(
-          physics: ClampingScrollPhysics(),
           controller: _tabController,
           children: [
             Container(
@@ -261,6 +262,7 @@ class _FirstScreenState extends State<FirstScreen>
               child: Companies(),
             ),
             Container(
+              height: MediaQuery.of(context).size.height * 0.4,
               child: FutureBuilder(
                 future: _qrService.tryAutoLogin(),
                 builder: (context, snapshot) {

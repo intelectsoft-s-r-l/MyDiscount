@@ -71,13 +71,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.2.1"
-  firebase_remote_config:
-    dependency: "direct main"
-    description:
-      name: firebase_remote_config
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.3.1+1"
   flutter:
     dependency: "direct main"
     description: flutter
