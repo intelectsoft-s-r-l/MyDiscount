@@ -71,7 +71,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (chengeImage && serviceConection) {
       switch (state) {
         case AppLifecycleState.resumed:
@@ -110,22 +110,23 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
           _timer.cancel();
           break;
       }
-    } else {
+    } /* else {
       print('object else');
-      getAuthorization();
+
+      await getAuthorization();
       setState(() {
         _counter = 7;
         countTID = 0;
         chengeImage = true;
       });
-    }
+    } */
   }
 
   @override
   void dispose() {
+    super.dispose();
     _timer.cancel();
     WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
   }
 
   getAuthorization() async {

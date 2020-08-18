@@ -39,7 +39,7 @@ class _CompaniesState extends State<Companies> {
             isInternet = false;
           });
           return isInternet;
-          break;
+          
       }
       return [];
     }
@@ -94,8 +94,8 @@ class _CompaniesState extends State<Companies> {
                                               fontSize: 20,
                                             ),
                                           ),
-                                          subtitle: Text(
-                                              'Index:${snapshot.data[index]['Index']}'),
+                                          /* subtitle: Text(
+                                              'Index:${snapshot.data[index]['Index']}'), */
                                           trailing: Container(
                                             width: 80,
                                             child: Column(
