@@ -203,23 +203,9 @@ class _FirstScreenState extends State<FirstScreen>
                         ),
                       ],
                     ),
-<<<<<<< HEAD
-                    const Tab(
-                      child: Text('QR'),
-                      icon: Icon(
-                        MyFlutterApp.images,
-                        size: 20,
-                      ),
-                      //const FaIcon(FontAwesomeIcons.qrcode),
-                    ),
-                    Tab(
-                      icon: const FaIcon(FontAwesomeIcons.newspaper),
-                      child: Column(
-=======
                     Container(
                       width: 300,
                       child: Row(
->>>>>>> 83f0b35e95271b1bd062a6c1c5a16b9faf53445b
                         children: <Widget>[
                           SizedBox(
                             width: 8,
