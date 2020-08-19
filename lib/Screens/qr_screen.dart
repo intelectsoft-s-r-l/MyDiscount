@@ -110,25 +110,25 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
           _timer.cancel();
           break;
       }
-    } /* else {
+    }
+   
+    if (!chengeImage) {
       print('object else');
-
-      await getAuthorization();
+      _timer.cancel();
+      //await getAuthorization();
       setState(() {
         _counter = 7;
         countTID = 0;
         chengeImage = true;
       });
-    } */
+    }
   }
-
-  @override
+@override
   void dispose() {
     super.dispose();
     _timer.cancel();
     WidgetsBinding.instance.removeObserver(this);
   }
-
   getAuthorization() async {
     DataConnectionStatus status = await internetConnection.internetConection();
     _counter = 7;
@@ -179,6 +179,8 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
         _timer.cancel();
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
