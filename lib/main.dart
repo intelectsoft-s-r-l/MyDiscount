@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'Screens/companies_screen.dart';
 import 'Screens/info_screen.dart';
 import 'Screens/login_screen.dart';
+
 import 'services/internet_connection_service.dart';
 import './Screens/qr_screen.dart';
 import './widgets/localizations.dart';
@@ -43,8 +45,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => QrService(),
         ),
-        
-       
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

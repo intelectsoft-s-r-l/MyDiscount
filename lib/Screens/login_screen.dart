@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/localizations.dart';
 import '../services/internet_connection_service.dart';
 import '../services/auth_service.dart';
 import '../main.dart';
@@ -79,7 +79,6 @@ class LoginPage extends StatelessWidget {
             title: Text(
               AppLocalizations.of(context).translate('text6') + '!',
             ),
-            //content: Text('Incercati din nou cind va conectati la internet'),
             actions: [
               CupertinoDialogAction(
                 child: Text(AppLocalizations.of(context).translate('text8')),
@@ -94,7 +93,7 @@ class LoginPage extends StatelessWidget {
     }
 
     void getAuthorizationGoogle() async {
-      final status = await internet.internetConection();
+      final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
           data.logwithG();
@@ -105,7 +104,7 @@ class LoginPage extends StatelessWidget {
     }
 
     void getAuthorizationFB() async {
-      final status = await internet.internetConection();
+      final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
           data.authWithFacebook().whenComplete(
