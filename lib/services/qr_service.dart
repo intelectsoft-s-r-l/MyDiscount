@@ -1,14 +1,27 @@
 import 'dart:convert';
+
+import 'package:MyDiscount/widgets/crdentials.dart';
 import 'package:flutter/material.dart';
+
+import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:shared_preferences/shared_preferences.dart';
-
+import '../services/internet_connection_service.dart';
 import '../services/shared_preferences_service.dart';
 
+SharedPref sPref = SharedPref();
+
 class QrService extends ChangeNotifier {
+  InternetConnection _internetConnection = InternetConnection();
+
   int count = 0;
-  SharedPref sPref = SharedPref();
+
+  Map<String, String> _headers = {
+    'Content-type': 'application/json; charset=utf-8',
+    'Authorization': 'Basic ' + Credentials.encoded,
+  };
+
   removeSharedData() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
@@ -23,35 +36,10 @@ class QrService extends ChangeNotifier {
     }
   }
 
-  static const String credentials = "appuser:frj936epae293e9c6epae29";
-  static Codec<String, String> stringToBase64 = utf8.fuse(base64);
-  static String encoded = stringToBase64.encode(credentials);
-  Map<String, String> _headers = {
-    'Content-type': 'application/json; charset=utf-8',
-    'Authorization': 'Basic ' + encoded,
-  };
-
   Future<bool> attemptSignIn() async {
-    SharedPref sPrefs = SharedPref();
-    getBodyData() async {
-      var prefs = await SharedPreferences.getInstance();
-
-      if (prefs.containsKey('Tid')) {
-        var shared = await sPrefs.credential();
-        var dat = json.decode(shared);
-        final request =
-            json.encode({"ID": dat['ID'], "RegisterMode": dat['RegisterMode']});
-        return request;
-      } else {
-        var response = await sPrefs.credential();
-        return response;
-      }
-    }
-
     final _bodyData = await getBodyData();
-    print(_bodyData);
+    //print(_bodyData);
     const url = 'https://api.edi.md/AppCardService/json/GetTID';
-
     try {
       final response = await http
           .post(
@@ -63,8 +51,8 @@ class QrService extends ChangeNotifier {
 
       print(response.body);
       if (response.statusCode == 200) {
-        final resp = json.decode(response.body);
-        sPref.saveTID(resp['TID']);
+        final decodedResponse = json.decode(response.body);
+        sPref.saveTID(decodedResponse['TID']);
 
         return true;
       } else {
@@ -75,18 +63,25 @@ class QrService extends ChangeNotifier {
     }
   }
 
-  
-
-  Future<List> getCompanyList() async {
-    const url = "https://api.edi.md/AppCardService/json/GetCompany";
-    final response = await http.get(url, headers: _headers);
-    if (response.statusCode == 200) {
-      final listCompanies = json.decode(response.body) as Map<String, dynamic>;
-      print(response.body);
-      var companies = listCompanies['Companies'] as List;
-      return companies;
-    } else {
-      return ["1"];
+  Future<dynamic> getCompanyList() async {
+    final status = await _internetConnection.verifyInternetConection();
+    switch (status) {
+      case DataConnectionStatus.connected:
+        const url = "https://api.edi.md/AppCardService/json/GetCompany";
+        final response = await http.get(url, headers: _headers).timeout(
+              Duration(seconds: 3),
+            );
+        if (response.statusCode == 200) {
+          final companiesMap =
+              json.decode(response.body) as Map<String, dynamic>;
+          var listCompanies = companiesMap['Companies'] as List;
+          return listCompanies;
+        } else {
+          return false;
+        }
+        break;
+      case DataConnectionStatus.disconnected:
+        return false;
     }
   }
 }

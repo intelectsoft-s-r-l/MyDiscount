@@ -1,16 +1,12 @@
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 
 class InternetConnection extends ChangeNotifier {
-  internetConection() async {
-    //print(" The statement 'this machine is connected to the Internet' is: ");
-    //print(await DataConnectionChecker().hasConnection);
-
+  verifyInternetConection() async {
+   
     print("Current status: ${await DataConnectionChecker().connectionStatus}");
 
-    //print("Last results: ${DataConnectionChecker().lastTryResults}");
-
-    final listener = DataConnectionChecker().onStatusChange.listen((status) {
+      final listener = DataConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case DataConnectionStatus.connected:
           print('Data connection is available.');
@@ -24,6 +20,4 @@ class InternetConnection extends ChangeNotifier {
     await Future.delayed(Duration(seconds: 0));
     return await DataConnectionChecker().connectionStatus;
   }
-
-  //get conectionsStatus => ;
 }
