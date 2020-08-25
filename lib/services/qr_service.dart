@@ -77,13 +77,12 @@ class QrService extends ChangeNotifier {
 
   
 
-  Future<List> getCompanyList() async {
+  Future<dynamic> getCompanyList() async {
     const url = "https://api.edi.md/AppCardService/json/GetCompany";
-    final response = await http.get(url, headers: _headers);
+    final response = await http.get(url, headers: _headers).timeout(Duration(seconds: 3));
     if (response.statusCode == 200) {
       final listCompanies = json.decode(response.body) as Map<String, dynamic>;
-      print(response.body);
-      var companies = listCompanies['Companies'] as List;
+      var companies =listCompanies['Companies'] as List;
       return companies;
     } else {
       return ["1"];

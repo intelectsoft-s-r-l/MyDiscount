@@ -45,12 +45,6 @@ Te rugăm să furnizezi numai date şi informaţii reale şi, în mod special, s
 IntelectSoft poate actualiza periodic prezenta Politică, pe măsură ce activitatea şi serviciile prestate de aceasta se extind sau se schimbă, sau în situaţia în care IntelectSoft este obligată potrivit legii să aducă modificări. În cazul în care IntelectSoft face acest lucru, va afişa cea mai actuală versiune in Aplicatie. Prin urmare, te rugăm să verifici periodic dacă există actualizări. În cazul în care IntelectSoft aduce modificări majore practicilor specificate în prezenta Politică, te vom notifica utilizând datele de contact disponibile.
 
 
-
-
-
-
-
-
 Informații juridice
 Adresa office: str. Alba Iulia 154 et.3
 Adresa juridică: MD-2051,Republica Moldova, mun. Chisinau, str. Alba-Iulia, nr. 200, ap. 105.

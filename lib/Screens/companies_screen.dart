@@ -15,6 +15,11 @@ class Companies extends StatefulWidget {
 
 class _CompaniesState extends State<Companies> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool isInternet = true;
     final data = Provider.of<QrService>(context);
@@ -39,7 +44,6 @@ class _CompaniesState extends State<Companies> {
             isInternet = false;
           });
           return isInternet;
-          break;
       }
       return [];
     }
@@ -94,8 +98,9 @@ class _CompaniesState extends State<Companies> {
                                               fontSize: 20,
                                             ),
                                           ),
-                                          subtitle: Text(
-                                              'Index:${snapshot.data[index]['Index']}'),
+                                          //se va adauga in alta versiune
+                                          /* subtitle: Text( 
+                                              'Index:${snapshot.data[index]['Index']}'), */
                                           trailing: Container(
                                             width: 80,
                                             child: Column(
