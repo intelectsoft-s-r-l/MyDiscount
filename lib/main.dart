@@ -5,20 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/companies_screen.dart';
 import 'Screens/info_screen.dart';
 import 'Screens/login_screen.dart';
-
 import 'services/internet_connection_service.dart';
+
 import './Screens/qr_screen.dart';
 import './widgets/localizations.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -152,7 +150,6 @@ class _FirstScreenState extends State<FirstScreen>
                   const BoxDecoration(color: Color.fromRGBO(240, 242, 241, 1)),
               child: Container(
                 alignment: Alignment.center,
-               
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.only(
