@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-//import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/companies_screen.dart';
@@ -95,8 +94,7 @@ class FirstScreen extends StatefulWidget {
   _FirstScreenState createState() => _FirstScreenState();
 }
 
-class _FirstScreenState extends State<FirstScreen>
-/*  with SingleTickerProviderStateMixin */ {
+class _FirstScreenState extends State<FirstScreen> {
   PageController _pageController;
   int selectedIndex = 0;
 
@@ -133,7 +131,7 @@ class _FirstScreenState extends State<FirstScreen>
             child: Stack(
               children: <Widget>[
                 Positioned(
-                  top: size.height * .05,
+                  top: size.height * .06,
                   left: size.width * .33,
                   child: Container(
                     alignment: Alignment.center,
@@ -148,7 +146,7 @@ class _FirstScreenState extends State<FirstScreen>
                   ),
                 ),
                 Positioned(
-                  top: size.height * .035,
+                  top: size.height * .045,
                   right: 10,
                   child: IconButton(
                       color: Colors.green,
@@ -162,7 +160,7 @@ class _FirstScreenState extends State<FirstScreen>
                       }),
                 ),
                 Positioned(
-                  bottom: size.height * .055,
+                  bottom: size.height * .05,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
