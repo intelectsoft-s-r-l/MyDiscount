@@ -128,7 +128,7 @@ class _FirstScreenState extends State<FirstScreen>
                 bottomRight: Radius.circular(40),
               ),
             ),
-            height: size.height * .23,
+            height: size.height * .25,
             width: double.infinity,
             child: Stack(
               children: <Widget>[
@@ -148,7 +148,7 @@ class _FirstScreenState extends State<FirstScreen>
                   ),
                 ),
                 Positioned(
-                  top: size.height * .04,
+                  top: size.height * .035,
                   right: 10,
                   child: IconButton(
                       color: Colors.green,
