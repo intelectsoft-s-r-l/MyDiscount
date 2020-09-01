@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/main.dart';
+import 'package:MyDiscount/services/auth_service.dart';
 import 'package:MyDiscount/widgets/crdentials.dart';
 import 'package:flutter/material.dart';
 
@@ -13,9 +15,8 @@ import '../services/shared_preferences_service.dart';
 SharedPref sPref = SharedPref();
 
 class QrService extends ChangeNotifier {
+  AuthService authService = AuthService();
   InternetConnection _internetConnection = InternetConnection();
-
-  int count = 0;
 
   Map<String, String> _headers = {
     'Content-type': 'application/json; charset=utf-8',
@@ -38,7 +39,7 @@ class QrService extends ChangeNotifier {
 
   Future<bool> attemptSignIn() async {
     final _bodyData = await getBodyData();
-    //print(_bodyData);
+    print(_bodyData);
     const url = 'https://api.edi.md/AppCardService/json/GetTID';
     try {
       final response = await http
@@ -48,14 +49,18 @@ class QrService extends ChangeNotifier {
             body: _bodyData,
           )
           .timeout(Duration(seconds: 5));
-
+      var decodedResponse = json.decode(response.body);
       print(response.body);
-      if (response.statusCode == 200) {
-        final decodedResponse = json.decode(response.body);
+      if (decodedResponse['ErrorCode'] == 0) {
         sPref.saveTID(decodedResponse['TID']);
-
         return true;
       } else {
+        if (decodedResponse['ErrorCode'] == 103) {
+          final prefs = await SharedPreferences.getInstance();
+          prefs.clear();
+          authService.signOut();
+          main();
+        }
         return false;
       }
     } catch (e) {
