@@ -24,9 +24,8 @@ class InfoScreen extends StatelessWidget {
                 children: <Widget>[
                   Text('Politica de confidențialitate\n\n',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,fontSize: 18
-                      )),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   RichText(
                     textAlign: TextAlign.justify,
                     text: TextSpan(
@@ -37,7 +36,8 @@ class InfoScreen extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                          text:'   Confidențialitatea datelor dumneavoastră cu caracter personal reprezintă una dintre preocupările principale ale companiei IntelectSoft Srl în calitate de operator de date, cu sediul pe str. Alba Iulia 154 et.3, Chișinău, MD- 2064, Republica Moldova. Acest document are rolul de a vă informa cu privire la prelucrarea datelor dumneavoastră cu caracter personal, în contextul utilizării aplicației My Discount. (în continuare Aplicație)\n',
+                          text:
+                              '   Confidențialitatea datelor dumneavoastră cu caracter personal reprezintă una dintre preocupările principale ale companiei IntelectSoft Srl în calitate de operator de date, cu sediul pe str. Alba Iulia 154 et.3, Chișinău, MD- 2064, Republica Moldova. Acest document are rolul de a vă informa cu privire la prelucrarea datelor dumneavoastră cu caracter personal, în contextul utilizării aplicației My Discount. (în continuare Aplicație)\n',
                           style: TextStyle(fontWeight: FontWeight.normal),
                         ),
                         TextSpan(
@@ -92,7 +92,6 @@ class InfoScreen extends StatelessWidget {
                               '''Adresa office: or.Chisinau, str. Alba Iulia 154 et.3
 Adresa juridică: MD-2051,Republica Moldova, mun. Chisinau, str. Alba-Iulia, nr. 200, ap. 105.
 Telefon:  (+373) 22 835 312
-
 ''',
                           style: TextStyle(fontWeight: FontWeight.normal),
                         ),
