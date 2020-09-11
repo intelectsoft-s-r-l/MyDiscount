@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:data_connection_checker/data_connection_checker.dart';
 
 class InternetConnection extends ChangeNotifier {

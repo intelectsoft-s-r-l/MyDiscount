@@ -7,7 +7,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:MyDiscount/main.dart';
+import '../main.dart';
 import '../services/shared_preferences_service.dart';
 
 class AuthService extends ChangeNotifier {

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppLocalizations {

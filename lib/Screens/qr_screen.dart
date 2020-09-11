@@ -18,11 +18,13 @@ class QrScreen extends StatefulWidget {
 }
 
 class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
+  StreamController<bool> _imageController = StreamController.broadcast();
+  StreamController<double> _serviceController = StreamController.broadcast();
   static QrService _qrService = QrService();
   final InternetConnection internetConnection = InternetConnection();
 
   int countTID = 0;
-  bool chengeImage = true;
+  // bool chengeImage = true;
   bool serviceConection = true;
   double _counter;
   Timer _timer;
@@ -37,9 +39,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
   }
 
   changeImages() {
-    setState(() {
-      chengeImage = false;
-    });
+    _imageController.sink.add(false);
   }
 
   void startTimer() {
@@ -49,85 +49,60 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
     _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       if (_counter > 0) {
         _counter--;
-        setState(() {
-          _progress -= 0.1428;
-        });
-
+        /*   setState(() { */
+        _progress -= 0.1428;
+        /*  }); */
+        _serviceController.sink.add(_progress);
         print(_counter);
       } else if (_counter == 0) {
         if (countTID < 3) {
           getAuthorization();
           _progress = 1;
-          _timer.cancel();
+          _timer?.cancel();
         } else {
           changeImages();
           _progress = 1;
-          _timer.cancel();
+          _timer?.cancel();
         }
       } else {
-        _timer.cancel();
+        _timer?.cancel();
       }
     });
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (chengeImage && serviceConection) {
-      switch (state) {
-        case AppLifecycleState.resumed:
-          print('resumed');
-          _timer.cancel();
-          getAuthorization();
-          countTID = 0;
-          _counter = 7;
-          _progress = 1;
-          break;
-
-        case AppLifecycleState.inactive:
-          print('inactive');
-          setState(() {
-            _timer.cancel();
-            _counter = 7;
-          });
-
-          break;
-        case AppLifecycleState.paused:
-          print('paused');
-          setState(() {
-            _timer.cancel();
-            _counter = 7;
-          });
-          break;
-        case AppLifecycleState.detached:
-          print('detached');
-          setState(() {
-            _timer.cancel();
-            _counter = 7;
-          });
-
-          break;
-        default:
-          _timer.cancel();
-          break;
-      }
-    }
-
-    if (!chengeImage) {
-      print('object else');
-      _timer.cancel();
-      setState(() {
-        _counter = 7;
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _imageController.sink.add(true);
+        print('resumed');
+        _timer?.cancel();
+        getAuthorization();
         countTID = 0;
-        chengeImage = true;
-      });
-    }
-  }
+        _counter = 7;
+        _progress = 1;
+        _serviceController.sink.add(_progress);
+        break;
 
-  @override
-  void dispose() {
-    super.dispose();
-    if (chengeImage) _timer.cancel();
-    WidgetsBinding.instance.removeObserver(this);
+      case AppLifecycleState.inactive:
+        print('inactive');
+        _timer?.cancel();
+
+        break;
+      case AppLifecycleState.paused:
+        print('paused');
+        _timer?.cancel();
+
+        break;
+      case AppLifecycleState.detached:
+        print('detached');
+        _timer.cancel();
+
+        break;
+      default:
+        if (_timer.isActive) _timer?.cancel();
+        break;
+    }
   }
 
   getAuthorization() async {
@@ -139,18 +114,17 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
         try {
           var service = await _qrService.attemptSignIn();
           if (countTID == 3) {
+            _imageController.sink.add(false);
             setState(() {
-              chengeImage = false;
               serviceConection = true;
-              if (_timer.isActive) {
-                _timer.cancel();
-              }
             });
+
+            if (_timer.isActive) _timer?.cancel();
           } else {
             startTimer();
           }
 
-          if (service) {
+          if (service.isNotEmpty) {
             setState(() {
               serviceConection = true;
             });
@@ -160,25 +134,29 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
               serviceConection = false;
             });
 
-            if (_timer.isActive) {
-              _timer.cancel();
-            }
+            if (_timer.isActive) _timer?.cancel();
           }
         } catch (e) {
-          if (_timer.isActive) {
-            _timer.cancel();
-          }
+          if (_timer.isActive) _timer?.cancel();
+
           print(e);
         }
         break;
       case DataConnectionStatus.disconnected:
-        setState(
-          () {
-            chengeImage = false;
-            serviceConection = false;
-          },
-        );
+        _imageController.add(false);
+        setState(() {
+          serviceConection = false;
+        });
     }
+  }
+
+  @override
+  void dispose() {
+    _imageController.close();
+    _serviceController.close();
+    super.dispose();
+    _timer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -212,42 +190,51 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                chengeImage
-                    ? QrImageWidget(_loadSharedPref(), _progress)
-                    : Column(
-                        children: <Widget>[
-                          serviceConection ? HumanImage() : NoInternetWidget(),
-                          const SizedBox(height: 10.0),
-                          RaisedButton(
-                            onPressed: () {
-                              setState(() {
-                                chengeImage = true;
-                                serviceConection = true;
-                              });
-                              getAuthorization();
-                              countTID = 0;
-                            },
-                            child: serviceConection
-                                ? Text(
-                                    AppLocalizations.of(context)
-                                        .translate('text5'),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                : Text(
-                                    AppLocalizations.of(context)
-                                        .translate('text8'),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                            color: Colors.green,
-                          ),
-                        ],
-                      ),
+                StreamBuilder<bool>(
+                  stream: _imageController.stream,
+                  initialData: true,
+                  builder: (context, snapshot) {
+                    return snapshot.data
+                        ? QrImageWidget(_loadSharedPref(),
+                            _serviceController.stream )
+                        : Column(
+                            children: <Widget>[
+                              serviceConection
+                                  ? HumanImage()
+                                  : NoInternetWidget(),
+                              const SizedBox(height: 10.0),
+                              RaisedButton(
+                                onPressed: () {
+                                  _imageController.add(true);
+                                  setState(() {
+                                    serviceConection = true;
+                                  });
+                                  getAuthorization();
+                                  countTID = 0;
+                                },
+                                child: serviceConection
+                                    ? Text(
+                                        AppLocalizations.of(context)
+                                            .translate('text5'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : Text(
+                                        AppLocalizations.of(context)
+                                            .translate('text8'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                color: Colors.green,
+                              ),
+                            ],
+                          );
+                  },
+                ),
               ],
             ),
           ),

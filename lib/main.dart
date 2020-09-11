@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -8,23 +11,28 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'Screens/companies_screen.dart';
-import 'Screens/info_screen.dart';
-import 'Screens/login_screen.dart';
-import 'services/internet_connection_service.dart';
-
+import './Screens/companies_screen.dart';
+import './Screens/info_screen.dart';
+import './Screens/login_screen.dart';
 import './Screens/qr_screen.dart';
-import './widgets/localizations.dart';
+import './services/fcm_service.dart';
+import './services/internet_connection_service.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
+import './widgets/localizations.dart';
 
+FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+   fcmService.fcmConfigure();
+  fcmService.getFlutterLocalNotificationPlugin();
+  fcmService.flutterLocalNotificationsPlugin.pendingNotificationRequests();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runApp(MyApp());
+    fcmService.getfcmToken();
   });
 }
 
@@ -67,11 +75,7 @@ class MyApp extends StatelessWidget {
           }
           try {
             for (Locale supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode ==
-                      locale
-                          .languageCode /* ||  locale
-                      .countryCode */
-                  &&
+              if (supportedLocale.languageCode == locale.languageCode &&
                   locale.languageCode != null) {
                 print(supportedLocale);
                 return supportedLocale;
@@ -95,6 +99,8 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
+  StreamController<int> _indexController = StreamController.broadcast();
+
   PageController _pageController;
   int selectedIndex = 0;
 
@@ -107,6 +113,16 @@ class _FirstScreenState extends State<FirstScreen> {
     );
     selectedIndex = _pageController.initialPage;
     super.initState();
+   
+     fcmService.deleteNotification();
+  }
+
+  @override
+  void dispose() {
+    _indexController.close();
+    fcmService.dispose();
+     fcmService.deleteNotification();
+    super.dispose();
   }
 
   @override
@@ -161,95 +177,99 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
                 Positioned(
                   bottom: size.height * .05,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          _pageController.jumpToPage(
-                            0,
-                          );
-                          setState(() {
-                            selectedIndex = 0;
-                          });
-                        },
-                        child: Container(
-                          width: size.width * 0.33,
-                          child: CircleAvatar(
-                            minRadius: 26.5,
-                            backgroundColor:
-                                selectedIndex == _pageController.initialPage - 1
-                                    ? Colors.green
-                                    : Colors.white,
-                            child: ImageIcon(
-                              const AssetImage('assets/icons/qrlogo.png'),
-                              size: 53,
-                              color: selectedIndex ==
-                                      _pageController.initialPage - 1
-                                  ? Colors.white
-                                  : Colors.green,
+                  child: StreamBuilder<int>(
+                      stream: _indexController.stream,
+                      initialData: 1,
+                      builder: (context, snapshot) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                if (selectedIndex != 0) {
+                                  _pageController.jumpToPage(
+                                    0,
+                                  );
+                                  _indexController.add(0);
+                                }
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage - 1 ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/qrlogo.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage - 1 ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _pageController.jumpToPage(
-                            1,
-                          );
-                          setState(() {
-                            selectedIndex = 1;
-                          });
-                        },
-                        child: Container(
-                          width: size.width * 0.33,
-                          child: CircleAvatar(
-                            minRadius: 26.5,
-                            backgroundColor:
-                                selectedIndex == _pageController.initialPage
-                                    ? Colors.green
-                                    : Colors.white,
-                            child: ImageIcon(
-                              const AssetImage('assets/icons/qq3.png'),
-                              size: 53,
-                              color:
-                                  selectedIndex == _pageController.initialPage
-                                      ? Colors.white
-                                      : Colors.green,
+                            GestureDetector(
+                              onTap: () {
+                                _pageController.jumpToPage(
+                                  1,
+                                );
+                                _indexController.add(1);
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/qq3.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _pageController.jumpToPage(
-                            2,
-                          );
-                          setState(() {
-                            selectedIndex = 2;
-                          });
-                        },
-                        child: Container(
-                          width: size.width * 0.33,
-                          child: CircleAvatar(
-                            minRadius: 26.5,
-                            backgroundColor:
-                                selectedIndex == _pageController.initialPage + 1
-                                    ? Colors.green
-                                    : Colors.white,
-                            child: ImageIcon(
-                              const AssetImage('assets/icons/news1.png'),
-                              size: 53,
-                              color: selectedIndex ==
-                                      _pageController.initialPage + 1
-                                  ? Colors.white
-                                  : Colors.green,
+                            GestureDetector(
+                              onTap: () {
+                                _pageController.jumpToPage(
+                                  2,
+                                );
+                                _indexController.add(2);
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage + 1 ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/news1.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage + 1 ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                          ],
+                        );
+                      }),
                 ),
                 Positioned(
                   bottom: size.height * .020,
@@ -293,11 +313,10 @@ class _FirstScreenState extends State<FirstScreen> {
           Expanded(
             child: Container(
               child: PageView(
+                dragStartBehavior: DragStartBehavior.down,
                 pageSnapping: true,
-                onPageChanged: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
+                onPageChanged: (value) async {
+                  _indexController.add(selectedIndex = value);
                 },
                 allowImplicitScrolling: false,
                 controller: _pageController,
