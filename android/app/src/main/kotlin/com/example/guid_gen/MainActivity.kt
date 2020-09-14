@@ -14,8 +14,8 @@ class MainActivity : FlutterActivity(), PluginRegistry.PluginRegistrantCallback 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FlutterFirebaseMessagingService.setPluginRegistrant(this);
-      
+        FlutterFirebaseMessagingService.setPluginRegistrant(this)
+       
         
     }
 override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
