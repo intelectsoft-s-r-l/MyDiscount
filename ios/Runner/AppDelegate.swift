@@ -8,7 +8,8 @@ import Flutter
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -> Bool {FirebaseApp.configure()
+  ) -> Bool {
+    FirebaseApp.configure()
     if #available(iOS 10.0, *) {
  UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
 }

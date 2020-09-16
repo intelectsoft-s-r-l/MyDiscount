@@ -103,10 +103,10 @@ class FCMService {
         IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
+    await flutterLocalNotificationsPlugin.show(Platform.isIOS?int.parse(notification['id']):
       int.parse(notification['data']['id']),
-        '${notification['data']['title']}',
-        '${notification['data']['body']}',
+        Platform.isIOS?'${notification['title']}':'${notification['data']['title']}',
+        Platform.isIOS?'${notification['body']}':'${notification['data']['body']}',
       platformChannelSpecifics,
       // payload: '${notification['body']}'
     );

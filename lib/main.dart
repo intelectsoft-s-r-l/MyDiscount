@@ -26,7 +26,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   fcmService.fcmConfigure();
   fcmService.getFlutterLocalNotificationPlugin();
-  //fcmService.flutterLocalNotificationsPlugin.pendingNotificationRequests();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
@@ -135,181 +134,181 @@ class _FirstScreenState extends State<FirstScreen> {
       body: Column(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
-            ),
-            height: size.height * .25,
-            width: double.infinity,
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                  top: size.height * .06,
-                  left: size.width * .33,
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: size.width * .33,
-                    child: Text(
-                      "MyDiscount",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(40),
+          bottomRight: Radius.circular(40),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: size.height * .045,
-                  right: 10,
-                  child: IconButton(
-                      color: Colors.green,
-                      icon: Icon(MdiIcons.locationExit),
-                      onPressed: () {
-                        data.signOut();
-                        _pageController.animateToPage(1,
-                            duration: Duration(milliseconds: 50),
-                            curve: Curves.ease);
-                        setState(() {});
-                      }),
-                ),
-                Positioned(
-                  bottom: size.height * .05,
-                  child: StreamBuilder<int>(
-                      stream: _indexController.stream,
-                      initialData: 1,
-                      builder: (context, snapshot) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                if (selectedIndex != 0) {
-                                  _pageController.jumpToPage(
-                                    0,
-                                  );
-                                  _indexController.add(0);
-                                }
-                              },
-                              child: Container(
-                                width: size.width * 0.33,
-                                child: CircleAvatar(
-                                  minRadius: 26.5,
-                                  backgroundColor:
-                                      _pageController.initialPage - 1 ==
-                                              snapshot.data
-                                          ? Colors.green
-                                          : Colors.white,
-                                  child: ImageIcon(
-                                    const AssetImage('assets/icons/qrlogo.png'),
-                                    size: 53,
-                                    color: _pageController.initialPage - 1 ==
-                                            snapshot.data
-                                        ? Colors.white
-                                        : Colors.green,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _pageController.jumpToPage(
-                                  1,
-                                );
-                                _indexController.add(1);
-                              },
-                              child: Container(
-                                width: size.width * 0.33,
-                                child: CircleAvatar(
-                                  minRadius: 26.5,
-                                  backgroundColor:
-                                      _pageController.initialPage ==
-                                              snapshot.data
-                                          ? Colors.green
-                                          : Colors.white,
-                                  child: ImageIcon(
-                                    const AssetImage('assets/icons/qq3.png'),
-                                    size: 53,
-                                    color: _pageController.initialPage ==
-                                            snapshot.data
-                                        ? Colors.white
-                                        : Colors.green,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _pageController.jumpToPage(
-                                  2,
-                                );
-                                _indexController.add(2);
-                              },
-                              child: Container(
-                                width: size.width * 0.33,
-                                child: CircleAvatar(
-                                  minRadius: 26.5,
-                                  backgroundColor:
-                                      _pageController.initialPage + 1 ==
-                                              snapshot.data
-                                          ? Colors.green
-                                          : Colors.white,
-                                  child: ImageIcon(
-                                    const AssetImage('assets/icons/news1.png'),
-                                    size: 53,
-                                    color: _pageController.initialPage + 1 ==
-                                            snapshot.data
-                                        ? Colors.white
-                                        : Colors.green,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }),
-                ),
-                Positioned(
-                  bottom: size.height * .020,
-                  child: Row(
+                  height: size.height * .25,
+                  width: double.infinity,
+                  child: Stack(
+                    children: <Widget>[
+          Positioned(
+            top: size.height * .06,
+            left: size.width * .33,
+            child: Container(
+              alignment: Alignment.center,
+              width: size.width * .33,
+              child: Text(
+                "MyDiscount",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green),
+              ),
+            ),
+          ),
+          Positioned(
+            top: size.height * .045,
+            right: 10,
+            child: IconButton(
+                color: Colors.green,
+                icon: Icon(MdiIcons.locationExit),
+                onPressed: () {
+                  data.signOut();
+                  _pageController.animateToPage(1,
+          duration: Duration(milliseconds: 50),
+          curve: Curves.ease);
+                  setState(() {});
+                }),
+          ),
+          Positioned(
+            bottom: size.height * .05,
+            child: StreamBuilder<int>(
+                stream: _indexController.stream,
+                initialData: 1,
+                builder: (context, snapshot) {
+                  return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(left: 10),
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          AppLocalizations.of(context).translate('companies'),
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          'QR',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          AppLocalizations.of(context).translate('text10'),
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                      ),
+          GestureDetector(
+            onTap: () {
+              if (selectedIndex != 0) {
+                _pageController.jumpToPage(
+                  0,
+                );
+                _indexController.add(0);
+              }
+            },
+            child: Container(
+              width: size.width * 0.33,
+              child: CircleAvatar(
+                minRadius: 26.5,
+                backgroundColor:
+                    _pageController.initialPage - 1 ==
+                  snapshot.data
+              ? Colors.green
+              : Colors.white,
+                child: ImageIcon(
+                  const AssetImage('assets/icons/qrlogo.png'),
+                  size: 53,
+                  color: _pageController.initialPage - 1 ==
+                snapshot.data
+            ? Colors.white
+            : Colors.green,
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              _pageController.jumpToPage(
+                1,
+              );
+              _indexController.add(1);
+            },
+            child: Container(
+              width: size.width * 0.33,
+              child: CircleAvatar(
+                minRadius: 26.5,
+                backgroundColor:
+                    _pageController.initialPage ==
+                  snapshot.data
+              ? Colors.green
+              : Colors.white,
+                child: ImageIcon(
+                  const AssetImage('assets/icons/qq3.png'),
+                  size: 53,
+                  color: _pageController.initialPage ==
+                snapshot.data
+            ? Colors.white
+            : Colors.green,
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              _pageController.jumpToPage(
+                2,
+              );
+              _indexController.add(2);
+            },
+            child: Container(
+              width: size.width * 0.33,
+              child: CircleAvatar(
+                minRadius: 26.5,
+                backgroundColor:
+                    _pageController.initialPage + 1 ==
+                  snapshot.data
+              ? Colors.green
+              : Colors.white,
+                child: ImageIcon(
+                  const AssetImage('assets/icons/news1.png'),
+                  size: 53,
+                  color: _pageController.initialPage + 1 ==
+                snapshot.data
+            ? Colors.white
+            : Colors.green,
+                ),
+              ),
+            ),
+          ),
                     ],
+                  );
+                }),
+          ),
+          Positioned(
+            bottom: size.height * .020,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(left: 10),
+                  alignment: Alignment.center,
+                  width: size.width * 0.33,
+                  child: Text(
+                    AppLocalizations.of(context).translate('companies'),
+                    style: TextStyle(
+            color: Colors.green, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  width: size.width * 0.33,
+                  child: Text(
+                    'QR',
+                    style: TextStyle(
+            color: Colors.green, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  width: size.width * 0.33,
+                  child: Text(
+                    AppLocalizations.of(context).translate('text10'),
+                    style: TextStyle(
+            color: Colors.green, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
             ),
           ),
+                    ],
+                  ),
+                ),
           Expanded(
             child: Container(
               child: PageView(
