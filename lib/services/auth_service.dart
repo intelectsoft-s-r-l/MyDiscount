@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/services/fcm_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,7 +15,7 @@ class AuthService extends ChangeNotifier {
   FacebookLogin _facebookLogin = FacebookLogin();
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
   SharedPref prefs = SharedPref();
-
+  FCMService fcmService = FCMService();
   Future<bool> authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
@@ -24,15 +25,17 @@ class AuthService extends ChangeNotifier {
           final _graphResponse = await http.get(
               'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=${_accessToken.token}');
           final profile = json.decode(_graphResponse.body);
+          final fcmToken =await fcmService.getfcmToken();
           final _credentials = {
             "DisplayName": profile['name'],
             "Email": profile['email'],
             "ID": _accessToken.userId,
             "PhotoUrl": profile['picture']['data']['url'],
+            "PushToken": fcmToken,
             "RegisterMode": 2,
             "access_token": _accessToken.token,
           };
-          // print(_credentials);
+           print(_credentials);
           final String _data = json.encode(_credentials);
           prefs.credentials(_data);
           return true;
@@ -55,19 +58,21 @@ class AuthService extends ChangeNotifier {
       googleSignIn.signIn().then(
         (final GoogleSignInAccount account) async {
           final GoogleSignInAuthentication auth = await account.authentication;
+          final fcmToken =await fcmService.getfcmToken();
           final _credentials = {
             "DisplayName": account.displayName,
             "Email": account.email,
             "ID": account.id,
             "PhotoUrl": account.photoUrl,
+            "PushToken": fcmToken,
             "RegisterMode": 1,
             "access_token": auth.accessToken,
           };
           final String _data = json.encode(_credentials);
           prefs.credentials(_data);
+          print(_credentials);
         },
       ).whenComplete(() => main());
-
       return true;
     } catch (e) {
       return false;

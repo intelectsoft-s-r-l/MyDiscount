@@ -24,9 +24,9 @@ import './widgets/localizations.dart';
 FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   fcmService.fcmConfigure();
+  fcmService.fcmConfigure();
   fcmService.getFlutterLocalNotificationPlugin();
-  fcmService.flutterLocalNotificationsPlugin.pendingNotificationRequests();
+  //fcmService.flutterLocalNotificationsPlugin.pendingNotificationRequests();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
@@ -113,15 +113,15 @@ class _FirstScreenState extends State<FirstScreen> {
     );
     selectedIndex = _pageController.initialPage;
     super.initState();
-   
-     fcmService.deleteNotification();
+
+    
   }
 
   @override
   void dispose() {
     _indexController.close();
     fcmService.dispose();
-     fcmService.deleteNotification();
+    
     super.dispose();
   }
 
@@ -129,7 +129,7 @@ class _FirstScreenState extends State<FirstScreen> {
   Widget build(BuildContext context) {
     final data = Provider.of<AuthService>(context);
     var size = MediaQuery.of(context).size;
-
+    
     return Scaffold(
       backgroundColor: Color.fromRGBO(240, 242, 241, 1),
       body: Column(

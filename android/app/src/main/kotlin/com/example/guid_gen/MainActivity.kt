@@ -25,7 +25,7 @@ GeneratedPluginRegistrant.registerWith(flutterEngine); }
         if (!registry!!.hasPlugin("io.flutter.plugins.firebasemessaging")) {
             FirebaseMessagingPlugin.registerWith(registry!!.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin"));
         }
-        if (!registry!!.hasPlugin("dexterous.com/flutter/local_notifications")) {
+        if (!registry.hasPlugin("dexterous.com/flutter/local_notifications")) {
            FlutterLocalNotificationsPlugin.registerWith(registry!!.registrarFor("dexterous.com/flutter/local_notifications"));
         }
     }

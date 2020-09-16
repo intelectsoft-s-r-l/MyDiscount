@@ -39,7 +39,7 @@ class QrService extends ChangeNotifier {
 
   Future<Map<String,dynamic>> attemptSignIn() async {
     final _bodyData = await getBodyData();
-    print(_bodyData);
+   // print(_bodyData);
     const url = 'https://api.edi.md/AppCardService/json/GetTID';
     try {
       final response = await http

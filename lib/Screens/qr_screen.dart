@@ -19,7 +19,7 @@ class QrScreen extends StatefulWidget {
 
 class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
   StreamController<bool> _imageController = StreamController.broadcast();
-  StreamController<double> _serviceController = StreamController.broadcast();
+  StreamController<double> _progressController = StreamController.broadcast();
   static QrService _qrService = QrService();
   final InternetConnection internetConnection = InternetConnection();
 
@@ -49,11 +49,9 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
     _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       if (_counter > 0) {
         _counter--;
-        /*   setState(() { */
         _progress -= 0.1428;
-        /*  }); */
-        _serviceController.sink.add(_progress);
-        print(_counter);
+        _progressController.sink.add(_progress);
+        debugPrint('$_counter');
       } else if (_counter == 0) {
         if (countTID < 3) {
           getAuthorization();
@@ -81,7 +79,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
         countTID = 0;
         _counter = 7;
         _progress = 1;
-        _serviceController.sink.add(_progress);
+        _progressController.sink.add(_progress);
         break;
 
       case AppLifecycleState.inactive:
@@ -96,7 +94,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         print('detached');
-        _timer.cancel();
+        _timer?.cancel();
 
         break;
       default:
@@ -153,7 +151,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     _imageController.close();
-    _serviceController.close();
+    _progressController.close();
     super.dispose();
     _timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
@@ -195,8 +193,8 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
                   initialData: true,
                   builder: (context, snapshot) {
                     return snapshot.data
-                        ? QrImageWidget(_loadSharedPref(),
-                            _serviceController.stream )
+                        ? QrImageWidget(
+                            _loadSharedPref(), _progressController.stream)
                         : Column(
                             children: <Widget>[
                               serviceConection
@@ -212,7 +210,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
                                   getAuthorization();
                                   countTID = 0;
                                 },
-                                child: serviceConection
+                                child:serviceConection
                                     ? Text(
                                         AppLocalizations.of(context)
                                             .translate('text5'),

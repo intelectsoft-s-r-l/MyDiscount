@@ -11,7 +11,10 @@
         android:icon="@mipmap/qrcode">  
         <meta-data                      
             android:name="com.google.firebase.messaging.default_notification_icon"             
-            android:resource="@mipmap/ic_notifications_icon" />
+            android:resource="@mipmap/ic_stat_qq3" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -40,9 +43,9 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <intent-filter>
+           <!--  <intent-filter>
                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
+            </intent-filter> -->
         </activity>
         
             
@@ -70,7 +73,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" /> 
             </intent-filter> 
         </activity>
-        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <!-- <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" /> -->
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

@@ -110,6 +110,7 @@ class LoginPage extends StatelessWidget {
           data.authWithFacebook().whenComplete(
             () {
               main();
+              
             },
           );
           break;
