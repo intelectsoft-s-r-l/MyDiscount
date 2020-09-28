@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class AuthService extends ChangeNotifier {
             "Email": profile['email'],
             "ID": _accessToken.userId,
             "PhotoUrl": profile['picture']['data']['url'],
-            "PushToken": fcmToken,
+            "PushToken": "",
             "RegisterMode": 2,
             "access_token": _accessToken.token,
           };
@@ -65,7 +66,7 @@ class AuthService extends ChangeNotifier {
             "Email": account.email,
             "ID": account.id,
             "PhotoUrl": account.photoUrl,
-            "PushToken": fcmToken,
+            "PushToken": "",
             "RegisterMode": 1,
             "access_token": auth.accessToken,
           };
@@ -88,23 +89,28 @@ class AuthService extends ChangeNotifier {
   }
 
   signInWithApple() async {
-    final fcmToken = await fcmService.getfcmToken();
-    AppleIDAuthorizationRequest();
     var appleCredentials = await SignInWithApple.getAppleIDCredential(scopes: [
       AppleIDAuthorizationScopes.email,
       AppleIDAuthorizationScopes.fullName
     ]);
+
+    final fcmToken = await fcmService.getfcmToken();
+    //AppleIDAuthorizationRequest();
+
     final _credentials = {
-      "DisplayName": appleCredentials.givenName,
+      "DisplayName":
+          appleCredentials.familyName + ' ' + appleCredentials.givenName,
       "Email": appleCredentials.email,
       "ID": appleCredentials.userIdentifier,
-      "PhotoUrl": "",
+      "PhotoUrl": appleCredentials.authorizationCode,
       "PushToken": fcmToken,
       "RegisterMode": 1,
       "access_token": appleCredentials.identityToken,
     };
+    print(_credentials);
     final String _data = json.encode(_credentials);
     prefs.credentials(_data);
     print(_data);
+    return _credentials;
   }
 }

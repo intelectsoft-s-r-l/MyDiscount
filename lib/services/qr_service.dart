@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
@@ -37,10 +38,14 @@ class QrService extends ChangeNotifier {
     }
   }
 
-  Future<Map<String,dynamic>> attemptSignIn() async {
+//https://api.edi.md/AppCardService
+  Future<Map<String, dynamic>> attemptSignIn() async {
+    String serviceName = await getServiceName();
+    print(serviceName);
     final _bodyData = await getBodyData();
-   // print(_bodyData);
-    const url = 'https://api.edi.md/AppCardService/json/GetTID';
+  
+    final url = '$serviceName/json/GetTID';
+   
     try {
       final response = await http
           .post(
@@ -69,10 +74,13 @@ class QrService extends ChangeNotifier {
   }
 
   Future<dynamic> getCompanyList() async {
+    String serviceName = await getServiceName();
+    print(serviceName);
+
     final status = await _internetConnection.verifyInternetConection();
     switch (status) {
       case DataConnectionStatus.connected:
-        const url = "https://api.edi.md/AppCardService/json/GetCompany";
+        final url = "$serviceName/json/GetCompany";
         final response = await http.get(url, headers: _headers).timeout(
               Duration(seconds: 3),
             );

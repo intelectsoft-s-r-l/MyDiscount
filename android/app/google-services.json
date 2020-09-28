@@ -13,7 +13,48 @@
           "package_name": "com.edi.md.android.guid_gen"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "866892099029-n8ooflkau5dlbspq2fq77m96fg3ephqg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edi.md.android.guid_gen",
+            "certificate_hash": "e2a8866d17650556f69508430d290a6f73445492"
+          }
+        },
+        {
+          "client_id": "866892099029-a0p0gmk8hglfgbhqs0lup56p72r30c1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edi.md.android.guid_gen",
+            "certificate_hash": "a10f0e435ef113904025a2d8702dc20f4051931f"
+          }
+        },
+        {
+          "client_id": "866892099029-as8ntnvmtga9vb7da08eqhldje01tu6n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edi.md.android.guid_gen",
+            "certificate_hash": "7780f3d3dcd58185dab543651330f4465b30b297"
+          }
+        },
+        {
+          "client_id": "866892099029-frfnmakcidnf9384gg7s9viasgcom1tv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edi.md.android.guid_gen",
+            "certificate_hash": "841f1c63ab91bc2e508b481618f6fdd65fc976f9"
+          }
+        },
+        {
+          "client_id": "866892099029-fotlj8lav9tkcnllh5ochshbahs6nbb5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edi.md.android.guid_gen",
+            "certificate_hash": "1cb9574992999fcc6b58259cf6d3416403abec0f"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBTb1pTsl_OBSPAl-6LWT8jhE-yT26Luxk"

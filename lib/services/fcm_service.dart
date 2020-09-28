@@ -73,7 +73,7 @@ class FCMService {
         ledColor: Color(0xFF0000),
         ledOffMs: 2000,
         ledOnMs: 2000,
-        color: Color(0x00FF00),
+        color: Color(0x00C569),
         enableVibration: true,
         vibrationPattern: Int64List(4),
         visibility: NotificationVisibility.Public);
@@ -103,7 +103,7 @@ class FCMService {
       ledColor: Color(0x0000FF),
       ledOffMs: 2000,
       ledOnMs: 2000,
-      color: Color(0x00FF00),
+      color: Color(0x00C569),
       enableVibration: true,
       vibrationPattern: Int64List(2000),
     );

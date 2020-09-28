@@ -1,6 +1,8 @@
+
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -21,15 +23,16 @@ import './services/internet_connection_service.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
 import './widgets/localizations.dart';
-import 'services/shared_preferences_service.dart';
+import 'widgets/crdentials.dart';
 
 FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //Crashlytics.instance.enableInDevMode = true;
+  getServiceName();
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
-  fcmService.fcmConfigure();
-  fcmService.getFlutterLocalNotificationPlugin();
+   fcmService.fcmConfigure();
+   fcmService.getFlutterLocalNotificationPlugin();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
@@ -108,12 +111,7 @@ class _FirstScreenState extends State<FirstScreen> {
   StreamController<int> _indexController = StreamController.broadcast();
   PageController _pageController;
   int selectedIndex = 0;
-  SharedPref prefs = SharedPref();
-  getImage() async {
-    var _credentials = await prefs.credential();
-    var _img = _credentials['"PhotoUrl"'];
-    return _img;
-  }
+  Credentials credentials = Credentials();
 
   static QrService _qrService = QrService();
 
@@ -163,21 +161,29 @@ class _FirstScreenState extends State<FirstScreen> {
             width: double.infinity,
             child: Stack(
               children: <Widget>[
-                Positioned(
-                  // top: size.height * .06,
-                  // left: size.width * .33,
+                /* Positioned(
+                  top: 30, //size.height * .06,
+                  left: -10, //size.width * .33,
                   child: FutureBuilder(
-                      future: getImage(),
+                      future: getImageUrl(),
                       builder: (context, snapshot) {
-                        return Container(
-                          alignment: Alignment.center,
-                          width: size.width * .33,
-                          child: CircleAvatar(
-                            child: Image.network('${snapshot.data}'),
-                          ),
-                        );
+                        if (snapshot.hasData) {
+                          print(snapshot.data);
+                          return Container(
+                            alignment: Alignment.center,
+                            width: size.width * .33,
+                            child: /* CircleAvatar(
+                              child: */ Text/* Image.network */(
+                                '${snapshot.data['DisplayName']}',
+                               /*  scale: 1.0, fit: BoxFit.contain,*/
+                              ),
+                           /*  ), */
+                          );
+                        } else {
+                          return Container();
+                        }
                       }),
-                ),
+                ), */
                 Positioned(
                   top: size.height * .06,
                   left: size.width * .33,

@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2.1.0
+version: 2.1.1+4
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -29,6 +29,7 @@ dependencies:
   firebase_crashlytics: ^0.1.4+1
   sign_in_with_apple: ^2.5.2
   firebase_core: ^0.5.0
+  firebase_remote_config: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -41,7 +42,7 @@ flutter:
     # - assets/icons/facebook.png
     # - assets/icons/google.png
     - assets/icons/om.png
-    #- assets/icons/qr.png
+    - assets/icons/apple_logo.png
     - assets/icons/news1.png
     - assets/icons/no internet.png
     - assets/icons/qrlogo.png
@@ -50,8 +51,9 @@ flutter:
     - lang/ru.json
     - lang/md.json
     - assets/icons/companie.jpg
-    #  - assets/icons/qq2.png
+    - assets/icons/Facebook_Logo.png
     - assets/icons/qq3.png
+    - assets/icons/google_logo.png
   #fonts:
   #- family: MyFlutterApp
   # fonts:
