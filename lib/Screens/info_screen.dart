@@ -12,7 +12,7 @@ class InfoScreen extends StatelessWidget {
         child: Container(
           padding:
               const EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
-          decoration: BoxDecoration(
+          decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.grey,offset: Offset(0, 1),blurRadius: 2)],
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),

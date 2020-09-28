@@ -176,6 +176,9 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
           height: MediaQuery.of(context).size.height * 0.5,
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(color: Colors.grey, offset: Offset(0, 1), blurRadius: 2)
+            ],
             color: Colors.white,
             borderRadius: BorderRadius.circular(30),
           ),
@@ -210,7 +213,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
                                   getAuthorization();
                                   countTID = 0;
                                 },
-                                child:serviceConection
+                                child: serviceConection
                                     ? Text(
                                         AppLocalizations.of(context)
                                             .translate('text5'),

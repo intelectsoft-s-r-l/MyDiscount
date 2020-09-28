@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../widgets/localizations.dart';
 import '../services/internet_connection_service.dart';
@@ -92,6 +93,17 @@ class LoginPage extends StatelessWidget {
       }
     }
 
+    void getAuthorizationApple() async {
+      final status = await internet.verifyInternetConection();
+      switch (status) {
+        case DataConnectionStatus.connected:
+          data.signInWithApple();
+          break;
+        case DataConnectionStatus.disconnected:
+          getDialog();
+      }
+    }
+
     void getAuthorizationGoogle() async {
       final status = await internet.verifyInternetConection();
       switch (status) {
@@ -110,7 +122,6 @@ class LoginPage extends StatelessWidget {
           data.authWithFacebook().whenComplete(
             () {
               main();
-              
             },
           );
           break;
@@ -186,6 +197,9 @@ class LoginPage extends StatelessWidget {
                     ),
                   ],
                 ),
+              Platform.isIOS?  SignInWithAppleButton(onPressed: () {
+                  getAuthorizationApple();
+                }):Container()
               ],
             ),
           ),

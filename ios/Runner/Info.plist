@@ -48,8 +48,16 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>
 	<string>710684789730528</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<false/>
 	<key>FacebookDisplayName</key>
 	<string>MyDiscount</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<true/>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

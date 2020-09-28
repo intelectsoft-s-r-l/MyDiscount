@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import './Screens/companies_screen.dart';
 import './Screens/info_screen.dart';
@@ -20,17 +21,23 @@ import './services/internet_connection_service.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
 import './widgets/localizations.dart';
+import 'services/shared_preferences_service.dart';
 
 FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //Crashlytics.instance.enableInDevMode = true;
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
   fcmService.getFlutterLocalNotificationPlugin();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runApp(MyApp());
+    runZoned(() {
+      runApp(MyApp());
+    }, onError: Crashlytics.instance.recordError);
+
     fcmService.getfcmToken();
   });
 }
@@ -99,9 +106,14 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   StreamController<int> _indexController = StreamController.broadcast();
-
   PageController _pageController;
   int selectedIndex = 0;
+  SharedPref prefs = SharedPref();
+  getImage() async {
+    var _credentials = await prefs.credential();
+    var _img = _credentials['"PhotoUrl"'];
+    return _img;
+  }
 
   static QrService _qrService = QrService();
 
@@ -112,15 +124,13 @@ class _FirstScreenState extends State<FirstScreen> {
     );
     selectedIndex = _pageController.initialPage;
     super.initState();
-
-    
   }
 
   @override
   void dispose() {
     _indexController.close();
     fcmService.dispose();
-    
+
     super.dispose();
   }
 
@@ -128,187 +138,210 @@ class _FirstScreenState extends State<FirstScreen> {
   Widget build(BuildContext context) {
     final data = Provider.of<AuthService>(context);
     var size = MediaQuery.of(context).size;
-    
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(240, 242, 241, 1),
       body: Column(
         children: <Widget>[
           Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(40),
-          bottomRight: Radius.circular(40),
+            margin: EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(0, 1),
+                  blurRadius: 2,
+                )
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
+            ),
+            height: size.height * .25,
+            width: double.infinity,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  // top: size.height * .06,
+                  // left: size.width * .33,
+                  child: FutureBuilder(
+                      future: getImage(),
+                      builder: (context, snapshot) {
+                        return Container(
+                          alignment: Alignment.center,
+                          width: size.width * .33,
+                          child: CircleAvatar(
+                            child: Image.network('${snapshot.data}'),
+                          ),
+                        );
+                      }),
+                ),
+                Positioned(
+                  top: size.height * .06,
+                  left: size.width * .33,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: size.width * .33,
+                    child: Text(
+                      "MyDiscount",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green),
                     ),
                   ),
-                  height: size.height * .25,
-                  width: double.infinity,
-                  child: Stack(
-                    children: <Widget>[
-          Positioned(
-            top: size.height * .06,
-            left: size.width * .33,
-            child: Container(
-              alignment: Alignment.center,
-              width: size.width * .33,
-              child: Text(
-                "MyDiscount",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green),
-              ),
-            ),
-          ),
-          Positioned(
-            top: size.height * .045,
-            right: 10,
-            child: IconButton(
-                color: Colors.green,
-                icon: Icon(MdiIcons.locationExit),
-                onPressed: () {
-                  data.signOut();
-                  _pageController.animateToPage(1,
-          duration: Duration(milliseconds: 50),
-          curve: Curves.ease);
-                  setState(() {});
-                }),
-          ),
-          Positioned(
-            bottom: size.height * .05,
-            child: StreamBuilder<int>(
-                stream: _indexController.stream,
-                initialData: 1,
-                builder: (context, snapshot) {
-                  return Row(
+                ),
+                Positioned(
+                  top: size.height * .045,
+                  right: 10,
+                  child: IconButton(
+                      color: Colors.green,
+                      icon: Icon(MdiIcons.locationExit),
+                      onPressed: () {
+                        data.signOut();
+                        _pageController.animateToPage(1,
+                            duration: Duration(milliseconds: 50),
+                            curve: Curves.ease);
+                        setState(() {});
+                      }),
+                ),
+                Positioned(
+                  bottom: size.height * .05,
+                  child: StreamBuilder<int>(
+                      stream: _indexController.stream,
+                      initialData: 1,
+                      builder: (context, snapshot) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                if (selectedIndex != 0) {
+                                  _pageController.jumpToPage(
+                                    0,
+                                  );
+                                  _indexController.add(0);
+                                }
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage - 1 ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/qrlogo.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage - 1 ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _pageController.jumpToPage(
+                                  1,
+                                );
+                                _indexController.add(1);
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/qq3.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _pageController.jumpToPage(
+                                  2,
+                                );
+                                _indexController.add(2);
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage + 1 ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/news1.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage + 1 ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+                Positioned(
+                  bottom: size.height * .020,
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              if (selectedIndex != 0) {
-                _pageController.jumpToPage(
-                  0,
-                );
-                _indexController.add(0);
-              }
-            },
-            child: Container(
-              width: size.width * 0.33,
-              child: CircleAvatar(
-                minRadius: 26.5,
-                backgroundColor:
-                    _pageController.initialPage - 1 ==
-                  snapshot.data
-              ? Colors.green
-              : Colors.white,
-                child: ImageIcon(
-                  const AssetImage('assets/icons/qrlogo.png'),
-                  size: 53,
-                  color: _pageController.initialPage - 1 ==
-                snapshot.data
-            ? Colors.white
-            : Colors.green,
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              _pageController.jumpToPage(
-                1,
-              );
-              _indexController.add(1);
-            },
-            child: Container(
-              width: size.width * 0.33,
-              child: CircleAvatar(
-                minRadius: 26.5,
-                backgroundColor:
-                    _pageController.initialPage ==
-                  snapshot.data
-              ? Colors.green
-              : Colors.white,
-                child: ImageIcon(
-                  const AssetImage('assets/icons/qq3.png'),
-                  size: 53,
-                  color: _pageController.initialPage ==
-                snapshot.data
-            ? Colors.white
-            : Colors.green,
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              _pageController.jumpToPage(
-                2,
-              );
-              _indexController.add(2);
-            },
-            child: Container(
-              width: size.width * 0.33,
-              child: CircleAvatar(
-                minRadius: 26.5,
-                backgroundColor:
-                    _pageController.initialPage + 1 ==
-                  snapshot.data
-              ? Colors.green
-              : Colors.white,
-                child: ImageIcon(
-                  const AssetImage('assets/icons/news1.png'),
-                  size: 53,
-                  color: _pageController.initialPage + 1 ==
-                snapshot.data
-            ? Colors.white
-            : Colors.green,
-                ),
-              ),
-            ),
-          ),
+                      Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        alignment: Alignment.center,
+                        width: size.width * 0.33,
+                        child: Text(
+                          AppLocalizations.of(context).translate('companies'),
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: size.width * 0.33,
+                        child: Text(
+                          'QR',
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: size.width * 0.33,
+                        child: Text(
+                          AppLocalizations.of(context).translate('text10'),
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ],
-                  );
-                }),
-          ),
-          Positioned(
-            bottom: size.height * .020,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(left: 10),
-                  alignment: Alignment.center,
-                  width: size.width * 0.33,
-                  child: Text(
-                    AppLocalizations.of(context).translate('companies'),
-                    style: TextStyle(
-            color: Colors.green, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  width: size.width * 0.33,
-                  child: Text(
-                    'QR',
-                    style: TextStyle(
-            color: Colors.green, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  width: size.width * 0.33,
-                  child: Text(
-                    AppLocalizations.of(context).translate('text10'),
-                    style: TextStyle(
-            color: Colors.green, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
             ),
           ),
-                    ],
-                  ),
-                ),
           Expanded(
             child: Container(
               child: PageView(
@@ -329,7 +362,6 @@ class _FirstScreenState extends State<FirstScreen> {
                     child: Companies(),
                   ),
                   Container(
-                    height: size.height * 0.4,
                     child: FutureBuilder(
                       future: _qrService.tryAutoLogin(),
                       builder: (context, snapshot) {
