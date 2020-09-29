@@ -26,6 +26,18 @@ getBodyData() async {
   }
 }
 
+getUserId() async {
+  var prefs = await SharedPreferences.getInstance();
+  if (prefs.containsKey('Tid')) {
+    var savedCredential = await sPrefs.credential();
+    var userData = json.decode(savedCredential);
+    var id = userData['ID'];
+    return id;
+  } else {
+    return '';
+  }
+}
+
 getImageUrl() async {
   var savedCredential = await sPrefs.credential();
   var userData = json.decode(savedCredential);
