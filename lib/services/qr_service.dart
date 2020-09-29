@@ -38,14 +38,13 @@ class QrService extends ChangeNotifier {
     }
   }
 
-//https://api.edi.md/AppCardService
   Future<Map<String, dynamic>> attemptSignIn() async {
     String serviceName = await getServiceName();
     print(serviceName);
     final _bodyData = await getBodyData();
-  
+
     final url = '$serviceName/json/GetTID';
-   
+
     try {
       final response = await http
           .post(
@@ -73,14 +72,16 @@ class QrService extends ChangeNotifier {
     }
   }
 
+//http://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<dynamic> getCompanyList() async {
     String serviceName = await getServiceName();
+    String id = await getUserId();
     print(serviceName);
 
     final status = await _internetConnection.verifyInternetConection();
     switch (status) {
       case DataConnectionStatus.connected:
-        final url = "$serviceName/json/GetCompany";
+        final url = "$serviceName/json/GetCompany?ID=$id";
         final response = await http.get(url, headers: _headers).timeout(
               Duration(seconds: 3),
             );
