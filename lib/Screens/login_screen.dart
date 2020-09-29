@@ -92,6 +92,18 @@ class LoginPage extends StatelessWidget {
       }
     }
 
+   /*  void getAuthorizationApple() async {
+      final status = await internet.verifyInternetConection();
+      switch (status) {
+        case DataConnectionStatus.connected:
+          data.signInWithApple();
+          main();
+          break;
+        case DataConnectionStatus.disconnected:
+          getDialog();
+      }
+    } */
+
     void getAuthorizationGoogle() async {
       final status = await internet.verifyInternetConection();
       switch (status) {
@@ -143,6 +155,7 @@ class LoginPage extends StatelessWidget {
                     fontSize: 30,
                   ),
                 ),
+                //SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -151,10 +164,11 @@ class LoginPage extends StatelessWidget {
                         onTap: () {
                           getAuthorizationGoogle();
                         },
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           radius: 28,
                           backgroundColor: Colors.green,
-                          child: Text(
+                          child: /* Image.asset(
+                              'assets/icons/google_logo.png'), */ Text(
                             'G',
                             style: TextStyle(
                                 color: Colors.white,
@@ -170,10 +184,11 @@ class LoginPage extends StatelessWidget {
                         onTap: () {
                           getAuthorizationFB();
                         },
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           radius: 28,
                           backgroundColor: Colors.green,
-                          child: const Text(
+                          child: /* Image.asset(
+                              'assets/icons/Facebook_Logo.png'), */ const Text(
                             'f',
                             style: TextStyle(
                                 fontSize: 45,
@@ -183,6 +198,22 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                   /*  const SizedBox(width: 20),
+                    Platform.isIOS
+                        ? Container(
+                            child: GestureDetector(
+                              onTap: () {
+                                getAuthorizationApple();
+                              },
+                              child: CircleAvatar(
+                                radius: 28,
+                                backgroundColor: Colors.white,
+                                child:
+                                    Image.asset('assets/icons/apple_logo.png'),
+                              ),
+                            ),
+                          )
+                        : Container() */
                   ],
                 ),
               ],

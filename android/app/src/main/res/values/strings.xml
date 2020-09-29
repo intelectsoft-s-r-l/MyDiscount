@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Enappd</string>
-<string name="facebook_app_id">710684789730528</string> 
-<string name="fb_login_protocol_scheme">fb710684789730528</string>
+    <string name="facebook_app_id">710684789730528</string> 
+    <string name="fb_login_protocol_scheme">fb710684789730528</string>
+    <!-- <string name="default_notification_channel_id">chanel_id</string> -->
 </resources>
+
+ 

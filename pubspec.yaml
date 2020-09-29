@@ -1,10 +1,9 @@
 name: MyDiscount
 description: A new Flutter project.
 
-
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2.1.0
+version: 2.1.1+4
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,7 +14,7 @@ dependencies:
   provider: ^4.3.1
 
   flutter_localizations:
-    sdk: flutter  
+    sdk: flutter
   data_connection_checker: ^0.3.4
   material_design_icons_flutter: ^4.0.5345
   http: ^0.12.1
@@ -23,10 +22,14 @@ dependencies:
   google_sign_in: ^4.5.1
   flutter_facebook_login: ^3.0.0
   qr_flutter: ^3.2.0
-
   cupertino_icons: ^0.1.3
   font_awesome_flutter: ^8.8.1
-  
+  firebase_messaging: ^7.0.0
+  flutter_local_notifications: ^1.4.4+4
+  #firebase_crashlytics: ^0.1.4+1
+  #sign_in_with_apple: ^2.5.2
+  firebase_core: ^0.5.0
+  firebase_remote_config: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -36,10 +39,10 @@ flutter:
 
   uses-material-design: true
   assets:
-   # - assets/icons/facebook.png
-   # - assets/icons/google.png
+    # - assets/icons/facebook.png
+    # - assets/icons/google.png
     - assets/icons/om.png
-    #- assets/icons/qr.png
+    - assets/icons/apple_logo.png
     - assets/icons/news1.png
     - assets/icons/no internet.png
     - assets/icons/qrlogo.png
@@ -48,17 +51,18 @@ flutter:
     - lang/ru.json
     - lang/md.json
     - assets/icons/companie.jpg
-  #  - assets/icons/qq2.png
+    - assets/icons/Facebook_Logo.png
     - assets/icons/qq3.png
-#fonts:
+    - assets/icons/google_logo.png
+  #fonts:
   #- family: MyFlutterApp
-   # fonts:
-   #   - asset: fonts/MyFlutterApp.ttf
+  # fonts:
+  #   - asset: fonts/MyFlutterApp.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
- 
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

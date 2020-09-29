@@ -1,14 +1,15 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/main.dart';
-import 'package:MyDiscount/services/auth_service.dart';
-import 'package:MyDiscount/widgets/crdentials.dart';
+import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
+import '../widgets/crdentials.dart';
+import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../services/shared_preferences_service.dart';
 
@@ -37,10 +38,14 @@ class QrService extends ChangeNotifier {
     }
   }
 
-  Future<bool> attemptSignIn() async {
+//https://api.edi.md/AppCardService
+  Future<Map<String, dynamic>> attemptSignIn() async {
+    String serviceName = await getServiceName();
+    print(serviceName);
     final _bodyData = await getBodyData();
-    print(_bodyData);
-    const url = 'https://api.edi.md/AppCardService/json/GetTID';
+  
+    final url = '$serviceName/json/GetTID';
+   
     try {
       final response = await http
           .post(
@@ -53,7 +58,7 @@ class QrService extends ChangeNotifier {
       print(response.body);
       if (decodedResponse['ErrorCode'] == 0) {
         sPref.saveTID(decodedResponse['TID']);
-        return true;
+        return decodedResponse;
       } else {
         if (decodedResponse['ErrorCode'] == 103) {
           final prefs = await SharedPreferences.getInstance();
@@ -61,18 +66,21 @@ class QrService extends ChangeNotifier {
           authService.signOut();
           main();
         }
-        return false;
+        return {};
       }
     } catch (e) {
-      return false;
+      return {};
     }
   }
 
   Future<dynamic> getCompanyList() async {
+    String serviceName = await getServiceName();
+    print(serviceName);
+
     final status = await _internetConnection.verifyInternetConection();
     switch (status) {
       case DataConnectionStatus.connected:
-        const url = "https://api.edi.md/AppCardService/json/GetCompany";
+        final url = "$serviceName/json/GetCompany";
         final response = await http.get(url, headers: _headers).timeout(
               Duration(seconds: 3),
             );

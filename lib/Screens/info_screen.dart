@@ -11,8 +11,8 @@ class InfoScreen extends StatelessWidget {
         padding: EdgeInsets.only(top: 8),
         child: Container(
           padding:
-              const EdgeInsets.only(top: 11, bottom: 11, left: 8, right: 8),
-          decoration: BoxDecoration(
+              const EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
+          decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.grey,offset: Offset(0, 1),blurRadius: 2)],
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),
@@ -37,7 +37,7 @@ class InfoScreen extends StatelessWidget {
                       children: [
                         TextSpan(
                           text:
-                              '   Confidențialitatea datelor dumneavoastră cu caracter personal reprezintă una dintre preocupările principale ale companiei IntelectSoft Srl în calitate de operator de date, cu sediul pe str. Alba Iulia 154 et.3, Chișinău, MD- 2064, Republica Moldova. Acest document are rolul de a vă informa cu privire la prelucrarea datelor dumneavoastră cu caracter personal, în contextul utilizării aplicației My Discount. (în continuare Aplicație)\n',
+                              '   Confidențialitatea datelor dumneavoastră cu caracter personal reprezintă una dintre preocupările principale ale companiei IntelectSoft SRL în calitate de operator de date, cu sediul pe str. Alba Iulia 154 et.3, Chișinău, MD- 2051, Republica Moldova. Acest document are rolul de a vă informa cu privire la prelucrarea datelor dumneavoastră cu caracter personal, în contextul utilizării aplicației My Discount. (în continuare Aplicație)\n',
                           style: TextStyle(fontWeight: FontWeight.normal),
                         ),
                         TextSpan(

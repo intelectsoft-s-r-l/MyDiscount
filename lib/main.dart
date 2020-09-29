@@ -1,5 +1,10 @@
+
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:MyDiscount/services/remote_config_service.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -7,24 +12,36 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-import 'Screens/companies_screen.dart';
-import 'Screens/info_screen.dart';
-import 'Screens/login_screen.dart';
-import 'services/internet_connection_service.dart';
-
+import './Screens/companies_screen.dart';
+import './Screens/info_screen.dart';
+import './Screens/login_screen.dart';
 import './Screens/qr_screen.dart';
-import './widgets/localizations.dart';
+import './services/fcm_service.dart';
+import './services/internet_connection_service.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
+import './widgets/localizations.dart';
+import 'widgets/crdentials.dart';
 
+FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //Crashlytics.instance.enableInDevMode = true;
+  getServiceName();
+  //FlutterError.onError = Crashlytics.instance.recordFlutterError;
+   fcmService.fcmConfigure();
+   fcmService.getFlutterLocalNotificationPlugin();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runApp(MyApp());
+    /* runZoned(() { */
+      runApp(MyApp());
+   /*  }, onError: Crashlytics.instance.recordError); */
+
+    fcmService.getfcmToken();
   });
 }
 
@@ -67,11 +84,7 @@ class MyApp extends StatelessWidget {
           }
           try {
             for (Locale supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode ==
-                      locale
-                          .languageCode /* ||  locale
-                      .countryCode */
-                  &&
+              if (supportedLocale.languageCode == locale.languageCode &&
                   locale.languageCode != null) {
                 print(supportedLocale);
                 return supportedLocale;
@@ -95,8 +108,10 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
+  StreamController<int> _indexController = StreamController.broadcast();
   PageController _pageController;
   int selectedIndex = 0;
+  Credentials credentials = Credentials();
 
   static QrService _qrService = QrService();
 
@@ -110,6 +125,14 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   @override
+  void dispose() {
+    _indexController.close();
+    fcmService.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final data = Provider.of<AuthService>(context);
     var size = MediaQuery.of(context).size;
@@ -119,7 +142,15 @@ class _FirstScreenState extends State<FirstScreen> {
       body: Column(
         children: <Widget>[
           Container(
+            margin: EdgeInsets.only(bottom: 5),
             decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(0, 1),
+                  blurRadius: 2,
+                )
+              ],
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(40),
@@ -130,6 +161,29 @@ class _FirstScreenState extends State<FirstScreen> {
             width: double.infinity,
             child: Stack(
               children: <Widget>[
+                /* Positioned(
+                  top: 30, //size.height * .06,
+                  left: -10, //size.width * .33,
+                  child: FutureBuilder(
+                      future: getImageUrl(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          print(snapshot.data);
+                          return Container(
+                            alignment: Alignment.center,
+                            width: size.width * .33,
+                            child: /* CircleAvatar(
+                              child: */ Text/* Image.network */(
+                                '${snapshot.data['DisplayName']}',
+                               /*  scale: 1.0, fit: BoxFit.contain,*/
+                              ),
+                           /*  ), */
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
+                ), */
                 Positioned(
                   top: size.height * .06,
                   left: size.width * .33,
@@ -161,95 +215,99 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
                 Positioned(
                   bottom: size.height * .05,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          _pageController.jumpToPage(
-                            0,
-                          );
-                          setState(() {
-                            selectedIndex = 0;
-                          });
-                        },
-                        child: Container(
-                          width: size.width * 0.33,
-                          child: CircleAvatar(
-                            minRadius: 26.5,
-                            backgroundColor:
-                                selectedIndex == _pageController.initialPage - 1
-                                    ? Colors.green
-                                    : Colors.white,
-                            child: ImageIcon(
-                              const AssetImage('assets/icons/qrlogo.png'),
-                              size: 53,
-                              color: selectedIndex ==
-                                      _pageController.initialPage - 1
-                                  ? Colors.white
-                                  : Colors.green,
+                  child: StreamBuilder<int>(
+                      stream: _indexController.stream,
+                      initialData: 1,
+                      builder: (context, snapshot) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                if (selectedIndex != 0) {
+                                  _pageController.jumpToPage(
+                                    0,
+                                  );
+                                  _indexController.add(0);
+                                }
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage - 1 ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/qrlogo.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage - 1 ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _pageController.jumpToPage(
-                            1,
-                          );
-                          setState(() {
-                            selectedIndex = 1;
-                          });
-                        },
-                        child: Container(
-                          width: size.width * 0.33,
-                          child: CircleAvatar(
-                            minRadius: 26.5,
-                            backgroundColor:
-                                selectedIndex == _pageController.initialPage
-                                    ? Colors.green
-                                    : Colors.white,
-                            child: ImageIcon(
-                              const AssetImage('assets/icons/qq3.png'),
-                              size: 53,
-                              color:
-                                  selectedIndex == _pageController.initialPage
-                                      ? Colors.white
-                                      : Colors.green,
+                            GestureDetector(
+                              onTap: () {
+                                _pageController.jumpToPage(
+                                  1,
+                                );
+                                _indexController.add(1);
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/qq3.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _pageController.jumpToPage(
-                            2,
-                          );
-                          setState(() {
-                            selectedIndex = 2;
-                          });
-                        },
-                        child: Container(
-                          width: size.width * 0.33,
-                          child: CircleAvatar(
-                            minRadius: 26.5,
-                            backgroundColor:
-                                selectedIndex == _pageController.initialPage + 1
-                                    ? Colors.green
-                                    : Colors.white,
-                            child: ImageIcon(
-                              const AssetImage('assets/icons/news1.png'),
-                              size: 53,
-                              color: selectedIndex ==
-                                      _pageController.initialPage + 1
-                                  ? Colors.white
-                                  : Colors.green,
+                            GestureDetector(
+                              onTap: () {
+                                _pageController.jumpToPage(
+                                  2,
+                                );
+                                _indexController.add(2);
+                              },
+                              child: Container(
+                                width: size.width * 0.33,
+                                child: CircleAvatar(
+                                  minRadius: 26.5,
+                                  backgroundColor:
+                                      _pageController.initialPage + 1 ==
+                                              snapshot.data
+                                          ? Colors.green
+                                          : Colors.white,
+                                  child: ImageIcon(
+                                    const AssetImage('assets/icons/news1.png'),
+                                    size: 53,
+                                    color: _pageController.initialPage + 1 ==
+                                            snapshot.data
+                                        ? Colors.white
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                          ],
+                        );
+                      }),
                 ),
                 Positioned(
                   bottom: size.height * .020,
@@ -293,11 +351,10 @@ class _FirstScreenState extends State<FirstScreen> {
           Expanded(
             child: Container(
               child: PageView(
+                dragStartBehavior: DragStartBehavior.down,
                 pageSnapping: true,
-                onPageChanged: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
+                onPageChanged: (value) async {
+                  _indexController.add(selectedIndex = value);
                 },
                 allowImplicitScrolling: false,
                 controller: _pageController,
@@ -311,7 +368,6 @@ class _FirstScreenState extends State<FirstScreen> {
                     child: Companies(),
                   ),
                   Container(
-                    height: size.height * 0.4,
                     child: FutureBuilder(
                       future: _qrService.tryAutoLogin(),
                       builder: (context, snapshot) {
