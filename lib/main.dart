@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import './Screens/companies_screen.dart';
 import './Screens/info_screen.dart';
@@ -30,16 +30,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //Crashlytics.instance.enableInDevMode = true;
   getServiceName();
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  //FlutterError.onError = Crashlytics.instance.recordFlutterError;
    fcmService.fcmConfigure();
    fcmService.getFlutterLocalNotificationPlugin();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runZoned(() {
+    /* runZoned(() { */
       runApp(MyApp());
-    }, onError: Crashlytics.instance.recordError);
+   /*  }, onError: Crashlytics.instance.recordError); */
 
     fcmService.getfcmToken();
   });

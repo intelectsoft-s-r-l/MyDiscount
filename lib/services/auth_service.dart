@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+//import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,7 +33,7 @@ class AuthService extends ChangeNotifier {
             "Email": profile['email'],
             "ID": _accessToken.userId,
             "PhotoUrl": profile['picture']['data']['url'],
-            "PushToken": "",
+            "PushToken": fcmToken,
             "RegisterMode": 2,
             "access_token": _accessToken.token,
           };
@@ -66,7 +66,7 @@ class AuthService extends ChangeNotifier {
             "Email": account.email,
             "ID": account.id,
             "PhotoUrl": account.photoUrl,
-            "PushToken": "",
+            "PushToken": fcmToken,
             "RegisterMode": 1,
             "access_token": auth.accessToken,
           };
@@ -88,7 +88,7 @@ class AuthService extends ChangeNotifier {
     prefs.clear();
   }
 
-  signInWithApple() async {
+  /* signInWithApple() async {
     var appleCredentials = await SignInWithApple.getAppleIDCredential(scopes: [
       AppleIDAuthorizationScopes.email,
       AppleIDAuthorizationScopes.fullName
@@ -113,4 +113,5 @@ class AuthService extends ChangeNotifier {
     print(_data);
     return _credentials;
   }
+} */
 }
