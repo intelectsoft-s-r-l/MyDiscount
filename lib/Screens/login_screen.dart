@@ -91,7 +91,7 @@ class LoginPage extends StatelessWidget {
         );
       }
     }
-
+  
    /*  void getAuthorizationApple() async {
       final status = await internet.verifyInternetConection();
       switch (status) {
@@ -166,15 +166,15 @@ class LoginPage extends StatelessWidget {
                         },
                         child: CircleAvatar(
                           radius: 28,
-                          backgroundColor: Colors.green,
-                          child: /* Image.asset(
-                              'assets/icons/google_logo.png'), */ Text(
+                          backgroundColor: Colors.white,
+                          child: Image.asset(
+                              'assets/icons/google_logo.png'), /* Text(
                             'G',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 45),
-                          ),
+                          ), */
                         ),
                       ),
                     ),
@@ -186,19 +186,19 @@ class LoginPage extends StatelessWidget {
                         },
                         child: CircleAvatar(
                           radius: 28,
-                          backgroundColor: Colors.green,
-                          child: /* Image.asset(
-                              'assets/icons/Facebook_Logo.png'), */ const Text(
+                          backgroundColor: Colors.white,
+                          child: Image.asset(
+                              'assets/icons/Facebook_Logo.png'),/* const  Text(
                             'f',
                             style: TextStyle(
                                 fontSize: 45,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
-                          ),
+                          ), */
                         ),
                       ),
                     ),
-                   /*  const SizedBox(width: 20),
+                   /* Platform.isIOS? const SizedBox(width: 20):Container(),
                     Platform.isIOS
                         ? Container(
                             child: GestureDetector(

@@ -26,7 +26,7 @@ class QrImageWidget extends StatelessWidget {
                     RepaintBoundary(
                       child: QrImage(
                         data: '${snapshot.data}',
-                        size: MediaQuery.of(context).size.height * 0.38,
+                        size: MediaQuery.of(context).size.width * 0.7,
                       ),
                     ),
                     /*  SizedBox(
@@ -37,7 +37,11 @@ class QrImageWidget extends StatelessWidget {
                         initialData: 1,
                         builder: (context, snapshot) {
                           return Container(
-                            width: MediaQuery.of(context).size.width * .6,
+                            padding: EdgeInsets.only(
+                              left: 8,
+                              right: 8,
+                            ),
+                            width: MediaQuery.of(context).size.width * .7,
                             child: LinearProgressIndicator(
                               backgroundColor: Colors.white,
                               minHeight: 4,

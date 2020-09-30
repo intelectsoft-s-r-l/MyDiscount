@@ -98,7 +98,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
 
         break;
       default:
-        if (_timer.isActive) _timer?.cancel();
+        if (_timer?.isActive) _timer?.cancel();
         break;
     }
   }
@@ -117,7 +117,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
               serviceConection = true;
             });
 
-            if (_timer.isActive) _timer?.cancel();
+            if (_timer?.isActive) _timer?.cancel();
           } else {
             startTimer();
           }
@@ -132,10 +132,10 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
               serviceConection = false;
             });
 
-            if (_timer.isActive) _timer?.cancel();
+            if (_timer?.isActive) _timer?.cancel();
           }
         } catch (e) {
-          if (_timer.isActive) _timer?.cancel();
+          if (_timer?.isActive) _timer?.cancel();
 
           print(e);
         }
@@ -182,12 +182,12 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
             color: Colors.white,
             borderRadius: BorderRadius.circular(30),
           ),
-          child: Container(
+          child: /* Container(
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(30),
-            ),
-            child: Column(
+            ), 
+            child:  */Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -240,7 +240,7 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
             ),
           ),
         ),
-      ),
+     /*  ), */
     );
   }
 }

@@ -1,8 +1,6 @@
-
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,34 +10,35 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import './Screens/companies_screen.dart';
 import './Screens/info_screen.dart';
 import './Screens/login_screen.dart';
 import './Screens/qr_screen.dart';
+import './services/remote_config_service.dart';
 import './services/fcm_service.dart';
 import './services/internet_connection_service.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
 import './widgets/localizations.dart';
-import 'widgets/crdentials.dart';
+import './widgets/crdentials.dart';
 
 FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Crashlytics.instance.enableInDevMode = true;
+  Crashlytics.instance.enableInDevMode = true;
   getServiceName();
-  //FlutterError.onError = Crashlytics.instance.recordFlutterError;
-   fcmService.fcmConfigure();
-   fcmService.getFlutterLocalNotificationPlugin();
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  fcmService.fcmConfigure();
+  fcmService.getFlutterLocalNotificationPlugin();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    /* runZoned(() { */
+    runZoned(() {
       runApp(MyApp());
-   /*  }, onError: Crashlytics.instance.recordError); */
+    }, onError: Crashlytics.instance.recordError);
 
     fcmService.getfcmToken();
   });
@@ -138,6 +137,11 @@ class _FirstScreenState extends State<FirstScreen> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: [],
+        ),
+      ), 
       backgroundColor: Color.fromRGBO(240, 242, 241, 1),
       body: Column(
         children: <Widget>[
@@ -161,29 +165,6 @@ class _FirstScreenState extends State<FirstScreen> {
             width: double.infinity,
             child: Stack(
               children: <Widget>[
-                /* Positioned(
-                  top: 30, //size.height * .06,
-                  left: -10, //size.width * .33,
-                  child: FutureBuilder(
-                      future: getImageUrl(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          print(snapshot.data);
-                          return Container(
-                            alignment: Alignment.center,
-                            width: size.width * .33,
-                            child: /* CircleAvatar(
-                              child: */ Text/* Image.network */(
-                                '${snapshot.data['DisplayName']}',
-                               /*  scale: 1.0, fit: BoxFit.contain,*/
-                              ),
-                           /*  ), */
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }),
-                ), */
                 Positioned(
                   top: size.height * .06,
                   left: size.width * .33,

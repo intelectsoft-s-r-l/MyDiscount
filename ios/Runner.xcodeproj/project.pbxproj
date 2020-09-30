@@ -155,6 +155,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				167C600B9BA28E3BC3C829F1 /* [CP] Embed Pods Frameworks */,
 				E2D46BBF044825DC40D7A382 /* [CP] Copy Pods Resources */,
+				E5A7A45C252492AD00D1400E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -297,6 +298,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		E5A7A45C252492AD00D1400E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

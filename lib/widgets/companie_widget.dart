@@ -11,24 +11,27 @@ class CompanieWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.only(top: 10, bottom: 10),
+      contentPadding: EdgeInsets.only(top: 10, bottom: 10,right: 5,left: 5),
       leading: Container(
         width: 80,
         height: 80,
         child: Image.memory(
-          Base64Decoder().convert('${companie['Logo']}'),
-          filterQuality: FilterQuality.high,
-          fit: BoxFit.contain,
+            Base64Decoder().convert('${companie['Logo']}'),
+            filterQuality: FilterQuality.high,
+            fit: BoxFit.contain,
+          ),
+        ),
+ 
+      title: FittedBox(fit: BoxFit.scaleDown,
+              child: Text(
+          '${companie['Name']}',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
       ),
-      title: Text(
-        '${companie['Name']}',
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-      ),
-      //se va adauga in alta versiune
+      //TODO:se va adauga in alta versiune
       /* subtitle: Text('Index:${companie['Index']}'), */
       trailing: Container(
         width: 80,
@@ -41,9 +44,11 @@ class CompanieWidget extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
             ),
-            Text(
-              '${companie['Amount']} lei',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            FittedBox(fit:BoxFit.contain,
+                          child: Text(
+                '${companie['Amount']} lei',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
