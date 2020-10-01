@@ -68,9 +68,8 @@ class FCMService {
         'your channel description',
         importance: Importance.Max,
         priority: Priority.Max,
-        ticker: 'Max',
         enableLights: true,
-        ledColor: Color(0xFF0000),
+        ledColor: Color(0x0000FF),
         ledOffMs: 2000,
         ledOnMs: 2000,
         color: Color(0x00C569),
@@ -97,7 +96,6 @@ class FCMService {
       'your channel description',
       importance: Importance.Max,
       priority: Priority.Max,
-      ticker: 'Max',
       icon: '@mipmap/ic_stat_qq3',
       enableLights: true,
       ledColor: Color(0x0000FF),
@@ -130,13 +128,10 @@ class FCMService {
 
   Future<String> getfcmToken() async {
     String token = await _fcm.getToken();
-    var state = await _fcm.autoInitEnabled();
-    print(state);
-
     _fcm.onTokenRefresh.listen((event) {
       event = token;
     });
-    print(token);
+    //print(token);
     return token;
   }
 
@@ -153,11 +148,11 @@ class FCMService {
     _fcm.requestNotificationPermissions();
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
-        // print('$notification');
+        
         _showNotification(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
-        // print('$notification');
+        
         _showNotification(notification);
       },
       onLaunch: (Map<String, dynamic> notification) async {

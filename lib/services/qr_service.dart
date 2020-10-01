@@ -68,7 +68,9 @@ class QrService extends ChangeNotifier {
         return {};
       }
     } catch (e) {
-      return {};
+      return {
+        
+      };
     }
   }
 

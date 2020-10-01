@@ -12,20 +12,30 @@ class InfoScreen extends StatelessWidget {
         child: Container(
           padding:
               const EdgeInsets.only(top: 10, bottom: 5, left: 10, right: 10),
-          decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.grey,offset: Offset(0, 1),blurRadius: 2)],
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0, 1),
+                blurRadius: 2,
+              ),
+            ],
             color: Colors.white,
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
           ),
           child: Center(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 children: <Widget>[
-                  Text('Politica de confidențialitate\n\n',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Text(
+                    'Politica de confidențialitate\n\n',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
                   RichText(
                     textAlign: TextAlign.justify,
                     text: TextSpan(

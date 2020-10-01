@@ -25,9 +25,11 @@ class AppLocalizations {
     /* var data = */ prefs.setString('key', jsonString);
     var jsonM = json.decode(prefs.getString("key"));
     Map<String, dynamic> jsonMap = jsonM;
-    _localizedStrings = jsonMap.map((key, value) {
-      return MapEntry(key, value.toString());
-    });
+    _localizedStrings = jsonMap.map(
+      (key, value) {
+        return MapEntry(key, value.toString());
+      },
+    );
     return true;
   }
 

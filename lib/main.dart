@@ -113,6 +113,7 @@ class _FirstScreenState extends State<FirstScreen> {
   Credentials credentials = Credentials();
 
   static QrService _qrService = QrService();
+  //GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -136,12 +137,20 @@ class _FirstScreenState extends State<FirstScreen> {
     final data = Provider.of<AuthService>(context);
     var size = MediaQuery.of(context).size;
 
+    /* void _openDrawer() {
+      _scaffoldKey.currentState.openDrawer();
+    } */
+
+    /* void _closeDrawer() {
+      _scaffoldKey.currentState.dispose();
+    } */
+
     return Scaffold(
       drawer: Drawer(
         child: Column(
           children: [],
         ),
-      ), 
+      ),
       backgroundColor: Color.fromRGBO(240, 242, 241, 1),
       body: Column(
         children: <Widget>[
@@ -166,17 +175,37 @@ class _FirstScreenState extends State<FirstScreen> {
             child: Stack(
               children: <Widget>[
                 Positioned(
+                    top: size.height * .04,
+                    left: size.width * .06,
+                    child: Container(
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.menu,
+                            color: Colors.green,
+                          ),
+                          onPressed: () {
+                            //TODO de corectat drawer-ul sa lucreze la apasare pe buton
+                           /* _openDrawer();
+                             if (!_scaffoldKey.currentState.isDrawerOpen) {
+                              _closeDrawer();
+                            }  */
+                          }),
+                    )),
+                Positioned(
                   top: size.height * .06,
                   left: size.width * .33,
                   child: Container(
                     alignment: Alignment.center,
                     width: size.width * .33,
-                    child: Text(
-                      "MyDiscount",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green),
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        "MyDiscount",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green),
+                      ),
                     ),
                   ),
                 ),
@@ -206,9 +235,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             GestureDetector(
                               onTap: () {
                                 if (selectedIndex != 0) {
-                                  _pageController.jumpToPage(
-                                    0,
-                                  );
+                                  _pageController.jumpToPage(0);
                                   _indexController.add(0);
                                 }
                               },
@@ -261,9 +288,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                _pageController.jumpToPage(
-                                  2,
-                                );
+                                _pageController.jumpToPage(2);
                                 _indexController.add(2);
                               },
                               child: Container(
@@ -292,38 +317,44 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
                 Positioned(
                   bottom: size.height * .020,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(left: 10),
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          AppLocalizations.of(context).translate('companies'),
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.only(left: 10),
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            AppLocalizations.of(context).translate('companies'),
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          'QR',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                        Container(
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            'QR',
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          AppLocalizations.of(context).translate('text10'),
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                        Container(
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            AppLocalizations.of(context).translate('text10'),
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],

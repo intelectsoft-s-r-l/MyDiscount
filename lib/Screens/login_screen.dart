@@ -23,7 +23,8 @@ class LoginPage extends StatelessWidget {
           child: Center(
             child: Card(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+                borderRadius: BorderRadius.circular(20),
+              ),
               color: Colors.white,
               child: Container(
                 height: 150,
@@ -81,7 +82,9 @@ class LoginPage extends StatelessWidget {
             ),
             actions: [
               CupertinoDialogAction(
-                child: Text(AppLocalizations.of(context).translate('text8')),
+                child: Text(
+                  AppLocalizations.of(context).translate('text8'),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -91,8 +94,8 @@ class LoginPage extends StatelessWidget {
         );
       }
     }
-  
-   /*  void getAuthorizationApple() async {
+
+    /*  void getAuthorizationApple() async {
       final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
@@ -188,7 +191,7 @@ class LoginPage extends StatelessWidget {
                           radius: 28,
                           backgroundColor: Colors.white,
                           child: Image.asset(
-                              'assets/icons/Facebook_Logo.png'),/* const  Text(
+                              'assets/icons/Facebook_Logo.png'), /* const  Text(
                             'f',
                             style: TextStyle(
                                 fontSize: 45,
@@ -198,7 +201,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                   /* Platform.isIOS? const SizedBox(width: 20):Container(),
+                    /* Platform.isIOS? const SizedBox(width: 20):Container(),
                     Platform.isIOS
                         ? Container(
                             child: GestureDetector(
