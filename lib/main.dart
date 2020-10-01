@@ -1,8 +1,6 @@
-
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,34 +10,35 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import './Screens/companies_screen.dart';
 import './Screens/info_screen.dart';
 import './Screens/login_screen.dart';
 import './Screens/qr_screen.dart';
+import './services/remote_config_service.dart';
 import './services/fcm_service.dart';
 import './services/internet_connection_service.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
 import './widgets/localizations.dart';
-import 'widgets/crdentials.dart';
+import './widgets/crdentials.dart';
 
 FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Crashlytics.instance.enableInDevMode = true;
+  Crashlytics.instance.enableInDevMode = true;
   getServiceName();
-  //FlutterError.onError = Crashlytics.instance.recordFlutterError;
-   fcmService.fcmConfigure();
-   fcmService.getFlutterLocalNotificationPlugin();
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  fcmService.fcmConfigure();
+  fcmService.getFlutterLocalNotificationPlugin();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    /* runZoned(() { */
+    runZoned(() {
       runApp(MyApp());
-   /*  }, onError: Crashlytics.instance.recordError); */
+    }, onError: Crashlytics.instance.recordError);
 
     fcmService.getfcmToken();
   });
@@ -114,6 +113,7 @@ class _FirstScreenState extends State<FirstScreen> {
   Credentials credentials = Credentials();
 
   static QrService _qrService = QrService();
+  //GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -137,7 +137,20 @@ class _FirstScreenState extends State<FirstScreen> {
     final data = Provider.of<AuthService>(context);
     var size = MediaQuery.of(context).size;
 
+    /* void _openDrawer() {
+      _scaffoldKey.currentState.openDrawer();
+    } */
+
+    /* void _closeDrawer() {
+      _scaffoldKey.currentState.dispose();
+    } */
+
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: [],
+        ),
+      ),
       backgroundColor: Color.fromRGBO(240, 242, 241, 1),
       body: Column(
         children: <Widget>[
@@ -161,41 +174,38 @@ class _FirstScreenState extends State<FirstScreen> {
             width: double.infinity,
             child: Stack(
               children: <Widget>[
-                /* Positioned(
-                  top: 30, //size.height * .06,
-                  left: -10, //size.width * .33,
-                  child: FutureBuilder(
-                      future: getImageUrl(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          print(snapshot.data);
-                          return Container(
-                            alignment: Alignment.center,
-                            width: size.width * .33,
-                            child: /* CircleAvatar(
-                              child: */ Text/* Image.network */(
-                                '${snapshot.data['DisplayName']}',
-                               /*  scale: 1.0, fit: BoxFit.contain,*/
-                              ),
-                           /*  ), */
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }),
-                ), */
+                Positioned(
+                    top: size.height * .04,
+                    left: size.width * .06,
+                    child: Container(
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.menu,
+                            color: Colors.green,
+                          ),
+                          onPressed: () {
+                            //TODO de corectat drawer-ul sa lucreze la apasare pe buton
+                           /* _openDrawer();
+                             if (!_scaffoldKey.currentState.isDrawerOpen) {
+                              _closeDrawer();
+                            }  */
+                          }),
+                    )),
                 Positioned(
                   top: size.height * .06,
                   left: size.width * .33,
                   child: Container(
                     alignment: Alignment.center,
                     width: size.width * .33,
-                    child: Text(
-                      "MyDiscount",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green),
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        "MyDiscount",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green),
+                      ),
                     ),
                   ),
                 ),
@@ -225,9 +235,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             GestureDetector(
                               onTap: () {
                                 if (selectedIndex != 0) {
-                                  _pageController.jumpToPage(
-                                    0,
-                                  );
+                                  _pageController.jumpToPage(0);
                                   _indexController.add(0);
                                 }
                               },
@@ -280,9 +288,7 @@ class _FirstScreenState extends State<FirstScreen> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                _pageController.jumpToPage(
-                                  2,
-                                );
+                                _pageController.jumpToPage(2);
                                 _indexController.add(2);
                               },
                               child: Container(
@@ -311,38 +317,44 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
                 Positioned(
                   bottom: size.height * .020,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(left: 10),
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          AppLocalizations.of(context).translate('companies'),
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.only(left: 10),
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            AppLocalizations.of(context).translate('companies'),
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          'QR',
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                        Container(
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            'QR',
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: size.width * 0.33,
-                        child: Text(
-                          AppLocalizations.of(context).translate('text10'),
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
+                        Container(
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            AppLocalizations.of(context).translate('text10'),
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],

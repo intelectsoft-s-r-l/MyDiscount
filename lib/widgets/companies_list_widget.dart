@@ -14,7 +14,9 @@ class CompaniesList extends StatelessWidget {
       ),
       itemCount: list.length,
       itemBuilder: (context, index) => Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
         elevation: 2.0,
         child: CompanieWidget(list[index]),
       ),

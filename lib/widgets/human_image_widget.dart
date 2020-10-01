@@ -7,7 +7,7 @@ class HumanImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.31,
       child: Column(
         children: <Widget>[
           Container(

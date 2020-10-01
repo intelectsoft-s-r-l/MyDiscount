@@ -23,7 +23,8 @@ class LoginPage extends StatelessWidget {
           child: Center(
             child: Card(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
+                borderRadius: BorderRadius.circular(20),
+              ),
               color: Colors.white,
               child: Container(
                 height: 150,
@@ -81,7 +82,9 @@ class LoginPage extends StatelessWidget {
             ),
             actions: [
               CupertinoDialogAction(
-                child: Text(AppLocalizations.of(context).translate('text8')),
+                child: Text(
+                  AppLocalizations.of(context).translate('text8'),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -92,7 +95,7 @@ class LoginPage extends StatelessWidget {
       }
     }
 
-   /*  void getAuthorizationApple() async {
+    /*  void getAuthorizationApple() async {
       final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
@@ -166,15 +169,15 @@ class LoginPage extends StatelessWidget {
                         },
                         child: CircleAvatar(
                           radius: 28,
-                          backgroundColor: Colors.green,
-                          child: /* Image.asset(
-                              'assets/icons/google_logo.png'), */ Text(
+                          backgroundColor: Colors.white,
+                          child: Image.asset(
+                              'assets/icons/google_logo.png'), /* Text(
                             'G',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 45),
-                          ),
+                          ), */
                         ),
                       ),
                     ),
@@ -186,19 +189,19 @@ class LoginPage extends StatelessWidget {
                         },
                         child: CircleAvatar(
                           radius: 28,
-                          backgroundColor: Colors.green,
-                          child: /* Image.asset(
-                              'assets/icons/Facebook_Logo.png'), */ const Text(
+                          backgroundColor: Colors.white,
+                          child: Image.asset(
+                              'assets/icons/Facebook_Logo.png'), /* const  Text(
                             'f',
                             style: TextStyle(
                                 fontSize: 45,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
-                          ),
+                          ), */
                         ),
                       ),
                     ),
-                   /*  const SizedBox(width: 20),
+                    /* Platform.isIOS? const SizedBox(width: 20):Container(),
                     Platform.isIOS
                         ? Container(
                             child: GestureDetector(

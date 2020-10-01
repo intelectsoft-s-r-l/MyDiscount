@@ -18,7 +18,8 @@ getBodyData() async {
     var savedCredential = await sPrefs.credential();
     var userData = json.decode(savedCredential);
     final minUserData = json.encode(
-        {"ID": userData['ID'], "RegisterMode": userData['RegisterMode']});
+      {"ID": userData['ID'], "RegisterMode": userData['RegisterMode']},
+    );
     return minUserData;
   } else {
     var fullUserData = await sPrefs.credential();
