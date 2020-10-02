@@ -21,10 +21,12 @@ import './services/fcm_service.dart';
 import './services/internet_connection_service.dart';
 import './services/auth_service.dart';
 import './services/qr_service.dart';
+import './widgets/drawer.dart';
 import './widgets/localizations.dart';
-import './widgets/crdentials.dart';
+import './widgets/credentials.dart';
 
 FCMService fcmService = FCMService();
+enum AuthState{Authorized,Unauthorized}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Crashlytics.instance.enableInDevMode = true;
@@ -113,7 +115,7 @@ class _FirstScreenState extends State<FirstScreen> {
   Credentials credentials = Credentials();
 
   static QrService _qrService = QrService();
-  //GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -137,19 +139,16 @@ class _FirstScreenState extends State<FirstScreen> {
     final data = Provider.of<AuthService>(context);
     var size = MediaQuery.of(context).size;
 
-    /* void _openDrawer() {
+    void _openDrawer() {
       _scaffoldKey.currentState.openDrawer();
-    } */
+    }
 
-    /* void _closeDrawer() {
-      _scaffoldKey.currentState.dispose();
-    } */
-
-    return Scaffold(
+    return Scaffold(drawerEnableOpenDragGesture: false,
+    drawerEdgeDragWidth: 60,
+      key: _scaffoldKey,
       drawer: Drawer(
-        child: Column(
-          children: [],
-        ),
+        child: DrawerWidget(),
+        
       ),
       backgroundColor: Color.fromRGBO(240, 242, 241, 1),
       body: Column(
@@ -175,22 +174,20 @@ class _FirstScreenState extends State<FirstScreen> {
             child: Stack(
               children: <Widget>[
                 Positioned(
-                    top: size.height * .04,
-                    left: size.width * .06,
-                    child: Container(
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.menu,
-                            color: Colors.green,
-                          ),
-                          onPressed: () {
-                            //TODO de corectat drawer-ul sa lucreze la apasare pe buton
-                           /* _openDrawer();
-                             if (!_scaffoldKey.currentState.isDrawerOpen) {
-                              _closeDrawer();
-                            }  */
-                          }),
-                    )),
+                  top: size.height * .04,
+                  left: size.width * .06,
+                  child: Container(
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.menu,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        _openDrawer();
+                      },
+                    ),
+                  ),
+                ),
                 Positioned(
                   top: size.height * .06,
                   left: size.width * .33,
@@ -202,9 +199,10 @@ class _FirstScreenState extends State<FirstScreen> {
                       child: Text(
                         "MyDiscount",
                         style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
                       ),
                     ),
                   ),
@@ -218,7 +216,9 @@ class _FirstScreenState extends State<FirstScreen> {
                       onPressed: () {
                         data.signOut();
                         _pageController.animateToPage(1,
-                            duration: Duration(milliseconds: 50),
+                            duration: Duration(
+                              milliseconds: 50,
+                            ),
                             curve: Curves.ease);
                         setState(() {});
                       }),

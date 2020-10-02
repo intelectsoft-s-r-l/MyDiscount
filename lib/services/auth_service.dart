@@ -1,24 +1,23 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-//import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../widgets/user.dart';
 import '../services/fcm_service.dart';
 import '../main.dart';
-import '../services/shared_preferences_service.dart';
 
 class AuthService extends ChangeNotifier {
   FacebookLogin _facebookLogin = FacebookLogin();
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-  SharedPref prefs = SharedPref();
+  UserCredentials userCredentials = UserCredentials();
   FCMService fcmService = FCMService();
-  Future<bool> authWithFacebook() async {
+  authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
       switch (result.status) {
@@ -28,56 +27,47 @@ class AuthService extends ChangeNotifier {
               'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=${_accessToken.token}');
           final profile = json.decode(_graphResponse.body);
           final fcmToken = await fcmService.getfcmToken();
-          final _credentials = {
-            "DisplayName": profile['name'],
-            "Email": profile['email'],
-            "ID": _accessToken.userId,
-            "PhotoUrl": profile['picture']['data']['url'],
-            "PushToken": fcmToken,
-            "RegisterMode": 2,
-            "access_token": _accessToken.token,
-          };
-          print(_credentials);
-          final String _data = json.encode(_credentials);
-          prefs.credentials(_data);
-          return true;
+          userCredentials.saveUserCredentials(
+            _accessToken.userId,
+            2,
+            fcmToken,
+            profile['name'],
+            profile['email'],
+            profile['picture']['data']['url'],
+            _accessToken.token,
+            null,
+          );
           break;
         case FacebookLoginStatus.cancelledByUser:
-          return false;
           break;
         case FacebookLoginStatus.error:
-          return false;
           break;
       }
     } catch (e) {
       throw Error();
     }
-    return false;
   }
 
-  Future<bool> logwithG() async {
+  logwithG() async {
     try {
       googleSignIn.signIn().then(
         (final GoogleSignInAccount account) async {
           final GoogleSignInAuthentication auth = await account.authentication;
           final fcmToken = await fcmService.getfcmToken();
-          final _credentials = {
-            "DisplayName": account.displayName,
-            "Email": account.email,
-            "ID": account.id,
-            "PhotoUrl": account.photoUrl,
-            "PushToken": fcmToken,
-            "RegisterMode": 1,
-            "access_token": auth.accessToken,
-          };
-          final String _data = json.encode(_credentials);
-          prefs.credentials(_data);
-          print(_credentials);
+          userCredentials.saveUserCredentials(
+            account.id,
+            1,
+            fcmToken,
+            account.displayName,
+            account.email,
+            account.photoUrl,
+            auth.accessToken,
+            null,
+          );
         },
-      ).whenComplete(() => main());
-      return true;
+      ).whenComplete(() => main()); 
     } catch (e) {
-      return false;
+      throw Exception(e);
     }
   }
 
@@ -88,30 +78,23 @@ class AuthService extends ChangeNotifier {
     prefs.clear();
   }
 
-  /* signInWithApple() async {
+  signInWithApple() async {
     var appleCredentials = await SignInWithApple.getAppleIDCredential(scopes: [
       AppleIDAuthorizationScopes.email,
       AppleIDAuthorizationScopes.fullName
     ]);
 
     final fcmToken = await fcmService.getfcmToken();
-    //AppleIDAuthorizationRequest();
 
-    final _credentials = {
-      "DisplayName":
-          appleCredentials.familyName + ' ' + appleCredentials.givenName,
-      "Email": appleCredentials.email,
-      "ID": appleCredentials.userIdentifier,
-      "PhotoUrl": appleCredentials.authorizationCode,
-      "PushToken": fcmToken,
-      "RegisterMode": 1,
-      "access_token": appleCredentials.identityToken,
-    };
-    print(_credentials);
-    final String _data = json.encode(_credentials);
-    prefs.credentials(_data);
-    print(_data);
-    return _credentials;
+    userCredentials.saveUserCredentials(
+      appleCredentials.userIdentifier,
+      3,
+      fcmToken,
+      appleCredentials.familyName + ' ' + appleCredentials.givenName,
+      appleCredentials.email,
+      null,
+      appleCredentials.identityToken,
+      appleCredentials.authorizationCode,
+    );
   }
-} */
 }

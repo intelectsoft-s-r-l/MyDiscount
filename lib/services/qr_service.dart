@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
-import '../widgets/crdentials.dart';
+import '../widgets/credentials.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../services/shared_preferences_service.dart';

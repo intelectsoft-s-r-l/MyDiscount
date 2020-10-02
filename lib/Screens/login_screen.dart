@@ -95,7 +95,7 @@ class LoginPage extends StatelessWidget {
       }
     }
 
-    /*  void getAuthorizationApple() async {
+     void getAuthorizationApple() async {
       final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
@@ -105,7 +105,7 @@ class LoginPage extends StatelessWidget {
         case DataConnectionStatus.disconnected:
           getDialog();
       }
-    } */
+    }
 
     void getAuthorizationGoogle() async {
       final status = await internet.verifyInternetConection();
@@ -158,7 +158,6 @@ class LoginPage extends StatelessWidget {
                     fontSize: 30,
                   ),
                 ),
-                //SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -171,17 +170,11 @@ class LoginPage extends StatelessWidget {
                           radius: 28,
                           backgroundColor: Colors.white,
                           child: Image.asset(
-                              'assets/icons/google_logo.png'), /* Text(
-                            'G',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 45),
-                          ), */
+                              'assets/icons/google_logo.png'), 
                         ),
                       ),
                     ),
-                    const SizedBox(width: 40),
+                    Platform.isIOS? const SizedBox(width: 20):const SizedBox(width: 40),
                     Container(
                       child: GestureDetector(
                         onTap: () {
@@ -191,17 +184,11 @@ class LoginPage extends StatelessWidget {
                           radius: 28,
                           backgroundColor: Colors.white,
                           child: Image.asset(
-                              'assets/icons/Facebook_Logo.png'), /* const  Text(
-                            'f',
-                            style: TextStyle(
-                                fontSize: 45,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ), */
+                              'assets/icons/Facebook_Logo.png'), 
                         ),
                       ),
                     ),
-                    /* Platform.isIOS? const SizedBox(width: 20):Container(),
+                    Platform.isIOS? const SizedBox(width: 20):Container(),
                     Platform.isIOS
                         ? Container(
                             child: GestureDetector(
@@ -216,7 +203,7 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                           )
-                        : Container() */
+                        : Container()
                   ],
                 ),
               ],

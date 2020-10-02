@@ -29,9 +29,6 @@ class QrImageWidget extends StatelessWidget {
                         size: MediaQuery.of(context).size.width * 0.65,
                       ),
                     ),
-                    /* SizedBox(
-                      height: 1,
-                    ), */
                     StreamBuilder<double>(
                         stream: _progress,
                         initialData: 1,
@@ -41,7 +38,7 @@ class QrImageWidget extends StatelessWidget {
                               left: 8,
                               right: 8,
                             ),
-                            width: MediaQuery.of(context).size.width * .6,
+                            width: MediaQuery.of(context).size.width * .65,
                             child: LinearProgressIndicator(
                               backgroundColor: Colors.white,
                               minHeight: 4,
