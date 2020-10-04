@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,17 +37,18 @@ class FCMService {
         AndroidInitializationSettings('@mipmap/ic_stat_qq3');
 
     var initializationSetingsIos = IOSInitializationSettings(
-        requestAlertPermission: false,
-        requestBadgePermission: false,
-        requestSoundPermission: false,
-        onDidReceiveLocalNotification:
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      /*   onDidReceiveLocalNotification:
             (int id, String title, String body, String payload) async {
           didReceiveLocalNotificationSubject.add(ReceivedNotification(
             body: body,
             title: title,
             id: id,
           ));
-        });
+        }*/
+    );
 
     var initializationSettings = InitializationSettings(
         initializationSetingsAndroid, initializationSetingsIos);
@@ -62,7 +62,6 @@ class FCMService {
   }
 
   Future<void> _showPublicNotification(notification) async {
-    //_showNotifications(notification);
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;
@@ -94,7 +93,6 @@ class FCMService {
   }
 
   Future<void> _showNotification(notification) async {
-   // _showNotifications(notification);
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;
@@ -119,8 +117,7 @@ class FCMService {
     var iOSPlatformChannelSpecifics =
         IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics,
-        iOSPlatformChannelSpecifics); //print('this is notification:$notification');
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       Platform.isIOS
           ? int.parse(notification['id'])
@@ -132,7 +129,6 @@ class FCMService {
           ? '${notification['body']}'
           : '${notification['data']['body']}',
       platformChannelSpecifics,
-      // payload: '${notification['body']}'
     );
     print('is shownotification:$notification');
   }
@@ -159,8 +155,7 @@ class FCMService {
     _fcm.requestNotificationPermissions();
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
-       /*  _showBigTextNotification(
-            notification); // */_showNotification(notification);
+        _showNotification(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
         _showNotification(notification);
@@ -172,8 +167,7 @@ class FCMService {
     );
   }
 
-  get receivedNotificationList => _receivedNotification;
-  Future<void> _showBigTextNotification(notification) async {
+  /*  Future<void> _showBigTextNotification(notification) async {
     _showNotifications(notification);
     var bigTextStyleInformation = BigTextStyleInformation(
         '<i>${notification['data']['body']}</i>',
@@ -194,10 +188,10 @@ class FCMService {
         '${notification['data']['title']}',
         '${notification['data']['body']}',
         platformChannelSpecifics);
-  }
+  } */
 }
 
-Map<dynamic, ReceivedNotification> _receivedNotification = {};
+/* Map<dynamic, ReceivedNotification> _receivedNotification = {};
 
 ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
   final dynamic _notifications = notification['data'] ?? notification;
@@ -208,9 +202,9 @@ ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
       _receivedNotification.putIfAbsent(
           id, () => ReceivedNotification(id: id, title: title, body: body));
   return receivedNotification;
-}
+} */
 
-class ReceivedNotification {
+/* class ReceivedNotification {
   final int id;
   String title;
   String body;
@@ -222,4 +216,4 @@ class ReceivedNotification {
     @required this.body,
     this.payload,
   });
-}
+} */

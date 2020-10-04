@@ -24,9 +24,19 @@ class QrImageWidget extends StatelessWidget {
                 return Column(
                   children: <Widget>[
                     RepaintBoundary(
-                      child: QrImage(
-                        data: '${snapshot.data}',
-                        size: MediaQuery.of(context).size.width * 0.65,
+                      child: ShaderMask(
+                        blendMode: BlendMode.srcATop,
+                        shaderCallback: (rect) => LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black,
+                              Colors.green,
+                            ]).createShader(rect),
+                        child: QrImage(
+                          data: '${snapshot.data}',
+                          size: MediaQuery.of(context).size.width * 0.65,
+                        ),
                       ),
                     ),
                     StreamBuilder<double>(

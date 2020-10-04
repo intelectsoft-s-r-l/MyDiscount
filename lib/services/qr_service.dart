@@ -68,9 +68,7 @@ class QrService extends ChangeNotifier {
         return {};
       }
     } catch (e) {
-      return {
-        
-      };
+      return {};
     }
   }
 
@@ -100,4 +98,6 @@ class QrService extends ChangeNotifier {
         return false;
     }
   }
+
+  notifyListeners();
 }

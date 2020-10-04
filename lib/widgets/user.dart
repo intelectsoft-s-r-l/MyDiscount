@@ -13,7 +13,15 @@ class UserCredentials {
   String authorizationCode;
   SharedPref prefs = SharedPref();
   saveUserCredentials(
-      id, registerMode, pushToken, displayName, email, photoUrl, accessToken,authorizationCode,) {
+    String id,
+    int registerMode,
+    String pushToken,
+    String displayName,
+    String email,
+    String photoUrl,
+    String accessToken,
+    String authorizationCode,
+  ) {
     final Map<String, dynamic> _credentials = {
       "DisplayName": displayName,
       "Email": email,

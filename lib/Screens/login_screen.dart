@@ -16,6 +16,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final data = Provider.of<AuthService>(context);
     final internet = Provider.of<InternetConnection>(context);
+
     getDialog() {
       if (Platform.isAndroid) {
         showDialog(
@@ -95,7 +96,7 @@ class LoginPage extends StatelessWidget {
       }
     }
 
-     void getAuthorizationApple() async {
+    void getAuthorizationApple() async {
       final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
@@ -127,6 +128,7 @@ class LoginPage extends StatelessWidget {
               main();
             },
           );
+          /*  logService.tryAutoLogin(); */
           break;
         case DataConnectionStatus.disconnected:
           getDialog();
@@ -169,12 +171,13 @@ class LoginPage extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 28,
                           backgroundColor: Colors.white,
-                          child: Image.asset(
-                              'assets/icons/google_logo.png'), 
+                          child: Image.asset('assets/icons/google_logo.png'),
                         ),
                       ),
                     ),
-                    Platform.isIOS? const SizedBox(width: 20):const SizedBox(width: 40),
+                    Platform.isIOS
+                        ? const SizedBox(width: 20)
+                        : const SizedBox(width: 40),
                     Container(
                       child: GestureDetector(
                         onTap: () {
@@ -183,12 +186,11 @@ class LoginPage extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 28,
                           backgroundColor: Colors.white,
-                          child: Image.asset(
-                              'assets/icons/Facebook_Logo.png'), 
+                          child: Image.asset('assets/icons/Facebook_Logo.png'),
                         ),
                       ),
                     ),
-                    Platform.isIOS? const SizedBox(width: 20):Container(),
+                    Platform.isIOS ? const SizedBox(width: 20) : Container(),
                     Platform.isIOS
                         ? Container(
                             child: GestureDetector(
