@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
 import '../services/qr_service.dart';
 import '../widgets/companies_list_widget.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
@@ -11,7 +9,7 @@ import '../widgets/nointernet_widget.dart';
 class Companies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<QrService>(context);
+    QrService data = QrService(); 
 
     return Scaffold(
       body: Container(

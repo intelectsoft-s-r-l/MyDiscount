@@ -46,7 +46,7 @@ class CompanieWidget extends StatelessWidget {
             ),
             FittedBox(fit:BoxFit.contain,
                           child: Text(
-                '${companie['Amount']} lei',
+                '${double.parse(companie['Amount']).toStringAsFixed(2) } lei',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),

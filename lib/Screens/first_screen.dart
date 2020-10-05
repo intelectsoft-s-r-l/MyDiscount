@@ -1,0 +1,315 @@
+import 'dart:async';
+
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../Screens/companies_screen.dart';
+import '../Screens/info_screen.dart';
+import '../Screens/login_screen.dart';
+import '../Screens/qr_screen.dart';
+import '../services/auth_service.dart';
+import '../services/fcm_service.dart';
+import '../services/qr_service.dart';
+import '../widgets/drawer.dart';
+import '../widgets/localizations.dart';
+
+enum AuthState { authorized, unauthorized }
+
+class FirstScreen extends StatefulWidget {
+  @override
+  _FirstScreenState createState() => _FirstScreenState();
+}
+
+class _FirstScreenState extends State<FirstScreen> {
+  
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  StreamController<int> _indexController = StreamController.broadcast();
+
+  PageController _pageController;
+
+  static QrService _qrService = QrService();
+
+  int selectedIndex = 0;
+  @override
+  void initState() {
+    _pageController = PageController(
+      initialPage: 1,
+    );
+    selectedIndex = _pageController.initialPage;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _indexController.close();
+    fcmService.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    AuthService data = AuthService(); 
+    var size = MediaQuery.of(context).size;
+
+    void _openDrawer() {
+      _scaffoldKey.currentState.openDrawer();
+    }
+
+    return Scaffold(
+      drawerEnableOpenDragGesture: false,
+      drawerEdgeDragWidth: 60,
+      key: _scaffoldKey,
+      drawer: Drawer(
+        child: FutureBuilder(
+            future: fcmService.getListofNotification(),
+            builder: (context, snapshot) => DrawerWidget(snapshot.data)),
+      ),
+      backgroundColor: Color.fromRGBO(240, 242, 241, 1),
+      body: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(0, 1),
+                  blurRadius: 2,
+                )
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
+            ),
+            height: size.height * .25,
+            width: double.infinity,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: size.height * .04,
+                  left: size.width * .06,
+                  child: Container(
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.menu,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        // showAboutDialog(context: context);
+                        _openDrawer();
+                      },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: size.height * .06,
+                  left: size.width * .33,
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: size.width * .33,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        "MyDiscount",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: size.height * .045,
+                  right: 10,
+                  child: IconButton(
+                      color: Colors.green,
+                      icon: Icon(MdiIcons.locationExit),
+                      onPressed: () {
+                        data.signOut();
+                        _pageController.animateToPage(1,
+                            duration: Duration(
+                              milliseconds: 50,
+                            ),
+                            curve: Curves.ease);
+                        setState(() {});
+                      }),
+                ),
+                Positioned(
+                  bottom: size.height * .05,
+                  child: StreamBuilder<int>(
+                    stream: _indexController.stream,
+                    initialData: 1,
+                    builder: (context, snapshot) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              if (selectedIndex != 0) {
+                                _pageController.jumpToPage(0);
+                                _indexController.add(0);
+                              }
+                            },
+                            child: Container(
+                              width: size.width * 0.33,
+                              child: CircleAvatar(
+                                minRadius: 26.5,
+                                backgroundColor:
+                                    _pageController.initialPage - 1 ==
+                                            snapshot.data
+                                        ? Colors.green
+                                        : Colors.white,
+                                child: ImageIcon(
+                                  const AssetImage('assets/icons/qrlogo.png'),
+                                  size: 53,
+                                  color: _pageController.initialPage - 1 ==
+                                          snapshot.data
+                                      ? Colors.white
+                                      : Colors.green,
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _pageController.jumpToPage(
+                                1,
+                              );
+                              _indexController.add(1);
+                            },
+                            child: Container(
+                              width: size.width * 0.33,
+                              child: CircleAvatar(
+                                minRadius: 26.5,
+                                backgroundColor:
+                                    _pageController.initialPage == snapshot.data
+                                        ? Colors.green
+                                        : Colors.white,
+                                child: ImageIcon(
+                                  const AssetImage('assets/icons/qq3.png'),
+                                  size: 53,
+                                  color: _pageController.initialPage ==
+                                          snapshot.data
+                                      ? Colors.white
+                                      : Colors.green,
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _pageController.jumpToPage(2);
+                              _indexController.add(2);
+                            },
+                            child: Container(
+                              width: size.width * 0.33,
+                              child: CircleAvatar(
+                                minRadius: 26.5,
+                                backgroundColor:
+                                    _pageController.initialPage + 1 ==
+                                            snapshot.data
+                                        ? Colors.green
+                                        : Colors.white,
+                                child: ImageIcon(
+                                  const AssetImage('assets/icons/news1.png'),
+                                  size: 53,
+                                  color: _pageController.initialPage + 1 ==
+                                          snapshot.data
+                                      ? Colors.white
+                                      : Colors.green,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                Positioned(
+                  bottom: size.height * .020,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.only(left: 10),
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            AppLocalizations.of(context).translate('companies'),
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            'QR',
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: size.width * 0.33,
+                          child: Text(
+                            AppLocalizations.of(context).translate('text10'),
+                            style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          FutureBuilder<AuthState>(
+            // initialData: false,
+            future: _qrService.tryAutoLogin(),
+            builder: (context, snapshot) => Expanded(
+              child: PageView(
+                dragStartBehavior: DragStartBehavior.down,
+                pageSnapping: true,
+                onPageChanged: (value) async {
+                  _indexController.add(selectedIndex = value);
+                },
+                allowImplicitScrolling: false,
+                controller: _pageController,
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Color.fromRGBO(240, 242, 241, 1),
+                    ),
+                    width: size.width * 0.9,
+                    height: size.height * 0.6,
+                    child: Companies(),
+                  ),
+                  snapshot.data == AuthState.authorized
+                      ? QrScreen()
+                      : LoginPage(),
+                  InfoScreen(),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-//import '../services/fcm_service.dart';
 import '../widgets/credentials.dart';
 
-class DrawerWidget extends StatefulWidget {
-  @override
-  _DrawerWidgetState createState() => _DrawerWidgetState();
-}
+class DrawerWidget extends StatelessWidget {
+  final List list;
+  DrawerWidget(this.list);
 
-class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -56,11 +53,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           //TODO de pridumait cum de adus lista de notificari pin aici
           Container(
             height: size.height * .6,
-            child: ListView.builder(
-                itemCount: 1, // getList()?.length,
-                itemBuilder: (context, index) => Container(
-                      child: Text('asdddfdf'),
-                    )),
+            child:list?.length != 0
+                ? ListView.builder(
+                    itemCount:1, //list?.length,
+                    itemBuilder: (context, index) => Container(
+                      child: Text('{list[index]["title"]}'),
+                    ),
+                  )
+                : Container(),
           ),
           GestureDetector(
             onTap: () {

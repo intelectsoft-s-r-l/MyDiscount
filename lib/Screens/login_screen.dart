@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/localizations.dart';
 import '../services/internet_connection_service.dart';
@@ -14,8 +13,8 @@ import '../main.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<AuthService>(context);
-    final internet = Provider.of<InternetConnection>(context);
+    AuthService data = AuthService();
+    InternetConnection internet = InternetConnection();
 
     getDialog() {
       if (Platform.isAndroid) {
@@ -128,7 +127,6 @@ class LoginPage extends StatelessWidget {
               main();
             },
           );
-          /*  logService.tryAutoLogin(); */
           break;
         case DataConnectionStatus.disconnected:
           getDialog();

@@ -49,6 +49,7 @@ class FCMService {
           ));
         }*/
     );
+   
 
     var initializationSettings = InitializationSettings(
         initializationSetingsAndroid, initializationSetingsIos);
@@ -94,10 +95,10 @@ class FCMService {
 
   Future<void> _showNotification(notification) async {
     var vibrationPattern = Int64List(4);
-    vibrationPattern[0] = 0;
-    vibrationPattern[1] = 1000;
-    vibrationPattern[2] = 5000;
-    vibrationPattern[3] = 2000;
+    //vibrationPattern[0] = 0;
+   // vibrationPattern[1] = 1000;
+    /* vibrationPattern[2] = 5000;*/
+    vibrationPattern[3] = 2000; 
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'your channel id',
@@ -132,7 +133,11 @@ class FCMService {
     );
     print('is shownotification:$notification');
   }
-
+Future<List> getListofNotification() async {
+      var list =
+          await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+      return list;
+    }
   Future<String> getfcmToken() async {
     String token = await _fcm.getToken();
     _fcm.onTokenRefresh.listen((event) {
@@ -142,7 +147,7 @@ class FCMService {
     return token;
   }
 
-  void deleteNotification() {
+  void deleteAllNotification() {
     flutterLocalNotificationsPlugin.cancelAll();
   }
 

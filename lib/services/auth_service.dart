@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -12,7 +10,7 @@ import '../widgets/user.dart';
 import '../services/fcm_service.dart';
 import '../main.dart';
 
-class AuthService extends ChangeNotifier {
+class AuthService {
   FacebookLogin _facebookLogin = FacebookLogin();
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
   UserCredentials userCredentials = UserCredentials();
@@ -44,7 +42,7 @@ class AuthService extends ChangeNotifier {
           break;
       }
     } catch (e) {
-      throw Error();
+      throw Exception(e);
     }
   }
 
@@ -65,7 +63,7 @@ class AuthService extends ChangeNotifier {
             null,
           );
         },
-      ).whenComplete(() => main()); 
+      ).whenComplete(() => main());
     } catch (e) {
       throw Exception(e);
     }
@@ -79,22 +77,27 @@ class AuthService extends ChangeNotifier {
   }
 
   signInWithApple() async {
-    var appleCredentials = await SignInWithApple.getAppleIDCredential(scopes: [
-      AppleIDAuthorizationScopes.email,
-      AppleIDAuthorizationScopes.fullName
-    ]);
+    try {
+      var appleCredentials = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName
+          ]);
 
-    final fcmToken = await fcmService.getfcmToken();
+      final fcmToken = await fcmService.getfcmToken();
 
-    userCredentials.saveUserCredentials(
-      appleCredentials.userIdentifier,
-      3,
-      fcmToken,
-      appleCredentials.familyName + ' ' + appleCredentials.givenName,
-      appleCredentials.email,
-      null,
-      appleCredentials.identityToken,
-      appleCredentials.authorizationCode,
-    );
+      userCredentials.saveUserCredentials(
+        appleCredentials.userIdentifier,
+        3,
+        fcmToken,
+        appleCredentials.familyName + ' ' + appleCredentials.givenName,
+        appleCredentials.email,
+        null,
+        appleCredentials.identityToken,
+        appleCredentials.authorizationCode,
+      );
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }
