@@ -24,7 +24,7 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  //GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   StreamController<int> _indexController = StreamController.broadcast();
 
