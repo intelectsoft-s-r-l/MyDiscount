@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/cupertino.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 FirebaseMessaging _fcm = FirebaseMessaging();
 FCMService fcmService = FCMService();
 
-Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> notification) async {
- 
- fcmService._showPublicNotification(notification);
-  
+Future<dynamic> myBackgroundMessageHandler(
+    Map<String, dynamic> notification) async {
+  fcmService._showPublicNotification(notification);
 }
 
 class FCMService {
@@ -37,17 +37,19 @@ class FCMService {
         AndroidInitializationSettings('@mipmap/ic_stat_qq3');
 
     var initializationSetingsIos = IOSInitializationSettings(
-        requestAlertPermission: false,
-        requestBadgePermission: false,
-        requestSoundPermission: false,
-        onDidReceiveLocalNotification:
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      /*   onDidReceiveLocalNotification:
             (int id, String title, String body, String payload) async {
           didReceiveLocalNotificationSubject.add(ReceivedNotification(
             body: body,
             title: title,
             id: id,
           ));
-        });
+        }*/
+    );
+   
 
     var initializationSettings = InitializationSettings(
         initializationSetingsAndroid, initializationSetingsIos);
@@ -61,11 +63,14 @@ class FCMService {
   }
 
   Future<void> _showPublicNotification(notification) async {
-    _showNotifications(notification);
+    var vibrationPattern = Int64List(4);
+    vibrationPattern[0] = 0;
+    vibrationPattern[1] = 1000;
+    vibrationPattern[2] = 5000;
+    vibrationPattern[3] = 2000;
+
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'channel_id',
-        'chanel_name',
-        'your channel description',
+        'channel_id', 'chanel_name', 'your channel description',
         importance: Importance.Max,
         priority: Priority.Max,
         enableLights: true,
@@ -74,7 +79,7 @@ class FCMService {
         ledOnMs: 2000,
         color: Color(0x00C569),
         enableVibration: true,
-        vibrationPattern: Int64List(4),
+        vibrationPattern: vibrationPattern,
         visibility: NotificationVisibility.Public);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
@@ -89,7 +94,12 @@ class FCMService {
   }
 
   Future<void> _showNotification(notification) async {
-    _showNotifications(notification);
+    var vibrationPattern = Int64List(4);
+    //vibrationPattern[0] = 0;
+   // vibrationPattern[1] = 1000;
+    /* vibrationPattern[2] = 5000;*/
+    vibrationPattern[3] = 2000; 
+
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'your channel id',
       'your channel name',
@@ -103,13 +113,12 @@ class FCMService {
       ledOnMs: 2000,
       color: Color(0x00C569),
       enableVibration: true,
-      vibrationPattern: Int64List(2000),
+      vibrationPattern: vibrationPattern,
     );
     var iOSPlatformChannelSpecifics =
         IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics,
-        iOSPlatformChannelSpecifics); //print('this is notification:$notification');
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       Platform.isIOS
           ? int.parse(notification['id'])
@@ -121,21 +130,24 @@ class FCMService {
           ? '${notification['body']}'
           : '${notification['data']['body']}',
       platformChannelSpecifics,
-      // payload: '${notification['body']}'
     );
     print('is shownotification:$notification');
   }
-
+Future<List> getListofNotification() async {
+      var list =
+          await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+      return list;
+    }
   Future<String> getfcmToken() async {
     String token = await _fcm.getToken();
     _fcm.onTokenRefresh.listen((event) {
       event = token;
     });
-    //print(token);
+    print(token);
     return token;
   }
 
-  void deleteNotification() {
+  void deleteAllNotification() {
     flutterLocalNotificationsPlugin.cancelAll();
   }
 
@@ -148,11 +160,9 @@ class FCMService {
     _fcm.requestNotificationPermissions();
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
-        
         _showNotification(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
-        
         _showNotification(notification);
       },
       onLaunch: (Map<String, dynamic> notification) async {
@@ -161,9 +171,32 @@ class FCMService {
       onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
     );
   }
+
+  /*  Future<void> _showBigTextNotification(notification) async {
+    _showNotifications(notification);
+    var bigTextStyleInformation = BigTextStyleInformation(
+        '<i>${notification['data']['body']}</i>',
+        htmlFormatBigText: true,
+        contentTitle: ' <b>${notification['data']['title']}</b> ',
+        htmlFormatContentTitle: true,
+        summaryText: ' <i>${notification['data']['sumary']}</i>',
+        htmlFormatSummaryText: true);
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'big text channel id',
+        'big text channel name',
+        'big text channel description',
+        styleInformation: bigTextStyleInformation);
+    var platformChannelSpecifics =
+        NotificationDetails(androidPlatformChannelSpecifics, null);
+    await flutterLocalNotificationsPlugin.show(
+        0,
+        '${notification['data']['title']}',
+        '${notification['data']['body']}',
+        platformChannelSpecifics);
+  } */
 }
 
-Map<dynamic, ReceivedNotification> _receivedNotification = {};
+/* Map<dynamic, ReceivedNotification> _receivedNotification = {};
 
 ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
   final dynamic _notifications = notification['data'] ?? notification;
@@ -174,9 +207,9 @@ ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
       _receivedNotification.putIfAbsent(
           id, () => ReceivedNotification(id: id, title: title, body: body));
   return receivedNotification;
-}
+} */
 
-class ReceivedNotification {
+/* class ReceivedNotification {
   final int id;
   String title;
   String body;
@@ -188,4 +221,4 @@ class ReceivedNotification {
     @required this.body,
     this.payload,
   });
-}
+} */

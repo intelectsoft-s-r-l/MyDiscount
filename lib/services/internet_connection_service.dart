@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-
 import 'package:data_connection_checker/data_connection_checker.dart';
 
-class InternetConnection extends ChangeNotifier {
+class InternetConnection  {
   verifyInternetConection() async {
    
-    print("Current status: ${await DataConnectionChecker().connectionStatus}");
+   /*  print("Current status: ${await DataConnectionChecker().connectionStatus}");
 
       final listener = DataConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
@@ -17,8 +15,8 @@ class InternetConnection extends ChangeNotifier {
           break;
       }
     });
-    listener.cancel();
-    await Future.delayed(Duration(seconds: 0));
+    listener.cancel(); */
+    //await Future.delayed(Duration(seconds: 0));
     return await DataConnectionChecker().connectionStatus;
   }
 }

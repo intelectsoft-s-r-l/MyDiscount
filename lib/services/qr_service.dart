@@ -1,21 +1,22 @@
+import 'dart:async';
 import 'dart:convert';
-
-import 'package:MyDiscount/services/remote_config_service.dart';
-import 'package:flutter/material.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
-import '../widgets/crdentials.dart';
+import '../Screens/first_screen.dart';
+import '../widgets/credentials.dart';
+import '../services/remote_config_service.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../services/shared_preferences_service.dart';
 
 SharedPref sPref = SharedPref();
 
-class QrService extends ChangeNotifier {
+class QrService  {
+  
   AuthService authService = AuthService();
   InternetConnection _internetConnection = InternetConnection();
 
@@ -29,12 +30,15 @@ class QrService extends ChangeNotifier {
     prefs.clear();
   }
 
-  Future<bool> tryAutoLogin() async {
+  Future<AuthState> tryAutoLogin() async {
+    AuthState state;
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('credentials')) {
-      return true;
+      state = AuthState.authorized;
+      return state;
     } else {
-      return false;
+      state = AuthState.unauthorized;
+      return state;
     }
   }
 
@@ -54,7 +58,7 @@ class QrService extends ChangeNotifier {
           )
           .timeout(Duration(seconds: 5));
       var decodedResponse = json.decode(response.body);
-      print(response.body);
+     // print(response.body);
       if (decodedResponse['ErrorCode'] == 0) {
         sPref.saveTID(decodedResponse['TID']);
         return decodedResponse;
@@ -68,9 +72,7 @@ class QrService extends ChangeNotifier {
         return {};
       }
     } catch (e) {
-      return {
-        
-      };
+      return {};
     }
   }
 

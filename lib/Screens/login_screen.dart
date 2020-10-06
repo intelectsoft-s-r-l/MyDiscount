@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/localizations.dart';
 import '../services/internet_connection_service.dart';
@@ -14,8 +13,9 @@ import '../main.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<AuthService>(context);
-    final internet = Provider.of<InternetConnection>(context);
+    AuthService data = AuthService();
+    InternetConnection internet = InternetConnection();
+
     getDialog() {
       if (Platform.isAndroid) {
         showDialog(
@@ -95,17 +95,16 @@ class LoginPage extends StatelessWidget {
       }
     }
 
-    /*  void getAuthorizationApple() async {
+    void getAuthorizationApple() async {
       final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
-          data.signInWithApple();
-          main();
+          data.signInWithApple().whenComplete(() => main());
           break;
         case DataConnectionStatus.disconnected:
           getDialog();
       }
-    } */
+    }
 
     void getAuthorizationGoogle() async {
       final status = await internet.verifyInternetConection();
@@ -158,7 +157,6 @@ class LoginPage extends StatelessWidget {
                     fontSize: 30,
                   ),
                 ),
-                //SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -170,18 +168,13 @@ class LoginPage extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 28,
                           backgroundColor: Colors.white,
-                          child: Image.asset(
-                              'assets/icons/google_logo.png'), /* Text(
-                            'G',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 45),
-                          ), */
+                          child: Image.asset('assets/icons/google_logo.png'),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 40),
+                    Platform.isIOS
+                        ? const SizedBox(width: 20)
+                        : const SizedBox(width: 40),
                     Container(
                       child: GestureDetector(
                         onTap: () {
@@ -190,18 +183,11 @@ class LoginPage extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 28,
                           backgroundColor: Colors.white,
-                          child: Image.asset(
-                              'assets/icons/Facebook_Logo.png'), /* const  Text(
-                            'f',
-                            style: TextStyle(
-                                fontSize: 45,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ), */
+                          child: Image.asset('assets/icons/Facebook_Logo.png'),
                         ),
                       ),
                     ),
-                    /* Platform.isIOS? const SizedBox(width: 20):Container(),
+                    Platform.isIOS ? const SizedBox(width: 20) : Container(),
                     Platform.isIOS
                         ? Container(
                             child: GestureDetector(
@@ -216,7 +202,7 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                           )
-                        : Container() */
+                        : Container()
                   ],
                 ),
               ],

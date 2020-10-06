@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
-/* class RemoteConfigService { */
 Future getServiceName() async {
   final RemoteConfig remoteConfig = await RemoteConfig.instance;
   final defaults = <String, dynamic>{

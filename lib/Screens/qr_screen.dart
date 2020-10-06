@@ -24,7 +24,6 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
   final InternetConnection internetConnection = InternetConnection();
 
   int countTID = 0;
-  // bool chengeImage = true;
   bool serviceConection = true;
   double _counter;
   Timer _timer;
@@ -177,7 +176,6 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
         padding:const EdgeInsets.only(top: 50, bottom: 50, left: 30, right: 30),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.7,
-         // padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
