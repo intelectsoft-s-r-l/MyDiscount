@@ -12,7 +12,7 @@ import '../Screens/qr_screen.dart';
 import '../services/auth_service.dart';
 import '../services/fcm_service.dart';
 import '../services/qr_service.dart';
-import '../widgets/drawer.dart';
+//import '../widgets/drawer.dart';
 import '../widgets/localizations.dart';
 
 enum AuthState { authorized, unauthorized }
@@ -55,19 +55,19 @@ class _FirstScreenState extends State<FirstScreen> {
     AuthService data = AuthService(); 
     var size = MediaQuery.of(context).size;
 
-    void _openDrawer() {
+    /* void _openDrawer() {
       _scaffoldKey.currentState.openDrawer();
-    }
+    } */
 
     return Scaffold(
       drawerEnableOpenDragGesture: false,
       drawerEdgeDragWidth: 60,
-      key: _scaffoldKey,
-      drawer: Drawer(
+     // key: _scaffoldKey,
+      /* drawer: Drawer(
         child: FutureBuilder(
             future: fcmService.getListofNotification(),
             builder: (context, snapshot) => DrawerWidget(snapshot.data)),
-      ),
+      ), */
       backgroundColor: Color.fromRGBO(240, 242, 241, 1),
       body: Column(
         children: <Widget>[
@@ -91,7 +91,7 @@ class _FirstScreenState extends State<FirstScreen> {
             width: double.infinity,
             child: Stack(
               children: <Widget>[
-                Positioned(
+               /*  Positioned(
                   top: size.height * .04,
                   left: size.width * .06,
                   child: Container(
@@ -101,12 +101,11 @@ class _FirstScreenState extends State<FirstScreen> {
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        // showAboutDialog(context: context);
                         _openDrawer();
                       },
                     ),
                   ),
-                ),
+                ), */
                 Positioned(
                   top: size.height * .06,
                   left: size.width * .33,

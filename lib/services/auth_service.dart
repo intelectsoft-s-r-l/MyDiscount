@@ -76,7 +76,7 @@ class AuthService {
     prefs.clear();
   }
 
-  signInWithApple() async {
+  Future signInWithApple() async {
     try {
       var appleCredentials = await SignInWithApple.getAppleIDCredential(
           scopes: [

@@ -99,8 +99,7 @@ class LoginPage extends StatelessWidget {
       final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
-          data.signInWithApple();
-          main();
+          data.signInWithApple().whenComplete(() => main());
           break;
         case DataConnectionStatus.disconnected:
           getDialog();
