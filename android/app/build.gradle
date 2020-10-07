@@ -84,5 +84,4 @@ dependencies {
     implementation 'com.google.guava:guava:28.2-android'
 }
 apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'

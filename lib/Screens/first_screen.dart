@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../Screens/companies_screen.dart';
 import '../Screens/info_screen.dart';
@@ -23,7 +24,6 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  
   //GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   StreamController<int> _indexController = StreamController.broadcast();
@@ -52,7 +52,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AuthService data = AuthService(); 
+    AuthService data = AuthService();
     var size = MediaQuery.of(context).size;
 
     /* void _openDrawer() {
@@ -62,7 +62,7 @@ class _FirstScreenState extends State<FirstScreen> {
     return Scaffold(
       drawerEnableOpenDragGesture: false,
       drawerEdgeDragWidth: 60,
-     // key: _scaffoldKey,
+      // key: _scaffoldKey,
       /* drawer: Drawer(
         child: FutureBuilder(
             future: fcmService.getListofNotification(),
@@ -91,7 +91,7 @@ class _FirstScreenState extends State<FirstScreen> {
             width: double.infinity,
             child: Stack(
               children: <Widget>[
-               /*  Positioned(
+                /*  Positioned(
                   top: size.height * .04,
                   left: size.width * .06,
                   child: Container(
@@ -119,7 +119,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -155,6 +155,7 @@ class _FirstScreenState extends State<FirstScreen> {
                               if (selectedIndex != 0) {
                                 _pageController.jumpToPage(0);
                                 _indexController.add(0);
+                               // FirebaseCrashlytics.instance.crash();
                               }
                             },
                             child: Container(

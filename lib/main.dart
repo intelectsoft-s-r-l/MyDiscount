@@ -1,17 +1,19 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:MyDiscount/Screens/first_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import './services/remote_config_service.dart';
 import './services/fcm_service.dart';
+
+import './Screens/first_screen.dart';
 
 import './widgets/localizations.dart';
 
@@ -19,9 +21,11 @@ FCMService fcmService = FCMService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Crashlytics.instance.enableInDevMode = true;
+  await Firebase.initializeApp();
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FirebaseCrashlytics.instance.sendUnsentReports();
   getServiceName();
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
   fcmService.getFlutterLocalNotificationPlugin();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -30,7 +34,7 @@ void main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runZoned(() {
       runApp(MyApp());
-    }, onError: Crashlytics.instance.recordError);
+    }, onError: FirebaseCrashlytics.instance.recordError);
 
     fcmService.getfcmToken();
   });
@@ -69,8 +73,8 @@ class MyApp extends StatelessWidget {
               return supportedLocale;
             }
           }
-        } catch (e) {
-          throw Exception();
+        } catch (e,s) {
+         FirebaseCrashlytics.instance.recordError(e, s);
         }
 
         return retLocale;
