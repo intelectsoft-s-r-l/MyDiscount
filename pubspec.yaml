@@ -30,7 +30,7 @@ dependencies:
   sign_in_with_apple: ^2.5.2
   firebase_core: ^0.5.0
   firebase_remote_config: ^0.4.0
-  firebase_analytics: "^6.0.2"
+  firebase_analytics: ^6.0.2
 
 dev_dependencies:
   flutter_test:
@@ -40,8 +40,6 @@ flutter:
 
   uses-material-design: true
   assets:
-    # - assets/icons/facebook.png
-    # - assets/icons/google.png
     - assets/icons/om.png
     - assets/icons/apple_logo.png
     - assets/icons/news1.png
@@ -55,15 +53,15 @@ flutter:
     - assets/icons/Facebook_Logo.png
     - assets/icons/qq3.png
     - assets/icons/google_logo.png
-  #fonts:
-  #- family: MyFlutterApp
+  # fonts:
+  # - family: MyFlutterApp
   # fonts:
   #   - asset: fonts/MyFlutterApp.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 

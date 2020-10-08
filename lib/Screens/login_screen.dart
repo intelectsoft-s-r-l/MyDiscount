@@ -149,8 +149,8 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                const Text(
-                  'Sign In',
+                Text(
+                  AppLocalizations.of(context).translate('text12'),
                   style: TextStyle(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,
