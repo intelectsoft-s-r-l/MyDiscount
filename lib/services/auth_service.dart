@@ -11,11 +11,11 @@ import '../widgets/user.dart';
 import '../services/fcm_service.dart';
 import '../main.dart';
 
-class AuthService {
+class AuthService extends UserCredentials {
   FacebookLogin _facebookLogin = FacebookLogin();
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-  UserCredentials userCredentials = UserCredentials();
   FCMService fcmService = FCMService();
+  
   authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
@@ -26,7 +26,7 @@ class AuthService {
               'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=${_accessToken.token}');
           final profile = json.decode(_graphResponse.body);
           final fcmToken = await fcmService.getfcmToken();
-          userCredentials.saveUserCredentials(
+          saveUserCredentials(
             _accessToken.userId,
             2,
             fcmToken,
@@ -35,6 +35,7 @@ class AuthService {
             profile['picture']['data']['url'],
             _accessToken.token,
             null,
+            
           );
           break;
         case FacebookLoginStatus.cancelledByUser:
@@ -54,7 +55,7 @@ class AuthService {
         (final GoogleSignInAccount account) async {
           final GoogleSignInAuthentication auth = await account.authentication;
           final fcmToken = await fcmService.getfcmToken();
-          userCredentials.saveUserCredentials(
+          saveUserCredentials(
             account.id,
             1,
             fcmToken,
@@ -65,7 +66,7 @@ class AuthService {
             null,
           );
         },
-      ).whenComplete(() => main());
+      ).whenComplete(() => main()); 
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
       throw Exception(e);
@@ -89,7 +90,7 @@ class AuthService {
 
       final fcmToken = await fcmService.getfcmToken();
 
-      userCredentials.saveUserCredentials(
+      saveUserCredentials(
         appleCredentials.userIdentifier,
         3,
         fcmToken,
