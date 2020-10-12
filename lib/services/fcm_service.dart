@@ -161,7 +161,6 @@ class FCMService {
 
   void fcmConfigure() {
     _fcm.requestNotificationPermissions();
-  
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
         _showNotification(notification);
