@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 Future getServiceName() async {
@@ -19,7 +20,8 @@ Future getServiceName() async {
     return data;
   } on FetchThrottledException {
     throw FetchThrottledException;
-  } catch (e) {
+  } catch (e,s) {
+   FirebaseCrashlytics.instance.recordError(e, s);
     print('default');
     return def;
   }

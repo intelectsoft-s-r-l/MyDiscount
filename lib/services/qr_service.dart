@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../main.dart';
 import '../Screens/first_screen.dart';
@@ -56,9 +57,9 @@ class QrService  {
             headers: _headers,
             body: _bodyData,
           )
-          .timeout(Duration(seconds: 5));
+          .timeout(Duration(seconds: 10));
       var decodedResponse = json.decode(response.body);
-     // print(response.body);
+      //print(response.statusCode);
       if (decodedResponse['ErrorCode'] == 0) {
         sPref.saveTID(decodedResponse['TID']);
         return decodedResponse;
@@ -71,7 +72,8 @@ class QrService  {
         }
         return {};
       }
-    } catch (e) {
+    } catch (e,s) {
+      FirebaseCrashlytics.instance.recordError(e, s);
       return {};
     }
   }
@@ -81,8 +83,7 @@ class QrService  {
     String serviceName = await getServiceName();
     String id = await getUserId();
     print(serviceName);
-
-    final status = await _internetConnection.verifyInternetConection();
+    try{ final status = await _internetConnection.verifyInternetConection();
     switch (status) {
       case DataConnectionStatus.connected:
         final url = "$serviceName/json/GetCompany?ID=$id";
@@ -100,6 +101,9 @@ class QrService  {
         break;
       case DataConnectionStatus.disconnected:
         return false;
+    }}catch(e,s){
+      FirebaseCrashlytics.instance.recordError(e, s);
     }
+   
   }
 }

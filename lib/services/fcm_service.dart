@@ -33,10 +33,10 @@ class FCMService {
     _notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
-    var initializationSetingsAndroid =
+    var initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_stat_qq3');
 
-    var initializationSetingsIos = IOSInitializationSettings(
+    var initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
@@ -49,10 +49,11 @@ class FCMService {
           ));
         }*/
     );
-   
 
-    var initializationSettings = InitializationSettings(
-        initializationSetingsAndroid, initializationSetingsIos);
+    final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+     );
 
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -64,15 +65,15 @@ class FCMService {
 
   Future<void> _showPublicNotification(notification) async {
     var vibrationPattern = Int64List(4);
-    vibrationPattern[0] = 0;
+    /*  vibrationPattern[0] = 0; */
     vibrationPattern[1] = 1000;
-    vibrationPattern[2] = 5000;
-    vibrationPattern[3] = 2000;
+   /*  vibrationPattern[2] = 5000;
+    vibrationPattern[3] = 2000; */
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'channel_id', 'chanel_name', 'your channel description',
-        importance: Importance.Max,
-        priority: Priority.Max,
+        importance: Importance.max,
+        priority: Priority.max,
         enableLights: true,
         ledColor: Color(0x0000FF),
         ledOffMs: 2000,
@@ -80,10 +81,10 @@ class FCMService {
         color: Color(0x00C569),
         enableVibration: true,
         vibrationPattern: vibrationPattern,
-        visibility: NotificationVisibility.Public);
+        visibility: NotificationVisibility.public);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(android:
+        androidPlatformChannelSpecifics,iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         int.parse('${notification['data']['id']}'),
         '${notification['data']['title']}',
@@ -96,16 +97,16 @@ class FCMService {
   Future<void> _showNotification(notification) async {
     var vibrationPattern = Int64List(4);
     //vibrationPattern[0] = 0;
-   // vibrationPattern[1] = 1000;
-    /* vibrationPattern[2] = 5000;*/
-    vibrationPattern[3] = 2000; 
+    vibrationPattern[1] = 1000;
+    /* vibrationPattern[2] = 5000;
+    vibrationPattern[3] = 2000;*/
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'your channel id',
       'your channel name',
       'your channel description',
-      importance: Importance.Max,
-      priority: Priority.Max,
+      importance: Importance.max,
+      priority: Priority.max,
       icon: '@mipmap/ic_stat_qq3',
       enableLights: true,
       ledColor: Color(0x0000FF),
@@ -117,8 +118,8 @@ class FCMService {
     );
     var iOSPlatformChannelSpecifics =
         IOSNotificationDetails(presentSound: false);
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+   var platformChannelSpecifics = NotificationDetails(android:
+        androidPlatformChannelSpecifics,iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       Platform.isIOS
           ? int.parse(notification['id'])
@@ -133,11 +134,13 @@ class FCMService {
     );
     print('is shownotification:$notification');
   }
-Future<List> getListofNotification() async {
-      var list =
-          await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-      return list;
-    }
+
+  /* Future<List> getListofNotification() async {
+    var list =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    return list;
+  } */
+
   Future<String> getfcmToken() async {
     String token = await _fcm.getToken();
     _fcm.onTokenRefresh.listen((event) {
@@ -164,9 +167,11 @@ Future<List> getListofNotification() async {
       },
       onResume: (Map<String, dynamic> notification) async {
         _showNotification(notification);
+       
       },
       onLaunch: (Map<String, dynamic> notification) async {
         _showNotification(notification);
+       
       },
       onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
     );

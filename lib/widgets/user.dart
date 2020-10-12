@@ -2,15 +2,8 @@ import 'dart:convert';
 
 import '../services/shared_preferences_service.dart';
 
-class UserCredentials {
-  String displayName;
-  String email;
-  int id;
-  String photoUrl;
-  String pushToken;
-  int registerMode;
-  String accessToken;
-  String authorizationCode;
+class UserCredentials extends User {
+  
   SharedPref prefs = SharedPref();
   saveUserCredentials(
     String id,
@@ -35,4 +28,14 @@ class UserCredentials {
     prefs.credentials(_data);
     print(_data);
   }
+}
+abstract class User{
+String displayName;
+  String email;
+  int id;
+  String photoUrl;
+  String pushToken;
+  int registerMode;
+  String accessToken;
+  String authorizationCode;
 }

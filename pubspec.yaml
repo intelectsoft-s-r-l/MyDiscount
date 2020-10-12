@@ -11,10 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  #provider: ^4.3.1
-
+  
   flutter_localizations:
     sdk: flutter
+    
   data_connection_checker: ^0.3.4
   material_design_icons_flutter: ^4.0.5345
   http: ^0.12.1
@@ -25,11 +25,12 @@ dependencies:
   cupertino_icons: ^0.1.3
   font_awesome_flutter: ^8.8.1
   firebase_messaging: ^7.0.0
-  flutter_local_notifications: ^1.4.4+4
-  firebase_crashlytics: ^0.1.4+1
+  flutter_local_notifications: ^2.0.0
+  firebase_crashlytics: ^0.2.1
   sign_in_with_apple: ^2.5.2
   firebase_core: ^0.5.0
   firebase_remote_config: ^0.4.0
+  firebase_analytics: ^6.0.2
 
 dev_dependencies:
   flutter_test:
@@ -39,8 +40,6 @@ flutter:
 
   uses-material-design: true
   assets:
-    # - assets/icons/facebook.png
-    # - assets/icons/google.png
     - assets/icons/om.png
     - assets/icons/apple_logo.png
     - assets/icons/news1.png
@@ -54,15 +53,15 @@ flutter:
     - assets/icons/Facebook_Logo.png
     - assets/icons/qq3.png
     - assets/icons/google_logo.png
-  #fonts:
-  #- family: MyFlutterApp
+  # fonts:
+  # - family: MyFlutterApp
   # fonts:
   #   - asset: fonts/MyFlutterApp.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
