@@ -15,7 +15,7 @@ class AuthService extends UserCredentials {
   FacebookLogin _facebookLogin = FacebookLogin();
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
   FCMService fcmService = FCMService();
-  
+
   authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
@@ -35,7 +35,6 @@ class AuthService extends UserCredentials {
             profile['picture']['data']['url'],
             _accessToken.token,
             null,
-            
           );
           break;
         case FacebookLoginStatus.cancelledByUser:
@@ -66,7 +65,7 @@ class AuthService extends UserCredentials {
             null,
           );
         },
-      ).whenComplete(() => main()); 
+      ).whenComplete(() => main());
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
       throw Exception(e);
@@ -94,14 +93,16 @@ class AuthService extends UserCredentials {
         appleCredentials.userIdentifier,
         3,
         fcmToken,
-        appleCredentials.familyName + ' ' + appleCredentials.givenName,
+        '${appleCredentials.familyName}' +
+            " " +
+            '${appleCredentials.givenName}',
         appleCredentials.email,
         null,
         appleCredentials.identityToken,
         appleCredentials.authorizationCode,
       );
     } on SignInWithAppleAuthorizationException {
-      throw SignInWithAppleCredentialsException(message:'Remove from user');
+      throw SignInWithAppleCredentialsException(message: 'Remove from user');
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
       throw Exception(e);
