@@ -78,7 +78,7 @@ class QrService  {
     }
   }
 
-//http://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
+//https://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<dynamic> getCompanyList() async {
     String serviceName = await getServiceName();
     String id = await getUserId();

@@ -82,19 +82,16 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
         break;
 
       case AppLifecycleState.inactive:
-        print('inactive');
         _timer?.cancel();
-
+        print('inactive');
         break;
       case AppLifecycleState.paused:
         print('paused');
         _timer?.cancel();
-
         break;
       case AppLifecycleState.detached:
         print('detached');
         _timer?.cancel();
-
         break;
       default:
         // ignore: null_aware_in_condition
@@ -173,7 +170,8 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
         color: const Color.fromRGBO(240, 242, 241, 1),
       ),
       child: Padding(
-        padding:const EdgeInsets.only(top: 50, bottom: 50, left: 30, right: 30),
+        padding:
+            const EdgeInsets.only(top: 50, bottom: 50, left: 30, right: 30),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.7,
           decoration: BoxDecoration(
@@ -187,68 +185,67 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
             color: Colors.white,
             borderRadius: BorderRadius.circular(30),
           ),
-          child:
-              Container(
+          child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(30),
-            ), 
-            child: 
-              Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              StreamBuilder<bool>(
-                stream: _imageController.stream,
-                initialData: true,
-                builder: (context, snapshot) {
-                  return snapshot.data
-                      ? QrImageWidget(
-                          _loadSharedPref(), _progressController.stream)
-                      : Column(mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            serviceConection
-                                ? HumanImage()
-                                : NoInternetWidget(),
-                            const SizedBox(height: 10.0),
-                            RaisedButton(
-                              onPressed: () {
-                                _imageController.add(true);
-                                setState(() {
-                                  serviceConection = true;
-                                });
-                                getAuthorization();
-                                countTID = 0;
-                              },
-                              child: serviceConection
-                                  ? Text(
-                                      AppLocalizations.of(context)
-                                          .translate('text5'),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                StreamBuilder<bool>(
+                  stream: _imageController.stream,
+                  initialData: true,
+                  builder: (context, snapshot) {
+                    return snapshot.data
+                        ? QrImageWidget(
+                            _loadSharedPref(), _progressController.stream)
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              serviceConection
+                                  ? HumanImage()
+                                  : NoInternetWidget(),
+                              const SizedBox(height: 10.0),
+                              RaisedButton(
+                                onPressed: () {
+                                  _imageController.add(true);
+                                  setState(() {
+                                    serviceConection = true;
+                                  });
+                                  getAuthorization();
+                                  countTID = 0;
+                                },
+                                child: serviceConection
+                                    ? Text(
+                                        AppLocalizations.of(context)
+                                            .translate('text5'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : Text(
+                                        AppLocalizations.of(context)
+                                            .translate('text8'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    )
-                                  : Text(
-                                      AppLocalizations.of(context)
-                                          .translate('text8'),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                              color: Colors.green,
-                            ),
-                          ],
-                        );
-                },
-              ),
-            ],
+                                color: Colors.green,
+                              ),
+                            ],
+                          );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
-       ),
     );
   }
 }

@@ -134,11 +134,11 @@ class _FirstScreenState extends State<FirstScreen> {
                       icon: Icon(MdiIcons.locationExit),
                       onPressed: () {
                         data.signOut();
-                        _pageController.animateToPage(1,
-                            duration: Duration(
+                        _pageController.jumpToPage(1,
+                           /*  duration: Duration(
                               milliseconds: 50,
                             ),
-                            curve: Curves.ease);
+                            curve: Curves.ease */);
                         setState(() {});
                       }),
                 ),

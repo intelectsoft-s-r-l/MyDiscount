@@ -117,7 +117,7 @@ class FCMService {
       vibrationPattern: vibrationPattern,
     );
     var iOSPlatformChannelSpecifics =
-        IOSNotificationDetails(presentSound: false);
+        IOSNotificationDetails(presentSound: true);
    var platformChannelSpecifics = NotificationDetails(android:
         androidPlatformChannelSpecifics,iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(

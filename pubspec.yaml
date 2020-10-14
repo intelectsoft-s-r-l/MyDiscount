@@ -16,20 +16,20 @@ dependencies:
     sdk: flutter
     
   data_connection_checker: ^0.3.4
-  material_design_icons_flutter: ^4.0.5345
-  http: ^0.12.1
-  shared_preferences: ^0.5.7+3
-  google_sign_in: ^4.5.1
+  material_design_icons_flutter: ^4.0.5655
+  http: ^0.12.2
+  shared_preferences: ^0.5.12
+  google_sign_in: ^4.5.4
   flutter_facebook_login: ^3.0.0
   qr_flutter: ^3.2.0
-  cupertino_icons: ^0.1.3
-  font_awesome_flutter: ^8.8.1
-  firebase_messaging: ^7.0.0
-  flutter_local_notifications: ^2.0.0
-  firebase_crashlytics: ^0.2.1
-  sign_in_with_apple: ^2.5.2
-  firebase_core: ^0.5.0
-  firebase_remote_config: ^0.4.0
+  cupertino_icons: ^1.0.0
+  font_awesome_flutter: ^8.10.0
+  firebase_messaging: ^7.0.3
+  flutter_local_notifications: ^2.0.0+1
+  firebase_crashlytics: ^0.2.1+1
+  sign_in_with_apple: ^2.5.4
+  firebase_core: ^0.5.0+1
+  firebase_remote_config: ^0.4.0+2
   firebase_analytics: ^6.0.2
 
 dev_dependencies:
