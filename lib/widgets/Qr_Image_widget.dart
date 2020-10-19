@@ -28,7 +28,7 @@ class QrImageWidget extends StatelessWidget {
                         shaderCallback: (rect) => LinearGradient(
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
-                            colors: [
+                            colors:[
                               Colors.black,
                               Colors.green,
                             ]).createShader(rect),
