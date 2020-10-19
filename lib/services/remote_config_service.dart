@@ -18,10 +18,10 @@ Future getServiceName() async {
     final data = map['service_name'];
     print('welcome message: ' + remoteConfig.getString('service_name'));
     return data;
-  }/*  on FetchThrottledException {
+  } on FetchThrottledException {
    // return def;
     throw FetchThrottledException;
-  } */ catch (e,s) {
+  } catch (e,s) {
    FirebaseCrashlytics.instance.recordError(e, s);
     //print('default');
    // return def;

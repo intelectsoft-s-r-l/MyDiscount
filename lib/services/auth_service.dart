@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../widgets/user.dart';
-import '../services/fcm_service.dart';
 import '../main.dart';
+import '../services/fcm_service.dart';
+import '../widgets/user.dart';
 
 class AuthService extends UserCredentials {
   FacebookLogin _facebookLogin = FacebookLogin();

@@ -1,5 +1,6 @@
-import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/material.dart';
+
+import 'localizations.dart';
 
 class AppbarText extends StatelessWidget {
   const AppbarText({

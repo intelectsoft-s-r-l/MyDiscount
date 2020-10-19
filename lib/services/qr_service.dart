@@ -2,22 +2,21 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
 import '../Screens/first_screen.dart';
-import '../widgets/credentials.dart';
-import '../services/remote_config_service.dart';
+import '../main.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
+import '../services/remote_config_service.dart';
 import '../services/shared_preferences_service.dart';
+import '../widgets/credentials.dart';
 
 SharedPref sPref = SharedPref();
 
-class QrService  {
-  
+class QrService {
   AuthService authService = AuthService();
   InternetConnection _internetConnection = InternetConnection();
 
@@ -72,7 +71,7 @@ class QrService  {
         }
         return {};
       }
-    } catch (e,s) {
+    } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
       return {};
     }
@@ -83,27 +82,28 @@ class QrService  {
     String serviceName = await getServiceName();
     String id = await getUserId();
     print(serviceName);
-    try{ final status = await _internetConnection.verifyInternetConection();
-    switch (status) {
-      case DataConnectionStatus.connected:
-        final url = "$serviceName/json/GetCompany?ID=$id";
-        final response = await http.get(url, headers: _headers).timeout(
-              Duration(seconds: 3),
-            );
-        if (response.statusCode == 200) {
-          final companiesMap =
-              json.decode(response.body) as Map<String, dynamic>;
-          var listCompanies = companiesMap['Companies'] as List;
-          return listCompanies;
-        } else {
+    try {
+      final status = await _internetConnection.verifyInternetConection();
+      switch (status) {
+        case DataConnectionStatus.connected:
+          final url = "$serviceName/json/GetCompany?ID=$id";
+          final response = await http.get(url, headers: _headers).timeout(
+                Duration(seconds: 3),
+              );
+          if (response.statusCode == 200) {
+            final companiesMap =
+                json.decode(response.body) as Map<String, dynamic>;
+            var listCompanies = companiesMap['Companies'] as List;
+            return listCompanies;
+          } else {
+            return false;
+          }
+          break;
+        case DataConnectionStatus.disconnected:
           return false;
-        }
-        break;
-      case DataConnectionStatus.disconnected:
-        return false;
-    }}catch(e,s){
+      }
+    } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
     }
-   
   }
 }

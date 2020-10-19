@@ -1,16 +1,15 @@
 import 'dart:async';
 
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 
-import 'package:data_connection_checker/data_connection_checker.dart';
-
-import '../widgets/nointernet_widget.dart';
-import '../widgets/Qr_Image_widget.dart';
-import '../widgets/human_image_widget.dart';
 import '../services/internet_connection_service.dart';
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
+import '../widgets/Qr_Image_widget.dart';
+import '../widgets/human_image_widget.dart';
 import '../widgets/localizations.dart';
+import '../widgets/nointernet_widget.dart';
 
 class QrScreen extends StatefulWidget {
   @override
