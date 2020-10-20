@@ -12,7 +12,7 @@ FCMService fcmService = FCMService();
 
 Future<dynamic> myBackgroundMessageHandler(
     Map<String, dynamic> notification) async {
-  //fcmService._showPublicNotification(notification);
+  fcmService._showPublicNotification(notification);
 }
 
 class FCMService {
@@ -55,7 +55,7 @@ class FCMService {
     );
   }
 
-  /* Future<void> _showPublicNotification(notification) async {
+  Future<void> _showPublicNotification(notification) async {
     var vibrationPattern = Int64List(4);
     /*  vibrationPattern[0] = 0; */
     vibrationPattern[1] = 1000;
@@ -74,8 +74,7 @@ class FCMService {
         enableVibration: true,
         vibrationPattern: vibrationPattern,
         visibility: NotificationVisibility.public);
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
-        presentSound: true, presentBadge: true, presentAlert: true);
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
@@ -86,7 +85,7 @@ class FCMService {
         platformChannelSpecifics,
         payload: 'item x');
     print('is showpublicnotification:${notification['data']}');
-  } */
+  }
 
   Future<void> _showNotification(notification) async {
     var vibrationPattern = Int64List(4);
@@ -119,14 +118,14 @@ class FCMService {
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-      Platform.isIOS 
-          ?int.parse(notification['id'])
+      Platform.isIOS
+          ? int.parse(notification['id'])
           : int.parse(notification['data']['id']),
       Platform.isIOS
           ? '${notification['title']}'
           : '${notification['data']['title']}',
       Platform.isIOS
-          ? '${notification['body']}' 
+          ? '${notification['body']}'
           : '${notification['data']['body']}',
       platformChannelSpecifics,
     );
@@ -142,7 +141,7 @@ class FCMService {
     fcmService.dispose();
   }
 
-  Future<String> getfcmToken() async { 
+  Future<String> getfcmToken() async {
     String token = await _fcm.getToken();
     _fcm.onTokenRefresh.listen((event) {
       event = token;
@@ -153,7 +152,7 @@ class FCMService {
 
   void fcmConfigure() {
     _fcm.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, alert: true, badge: true));
+        IosNotificationSettings(sound: false, alert: false, badge: false));
     _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
@@ -167,7 +166,7 @@ class FCMService {
       onLaunch: (Map<String, dynamic> notification) async {
         _showNotification(notification);
       },
-     // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
+      onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
     );
   }
 
