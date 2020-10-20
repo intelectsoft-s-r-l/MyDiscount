@@ -79,13 +79,13 @@ class QrService {
 
 //https://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<dynamic> getCompanyList() async {
-    String serviceName = await getServiceName();
     String id = await getUserId();
-    print(serviceName);
+   // print(serviceName);
     try {
       final status = await _internetConnection.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
+    String serviceName = await getServiceName();
           final url = "$serviceName/json/GetCompany?ID=$id";
           final response = await http.get(url, headers: _headers).timeout(
                 Duration(seconds: 3),
