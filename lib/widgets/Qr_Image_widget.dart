@@ -28,7 +28,7 @@ class QrImageWidget extends StatelessWidget {
                         shaderCallback: (rect) => LinearGradient(
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
-                            colors:[
+                            colors: [
                               Colors.black,
                               Colors.green,
                             ]).createShader(rect),
@@ -39,23 +39,24 @@ class QrImageWidget extends StatelessWidget {
                       ),
                     ),
                     StreamBuilder<double>(
-                        stream: _progress,
-                        initialData: 1,
-                        builder: (context, snapshot) {
-                          return Container(
-                            padding: EdgeInsets.only(
-                              left: 8,
-                              right: 8,
-                            ),
-                            width: MediaQuery.of(context).size.width * .65,
-                            child: LinearProgressIndicator(
-                              backgroundColor: Colors.white,
-                              minHeight: 4,
-                              valueColor: AlwaysStoppedAnimation(Colors.green),
-                              value: snapshot.data,
-                            ),
-                          );
-                        }),
+                      stream: _progress,
+                      initialData: 1,
+                      builder: (context, snapshot) {
+                        return Container(
+                          padding: EdgeInsets.only(
+                            left: 8,
+                            right: 8,
+                          ),
+                          width: MediaQuery.of(context).size.width * .65,
+                          child: LinearProgressIndicator(
+                            backgroundColor: Colors.white,
+                            minHeight: 4,
+                            valueColor: AlwaysStoppedAnimation(Colors.green),
+                            value: snapshot.data,
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 );
               } else {

@@ -6,7 +6,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Screens/first_screen.dart';
 import '../main.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
@@ -30,15 +29,13 @@ class QrService {
     prefs.clear();
   }
 
-  Future<AuthState> tryAutoLogin() async {
-    AuthState state;
+  Future<bool> tryAutoLogin() async {
+   
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('credentials')) {
-      state = AuthState.authorized;
-      return state;
+      return true;
     } else {
-      state = AuthState.unauthorized;
-      return state;
+      return false;
     }
   }
 
@@ -80,12 +77,12 @@ class QrService {
 //https://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<dynamic> getCompanyList() async {
     String id = await getUserId();
-   // print(serviceName);
+    // print(serviceName);
     try {
       final status = await _internetConnection.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
-    String serviceName = await getServiceName();
+          String serviceName = await getServiceName();
           final url = "$serviceName/json/GetCompany?ID=$id";
           final response = await http.get(url, headers: _headers).timeout(
                 Duration(seconds: 3),

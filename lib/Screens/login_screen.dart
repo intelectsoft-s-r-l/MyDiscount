@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/localizations.dart';
 import '../services/internet_connection_service.dart';
 import '../services/auth_service.dart';
-import '../main.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -99,7 +99,9 @@ class LoginPage extends StatelessWidget {
       final status = await internet.verifyInternetConection();
       switch (status) {
         case DataConnectionStatus.connected:
-          data.signInWithApple().whenComplete(() => main());
+          data.signInWithApple().whenComplete(()async{ final prefs = await SharedPreferences.getInstance();
+        if (prefs.containsKey('credentials')) authController.sink.add(true);
+      });
           break;
         case DataConnectionStatus.disconnected:
           getDialog();
@@ -122,8 +124,10 @@ class LoginPage extends StatelessWidget {
       switch (status) {
         case DataConnectionStatus.connected:
           data.authWithFacebook().whenComplete(
-            () {
-              main();
+            ()async {
+               final prefs = await SharedPreferences.getInstance();
+        if (prefs.containsKey('credentials')) authController.sink.add(true);
+      
             },
           );
           break;

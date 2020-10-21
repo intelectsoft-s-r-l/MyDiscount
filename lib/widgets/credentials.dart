@@ -39,18 +39,18 @@ getUserId() async {
   }
 }
 
-getUserData() async {
- Map _defaultUserData = {"DisplayName": 'IntelectSoft SRL',
+Future<String> getUserData() async {
+  /* Map _defaultUserData = {"DisplayName": 'IntelectSoft SRL',
             "Email":'' ,
            
             "PhotoUrl": 'https://edi.md/wp-content/uploads/2016/01/logo_is.png',
-           };
+           }; */
   var prefs = await SharedPreferences.getInstance();
   if (prefs.containsKey('Tid')) {
     var _savedCredential = await sPrefs.credential();
     var _userData = json.decode(_savedCredential);
-    return _userData;
+    return _userData['DisplayName'];
   } else {
-    return _defaultUserData;
+    return '' /* _defaultUserData */;
   }
 }

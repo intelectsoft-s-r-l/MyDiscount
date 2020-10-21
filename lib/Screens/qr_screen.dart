@@ -13,7 +13,7 @@ import '../widgets/nointernet_widget.dart';
 
 class QrScreen extends StatefulWidget {
   @override
-  _QrScreenState createState() => _QrScreenState();
+  _QrScreenState  createState() => _QrScreenState();
 }
 
 class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
@@ -160,8 +160,9 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final SharedPref sPref = SharedPref();
     Future<String> _loadSharedPref() async {
+      //SharedPreferences preferences = await SharedPreferences.getInstance();
       final id = await sPref.readTID();
-      return id;
+      return Future<String>.value(id);
     }
 
     return Container(
