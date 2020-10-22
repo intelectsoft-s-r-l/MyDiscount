@@ -6,7 +6,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../services/remote_config_service.dart';
@@ -29,7 +28,7 @@ class QrService {
     prefs.clear();
   }
 
-  Future<bool> tryAutoLogin() async {
+  /*  Future<bool> tryAutoLogin() async {
    
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('credentials')) {
@@ -37,16 +36,15 @@ class QrService {
     } else {
       return false;
     }
-  }
+  } */
 
-  Future<Map<String, dynamic>> attemptSignIn() async {
-    String serviceName = await getServiceName();
-    print(serviceName);
-    final _bodyData = await getBodyData();
-
-    final url = '$serviceName/json/GetTID';
-
+  Future<String> attemptSignIn() async {
     try {
+      String serviceName = await getServiceName();
+      print(serviceName);
+      final _bodyData = await getBodyData();
+
+      final url = '$serviceName/json/GetTID';
       final response = await http
           .post(
             url,
@@ -58,19 +56,19 @@ class QrService {
       //print(response.statusCode);
       if (decodedResponse['ErrorCode'] == 0) {
         sPref.saveTID(decodedResponse['TID']);
-        return decodedResponse;
+        return decodedResponse['TID'];
       } else {
         if (decodedResponse['ErrorCode'] == 103) {
           final prefs = await SharedPreferences.getInstance();
           prefs.clear();
           authService.signOut();
-          main();
+          authController.add(false);
         }
-        return {};
+        return '';
       }
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
-      return {};
+      return '';
     }
   }
 
