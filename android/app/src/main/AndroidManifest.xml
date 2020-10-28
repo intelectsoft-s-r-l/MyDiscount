@@ -6,15 +6,15 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
-        android:name=".Application"
+        android:name="io.flutter.app.FlutterApplication"
         android:label="MyDiscount"
         android:icon="@mipmap/qrcode">  
-        <meta-data                      
+       <!--  <meta-data                      
             android:name="com.google.firebase.messaging.default_notification_icon"             
             android:resource="@mipmap/ic_stat_qq3" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary" />
+            android:resource="@color/colorPrimary" /> -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -59,7 +59,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-            <meta-data 
+         <!--    <meta-data 
             android:name="com.facebook.sdk.ApplicationId" 
             android:value="@string/facebook_app_id"/> 
         <activity 
@@ -80,7 +80,7 @@
          <intent-filter>
             <action android:name="android.intent.action.BOOT_COMPLETED"/>
             <action android:name="android.intent.action.DEFAULT"/>
-        </intent-filter>    
-        </receiver>
+        </intent-filter>  
+     </receiver>   -->
     </application>
 </manifest>

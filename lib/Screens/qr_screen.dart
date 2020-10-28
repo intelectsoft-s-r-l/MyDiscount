@@ -1,4 +1,4 @@
-import 'dart:async';
+/* import 'dart:async';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
@@ -249,3 +249,4 @@ class _QrScreenState extends State<QrScreen> with WidgetsBindingObserver {
     );
   }
 }
+ */

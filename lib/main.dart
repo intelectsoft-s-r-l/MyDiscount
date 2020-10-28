@@ -1,37 +1,38 @@
-import 'dart:async';
+//import 'dart:async';
 import 'dart:ui';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:MyDiscount/Screens/login_screen2.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import './Screens/first_screen.dart';
-import './services/fcm_service.dart';
+// import './Screens/first_screen.dart';
+// import './services/fcm_service.dart';
 import './widgets/localizations.dart';
 
-FCMService fcmService = FCMService();
+//FCMService fcmService = FCMService();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  FirebaseCrashlytics.instance.sendUnsentReports();
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  fcmService.fcmConfigure();
-  fcmService.getFlutterLocalNotificationPlugin();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
+   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  // FirebaseCrashlytics.instance.sendUnsentReports();
+  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  // fcmService.fcmConfigure();
+  // fcmService.getFlutterLocalNotificationPlugin();
+ /*  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark)); */
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runZoned(() {
-      runApp(MyApp());
-    }, onError: FirebaseCrashlytics.instance.recordError);
+    /*  runZoned(() { */
+    runApp(MyApp());
+    /*},  onError: FirebaseCrashlytics.instance.recordError); */
 
-    fcmService.getfcmToken();
+   // fcmService.getfcmToken();
   });
 }
 
@@ -69,13 +70,13 @@ class MyApp extends StatelessWidget {
               return supportedLocale;
             }
           }
-        } catch (e, s) {
-          FirebaseCrashlytics.instance.recordError(e, s);
+        } catch (e) {
+         // FirebaseCrashlytics.instance.recordError(e, s);
         }
 
         return retLocale;
       },
-      home: FirstScreen(),
+      home:LoginScreen2() //FirstScreen(),
     );
   }
 }

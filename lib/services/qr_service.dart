@@ -1,4 +1,4 @@
-import 'dart:async';
+/* import 'dart:async';
 import 'dart:convert';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
@@ -102,3 +102,4 @@ class QrService {
     }
   }
 }
+ */

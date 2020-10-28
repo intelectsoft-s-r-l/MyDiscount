@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 
 import '../services/qr_service.dart';
 import '../widgets/companies_list_widget.dart';
@@ -50,3 +50,4 @@ class Companies extends StatelessWidget {
     );
   }
 }
+ */

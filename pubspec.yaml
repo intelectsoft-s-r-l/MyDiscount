@@ -15,22 +15,26 @@ dependencies:
   flutter_localizations:
     sdk: flutter
     
-  data_connection_checker: ^0.3.4
-  material_design_icons_flutter: ^4.0.5655
-  http: ^0.12.2
+  # data_connection_checker: ^0.3.4
+  # material_design_icons_flutter: ^4.0.5655
+  # http: ^0.12.2
   shared_preferences: ^0.5.12
-  google_sign_in: ^4.5.4
-  flutter_facebook_login: ^3.0.0
-  qr_flutter: ^3.2.0
-  cupertino_icons: ^1.0.0
-  font_awesome_flutter: ^8.10.0
-  firebase_messaging: ^7.0.3
-  flutter_local_notifications: ^2.0.0+1
-  firebase_crashlytics: ^0.2.1+1
-  sign_in_with_apple: ^2.5.4
-  firebase_core: ^0.5.0+1
-  firebase_remote_config: ^0.4.0+2
-  firebase_analytics: ^6.0.2
+  # google_sign_in: ^4.5.4
+  # flutter_facebook_login: ^3.0.0
+  # qr_flutter: ^3.2.0
+  # cupertino_icons: ^1.0.0
+  # font_awesome_flutter: ^8.10.0
+  # firebase_messaging: ^7.0.3
+  # flutter_local_notifications: ^2.0.0+1
+  # firebase_crashlytics: ^0.2.1+1
+  # sign_in_with_apple: ^2.5.4
+  # firebase_core: ^0.5.0+1
+  # firebase_remote_config: ^0.4.0+2
+  # firebase_analytics: ^6.0.2
+  flutter_svg: ^0.19.1
+  #animated_text_kit: ^2.5.1
+  linkable: ^1.0.5
+  url_launcher: ^5.4.10
 
 dev_dependencies:
   flutter_test:
@@ -40,19 +44,21 @@ flutter:
 
   uses-material-design: true
   assets:
-    - assets/icons/om.png
-    - assets/icons/apple_logo.png
-    - assets/icons/news1.png
-    - assets/icons/no internet.png
-    - assets/icons/qrlogo.png
-    - lang/en.json
-    - lang/ro.json
-    - lang/ru.json
-    - lang/md.json
-    - assets/icons/companie.jpg
-    - assets/icons/Facebook_Logo.png
-    - assets/icons/qq3.png
-    - assets/icons/google_logo.png
+    - assets/icons/
+    - lang/
+    # - assets/icons/om.png
+    # - assets/icons/apple_logo.png
+    # - assets/icons/news1.png
+    # - assets/icons/no internet.png
+    # - assets/icons/qrlogo.png
+    # - lang/en.json
+    # - lang/ro.json
+    # - lang/ru.json
+    # - lang/md.json
+    # - assets/icons/companie.jpg
+    # - assets/icons/Facebook_Logo.png
+    # - assets/icons/qq3.png
+    # - assets/icons/google_logo.png
   # fonts:
   # - family: MyFlutterApp
   # fonts:

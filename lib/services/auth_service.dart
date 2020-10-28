@@ -1,4 +1,4 @@
-import 'dart:async';
+/* import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -29,14 +29,14 @@ class AuthService extends UserCredentials {
           final profile = json.decode(_graphResponse.body);
           final fcmToken = await fcmService.getfcmToken();
           saveUserCredentials(
-            _accessToken.userId,
-            2,
-            fcmToken,
-            profile['name'],
-            profile['email'],
-            profile['picture']['data']['url'],
-            _accessToken.token,
-            null,
+            id: _accessToken.userId,
+            registerMode: 2,
+            pushToken: fcmToken,
+            displayName: profile['name'],
+            email: profile['email'],
+            photoUrl: profile['picture']['data']['url'],
+            accessToken: _accessToken.token,
+            authorizationCode: null,
           );
           break;
         case FacebookLoginStatus.cancelledByUser:
@@ -57,14 +57,14 @@ class AuthService extends UserCredentials {
           final GoogleSignInAuthentication auth = await account.authentication;
           final fcmToken = await fcmService.getfcmToken();
           saveUserCredentials(
-            account.id,
-            1,
-            fcmToken,
-            account.displayName,
-            account.email,
-            account.photoUrl,
-            auth.accessToken,
-            null,
+            id: account.id,
+            registerMode: 1,
+            pushToken: fcmToken,
+            displayName: account.displayName,
+            email: account.email,
+            photoUrl: account.photoUrl,
+            accessToken: auth.accessToken,
+            authorizationCode: null,
           );
         },
       ).whenComplete(() async {
@@ -95,16 +95,16 @@ class AuthService extends UserCredentials {
       final fcmToken = await fcmService.getfcmToken();
 
       saveUserCredentials(
-        appleCredentials.userIdentifier,
-        3,
-        fcmToken,
-        '${appleCredentials.familyName}' +
+        id: appleCredentials.userIdentifier,
+        registerMode: 3,
+        pushToken: fcmToken,
+        displayName: '${appleCredentials.familyName}' +
             " " +
             '${appleCredentials.givenName}',
-        appleCredentials.email,
-        null,
-        appleCredentials.identityToken,
-        appleCredentials.authorizationCode,
+        email: appleCredentials.email,
+        photoUrl: null,
+        accessToken: appleCredentials.identityToken,
+        authorizationCode: appleCredentials.authorizationCode,
       );
     } on SignInWithAppleAuthorizationException {
       throw SignInWithAppleCredentialsException(message: 'Remove from user');
@@ -114,3 +114,4 @@ class AuthService extends UserCredentials {
     }
   }
 }
+ */
