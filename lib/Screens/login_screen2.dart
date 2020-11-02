@@ -18,7 +18,7 @@ class LoginScreen2 extends StatelessWidget {
                   width: size.width,
                   child: Image.asset(
                     'assets/icons/Group.png',
-                    fit: BoxFit.fill,
+                     fit: BoxFit.fill,
                   )),
               Positioned(
                 left: 0.0 /* size.width * .33 */,
