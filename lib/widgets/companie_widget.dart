@@ -31,7 +31,7 @@ class CompanieWidget extends StatelessWidget {
           ),
         ),
       ),
-      //TODO:se va adauga in alta versiune
+      //se va adauga in alta versiune
       /* subtitle: Text('Index:${companie['Index']}'), */
       trailing: Container(
         width: 80,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:MyDiscount/auth_to_service/service_client.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +18,7 @@ SharedPref sPref = SharedPref();
 class QrService {
   AuthService authService = AuthService();
   InternetConnection _internetConnection = InternetConnection();
-
+  final credentials = Credentials.encoded;
   Map<String, String> _headers = {
     'Content-type': 'application/json; charset=utf-8',
     'Authorization': 'Basic ' + Credentials.encoded,
@@ -39,19 +40,22 @@ class QrService {
   } */
 
   Future<String> attemptSignIn() async {
+    ServiceClient client = ServiceClient(credentials);
     try {
       String serviceName = await getServiceName();
       print(serviceName);
       final _bodyData = await getBodyData();
-
+      var body = json.decode(_bodyData);
       final url = '$serviceName/json/GetTID';
-      final response = await http
+      final response =
+          await client.post(url, /* headers: _headers, */ body: body);
+      /*  final response = await http
           .post(
             url,
             headers: _headers,
             body: _bodyData,
-          )
-          .timeout(Duration(seconds: 10));
+          ) */
+      //.timeout(Duration(seconds: 10));
       var decodedResponse = json.decode(response.body);
       //print(response.statusCode);
       if (decodedResponse['ErrorCode'] == 0) {
