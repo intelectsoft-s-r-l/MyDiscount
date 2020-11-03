@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/auth_to_service/service_exception.dart';
 import 'package:http/http.dart';
 
-class ServiceClient {
+/* abstract  */ class ServiceClient {
   final String credential;
   BaseClient _client;
 
@@ -12,7 +13,7 @@ class ServiceClient {
   Future<dynamic> get(uri) => _send('GET', uri);
 
   Future<dynamic> post(uri, {Map<String, String> headers, body}) =>
-      _send('POST', uri,json: body);
+      _send('POST', uri, json: body);
 
   Future<dynamic> _send(String method, url, {json}) async {
     Uri uri = url is String ? Uri.parse(url) : url;
@@ -41,13 +42,15 @@ class ServiceClient {
     }
     if (response.statusCode != 200) {
       if (bodyJson is Map) {
-        var error = bodyJson['error'];
+        var error = bodyJson['errorMessage'];
         if (error != null) {
-          throw ServiceClientException(response.statusCode, error.toString());
+          throw ServiceException(
+              errorCode: response.statusCode, errorMessage: error);
         }
       }
+      throw ServiceClientException(response.statusCode, bodyJson.toString());
     }
-    throw ServiceClientException(response.statusCode, bodyJson.toString());
+    return bodyJson;
   }
 }
 
