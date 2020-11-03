@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:MyDiscount/auth_to_service/service_client.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/auth_service.dart';
@@ -19,10 +19,10 @@ class QrService {
   AuthService authService = AuthService();
   InternetConnection _internetConnection = InternetConnection();
   final credentials = Credentials.encoded;
-  Map<String, String> _headers = {
+  /* Map<String, String> _headers = {
     'Content-type': 'application/json; charset=utf-8',
     'Authorization': 'Basic ' + Credentials.encoded,
-  };
+  }; */
 
   removeSharedData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -40,7 +40,7 @@ class QrService {
   } */
 
   Future<String> attemptSignIn() async {
-    ServiceClient client = ServiceClient(credentials);
+    ServiceMethods client = ServiceMethods(credentials);
     try {
       String serviceName = await getServiceName();
       print(serviceName);
@@ -56,7 +56,7 @@ class QrService {
             body: _bodyData,
           ) */
       //.timeout(Duration(seconds: 10));
-      var decodedResponse = json.decode(response.body);
+      var decodedResponse = response; //json.decode(response.body);
       //print(response.statusCode);
       if (decodedResponse['ErrorCode'] == 0) {
         sPref.saveTID(decodedResponse['TID']);
@@ -78,7 +78,7 @@ class QrService {
 
 //https://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<dynamic> getCompanyList() async {
-    ServiceClient client = ServiceClient(credentials);
+    ServiceMethods client = ServiceMethods(credentials);
     String id = await getUserId();
     // print(serviceName);
     try {
@@ -91,14 +91,14 @@ class QrService {
           /* await http.get(url, headers: _headers).timeout(
                 Duration(seconds: 3),
               ); */
-          if (response.statusCode == 200) {
-            final companiesMap =
-                json.decode(response.body) as Map<String, dynamic>;
-            var listCompanies = companiesMap['Companies'] as List;
-            return listCompanies;
-          } else {
+          /* if (response.statusCode == 200) { */
+          final companiesMap = response;
+          /*   json.decode(response.body) as Map<String, dynamic>; */
+          var listCompanies = companiesMap['Companies'] as List;
+          return listCompanies;
+          /*   } else {
             return false;
-          }
+          } */
           break;
         case DataConnectionStatus.disconnected:
           return false;

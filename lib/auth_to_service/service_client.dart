@@ -1,13 +1,12 @@
 import 'dart:convert';
-
-import 'package:MyDiscount/auth_to_service/service_exception.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
-/* abstract  */ class ServiceClient {
+/* abstract  */ class ServiceMethods {
   final String credential;
   BaseClient _client;
 
-  ServiceClient(this.credential, {BaseClient client})
+  ServiceMethods(this.credential, {BaseClient client})
       : _client = client ?? Client();
 
   Future<dynamic> get(uri) => _send('GET', uri);
@@ -44,11 +43,12 @@ import 'package:http/http.dart';
       if (bodyJson is Map) {
         var error = bodyJson['errorMessage'];
         if (error != null) {
-          throw ServiceException(
-              errorCode: response.statusCode, errorMessage: error);
+          throw ServiceClientException(
+              statusCode: response.statusCode, message: error);
         }
       }
-      throw ServiceClientException(response.statusCode, bodyJson.toString());
+      throw ServiceClientException(
+          statusCode: response.statusCode, message: bodyJson.toString());
     }
     return bodyJson;
   }
@@ -58,7 +58,7 @@ class ServiceClientException implements Exception {
   final int statusCode;
   final String message;
 
-  ServiceClientException(this.statusCode, this.message);
+  ServiceClientException({@required this.statusCode, @required this.message});
   @override
   String toString() => '$message ($statusCode)';
 }

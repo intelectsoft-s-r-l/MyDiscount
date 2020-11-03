@@ -12,13 +12,4 @@ abstract class Company {
   })  : assert(name != null),
         assert(id != null);
 }
-//List<Company> get getCompanyList => [];
 
-/* abstract class ListOfCompanies {
-  final List<Company> _companyList ;
-
-  ListOfCompanies(
-    this._companyList,
-  ); 
-
-}*/
