@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-
+@immutable
 class User {
   final String displayName;
   final String email;
