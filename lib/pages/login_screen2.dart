@@ -1,3 +1,5 @@
+import 'package:MyDiscount/pages/bottom_navigation_bar_widget.dart';
+import 'package:MyDiscount/pages/qr-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,12 +15,13 @@ class LoginScreen2 extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Container(//padding: EdgeInsets.only(top: 24),
+              Container(
+                  //padding: EdgeInsets.only(top: 24),
                   height: size.height * .45,
                   width: size.width,
                   child: Image.asset(
                     'assets/icons/Group.png',
-                     fit: BoxFit.fill,
+                    fit: BoxFit.fill,
                   )),
               Positioned(
                 left: 0.0 /* size.width * .33 */,
@@ -35,7 +38,7 @@ class LoginScreen2 extends StatelessWidget {
                       maxLines: 2,
                     )),
               ),
-             /*  Positioned(
+              /*  Positioned(
                 left: 0.0,
                 top: size.height * .15,
                 child: Container(
@@ -80,10 +83,15 @@ class LoginScreen2 extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: size.height*.065,
+                  height: size.height * .065,
                 ),
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BottomNavigationBarWidget()),
+                    );
+                  },
                   child: Container(
                     height: 40,
                     width: size.width * .82,
@@ -118,10 +126,15 @@ class LoginScreen2 extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: size.height*.01,
+                  height: size.height * .01,
                 ),
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BottomNavigationBarWidget()),
+                    );
+                  },
                   child: Container(
                     height: 40,
                     width: size.width * .82,
@@ -144,23 +157,26 @@ class LoginScreen2 extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                            'Sign in with Facebook',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          'Sign in with Facebook',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
+                        ),
                       ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: size.height*.01,
+                  height: size.height * .01,
                 ),
                 FlatButton(
                   onPressed: () {
-                    print('is tapped');
+                    Navigator.push(
+                      context,
+                     MaterialPageRoute(builder: (context) => BottomNavigationBarWidget()),
+                    );
                   },
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,

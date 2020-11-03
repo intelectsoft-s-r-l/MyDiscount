@@ -1,7 +1,7 @@
 //import 'dart:async';
 import 'dart:ui';
 
-import 'package:MyDiscount/Screens/login_screen2.dart';
+import 'package:MyDiscount/pages/login_screen2.dart';
 // import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';

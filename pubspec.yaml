@@ -16,14 +16,14 @@ dependencies:
     sdk: flutter
     
   # data_connection_checker: ^0.3.4
-  # material_design_icons_flutter: ^4.0.5655
+  material_design_icons_flutter: ^4.0.5755
   # http: ^0.12.2
-  shared_preferences: ^0.5.12
+  shared_preferences: ^0.5.12+2
   # google_sign_in: ^4.5.4
   # flutter_facebook_login: ^3.0.0
-  # qr_flutter: ^3.2.0
+  qr_flutter: ^3.2.0
   # cupertino_icons: ^1.0.0
-  # font_awesome_flutter: ^8.10.0
+  font_awesome_flutter: ^8.10.0
   # firebase_messaging: ^7.0.3
   # flutter_local_notifications: ^2.0.0+1
   # firebase_crashlytics: ^0.2.1+1
@@ -33,8 +33,8 @@ dependencies:
   # firebase_analytics: ^6.0.2
   flutter_svg: ^0.19.1
   #animated_text_kit: ^2.5.1
-  linkable: ^1.0.5
-  url_launcher: ^5.4.10
+  linkable: ^1.0.6
+  url_launcher: ^5.7.8
 
 dev_dependencies:
   flutter_test:
