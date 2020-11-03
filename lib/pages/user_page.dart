@@ -1,4 +1,4 @@
-import 'package:MyDiscount/pages/setings_page.dart';
+import 'package:MyDiscount/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -34,7 +34,7 @@ class UserPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (contxt) => SetingsPage(),
+                            builder: (contxt) => ProfilePage(),
                           ),
                         );
                       },

@@ -1,5 +1,4 @@
 import 'package:MyDiscount/pages/bottom_navigation_bar_widget.dart';
-import 'package:MyDiscount/pages/qr-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

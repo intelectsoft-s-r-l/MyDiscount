@@ -4,6 +4,7 @@ import 'package:MyDiscount/pages/qr-page.dart';
 import 'package:MyDiscount/pages/setings_page.dart';
 import 'package:MyDiscount/pages/user_page.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class BottomNavigationBarWidget extends StatefulWidget {
   @override
@@ -12,14 +13,14 @@ class BottomNavigationBarWidget extends StatefulWidget {
 }
 
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
-  int selectedIndex = 0;
+  int selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: [
         UserPage(),
-        HistoryPage(),
+        TransactionsPage(),
         QrPage(),
         NotificationPage(),
         SetingsPage(),
@@ -41,14 +42,11 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
               ),
               label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Colors.black,
-              ),
-              label: 'History'),
+              icon:Icon( MdiIcons.wallet,color:Colors.black),
+              label: 'Transactions'),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
+                MdiIcons.qrcode,
                 color: Colors.black,
               ),
               label: 'Qr'),

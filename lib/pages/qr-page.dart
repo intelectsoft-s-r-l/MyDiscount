@@ -1,5 +1,3 @@
-import 'package:MyDiscount/pages/login_screen2.dart';
-import 'package:MyDiscount/pages/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -22,7 +20,7 @@ class QrPage extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
               ),
-              Positioned(
+              /* Positioned(
                 top: size.height * .07,
                 child: IconButton(
                   icon: Icon(
@@ -37,7 +35,7 @@ class QrPage extends StatelessWidget {
                     );
                   },
                 ),
-              ),
+              ), */
               Positioned(
                 top: size.height * .08,
                 left: size.width * .33,

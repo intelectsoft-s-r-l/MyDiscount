@@ -2,7 +2,7 @@
 import 'dart:ui';
 
 import 'package:MyDiscount/pages/login_screen2.dart';
-// import 'package:firebase_core/firebase_core.dart';
+ import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ import './widgets/localizations.dart';
 
 void main() async {
    WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+   await Firebase.initializeApp();
   // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   // FirebaseCrashlytics.instance.sendUnsentReports();
   // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

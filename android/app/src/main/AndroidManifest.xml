@@ -6,7 +6,7 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".Application"
         android:label="MyDiscount"
         android:icon="@mipmap/qrcode">  
        <!--  <meta-data                      
@@ -59,7 +59,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-         <!--    <meta-data 
+            <meta-data 
             android:name="com.facebook.sdk.ApplicationId" 
             android:value="@string/facebook_app_id"/> 
         <activity 
@@ -81,6 +81,6 @@
             <action android:name="android.intent.action.BOOT_COMPLETED"/>
             <action android:name="android.intent.action.DEFAULT"/>
         </intent-filter>  
-     </receiver>   -->
+     </receiver>  
     </application>
 </manifest>

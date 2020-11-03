@@ -1,4 +1,7 @@
+import 'package:MyDiscount/pages/app_inf_page.dart';
 import 'package:MyDiscount/pages/login_screen2.dart';
+import 'package:MyDiscount/pages/notifications_settings_page.dart';
+import 'package:MyDiscount/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -41,61 +44,91 @@ class SetingsPage extends StatelessWidget {
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.green,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Accounts Details',
-                        style: TextStyle(fontSize: 25),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.green,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Accounts Details',
+                          style: TextStyle(fontSize: 25),
+                        )
+                      ],
+                    ),
                   ),
                   Divider(
                     indent: 70,
                     color: Colors.grey,
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.notifications,
-                        size: 50,
-                        color: Colors.green,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Notifications settings',
-                        style: TextStyle(fontSize: 25),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NotificationSettingsPage(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.notifications,
+                          size: 50,
+                          color: Colors.green,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Notifications settings',
+                          style: TextStyle(fontSize: 25),
+                        )
+                      ],
+                    ),
                   ),
                   Divider(
                     indent: 70,
                     color: Colors.grey,
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.info,
-                        size: 50,
-                        color: Colors.green,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'App Info',
-                        style: TextStyle(fontSize: 25),
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AppInfoPage(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info,
+                          size: 50,
+                          color: Colors.green,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'App Info',
+                          style: TextStyle(fontSize: 25),
+                        )
+                      ],
+                    ),
                   ),
                   Divider(
                     indent: 70,
