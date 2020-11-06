@@ -1,4 +1,4 @@
-/* import 'dart:convert';
+import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -20,4 +20,3 @@ Future getServiceName() async {
     FirebaseCrashlytics.instance.recordError(e, s);
   }
 }
- */

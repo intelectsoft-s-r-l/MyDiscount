@@ -1,4 +1,4 @@
-/* import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrImageWidget extends StatelessWidget {
@@ -29,7 +29,6 @@ class QrImageWidget extends StatelessWidget {
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
                             colors: [
-                              
                               Colors.black,
                               Colors.green,
                             ]).createShader(rect),
@@ -72,4 +71,3 @@ class QrImageWidget extends StatelessWidget {
     );
   }
 }
- */

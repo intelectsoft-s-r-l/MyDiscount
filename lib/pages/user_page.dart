@@ -1,125 +1,140 @@
-import 'package:MyDiscount/pages/profile_page.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
+import '../services/qr_service.dart';
+import '../services/shared_preferences_service.dart';
+import '../widgets/noCompani_list_widget.dart';
+import '../widgets/widgets/circular_progress_indicator_widget.dart';
+import '../widgets/widgets/companies_list_widget.dart';
+import '../widgets/widgets/nointernet_widget.dart';
+import '../widgets/widgets/top_bar_image.dart';
+import 'profile_page.dart';
 
 class UserPage extends StatelessWidget {
+  final QrService data = QrService();
+  final SharedPref sPref = SharedPref();
+  Future<Map<String, dynamic>> _loadSharedPref() async {
+    //SharedPreferences preferences = await SharedPreferences.getInstance();
+    final sharedMap = await sPref.credential();
+    final credential = json.decode(sharedMap);
+    return Future<Map<String, dynamic>>.value(credential);
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final list = [
-      {'logo': 'asfs', 'name': 'Convis', 'amount': '10'},
-      {'logo': 'asfs', 'name': 'Eco fifiw', 'amount': '10'},
-      {'logo': 'asfs', 'name': 'Decadance', 'amount': '10'},
-      {'logo': 'asfs', 'name': 'Star Kebab', 'amount': '10'},
-    ];
     return Scaffold(
       body: Column(
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Stack(
             children: [
-              Container(
-                child: SvgPicture.asset(
-                  'assets/icons/top.svg',
-                  fit: BoxFit.fill,
-                ),
-              ),
+              TopBarImage(size: size),
               Positioned(
-                top: size.height * .06,
+                top: size.height * .05,
                 left: 30,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (contxt) => ProfilePage(),
-                          ),
-                        );
-                      },
-                      child: CircleAvatar(
-                        radius: 30,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Vasea Tombucica',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          'Sign In with Apple',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                child: FutureBuilder<Map<String, dynamic>>(
+                  future: _loadSharedPref(),
+                  builder: (context, snapshot) {
+                    print(snapshot.data);
+                    return snapshot.hasData
+                        ? Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (contxt) => ProfilePage(),
+                                    ),
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  radius: 34,
+                                  child: ClipRRect(
+                                   
+                                    borderRadius: BorderRadius.circular(40),
+                                    child: snapshot.data['PhotoUrl'] != null
+                                        ? Image.network(
+                                            snapshot.data['PhotoUrl'],
+                                            fit: BoxFit.fill,
+                                            scale: 0.7,
+                                            filterQuality: FilterQuality.high,
+                                          )
+                                        : Container(),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    '${snapshot.data['DisplayName']}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  if (snapshot.data['RegisterMode'] == 1)
+                                    Text(
+                                      'SignIn With Google',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  if (snapshot.data['RegisterMode'] == 2)
+                                    Text(
+                                      'SignIn With Facebook',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  if (snapshot.data['RegisterMode'] == 3)
+                                    Text(
+                                      'SignIn With Apple',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                ],
+                              )
+                            ],
+                          )
+                        : Container();
+                  },
                 ),
               ),
             ],
           ),
-          Container(
-            height: size.height * .7,
-            child: ListView.separated(
-              physics: BouncingScrollPhysics(),
-              itemCount: list.length,
-              itemBuilder: (context, index) => Card(
-                shadowColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 2,
-                    style: BorderStyle.solid,
-                    color: Colors.grey[300],
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                elevation: 2,
-                child: ListTile(
-                  contentPadding:
-                      EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    child: Placeholder(),
-                  ), //Text(list[index]['logo']),
-                  title: Text(
-                    list[index]['name'],
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    //textAlign: TextAlign.center,
-                  ),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Suma',
-                        style: TextStyle(
-                          color: Colors.deepPurpleAccent[300],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${list[index]['amount']} MDL',
-                        style: TextStyle(
-                          color: Colors.deepPurpleAccent[300],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              separatorBuilder: (context, index) => SizedBox(
-                height: 5,
+          Expanded(
+            child: Container(
+              // height: size.height * .73,
+              child: FutureBuilder<dynamic>(
+                future: data.getCompanyList(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  return Scaffold(
+                    body: snapshot.data != false
+                        ? Container(
+                            child: snapshot.hasData
+                                ? Container(
+                                    child: snapshot.data.length != 0
+                                        ? CompaniesList(snapshot.data)
+                                        : NoCompanieList(),
+                                  )
+                                : CircularProgresIndicatorWidget(),
+                          )
+                        : Container(
+                            child: NoInternetWidget(),
+                          ),
+                  );
+                },
               ),
             ),
           ),

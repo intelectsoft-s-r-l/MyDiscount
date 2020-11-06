@@ -1,11 +1,15 @@
-import 'package:MyDiscount/pages/app_inf_page.dart';
-import 'package:MyDiscount/pages/login_screen2.dart';
-import 'package:MyDiscount/pages/notifications_settings_page.dart';
-import 'package:MyDiscount/pages/profile_page.dart';
+import 'package:MyDiscount/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
+import '../widgets/widgets/top_bar_image.dart';
+import '../widgets/widgets/top_bar_text.dart';
+
+import 'app_inf_page.dart';
+import 'notifications_settings_page.dart';
+import 'profile_page.dart';
 
 class SetingsPage extends StatelessWidget {
+  final AuthService service = AuthService();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -16,31 +20,12 @@ class SetingsPage extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
-                  child: SvgPicture.asset(
-                    'assets/icons/top.svg',
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                Positioned(
-                  top: size.height * .08,
-                  left: size.width * .33,
-                  child: Container(
-                    width: size.width * .33,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Settings',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                )
+                TopBarImage(size: size),
+                AppBarText(size: size, text: 'Settings'),
               ],
             ),
             Container(
+              height: size.height*.5,
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
@@ -135,22 +120,26 @@ class SetingsPage extends StatelessWidget {
                     color: Colors.grey,
                   ),
                   //Spacer(),
-                  Container(
-                    height: size.height * .35,
+                 
+                ],
+              ),
+            ),
+             Container(
+                    height: size.height * .23,
                     child: Stack(
                       alignment: AlignmentDirectional.center,
                       children: [
                         Positioned(
-                          bottom: 10,
+                          bottom: size.height*.02,
                           child: Container(
                             child: FlatButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LoginScreen2(),
-                                  ),
-                                );
+                                service.signOut().whenComplete(() {
+                                  Navigator.pushNamed(
+                                      context, '/loginscreen');
+
+                                  authController.add(false);
+                                });
                               },
                               child: Container(
                                 width: size.width * .8,
@@ -186,9 +175,6 @@ class SetingsPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

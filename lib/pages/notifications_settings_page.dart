@@ -1,5 +1,7 @@
+
+import '../widgets/widgets/top_bar_image.dart';
+import 'package:MyDiscount/widgets/widgets/top_bar_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class NotificationSettingsPage extends StatelessWidget {
   @override
@@ -10,28 +12,8 @@ class NotificationSettingsPage extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Container(
-                child: SvgPicture.asset(
-                  'assets/icons/top.svg',
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Positioned(
-                top: size.height * .08,
-                left: size.width * .1,
-                child: Container(
-                  width: size.width * .8,
-                  child: Text(
-                    'Notifications Settings',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+             TopBarImage(size: size),
+              AppBarText(size: size, text: 'Notifications Settings'),
               Positioned(
                 top: size.height * .06,
                 child: IconButton(

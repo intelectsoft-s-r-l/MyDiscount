@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/localizations.dart';
+import 'widgets/localizations.dart';
 
 class NoCompanieList extends StatelessWidget {
   const NoCompanieList({Key key}) : super(key: key);

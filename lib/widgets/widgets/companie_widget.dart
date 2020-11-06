@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import '../widgets/localizations.dart';
+import 'localizations.dart';
 
 class CompanieWidget extends StatelessWidget {
   const CompanieWidget(this.companie);
@@ -13,8 +13,8 @@ class CompanieWidget extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 10, bottom: 10,right: 5,left: 5),
       leading: Container(
-        width: 80,
-        height: 80,
+        width: 60,
+        height: 60,
         child: Image.memory(
             Base64Decoder().convert('${companie['Logo']}'),
             filterQuality: FilterQuality.high,
@@ -31,7 +31,7 @@ class CompanieWidget extends StatelessWidget {
           ),
         ),
       ),
-      //TODO:se va adauga in alta versiune
+      //se va adauga in alta versiune
       /* subtitle: Text('Index:${companie['Index']}'), */
       trailing: Container(
         width: 80,

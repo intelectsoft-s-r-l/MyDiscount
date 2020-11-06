@@ -11,30 +11,28 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
   flutter_localizations:
     sdk: flutter
-    
-  data_connection_checker: ^0.3.4
-  material_design_icons_flutter: ^4.0.5755
-  http: ^0.12.2
-  shared_preferences: ^0.5.12+2
-  google_sign_in: ^4.5.5
-  flutter_facebook_login: ^3.0.0
-  qr_flutter: ^3.2.0
   cupertino_icons: ^1.0.0
-  font_awesome_flutter: ^8.10.0
-  # firebase_messaging: ^7.0.3
-  # flutter_local_notifications: ^2.0.0+1
-  # firebase_crashlytics: ^0.2.1+1
-  sign_in_with_apple: ^2.5.4
+  data_connection_checker: ^0.3.4
+  equatable: ^1.2.5
+  firebase_analytics: ^6.0.2
   firebase_core: ^0.5.1
+  firebase_crashlytics: ^0.2.1+1
+  firebase_messaging: ^7.0.3
   firebase_remote_config: ^0.4.1
-  # firebase_analytics: ^6.0.2
+  flutter_bloc: ^6.0.6
+  flutter_facebook_login: ^3.0.0
+  flutter_local_notifications: ^2.0.0+1
   flutter_svg: ^0.19.1
-  #animated_text_kit: ^2.5.1
-  # linkable: ^1.0.6
-  # url_launcher: ^5.7.8
+  font_awesome_flutter: ^8.10.0
+  google_sign_in: ^4.5.5
+  http: ^0.12.2
+  material_design_icons_flutter: ^4.0.5755
+  provider: ^4.3.2+2
+  qr_flutter: ^3.2.0
+  shared_preferences: ^0.5.12+2
+  sign_in_with_apple: ^2.5.4
 
 dev_dependencies:
   flutter_test:
@@ -46,7 +44,6 @@ flutter:
   assets:
     - assets/icons/
     - lang/
-   
   # fonts:
   # - family: MyFlutterApp
   # fonts:
@@ -55,7 +52,5 @@ flutter:
   #         style: italic
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-

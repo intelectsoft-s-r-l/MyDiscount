@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/companie_widget.dart';
+import 'companie_widget.dart';
 
 class CompaniesList extends StatelessWidget {
   const CompaniesList(this.list);
