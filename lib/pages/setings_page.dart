@@ -1,13 +1,11 @@
-import 'package:MyDiscount/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/widgets/top_bar_image.dart';
-import '../widgets/widgets/top_bar_text.dart';
-
+import '../services/auth_service.dart';
+import '../widgets/top_bar_image.dart';
+import '../widgets/top_bar_text.dart';
 import 'app_inf_page.dart';
 import 'notifications_settings_page.dart';
 import 'profile_page.dart';
-
 class SetingsPage extends StatelessWidget {
   final AuthService service = AuthService();
   @override

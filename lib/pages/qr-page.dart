@@ -1,27 +1,25 @@
 import 'dart:async';
 
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../services/internet_connection_service.dart';
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
-import '../widgets/widgets/circular_progress_indicator_widget.dart';
-import '../widgets/widgets/human_image_widget.dart';
-import '../widgets/widgets/localizations.dart';
-import '../widgets/widgets/nointernet_widget.dart';
-import '../widgets/widgets/top_bar_image.dart';
-import '../widgets/widgets/top_bar_text.dart';
+import '../widgets/human_image_widget.dart';
+import '../widgets/localizations.dart';
+import '../widgets/nointernet_widget.dart';
+import '../widgets/qr-widget.dart';
+import '../widgets/top_bar_image.dart';
+import '../widgets/top_bar_text.dart';
 
-// ignore: must_be_immutable
+
 class QrPage extends StatefulWidget {
   QrPage({
     Key key,
-   
   }) : super(key: key);
-  
+  final QrService qrService = QrService();
+  final NetworkConnectionImpl internetConnection = NetworkConnectionImpl();
 
   @override
   _QrPageState createState() => _QrPageState();
@@ -30,8 +28,6 @@ class QrPage extends StatefulWidget {
 class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   StreamController<bool> _imageController = StreamController.broadcast();
   StreamController<double> _progressController = StreamController.broadcast();
-  static QrService _qrService = QrService();
-  final InternetConnection internetConnection = InternetConnection();
 
   int countTID = 0;
   bool serviceConection = true;
@@ -111,50 +107,47 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   }
 
   getAuthorization() async {
-    DataConnectionStatus status =
-        await internetConnection.verifyInternetConection();
+   
     _counter = 7;
-    switch (status) {
-      case DataConnectionStatus.connected:
-        try {
-          var service = await _qrService.attemptSignIn();
-          if (countTID == 3) {
-            _imageController.sink.add(false);
-            setState(() {
-              serviceConection = true;
-            });
+    if (await widget.internetConnection.isConnected) {
+      try {
+        var service = await widget.qrService.attemptSignIn();
+        if (countTID == 3) {
+          _imageController.sink.add(false);
+          setState(() {
+            serviceConection = true;
+          });
 
-            // ignore: null_aware_in_condition
-            if (_timer?.isActive) _timer?.cancel();
-          } else {
-            startTimer();
-          }
-
-          if (service.isNotEmpty) {
-            setState(() {
-              serviceConection = true;
-            });
-          } else {
-            changeImages();
-            setState(() {
-              serviceConection = false;
-            });
-
-            // ignore: null_aware_in_condition
-            if (_timer?.isActive) _timer?.cancel();
-          }
-        } catch (e) {
           // ignore: null_aware_in_condition
           if (_timer?.isActive) _timer?.cancel();
-
-          print(e);
+        } else {
+          startTimer();
         }
-        break;
-      case DataConnectionStatus.disconnected:
-        _imageController.add(false);
-        setState(() {
-          serviceConection = false;
-        });
+
+        if (service.isNotEmpty) {
+          setState(() {
+            serviceConection = true;
+          });
+        } else {
+          changeImages();
+          setState(() {
+            serviceConection = false;
+          });
+
+          // ignore: null_aware_in_condition
+          if (_timer?.isActive) _timer?.cancel();
+        }
+      } catch (e) {
+        // ignore: null_aware_in_condition
+        if (_timer?.isActive) _timer?.cancel();
+
+        print(e);
+      }
+    } else {
+      _imageController.add(false);
+      setState(() {
+        serviceConection = false;
+      });
     }
   }
 
@@ -194,9 +187,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                   ),
                   onPressed: () {
                     //dispose();
-                    Navigator.pushReplacementNamed(context,'/app'
-                     
-                    );
+                    Navigator.pushReplacementNamed(context, '/app');
                   },
                 ),
               ),
@@ -290,83 +281,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class QrImageWidget extends StatelessWidget {
-  const QrImageWidget({
-    Key key,
-    @required this.function,
-    @required this.size,
-    @required StreamController<double> progressController,
-  })  : _progressController = progressController,
-        super(key: key);
-  final Future<String> function;
-  final Size size;
-  final StreamController<double> _progressController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Card(
-        elevation: 8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: Container(
-          width: size.width * .8,
-          height: size.width * .8,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: FutureBuilder(
-                    future: function,
-                    builder: (context, snapshot) => snapshot.hasData
-                        ? ShaderMask(
-                            blendMode: BlendMode.srcATop,
-                            shaderCallback: (rect) => LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black,
-                                Colors.green,
-                              ],
-                            ).createShader(rect),
-                            child: QrImage(
-                              data: snapshot.data,
-                              size: size.width * .6,
-                            ),
-                          )
-                        : CircularProgresIndicatorWidget(),
-                  ),
-                ),
-              ),
-              StreamBuilder<double>(
-                initialData: 1,
-                stream: _progressController.stream,
-                builder: (context, snapshot) {
-                  return LinearProgressIndicator(
-                    value: snapshot.data,
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(Colors.green),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

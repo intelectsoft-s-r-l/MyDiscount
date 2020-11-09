@@ -3,20 +3,26 @@ import 'dart:convert';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
-Future getServiceName() async {
+Future<String> getServiceNameFromRemoteConfig() async {
   final RemoteConfig remoteConfig = await RemoteConfig.instance;
 
   try {
     await remoteConfig.fetch(expiration: Duration(hours: 12));
     await remoteConfig.activateFetched();
-    final dat = remoteConfig.getString('service_name');
-    final map = json.decode(dat) as Map;
-    final data = map['service_name'];
-    print('welcome message: ' + remoteConfig.getString('service_name'));
-    return data;
+    final String dataFromRemoteConfig = remoteConfig.getString('service_name');
+    final serviceNameAsMap = _decodeRemoteConfigData(dataFromRemoteConfig);
+    final String serviceNameToString = serviceNameAsMap['service_name'];
+
+    return serviceNameToString;
   } on FetchThrottledException {
     throw FetchThrottledException;
   } catch (e, s) {
     FirebaseCrashlytics.instance.recordError(e, s);
   }
+  return '';
+}
+
+Map<String, dynamic> _decodeRemoteConfigData(data) {
+  final Map<String, dynamic> serviceNameAsMap = json.decode(data);
+  return serviceNameAsMap;
 }

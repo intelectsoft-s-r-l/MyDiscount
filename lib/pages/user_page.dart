@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
+import '../widgets/circular_progress_indicator_widget.dart';
+import '../widgets/companies_list_widget.dart';
 import '../widgets/noCompani_list_widget.dart';
-import '../widgets/widgets/circular_progress_indicator_widget.dart';
-import '../widgets/widgets/companies_list_widget.dart';
-import '../widgets/widgets/nointernet_widget.dart';
-import '../widgets/widgets/top_bar_image.dart';
+import '../widgets/nointernet_widget.dart';
+import '../widgets/top_bar_image.dart';
 import 'profile_page.dart';
 
 class UserPage extends StatelessWidget {
   final QrService data = QrService();
   final SharedPref sPref = SharedPref();
-  Future<Map<String, dynamic>> _loadSharedPref() async {
+
+    Future<Map<String, dynamic>> _loadSharedPref() async {
     //SharedPreferences preferences = await SharedPreferences.getInstance();
-    final sharedMap = await sPref.credential();
+    final sharedMap = await sPref.readCredentials();
     final credential = json.decode(sharedMap);
     return Future<Map<String, dynamic>>.value(credential);
   }

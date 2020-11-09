@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref {
+  Future<SharedPreferences> get instance => SharedPreferences.getInstance();
+
   saveTID(String id) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
@@ -11,23 +13,13 @@ class SharedPref {
     return prefs.getString('Tid');
   }
 
-  credentials(String data) async {
+  saveCredentials(String data) async {
     final authData = await SharedPreferences.getInstance();
     authData.setString('credentials', data);
   }
 
-  credential() async {
+  readCredentials() async {
     final authData = await SharedPreferences.getInstance();
     return authData.getString('credentials');
   }
-
-/*   saveRemote(var data) async {
-    final authData = await SharedPreferences.getInstance();
-    authData.setString('remote', data);
-  }
-
-  readRemote() async {
-    final authData = await SharedPreferences.getInstance();
-    return authData.getString('remote');
-  } */
 }
