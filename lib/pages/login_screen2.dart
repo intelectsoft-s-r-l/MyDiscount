@@ -1,17 +1,18 @@
 import 'dart:io';
 
-import 'package:MyDiscount/services/auth_service.dart';
-import 'package:MyDiscount/services/internet_connection_service.dart';
-import 'package:MyDiscount/widgets/widgets/localizations.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
+import '../services/auth_service.dart';
+import '../services/internet_connection_service.dart';
+import '../widgets/localizations.dart';
 
 class LoginScreen2 extends StatefulWidget {
+  final NetworkConnectionImpl internet = NetworkConnectionImpl();
+
   @override
   _LoginScreen2State createState() => _LoginScreen2State();
 }
@@ -23,8 +24,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
     getAuthState();
     super.initState();
   }
-
-  final InternetConnection internet = InternetConnection();
 
   @override
   Widget build(BuildContext context) {
@@ -50,49 +49,46 @@ class _LoginScreen2State extends State<LoginScreen2> {
     }
 
     void getAuthorizationApple() async {
-      final status = await internet.verifyInternetConection();
-      switch (status) {
-        case DataConnectionStatus.connected:
-          data.signInWithApple().whenComplete(() async {
+      if (await widget.internet.isConnected) {
+        data.signInWithApple().whenComplete(() async {
+          final prefs = await SharedPreferences.getInstance();
+          if (prefs.containsKey('credentials')) {
+            authController.sink.add(true);
+            Navigator.pushNamed(context, '/qrpage');
+          }
+        });
+      } else {
+        getDialog();
+      }
+    }
+
+    void getAuthorizationGoogle() async {
+      if (await widget.internet.isConnected) {
+        data.logwithG(context).whenComplete(() async {
+          final prefs = await SharedPreferences.getInstance();
+          if (prefs.containsKey('credentials')) {
+            authController.sink.add(true);
+            Navigator.pushNamed(context, '/qrpage');
+          }
+        });
+      } else {
+        getDialog();
+      }
+    }
+
+    void getAuthorizationFB() async {
+      if (await widget.internet.isConnected) {
+        data.authWithFacebook().whenComplete(
+          () async {
             final prefs = await SharedPreferences.getInstance();
             if (prefs.containsKey('credentials')) {
               authController.sink.add(true);
               Navigator.pushNamed(context, '/qrpage');
             }
-          });
-          break;
-        case DataConnectionStatus.disconnected:
-          getDialog();
-      }
-    }
-
-    void getAuthorizationGoogle() async {
-      final status = await internet.verifyInternetConection();
-      switch (status) {
-        case DataConnectionStatus.connected:
-          data.logwithG(context);
-          break;
-        case DataConnectionStatus.disconnected:
-          getDialog();
-      }
-    }
-
-    void getAuthorizationFB() async {
-      final status = await internet.verifyInternetConection();
-      switch (status) {
-        case DataConnectionStatus.connected:
-          data.authWithFacebook().whenComplete(
-            () async {
-              final prefs = await SharedPreferences.getInstance();
-              if (prefs.containsKey('credentials')) {
-                authController.sink.add(true);
-                Navigator.pushNamed(context, '/qrpage');
-              }
-            },
-          );
-          break;
-        case DataConnectionStatus.disconnected:
-          getDialog();
+          },
+        );
+      } else {
+        getDialog();
       }
     }
 
@@ -236,7 +232,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 Platform.isIOS
                     ? FlatButton(
                         onPressed: () {
-                         getAuthorizationApple();
+                          getAuthorizationApple();
                         },
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
@@ -274,37 +270,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                         ),
                       )
                     : Container(),
-                /* Container(
-            height: 40,
-            width: size.width * .8,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              // border: Border.all(width: 2, color: Colors.grey[300]),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [SizedBox(
-                  width: 20,
-                ),
-                SvgPicture.asset(
-                  'assets/icons/icon_apple.svg',
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Sign in with Apple',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ), */
               ],
             ),
           ),

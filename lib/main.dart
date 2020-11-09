@@ -1,8 +1,5 @@
 import 'dart:ui';
 
-import 'package:MyDiscount/pages/bottom_navigation_bar_widget.dart';
-import 'package:MyDiscount/pages/qr-page.dart';
-import 'package:MyDiscount/services/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,8 +11,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // import './Screens/first_screen.dart';
 import './services/fcm_service.dart';
+import 'pages/bottom_navigation_bar_widget.dart';
 import 'pages/login_screen2.dart';
-import 'widgets/widgets/localizations.dart';
+import 'pages/qr-page.dart';
+import 'services/auth_service.dart';
+import 'widgets/localizations.dart';
+
 
 FCMService fcmService = FCMService();
 

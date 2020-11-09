@@ -1,8 +1,9 @@
 
 
-import '../widgets/widgets/top_bar_image.dart';
-import '../widgets/widgets/top_bar_text.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/top_bar_image.dart';
+import '../widgets/top_bar_text.dart';
 
 class NotificationPage extends StatelessWidget {
   @override

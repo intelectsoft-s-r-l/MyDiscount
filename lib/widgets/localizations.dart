@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppLocalizations {
   final Locale locale;
@@ -17,13 +16,10 @@ class AppLocalizations {
   Map<String, dynamic> _localizedStrings;
 
   Future<bool> load() async {
-    var prefs = await SharedPreferences.getInstance();
     String jsonString =
         await rootBundle.loadString('lang/${locale.languageCode}.json');
-    /* Map<String, dynamic> jsonMap =  */ json.decode(jsonString);
-    /* var data = */ prefs.setString('key', jsonString);
-    var jsonM = json.decode(prefs.getString("key"));
-    Map<String, dynamic> jsonMap = jsonM;
+    Map<String, dynamic> jsonMap = json.decode(jsonString);
+
     _localizedStrings = jsonMap.map(
       (key, value) {
         return MapEntry(key, value.toString());
