@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -21,14 +22,6 @@ class QrService with ChangeNotifier {
     'Content-type': 'application/json; charset=utf-8',
     'Authorization': 'Basic ' + Credentials.encoded,
   };
-  /* Future<bool> tryAutoLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('credentials')) {
-      authController.add(true);
-    } else {
-      return false;
-    }
-  } */
 
   Future<String> attemptSignIn() async {
     try {

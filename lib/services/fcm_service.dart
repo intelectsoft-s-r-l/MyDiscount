@@ -131,12 +131,7 @@ class FCMService {
     );
     print('is shownotification:$notification');
   }
-
-  /* Future<List> getListofNotification() async {
-    var list =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    return list;
-  } */
+  
   void dispose() {
     fcmService.dispose();
   }

@@ -163,7 +163,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Color(0xFF406BFB),
-                      //border: Border.all(width: 2, color: Colors.grey[300]),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -203,7 +202,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Color(0xFF2D4CB3),
-                      //border: Border.all(width: 2, color: Colors.grey[300]),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -236,7 +234,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 Platform.isIOS
                     ? FlatButton(
                         onPressed: () {
-                         getAuthorizationApple();
+                          getAuthorizationApple();
                         },
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
@@ -246,7 +244,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: Colors.black,
-                            // border: Border.all(width: 2, color: Colors.grey[300]),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Row(
@@ -274,37 +271,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                         ),
                       )
                     : Container(),
-                /* Container(
-            height: 40,
-            width: size.width * .8,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              // border: Border.all(width: 2, color: Colors.grey[300]),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [SizedBox(
-                  width: 20,
-                ),
-                SvgPicture.asset(
-                  'assets/icons/icon_apple.svg',
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Sign in with Apple',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ), */
               ],
             ),
           ),

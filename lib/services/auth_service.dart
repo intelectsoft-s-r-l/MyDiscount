@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -25,9 +26,7 @@ class AuthService extends UserCredentials {
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
           FacebookAccessToken _accessToken = result.accessToken;
-          final _graphResponse = await http.get(
-              'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=${_accessToken.token}');
-          final profile = json.decode(_graphResponse.body);
+          final profile = await getFacebookProfile(_accessToken.token);
           final fcmToken = await fcmService.getfcmToken();
           userCredentialstoMap(
             displayName: profile['name'],
@@ -49,6 +48,12 @@ class AuthService extends UserCredentials {
       FirebaseCrashlytics.instance.recordError(e, s);
       throw Exception(e);
     }
+  }
+
+  Future<Map<String, dynamic>> getFacebookProfile(token) async {
+    final _graphResponse = await http.get(
+        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
+    return json.decode(_graphResponse.body);
   }
 
   Future<void> logwithG(context) async {
@@ -75,7 +80,7 @@ class AuthService extends UserCredentials {
           Navigator.pushNamed(context, '/qrpage');
         }
       });
-    } catch (e, s) {
+    } on PlatformException catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
       throw Exception(e);
     }

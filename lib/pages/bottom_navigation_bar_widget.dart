@@ -30,8 +30,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
         backgroundColor: Colors.white,
         onTap: (value) {
           if (value == 2) {
-            Navigator.pushNamed(context,'/qrpage'
-               /*  context, MaterialPageRoute(builder: (context) => QrPage()) */);
+            Navigator.pushNamed(context, '/qrpage');
           } else {
             setState(() {
               if (selectedIndex != 2) {
