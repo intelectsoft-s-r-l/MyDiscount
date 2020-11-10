@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class ServiceClient {
+
   final String credential;
   BaseClient _client;
 

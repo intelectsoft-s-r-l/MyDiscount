@@ -33,6 +33,8 @@ dependencies:
   qr_flutter: ^3.2.0
   shared_preferences: ^0.5.12+2
   sign_in_with_apple: ^2.5.4
+  flushbar: ^1.10.4
+  date_time_picker: ^1.0.2
 
 dev_dependencies:
   flutter_test:

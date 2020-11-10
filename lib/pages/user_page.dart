@@ -72,13 +72,13 @@ class UserPage extends StatelessWidget {
                               ),
                               Column(
                                 children: [
-                                  Text(
+                                  snapshot.data['DisplayName'] != 'null null'?Text(
                                     '${snapshot.data['DisplayName']}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                     ),
-                                  ),
+                                  ):Container(),
                                   if (snapshot.data['RegisterMode'] == 1)
                                     Text(
                                       'SignIn With Google',

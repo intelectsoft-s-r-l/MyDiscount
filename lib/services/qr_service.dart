@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
@@ -70,10 +70,10 @@ class QrService {
             .get(url, headers: _headers)
             .timeout(Duration(seconds: 3));
         if (response.statusCode == 200) {
-          final companiesMap =
-              json.decode(response.body) as Map<String, dynamic>;
-          var listCompanies = companiesMap['Companies'] as List;
-          return listCompanies;
+          final Map<String,dynamic> companiesToMap =
+              json.decode(response.body);
+          final List listOfCompanies = companiesToMap['Companies'];
+          return listOfCompanies;
         } else {
           return false;
         }

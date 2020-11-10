@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 
 class BirthDayWidget extends StatefulWidget {
   @override
@@ -6,40 +7,64 @@ class BirthDayWidget extends StatefulWidget {
 }
 
 class _BirthDayWidgetState extends State<BirthDayWidget> {
-  TextEditingController _controller;
   bool _isEditing = false;
-  var initialText = DateTime.now().toString();
+  String initialText;
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: initialText);
+    initialText = DateTime.now().toIso8601String();
+    //_controller = TextEditingController(text: initialText);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    //_controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     if (_isEditing)
-      return Center(
-        child: TextField(
-          onSubmitted: (newValue) {
-            setState(() {
-              initialText = newValue;
-              _isEditing = false;
-            });
-          },
-          onChanged: (value) {
-            setState(() {
-              initialText = value;
-            });
-          },
-          autofocus: true,
-          controller: _controller,
-        ),
+      return DateTimePicker(
+        type: DateTimePickerType.date,
+        dateMask: 'd MMM, yyyy',
+        initialValue: initialText,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2100),
+        icon: Icon(Icons.event),
+        dateLabelText: 'Date',
+        //timeLabelText: "Hour",
+        /* selectableDayPredicate: (date) {
+    // Disable weekend days to select from the calendar
+    if (date.weekday == 6 || date.weekday == 7) {
+      return false;
+    }
+
+    return true;
+  }, */
+        onChanged: (val) {
+          setState(() {
+            initialText = val;
+            _isEditing = false;
+          });
+        },
+        /*  validator: (val) {
+          setState(() {
+            initialText = val;
+            _isEditing = false;
+          });
+        }, */
+        onEditingComplete: () {
+          setState(() {
+            _isEditing = false;
+          });
+        },
+        onSaved: (val) {
+          setState(() {
+            initialText = val;
+            _isEditing = false;
+          });
+        },
       );
     return InkWell(
       onTap: () {

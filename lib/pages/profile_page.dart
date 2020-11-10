@@ -1,10 +1,9 @@
+import 'package:MyDiscount/widgets/user_credentials.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/date_of_birth_editing_widget.dart';
-import '../widgets/email_editing_widget.dart';
-import '../widgets/first_name_editing_widget.dart';
 import '../widgets/gender_editing_widget.dart';
-import '../widgets/last_name_editing_widget.dart';
 import '../widgets/phone_editing_widget.dart';
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
@@ -15,6 +14,19 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool _isEditing = true;
+
+  @override
+  void initState() {
+    //UserCredentials().getUserProfileData();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -35,7 +47,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      if (_isEditing) {
+                        return Navigator.pop(context);
+                      } else {
+                        FlushbarHelper.createError(
+                                message: "You dont't save the form")
+                            .show(context);
+                      }
                     },
                   ),
                 ),
@@ -50,131 +68,120 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontSize: 20,
                       ),
                     ),
-                  ), /* IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ), */
+                  ),
                 ),
               ],
             ),
             Expanded(
               child: Container(
-                //height: size.height * .64,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /*  Container(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [],
-                          ),
-                        ), */
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          'First Name',
-                          style: TextStyle(color: Colors.black45),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: FirstNameWidget(),
-                      ),
-                      /* SizedBox(height: 10), */
-                      Divider(),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Last Name',
-                          style: TextStyle(color: Colors.black45),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: LastNameWidget(),
-                      ),
-                      /* SizedBox(
-                          height: 10,
-                        ), */
-                      Divider(),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Date of birth',
-                          style: TextStyle(color: Colors.black45),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: BirthDayWidget(),
-                      ),
-                      /*  SizedBox(
-                          height: 10,
-                        ), */
-                      Divider(),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Gender',
-                          style: TextStyle(color: Colors.black45),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: GenderWidget(),
-                      ),
-                      /*  SizedBox(
-                          height: 10,
-                        ), */
-                      Divider(),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text('E-mail'),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: EmailWidget(),
-                      ),
-                      /*  SizedBox(
-                          height: 10,
-                        ), */
-                      Divider(),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Phone Number',
-                          style: TextStyle(color: Colors.black45),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: PhoneWidget(),
-                      ),
-                      /* SizedBox(
-                          height: 10,
-                        ), */
-                      Divider(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Logout',
-                          style: TextStyle(
-                            color: Colors.red,
+                child: FutureBuilder<Map<String, String>>(
+                  initialData: {'firstName': '', 'lastName': '','email':''},
+                  future: UserCredentials().getUserProfileData(),
+                  builder: (context, snapshot) => SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            'First Name',
+                            style: TextStyle(color: Colors.black45),
                           ),
                         ),
-                      ),
-                    ],
+                        Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              snapshot.data['firstName'],
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                              ),
+                            ) //FirstNameWidget(snapshot.data['firstName']),
+                            ),
+                        Divider(),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Last Name',
+                            style: TextStyle(color: Colors.black45),
+                          ),
+                        ),
+                        Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              snapshot.data['lastName'],
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                              ),
+                            ) //LastNameWidget(),
+                            ),
+                        Divider(),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text('E-mail'),
+                        ),
+                        Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              snapshot.data['email'],
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                              ),
+                            ) //EmailWidget(),
+                            ),
+                        Divider(),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Date of birth',
+                            style: TextStyle(color: Colors.black45),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: BirthDayWidget(),
+                        ),
+                        Divider(),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Gender',
+                            style: TextStyle(color: Colors.black45),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: GenderWidget(),
+                        ),
+                        Divider(),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Phone Number',
+                            style: TextStyle(color: Colors.black45),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: PhoneWidget(),
+                        ),
+                        Divider(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Logout',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

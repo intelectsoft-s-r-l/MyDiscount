@@ -18,7 +18,7 @@ class UserCredentials {
     @required String accessToken,
     //@required String authorizationCode,
   }) {
-    var map= {
+    var map = {
       "DisplayName": displayName,
       "Email": email,
       "ID": id,
@@ -35,7 +35,7 @@ class UserCredentials {
   }
 
   Future<String> getRequestBodyData() async {
-  final _prefs =await sPrefs.instance;
+    final _prefs = await sPrefs.instance;
     //final _prefs = await SharedPreferences.getInstance();
     if (_prefs.containsKey('Tid')) {
       String savedCredential = await sPrefs.readCredentials();
@@ -51,7 +51,7 @@ class UserCredentials {
   }
 
   Future<String> getUserIdFromLocalStore() async {
-    final _prefs =await sPrefs.instance;
+    final _prefs = await sPrefs.instance;
     if (_prefs.containsKey('Tid')) {
       var savedCredential = await sPrefs.readCredentials();
       var userData = json.decode(savedCredential);
@@ -60,5 +60,25 @@ class UserCredentials {
     } else {
       return '';
     }
+  }
+
+  Future<Map<String, String>> getUserProfileData() async {
+    String savedCredential = await sPrefs.readCredentials();
+    Map<String, dynamic> map = json.decode(savedCredential);
+    var profile = credentialsToProfileMap(
+        displayName: map['DisplayName'], email: map['Email']);
+    return profile;
+  }
+
+  credentialsToProfileMap({
+    @required String displayName,
+    @required String email,
+  }) {
+    var data = displayName.split(" ").map((e) => e.toString()).toList();
+    return {
+      'firstName': data[0],
+      'lastName':data[1],
+      'email': email,
+    };
   }
 }

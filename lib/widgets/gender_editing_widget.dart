@@ -6,49 +6,59 @@ class GenderWidget extends StatefulWidget {
 }
 
 class _GenderWidgetState extends State<GenderWidget> {
-  TextEditingController _controller;
   bool _isEditing = false;
-  var initialText = 'Male';
+  var initialText;
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: initialText);
+    initialText = 'Male';
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     if (_isEditing)
-      return Center(
-        child: TextField(
-          onSubmitted: (newValue) {
-            setState(() {
-              initialText = newValue;
-              _isEditing = false;
-            });
-          },
-          autofocus: true,
-          controller: _controller,
-        ),
+      return ButtonBar(
+        alignment: MainAxisAlignment.start,
+        children: [
+          Text('Male'),
+          Radio(
+              value: 'Male',
+              groupValue: initialText,
+              onChanged: (value) {
+                setState(() {
+                  initialText = value;
+                  _isEditing = false;
+                });
+              }),
+          Text('Female'),
+          Radio(
+              value: 'Female',
+              groupValue: initialText,
+              onChanged: (value) {
+                setState(() {
+                  initialText = value;
+                  _isEditing = false;
+                });
+              }),
+        ],
       );
     return InkWell(
-      onTap: () {
-        setState(() {
-          _isEditing = true;
-        });
-      },
-      child: Text(
-        initialText,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 18.0,
-        ),
-      ),
-    );
+        onTap: () {
+          setState(() {
+            _isEditing = true;
+          });
+        },
+        child: Text(
+          initialText,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+          ),
+        ));
   }
 }

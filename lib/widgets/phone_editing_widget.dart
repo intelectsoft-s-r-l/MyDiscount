@@ -8,7 +8,7 @@ class PhoneWidget extends StatefulWidget {
 class _PhoneWidgetState extends State<PhoneWidget> {
   TextEditingController _controller;
   bool _isEditing = false;
-  var initialText = '+37369858838';
+  var initialText = '+373';
   @override
   void initState() {
     super.initState();
@@ -25,13 +25,29 @@ class _PhoneWidgetState extends State<PhoneWidget> {
   Widget build(BuildContext context) {
     if (_isEditing)
       return Center(
-        child: TextField(
-          onSubmitted: (newValue) {
+        child: TextFormField(
+          onChanged: (newValue) {
+            setState(() {
+              initialText = newValue;
+             //if(newValue.isNotEmpty) _isEditing = false;
+            });
+          },
+          onFieldSubmitted: (newValue) {
+            setState(() {
+              initialText = newValue;
+             if(newValue.isNotEmpty) _isEditing = false;
+            });
+          },
+          keyboardType: TextInputType.phone,
+          /* validator: (value) {
+            if (value.length<12) return 'Value is too short';
+          }, */
+         /*  onSaved: (newValue) {
             setState(() {
               initialText = newValue;
               _isEditing = false;
             });
-          },
+          }, */
           autofocus: false,
           controller: _controller,
         ),
