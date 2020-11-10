@@ -21,7 +21,7 @@ dependencies:
   firebase_crashlytics: ^0.2.1+1
   firebase_messaging: ^7.0.3
   firebase_remote_config: ^0.4.1
-  flutter_bloc: ^6.0.6
+  flutter_bloc: ^6.1.0
   flutter_facebook_login: ^3.0.0
   flutter_local_notifications: ^2.0.0+1
   flutter_svg: ^0.19.1
