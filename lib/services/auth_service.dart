@@ -48,6 +48,12 @@ class AuthService extends UserCredentials {
     }
   }
 
+  Future<Map<String, dynamic>> getFacebookProfile(String token) async {
+    final _graphResponse = await http.get(
+        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
+    return json.decode(_graphResponse.body);
+  }
+
 /* if ( */
   Future<void> logwithG(context) async {
     try {
