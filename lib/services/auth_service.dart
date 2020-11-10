@@ -24,9 +24,7 @@ class AuthService extends UserCredentials {
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
           FacebookAccessToken _accessToken = result.accessToken;
-          final _graphResponse = await http.get(
-              'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=${_accessToken.token}');
-          final profile = json.decode(_graphResponse.body);
+          final profile = await getFacebookProfile(_accessToken.token);
           final fcmToken = await fcmService.getfcmToken();
           userCredentialstoMap(
             displayName: profile['name'],

@@ -159,7 +159,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Color(0xFF406BFB),
-                      //border: Border.all(width: 2, color: Colors.grey[300]),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -199,7 +198,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: Color(0xFF2D4CB3),
-                      //border: Border.all(width: 2, color: Colors.grey[300]),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -242,7 +240,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: Colors.black,
-                            // border: Border.all(width: 2, color: Colors.grey[300]),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Row(
