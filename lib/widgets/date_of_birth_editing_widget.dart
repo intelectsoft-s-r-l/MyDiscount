@@ -12,7 +12,7 @@ class _BirthDayWidgetState extends State<BirthDayWidget> {
   @override
   void initState() {
     super.initState();
-    initialText = DateTime.now().toIso8601String();
+    initialText = '';
     //_controller = TextEditingController(text: initialText);
   }
 
@@ -47,6 +47,7 @@ class _BirthDayWidgetState extends State<BirthDayWidget> {
             initialText = val;
             _isEditing = false;
           });
+          
         },
         /*  validator: (val) {
           setState(() {

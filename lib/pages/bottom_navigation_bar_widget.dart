@@ -1,3 +1,5 @@
+import 'package:MyDiscount/widgets/localizations.dart';
+
 import 'history_page.dart';
 import 'notification_page.dart';
 import 'qr-page.dart';
@@ -46,28 +48,28 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 Icons.home,
                 color: Colors.black,
               ),
-              label: 'Home'),
+              label:AppLocalizations.of(context).translate('text21')),
           BottomNavigationBarItem(
               icon: Icon(MdiIcons.wallet, color: Colors.black),
-              label: 'Transactions'),
+              label: AppLocalizations.of(context).translate('text22')),
           BottomNavigationBarItem(
               icon: Icon(
                 MdiIcons.qrcode,
                 color: Colors.black,
               ),
-              label: 'Qr'),
+              label: 'QR' ),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.notifications,
                 color: Colors.black,
               ),
-              label: 'Notifications'),
+              label: AppLocalizations.of(context).translate('text23')),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.settings,
                 color: Colors.black,
               ),
-              label: 'Settings'),
+              label: AppLocalizations.of(context).translate('text24') ),
         ],
       ),
     );

@@ -67,18 +67,25 @@ class UserCredentials {
     Map<String, dynamic> map = json.decode(savedCredential);
     var profile = credentialsToProfileMap(
         displayName: map['DisplayName'], email: map['Email']);
+    sPrefs.saveProfileData(json.encode(profile));
     return profile;
   }
 
   credentialsToProfileMap({
     @required String displayName,
     @required String email,
+    String birthDay,
+    String gender,
+    String phoneNumber,
   }) {
     var data = displayName.split(" ").map((e) => e.toString()).toList();
     return {
       'firstName': data[0],
-      'lastName':data[1],
+      'lastName': data[1],
       'email': email,
+      'birthDay': birthDay,
+      'gender': gender,
+      'phoneNumber': phoneNumber,
     };
   }
 }

@@ -11,7 +11,7 @@ class _GenderWidgetState extends State<GenderWidget> {
   @override
   void initState() {
     super.initState();
-    initialText = 'Male';
+    initialText = '';
   }
 
   @override
@@ -43,22 +43,9 @@ class _GenderWidgetState extends State<GenderWidget> {
                 setState(() {
                   initialText = value;
                   _isEditing = false;
-                });
+                },);
               }),
         ],
       );
-    return InkWell(
-        onTap: () {
-          setState(() {
-            _isEditing = true;
-          });
-        },
-        child: Text(
-          initialText,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18.0,
-          ),
-        ));
   }
 }

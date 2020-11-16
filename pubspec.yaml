@@ -15,12 +15,14 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.0
   data_connection_checker: ^0.3.4
+  date_time_picker: ^1.0.2
   equatable: ^1.2.5
   firebase_analytics: ^6.0.2
   firebase_core: ^0.5.1
   firebase_crashlytics: ^0.2.1+1
   firebase_messaging: ^7.0.3
   firebase_remote_config: ^0.4.1
+  flushbar: ^1.10.4
   flutter_bloc: ^6.1.0
   flutter_facebook_login: ^3.0.0
   flutter_local_notifications: ^2.0.0+1
@@ -28,13 +30,13 @@ dependencies:
   font_awesome_flutter: ^8.10.0
   google_sign_in: ^4.5.5
   http: ^0.12.2
+  intl: ^0.16.1
+  kt_dart: ^0.8.0
   material_design_icons_flutter: ^4.0.5755
   provider: ^4.3.2+2
   qr_flutter: ^3.2.0
   shared_preferences: ^0.5.12+2
   sign_in_with_apple: ^2.5.4
-  flushbar: ^1.10.4
-  date_time_picker: ^1.0.2
 
 dev_dependencies:
   flutter_test:

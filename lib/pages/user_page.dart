@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../services/qr_service.dart';
@@ -53,6 +54,7 @@ class UserPage extends StatelessWidget {
                                 },
                                 child: CircleAvatar(
                                   radius: 34,
+                                  
                                   child: ClipRRect(
                                    
                                     borderRadius: BorderRadius.circular(40),
@@ -63,7 +65,7 @@ class UserPage extends StatelessWidget {
                                             scale: 0.7,
                                             filterQuality: FilterQuality.high,
                                           )
-                                        : Container(),
+                                        : Image.asset('assets/icons/profile.png'),
                                   ),
                                 ),
                               ),
@@ -81,7 +83,7 @@ class UserPage extends StatelessWidget {
                                   ):Container(),
                                   if (snapshot.data['RegisterMode'] == 1)
                                     Text(
-                                      'SignIn With Google',
+                                      AppLocalizations.of(context).translate('text15'),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -89,7 +91,7 @@ class UserPage extends StatelessWidget {
                                     ),
                                   if (snapshot.data['RegisterMode'] == 2)
                                     Text(
-                                      'SignIn With Facebook',
+                                      AppLocalizations.of(context).translate('text16'),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -97,7 +99,7 @@ class UserPage extends StatelessWidget {
                                     ),
                                   if (snapshot.data['RegisterMode'] == 3)
                                     Text(
-                                      'SignIn With Apple',
+                                      AppLocalizations.of(context).translate('text17'),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,

@@ -1,4 +1,5 @@
 
+import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/top_bar_image.dart';
@@ -14,7 +15,7 @@ class TransactionsPage extends StatelessWidget {
           Stack(
             children: [
              TopBarImage(size: size),
-             AppBarText(size: size, text: 'Transactions')
+             AppBarText(size: size, text: AppLocalizations.of(context).translate('text22'))
             ],
           )
         ],

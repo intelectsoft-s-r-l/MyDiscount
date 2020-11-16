@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -131,7 +133,7 @@ class FCMService {
     );
     print('is shownotification:$notification');
   }
-  
+
   void dispose() {
     fcmService.dispose();
   }
@@ -153,7 +155,9 @@ class FCMService {
     });
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
-        _showNotification(notification);
+        // var data = notification['data']as String;
+
+        _showNotifications(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
         _showNotification(notification);
@@ -189,24 +193,35 @@ class FCMService {
   } */
 }
 
-/* Map<dynamic, ReceivedNotification> _receivedNotification = {};
+Map<dynamic, ReceivedNotification> _receivedNotification = {};
+SharedPref prefs = SharedPref();
 
 ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
-  final dynamic _notifications = notification['data'] ?? notification;
+  List list = [];
+  final Map _notifications = notification['data'] ?? notification;
   final int id = int.parse(_notifications['id']).toInt();
   String title = _notifications['title'];
   String body = _notifications['body'];
   final ReceivedNotification receivedNotification =
       _receivedNotification.putIfAbsent(
           id, () => ReceivedNotification(id: id, title: title, body: body));
+ /* var dat = prefs.saveNotification(json.encode(
+      _receivedNotification.entries.toList())); */
+  print(_receivedNotification);
   return receivedNotification;
-} */
+}
+
+Future<List<ReceivedNotification>> getListOfNotifications() async {
+  List<ReceivedNotification> list = [];
+
+  return list;
+}
 
 class ReceivedNotification {
-  final int id;
+  int id;
   String title;
   String body;
-  final String payload;
+  String payload;
 
   ReceivedNotification({
     @required this.id,
@@ -214,4 +229,9 @@ class ReceivedNotification {
     @required this.body,
     this.payload,
   });
+
+  ReceivedNotification.fromJson(Map<String, dynamic> json) {
+    ReceivedNotification(
+        id: json['id'], title: json['title'], body: json['body']);
+  }
 }

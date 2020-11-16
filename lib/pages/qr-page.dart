@@ -260,7 +260,8 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                   child: Column(
                     children: [
                       Text(
-                        'Prezentati acest cod casierului',
+                        AppLocalizations.of(context)
+                                      .translate('text19'),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
@@ -268,7 +269,8 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                         ),
                       ),
                       Text(
-                        'Codul se modifica la fiecare 10 sec.',
+                        AppLocalizations.of(context)
+                                      .translate('text20'),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,

@@ -112,7 +112,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     alignment: Alignment.center,
                     width: size.width,
                     child: Text(
-                      'Welcome to MyDiscount',
+                      AppLocalizations.of(context).translate('text18'),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 30,
@@ -138,7 +138,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    'Sign in with:',
+                    AppLocalizations.of(context).translate('text12'),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -174,7 +174,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           width: 10,
                         ),
                         Text(
-                          'Sign in with Google',
+                          AppLocalizations.of(context).translate('text15'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -213,7 +213,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           width: 10,
                         ),
                         Text(
-                          'Sign in with Facebook',
+                          AppLocalizations.of(context).translate('text16'),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -255,7 +255,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                                 width: 10,
                               ),
                               Text(
-                                'Sign in with Apple',
+                                AppLocalizations.of(context).translate('text17'),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,

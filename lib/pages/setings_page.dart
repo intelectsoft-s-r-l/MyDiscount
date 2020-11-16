@@ -1,3 +1,4 @@
+import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';
@@ -19,7 +20,7 @@ class SetingsPage extends StatelessWidget {
             Stack(
               children: [
                 TopBarImage(size: size),
-                AppBarText(size: size, text: 'Settings'),
+                AppBarText(size: size, text: AppLocalizations.of(context).translate('text24')),
               ],
             ),
             Container(
@@ -40,14 +41,14 @@ class SetingsPage extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.person,
-                          size: 50,
+                          size: 40,
                           color: Colors.green,
                         ),
                         SizedBox(
                           width: 20,
                         ),
                         Text(
-                          'Accounts Details',
+                          AppLocalizations.of(context).translate('text28'),
                           style: TextStyle(fontSize: 25),
                         )
                       ],
@@ -70,14 +71,14 @@ class SetingsPage extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.notifications,
-                          size: 50,
+                          size: 40,
                           color: Colors.green,
                         ),
                         SizedBox(
                           width: 20,
                         ),
                         Text(
-                          'Notifications settings',
+                          AppLocalizations.of(context).translate('text29'),
                           style: TextStyle(fontSize: 25),
                         )
                       ],
@@ -100,14 +101,14 @@ class SetingsPage extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.info,
-                          size: 50,
+                          size: 40,
                           color: Colors.green,
                         ),
                         SizedBox(
                           width: 20,
                         ),
                         Text(
-                          'App Info',
+                          AppLocalizations.of(context).translate('text30'),
                           style: TextStyle(fontSize: 25),
                         )
                       ],
@@ -157,7 +158,7 @@ class SetingsPage extends StatelessWidget {
                                       width: size.width * .6,
                                       alignment: Alignment.center,
                                       child: Text(
-                                        'Log Out',
+                                        AppLocalizations.of(context).translate('text31'),
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 20,

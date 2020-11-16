@@ -1,10 +1,9 @@
+import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:MyDiscount/widgets/user_credentials.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import '../widgets/date_of_birth_editing_widget.dart';
-import '../widgets/gender_editing_widget.dart';
-import '../widgets/phone_editing_widget.dart';
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
 
@@ -14,7 +13,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool _isEditing = true;
+  bool _isEditing = false;
+  String initialText = '';
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Stack(
               children: [
                 TopBarImage(size: size),
-                AppBarText(size: size, text: 'Profile'),
+                AppBarText(size: size, text: AppLocalizations.of(context).translate('text25')),
                 Positioned(
                   top: size.height * .07,
                   child: IconButton(
@@ -47,20 +47,25 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      if (_isEditing) {
+                    /*   if (_isEditing) { */
                         return Navigator.pop(context);
-                      } else {
+                    /*   } else {
                         FlushbarHelper.createError(
                                 message: "You dont't save the form")
                             .show(context);
-                      }
+                      } */
                     },
                   ),
                 ),
-                Positioned(
+                /* Positioned(
                   top: size.height * .08,
                   right: 30,
                   child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isEditing = true;
+                      });
+                    },
                     child: Text(
                       'Edit',
                       style: TextStyle(
@@ -69,13 +74,20 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                ),
+                ), */
               ],
             ),
             Expanded(
               child: Container(
                 child: FutureBuilder<Map<String, String>>(
-                  initialData: {'firstName': '', 'lastName': '','email':''},
+                  initialData: {
+                    'firstName': '',
+                    'lastName': '',
+                    'email': '',
+                    'birthDay': '',
+                    'gender': '',
+                    'phoneNumber': ''
+                  },
                   future: UserCredentials().getUserProfileData(),
                   builder: (context, snapshot) => SingleChildScrollView(
                     child: Column(
@@ -84,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           padding: EdgeInsets.only(left: 10),
                           child: Text(
-                            'First Name',
+                            AppLocalizations.of(context).translate('text26'),
                             style: TextStyle(color: Colors.black45),
                           ),
                         ),
@@ -96,13 +108,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: Colors.black,
                                 fontSize: 18.0,
                               ),
-                            ) //FirstNameWidget(snapshot.data['firstName']),
-                            ),
+                            )),
                         Divider(),
                         Container(
                           padding: EdgeInsets.only(left: 10),
                           child: Text(
-                            'Last Name',
+                            AppLocalizations.of(context).translate('text27'),
                             style: TextStyle(color: Colors.black45),
                           ),
                         ),
@@ -114,8 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: Colors.black,
                                 fontSize: 18.0,
                               ),
-                            ) //LastNameWidget(),
-                            ),
+                            )),
                         Divider(),
                         Container(
                           padding: EdgeInsets.only(left: 10),
@@ -129,49 +139,57 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: Colors.black,
                                 fontSize: 18.0,
                               ),
-                            ) //EmailWidget(),
-                            ),
+                            )),
                         Divider(),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            'Date of birth',
-                            style: TextStyle(color: Colors.black45),
+                        /* Form(
+                          child: Column(
+                            children: [
+                              TextFormField(
+
+                              ),
+                              DropdownButtonFormField(
+                                  items: [
+                                    DropdownMenuItem(
+                                      child: Text('Male'),
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Text('Female'),
+                                    ),
+                                  ],
+                                  onChanged: (gender) {
+                                    setState(() {
+                                      initialText = gender;
+                                      //_isEditing = false;
+                                    });
+                                    /*  value:
+                                        initialText; */
+                                  }),
+                              /* : Text(
+                                      "${snapshot.data['phoneNumber'] != null ? snapshot.data['phoneNumber'] : ''}",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                      ),
+                                    ), */
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Phone Number *',
+                                  hintText: 'Where can we reach you?',
+                                  /*  helperText:
+                                            'Phone format: (+XXX)XXX-XXXXX', */
+                                  prefixIcon: Icon(Icons.call),
+                                ),
+                                keyboardType: TextInputType.phone,
+
+                                validator: (value) => value.length < 12
+                                    ? null
+                                    : 'Phone number must be ',
+                                //onSaved: (value) => //newUser.phone = value,
+                              ),
+                            ],
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: BirthDayWidget(),
-                        ),
-                        Divider(),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            'Gender',
-                            style: TextStyle(color: Colors.black45),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: GenderWidget(),
-                        ),
-                        Divider(),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            'Phone Number',
-                            style: TextStyle(color: Colors.black45),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: PhoneWidget(),
-                        ),
-                        Divider(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
+                        ), */
+                        /* Container(
                           padding: EdgeInsets.only(left: 10),
                           child: Text(
                             'Logout',
@@ -179,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Colors.red,
                             ),
                           ),
-                        ),
+                        ), */
                       ],
                     ),
                   ),

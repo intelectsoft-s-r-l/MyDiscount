@@ -22,4 +22,23 @@ class SharedPref {
     final authData = await SharedPreferences.getInstance();
     return authData.getString('credentials');
   }
+
+  saveProfileData(String profile) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('profile', profile);
+  }
+
+  readProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('profile');
+  }
+
+  saveNotification(String notification) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('notification', notification);
+  }
+  readNotification() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('notification');
+  }
 }
