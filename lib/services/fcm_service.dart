@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:MyDiscount/services/shared_preferences_service.dart';
+import 'package:MyDiscount/models/received_notification.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,8 +21,8 @@ Future<dynamic> myBackgroundMessageHandler(
 }
 
 class FCMService {
-  StreamController didReceiveLocalNotificationSubject =
-      StreamController.broadcast();
+  /*  StreamController didReceiveLocalNotificationSubject =
+      StreamController.broadcast(); */
 
   StreamController selectNotificationSubject = StreamController.broadcast();
 
@@ -34,17 +34,17 @@ class FCMService {
         AndroidInitializationSettings('@mipmap/ic_stat_qq3');
 
     var initializationSettingsIOS = IOSInitializationSettings(
-        requestAlertPermission: false,
-        requestBadgePermission: false,
-        requestSoundPermission: false,
-        onDidReceiveLocalNotification:
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      /*  onDidReceiveLocalNotification:
             (int id, String title, String body, String payload) async {
           didReceiveLocalNotificationSubject.add(ReceivedNotification(
             body: body,
             title: title,
             id: id,
-          ));
-        });
+          ));} */
+    );
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -158,7 +158,14 @@ class FCMService {
     });
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
-        workwithDB(notification);
+        final _notifications = notification['data'] ?? notification;
+        final int id = int.parse(_notifications['id']).toInt();
+        String title = _notifications['title'];
+        String body = _notifications['body'];
+        final ReceivedNotification receivedNotification =
+            _receivedNotification.putIfAbsent(id,
+                () => ReceivedNotification(id: id, title: title, body: body));
+        workwithDB(receivedNotification);
         _showNotification(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
@@ -172,7 +179,7 @@ class FCMService {
   }
 }
 
-//Map<dynamic, ReceivedNotification> _receivedNotification = {};
+Map<dynamic, ReceivedNotification> _receivedNotification = {};
 
 //SharedPref prefs = SharedPref();
 /*  getMessages()async{
@@ -190,20 +197,22 @@ class FCMService {
   final ReceivedNotification receivedNotification =
       _receivedNotification.putIfAbsent(
           id, () => ReceivedNotification(id: id, title: title, body: body));
+  workwithDB(receivedNotification);
   print(receivedNotification);
   return receivedNotification;
-} */
-
-workwithDB(Map<String, dynamic> notification) async {
+}
+*/
+workwithDB(ReceivedNotification receivedNotification) async {
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
-  Hive.init(documentsDirectory.path) /* ..registerAdapter() */;
+  /*  Hive
+    ..init(documentsDirectory.path)
+    ..registerAdapter<ReceivedNotification>(ReceivedNotificationAdapter()); */
   var box = await Hive.openBox<ReceivedNotification>('testBox');
-  var notifications = notification['data'];
+  //var notifications = receivedNotification;
 
-  box.add(notifications);
-  List<Map<String, dynamic>> data =
-      await box.watch().map((event) => event.value as Map<String, dynamic>).toList();
-  print('hivedata$data');
+  //box.add(receivedNotification);
+  box.deleteFromDisk();
+  // print(data);
 }
 
 /* Future<List<Map<String, dynamic>>> reedFromDB() async {
@@ -214,16 +223,16 @@ workwithDB(Map<String, dynamic> notification) async {
   return data;
 } */
 
-class ReceivedNotification {
+/* class ReceivedNotification {
   int id;
   String title;
   String body;
   /* String payload; */
 
-  ReceivedNotification({
+  ReceivedNotification(
     /*  @required */ this.id,
     /* @required */ this.title,
     /* @required */ this.body,
     /*  this.payload, */
-  });
-}
+  );
+} */

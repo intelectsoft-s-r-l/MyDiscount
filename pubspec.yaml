@@ -39,13 +39,13 @@ dependencies:
   shared_preferences: ^0.5.12+2
   sign_in_with_apple: ^2.5.4
   hive: ^1.4.4+1
-  hive_flutter: ^0.3.0+2
+  hive_flutter: ^0.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  hive_generator: ^0.7.0+2
-  build_runner: ^1.8.1
+  hive_generator: ^0.8.2
+  build_runner: ^1.10.4
 
 flutter:
 

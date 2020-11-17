@@ -6,6 +6,7 @@ class GenderWidget extends StatefulWidget {
 }
 
 class _GenderWidgetState extends State<GenderWidget> {
+  // ignore: unused_field
   bool _isEditing = false;
   var initialText;
   @override
@@ -21,31 +22,33 @@ class _GenderWidgetState extends State<GenderWidget> {
 
   @override
   Widget build(BuildContext context) {
-  /*   if (_isEditing) */
-      return ButtonBar(
-        alignment: MainAxisAlignment.start,
-        children: [
-          Text('Male'),
-          Radio(
-              value: 'Male',
-              groupValue: initialText,
-              onChanged: (value) {
-                setState(() {
+    /*   if (_isEditing) */
+    return ButtonBar(
+      alignment: MainAxisAlignment.start,
+      children: [
+        Text('Male'),
+        Radio(
+            value: 'Male',
+            groupValue: initialText,
+            onChanged: (value) {
+              setState(() {
+                initialText = value;
+                _isEditing = false;
+              });
+            }),
+        Text('Female'),
+        Radio(
+            value: 'Female',
+            groupValue: initialText,
+            onChanged: (value) {
+              setState(
+                () {
                   initialText = value;
                   _isEditing = false;
-                });
-              }),
-          Text('Female'),
-          Radio(
-              value: 'Female',
-              groupValue: initialText,
-              onChanged: (value) {
-                setState(() {
-                  initialText = value;
-                  _isEditing = false;
-                },);
-              }),
-        ],
-      );
+                },
+              );
+            }),
+      ],
+    );
   }
 }

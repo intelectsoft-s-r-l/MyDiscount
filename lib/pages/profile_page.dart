@@ -74,8 +74,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               birthDay: dataText,
                               gender: dataInitialText,
                               phoneNumber: _phoneController.text,
-                              // ignore: unnecessary_statements
                             )
+                          // ignore: unnecessary_statements
                           : null;
                       setState(() {
                         _isEditing = !_isEditing;
