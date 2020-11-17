@@ -1,6 +1,6 @@
 import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:MyDiscount/widgets/user_credentials.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,8 +14,13 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool _isEditing = false;
-  String initialText = '';
+  String dataText = '';
+  String dataInitialText;
 
+  UserCredentials userCredentials = UserCredentials();
+  final _formKey = GlobalKey<FormFieldState>();
+  TextEditingController _phoneController = TextEditingController();
+  List<String> _genders = ['Male', 'Female'];
   @override
   void initState() {
     //UserCredentials().getUserProfileData();
@@ -37,7 +42,9 @@ class _ProfilePageState extends State<ProfilePage> {
             Stack(
               children: [
                 TopBarImage(size: size),
-                AppBarText(size: size, text: AppLocalizations.of(context).translate('text25')),
+                AppBarText(
+                    size: size,
+                    text: AppLocalizations.of(context).translate('text25')),
                 Positioned(
                   top: size.height * .07,
                   child: IconButton(
@@ -47,9 +54,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                    /*   if (_isEditing) { */
-                        return Navigator.pop(context);
-                    /*   } else {
+                      /*   if (_isEditing) { */
+                      return Navigator.pop(context);
+                      /*   } else {
                         FlushbarHelper.createError(
                                 message: "You dont't save the form")
                             .show(context);
@@ -57,24 +64,35 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                   ),
                 ),
-                /* Positioned(
+                Positioned(
                   top: size.height * .08,
                   right: 30,
                   child: GestureDetector(
                     onTap: () {
+                      _isEditing
+                          ? userCredentials.saveFormProfileInfo(
+                              birthDay: dataText,
+                              gender: dataInitialText,
+                              phoneNumber: _phoneController.text,
+                              // ignore: unnecessary_statements
+                            )
+                          : null;
                       setState(() {
-                        _isEditing = true;
+                        _isEditing = !_isEditing;
                       });
+                      /*  if (_formKey.currentState.validate())
+                        // ignore: unnecessary_statements
+                        _isEditing ? _formKey.currentState.save() : null; */
                     },
                     child: Text(
-                      'Edit',
+                      _isEditing ? 'Save' : 'Edit',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       ),
                     ),
                   ),
-                ), */
+                ),
               ],
             ),
             Expanded(
@@ -141,63 +159,120 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             )),
                         Divider(),
-                        /* Form(
-                          child: Column(
-                            children: [
-                              TextFormField(
-
-                              ),
-                              DropdownButtonFormField(
-                                  items: [
-                                    DropdownMenuItem(
-                                      child: Text('Male'),
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text('Female'),
-                                    ),
+                        _isEditing
+                            ? Form(
+                                key: _formKey,
+                                autovalidateMode: AutovalidateMode.always,
+                                child: Column(
+                                  children: [
+                                    DateTimePicker(
+                                        type: DateTimePickerType.date,
+                                        dateMask: 'd MMM, yyyy',
+                                        initialValue: _isEditing
+                                            ? snapshot.data['birthDay']
+                                            : dataText,
+                                        firstDate: DateTime(1900),
+                                        lastDate: DateTime(2100),
+                                        //icon: Icon(Icons.event),
+                                        dateLabelText: 'Date of birth',
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            dataText = newValue;
+                                          });
+                                        }),
+                                    DropdownButtonFormField(
+                                        value: _isEditing
+                                            ? snapshot.data['gender']
+                                            : dataInitialText,
+                                        items: _genders
+                                            .map(
+                                              (gender) =>
+                                                  DropdownMenuItem<String>(
+                                                child: Text(gender),
+                                                value: gender,
+                                              ),
+                                            )
+                                            .toList(),
+                                        onChanged: (gender) {
+                                          setState(() {
+                                            dataInitialText = gender;
+                                          });
+                                        }),
+                                    TextFormField(
+                                        controller: _phoneController,
+                                        decoration: InputDecoration(
+                                          labelText: 'Phone Number *',
+                                          hintText: 'Where can we reach you?',
+                                          prefixIcon: Icon(Icons.call),
+                                        ),
+                                        keyboardType: TextInputType.phone,
+                                        validator: (value) => value.length == 9
+                                            ? null
+                                            : 'Phone number must be ',
+                                        onSaved: (value) {
+                                          setState(() {
+                                            _phoneController.text = value;
+                                          });
+                                        }),
                                   ],
-                                  onChanged: (gender) {
-                                    setState(() {
-                                      initialText = gender;
-                                      //_isEditing = false;
-                                    });
-                                    /*  value:
-                                        initialText; */
-                                  }),
-                              /* : Text(
-                                      "${snapshot.data['phoneNumber'] != null ? snapshot.data['phoneNumber'] : ''}",
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Divider(),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text('Date of birth'),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      snapshot.data['birthDay'] != null
+                                          ? snapshot.data['birthDay']
+                                          : '',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 18.0,
                                       ),
-                                    ), */
-                              TextFormField(
-                                decoration: InputDecoration(
-                                  labelText: 'Phone Number *',
-                                  hintText: 'Where can we reach you?',
-                                  /*  helperText:
-                                            'Phone format: (+XXX)XXX-XXXXX', */
-                                  prefixIcon: Icon(Icons.call),
-                                ),
-                                keyboardType: TextInputType.phone,
-
-                                validator: (value) => value.length < 12
-                                    ? null
-                                    : 'Phone number must be ',
-                                //onSaved: (value) => //newUser.phone = value,
+                                    ),
+                                  ),
+                                  Divider(),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text('Gender'),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      snapshot.data['gender'] != null
+                                          ? snapshot.data['gender']
+                                          : '',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Divider(),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text('Phone Number'),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      snapshot.data['phoneNumber'] != null
+                                          ? snapshot.data['phoneNumber']
+                                          : '',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ), */
-                        /* Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            'Logout',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ), */
                       ],
                     ),
                   ),

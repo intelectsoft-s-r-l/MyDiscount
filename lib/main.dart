@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import './Screens/first_screen.dart';
@@ -23,6 +25,7 @@ FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
   // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   //FirebaseCrashlytics.instance.sendUnsentReports();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

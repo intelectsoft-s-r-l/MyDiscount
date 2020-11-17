@@ -1,13 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
+
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:MyDiscount/services/shared_preferences_service.dart';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 FirebaseMessaging _fcm = FirebaseMessaging();
 FCMService fcmService = FCMService();
@@ -155,9 +158,8 @@ class FCMService {
     });
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
-        // var data = notification['data']as String;
-
-        _showNotifications(notification);
+        workwithDB(notification);
+        _showNotification(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
         _showNotification(notification);
@@ -168,70 +170,60 @@ class FCMService {
       onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
     );
   }
-
-  /*  Future<void> _showBigTextNotification(notification) async {
-    _showNotifications(notification);
-    var bigTextStyleInformation = BigTextStyleInformation(
-        '<i>${notification['data']['body']}</i>',
-        htmlFormatBigText: true,
-        contentTitle: ' <b>${notification['data']['title']}</b> ',
-        htmlFormatContentTitle: true,
-        summaryText: ' <i>${notification['data']['sumary']}</i>',
-        htmlFormatSummaryText: true);
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'big text channel id',
-        'big text channel name',
-        'big text channel description',
-        styleInformation: bigTextStyleInformation);
-    var platformChannelSpecifics =
-        NotificationDetails(androidPlatformChannelSpecifics, null);
-    await flutterLocalNotificationsPlugin.show(
-        0,
-        '${notification['data']['title']}',
-        '${notification['data']['body']}',
-        platformChannelSpecifics);
-  } */
 }
 
-Map<dynamic, ReceivedNotification> _receivedNotification = {};
-SharedPref prefs = SharedPref();
+//Map<dynamic, ReceivedNotification> _receivedNotification = {};
 
-ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
-  List list = [];
-  final Map _notifications = notification['data'] ?? notification;
+//SharedPref prefs = SharedPref();
+/*  getMessages()async{
+   
+   var data =await FbMessageDb.db
+            .create(ReceivedNotification.fromJson());
+        print(data);
+ } */
+/* ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
+  final Map<String, dynamic> _notifications =
+      notification['data'] ?? notification;
   final int id = int.parse(_notifications['id']).toInt();
   String title = _notifications['title'];
   String body = _notifications['body'];
   final ReceivedNotification receivedNotification =
       _receivedNotification.putIfAbsent(
           id, () => ReceivedNotification(id: id, title: title, body: body));
- /* var dat = prefs.saveNotification(json.encode(
-      _receivedNotification.entries.toList())); */
-  print(_receivedNotification);
+  print(receivedNotification);
   return receivedNotification;
+} */
+
+workwithDB(Map<String, dynamic> notification) async {
+  Directory documentsDirectory = await getApplicationDocumentsDirectory();
+  Hive.init(documentsDirectory.path) /* ..registerAdapter() */;
+  var box = await Hive.openBox<ReceivedNotification>('testBox');
+  var notifications = notification['data'];
+
+  box.add(notifications);
+  List<Map<String, dynamic>> data =
+      await box.watch().map((event) => event.value as Map<String, dynamic>).toList();
+  print('hivedata$data');
 }
 
-Future<List<ReceivedNotification>> getListOfNotifications() async {
-  List<ReceivedNotification> list = [];
-
-  return list;
-}
+/* Future<List<Map<String, dynamic>>> reedFromDB() async {
+  var box = await Hive.openBox('testBox');
+  List<Map<String, dynamic>> data =
+      await box.watch().map((map) => map.value /* as Map<String, dynamic> */).toList();
+  print('hivedata$data');
+  return data;
+} */
 
 class ReceivedNotification {
   int id;
   String title;
   String body;
-  String payload;
+  /* String payload; */
 
   ReceivedNotification({
-    @required this.id,
-    @required this.title,
-    @required this.body,
-    this.payload,
+    /*  @required */ this.id,
+    /* @required */ this.title,
+    /* @required */ this.body,
+    /*  this.payload, */
   });
-
-  ReceivedNotification.fromJson(Map<String, dynamic> json) {
-    ReceivedNotification(
-        id: json['id'], title: json['title'], body: json['body']);
-  }
 }

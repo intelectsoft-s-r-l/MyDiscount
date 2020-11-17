@@ -32,7 +32,15 @@ class SharedPref {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('profile');
   }
+saveFormProfileData(String profile) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('formProfile', profile);
+  }
 
+  readFormProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('formProfile');
+  }
   saveNotification(String notification) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('notification', notification);

@@ -42,13 +42,13 @@ class _BirthDayWidgetState extends State<BirthDayWidget> {
 
     return true;
   }, */
-        onChanged: (val) {
+        /* onChanged: (val) {
           setState(() {
             initialText = val;
             _isEditing = false;
           });
           
-        },
+        }, */
         /*  validator: (val) {
           setState(() {
             initialText = val;

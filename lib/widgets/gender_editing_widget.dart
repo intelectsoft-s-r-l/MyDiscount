@@ -21,7 +21,7 @@ class _GenderWidgetState extends State<GenderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isEditing)
+  /*   if (_isEditing) */
       return ButtonBar(
         alignment: MainAxisAlignment.start,
         children: [

@@ -33,14 +33,19 @@ dependencies:
   intl: ^0.16.1
   kt_dart: ^0.8.0
   material_design_icons_flutter: ^4.0.5755
+  path_provider: ^1.6.24
   provider: ^4.3.2+2
   qr_flutter: ^3.2.0
   shared_preferences: ^0.5.12+2
   sign_in_with_apple: ^2.5.4
+  hive: ^1.4.4+1
+  hive_flutter: ^0.3.0+2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^0.7.0+2
+  build_runner: ^1.8.1
 
 flutter:
 

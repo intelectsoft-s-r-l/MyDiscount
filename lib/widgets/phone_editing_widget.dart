@@ -26,12 +26,12 @@ class _PhoneWidgetState extends State<PhoneWidget> {
     if (_isEditing)
       return Center(
         child: Form(
-          autovalidateMode:AutovalidateMode.always,
-                  child: TextFormField(
+          autovalidateMode: AutovalidateMode.always,
+          child: TextFormField(
             onChanged: (newValue) {
               setState(() {
                 initialText = newValue;
-               //if(newValue.isNotEmpty) _isEditing = false;
+                //if(newValue.isNotEmpty) _isEditing = false;
               });
             },
             /* onFieldSubmitted: (newValue) {
@@ -42,9 +42,10 @@ class _PhoneWidgetState extends State<PhoneWidget> {
             }, */
             keyboardType: TextInputType.phone,
             validator: (value) {
-              if (value.length<12) return 'Value is too short';
+              if (value.length < 12) return 'Value is too short';
+              return '';
             },
-           /*  onSaved: (newValue) {
+            /*  onSaved: (newValue) {
               setState(() {
                 initialText = newValue;
                 _isEditing = false;

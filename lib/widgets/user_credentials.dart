@@ -64,9 +64,18 @@ class UserCredentials {
 
   Future<Map<String, String>> getUserProfileData() async {
     String savedCredential = await sPrefs.readCredentials();
+    String savedFormData = await sPrefs.readFormProfileData();
     Map<String, dynamic> map = json.decode(savedCredential);
+    Map<String, dynamic> formMap = savedFormData != null
+        ? json.decode(savedFormData)
+        : {'birthDay': '', 'gender': '', 'phoneNumber': ''};
     var profile = credentialsToProfileMap(
-        displayName: map['DisplayName'], email: map['Email']);
+      displayName: map['DisplayName'],
+      email: map['Email'],
+      birthDay: formMap['birthDay'],
+      gender: formMap['gender'],
+      phoneNumber: formMap['phoneNumber'],
+    );
     sPrefs.saveProfileData(json.encode(profile));
     return profile;
   }
@@ -74,9 +83,9 @@ class UserCredentials {
   credentialsToProfileMap({
     @required String displayName,
     @required String email,
-    String birthDay,
-    String gender,
-    String phoneNumber,
+    @required String birthDay,
+    @required String gender,
+    @required String phoneNumber,
   }) {
     var data = displayName.split(" ").map((e) => e.toString()).toList();
     return {
@@ -87,5 +96,15 @@ class UserCredentials {
       'gender': gender,
       'phoneNumber': phoneNumber,
     };
+  }
+
+  saveFormProfileInfo({String birthDay, String gender, String phoneNumber}) {
+    var map = {
+      'birthDay': birthDay,
+      'gender': gender,
+      'phoneNumber': phoneNumber,
+    };
+    sPrefs.saveFormProfileData(json.encode(map));
+    return map;
   }
 }
