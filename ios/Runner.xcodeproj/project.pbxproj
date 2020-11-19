@@ -12,7 +12,7 @@
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		E5056D1424BDEBB5002B10B6 /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E5056D1424BDEBB5002B10B6 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E517315025485CCD004016CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E517314F25485CCD004016CE /* Assets.xcassets */; };
 		E5835C75251C8C970045DC96 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D70AFA7A637816BE53E6AC1 /* Pods_Runner.framework */; };
 		E59E60952539964000C3031E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E59E60942539964000C3031E /* GoogleService-Info.plist */; };
@@ -25,7 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E5056D1424BDEBB5002B10B6 /* BuildFile in Embed Frameworks */,
+				E5056D1424BDEBB5002B10B6 /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,6 +159,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				167C600B9BA28E3BC3C829F1 /* [CP] Embed Pods Frameworks */,
 				CE83644DA49302E300EC2764 /* [CP] Copy Pods Resources */,
+				E5A9A3C92565136D0087C63F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -301,6 +302,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		E5A9A3C92565136D0087C63F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

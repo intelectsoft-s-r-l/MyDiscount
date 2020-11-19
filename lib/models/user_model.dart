@@ -1,7 +1,7 @@
-import 'package:equatable/equatable.dart';
+//import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-class User extends Equatable {
+class User /* extends Equatable */ {
   final String displayName;
   final String email;
   final String id;

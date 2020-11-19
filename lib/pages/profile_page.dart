@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:MyDiscount/widgets/user_credentials.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -16,6 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _isEditing = false;
   String dataText = '';
   String dataInitialText;
+  SharedPref prefs = SharedPref();
 
   UserCredentials userCredentials = UserCredentials();
   final _formKey = GlobalKey<FormFieldState>();
@@ -68,7 +72,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   top: size.height * .08,
                   right: 30,
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      var profile = json.decode(await prefs.readProfileData());
                       _isEditing
                           ? userCredentials.saveFormProfileInfo(
                               birthDay: dataText,
@@ -79,6 +84,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           : null;
                       setState(() {
                         _isEditing = !_isEditing;
+                        if (_isEditing) {
+                          dataText = profile['birthDay'];
+                          dataInitialText =
+                              profile['gender'] != '' ? profile['gender'] : null;
+                          _phoneController.text = profile['phoneNumber'];
+                        }
                       });
                       /*  if (_formKey.currentState.validate())
                         // ignore: unnecessary_statements
@@ -168,9 +179,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                     DateTimePicker(
                                         type: DateTimePickerType.date,
                                         dateMask: 'd MMM, yyyy',
-                                        initialValue: _isEditing
+                                        initialValue:
+                                            /*  _isEditing
                                             ? snapshot.data['birthDay']
-                                            : dataText,
+                                            :  */
+                                            dataText,
                                         firstDate: DateTime(1900),
                                         lastDate: DateTime(2100),
                                         //icon: Icon(Icons.event),
@@ -181,23 +194,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                           });
                                         }),
                                     DropdownButtonFormField(
-                                        value: _isEditing
-                                            ? snapshot.data['gender']
-                                            : dataInitialText,
-                                        items: _genders
-                                            .map(
-                                              (gender) =>
-                                                  DropdownMenuItem<String>(
-                                                child: Text(gender),
-                                                value: gender,
-                                              ),
-                                            )
-                                            .toList(),
-                                        onChanged: (gender) {
-                                          setState(() {
-                                            dataInitialText = gender;
-                                          });
-                                        }),
+                                      decoration:
+                                          InputDecoration(labelText: 'Gender'),
+                                      items: _genders
+                                          .map(
+                                            (gender) =>
+                                                DropdownMenuItem<String>(
+                                              child: Text(gender),
+                                              value: gender,
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChanged: (String value) {
+                                        setState(() {
+                                          dataInitialText = value;
+                                        });
+                                      },
+                                      value: dataInitialText,
+                                    ),
                                     TextFormField(
                                         controller: _phoneController,
                                         decoration: InputDecoration(

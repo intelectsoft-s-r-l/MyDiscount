@@ -43,7 +43,7 @@ class AuthService extends UserCredentials {
           break;
       }
     } catch (e, s) {
-      FirebaseCrashlytics.instance.recordError(e, s);
+      //FirebaseCrashlytics.instance.recordError(e, s);
       throw Exception(e);
     }
   }
@@ -76,7 +76,7 @@ class AuthService extends UserCredentials {
         }
       }
     } catch (e, s) {
-      FirebaseCrashlytics.instance.recordError(e, s);
+     //FirebaseCrashlytics.instance.recordError(e, s);
       throw Exception(e);
     }
   }
@@ -113,7 +113,7 @@ class AuthService extends UserCredentials {
     } on SignInWithAppleAuthorizationException {
       throw SignInWithAppleCredentialsException(message: 'Remove from user');
     } catch (e, s) {
-      FirebaseCrashlytics.instance.recordError(e, s);
+      //FirebaseCrashlytics.instance.recordError(e, s);
       throw Exception(e);
     }
   }

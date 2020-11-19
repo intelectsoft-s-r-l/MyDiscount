@@ -17,7 +17,7 @@ Future<String> getServiceNameFromRemoteConfig() async {
   } on FetchThrottledException {
     throw FetchThrottledException;
   } catch (e, s) {
-    FirebaseCrashlytics.instance.recordError(e, s);
+    //FirebaseCrashlytics.instance.recordError(e, s);
   }
   return '';
 }

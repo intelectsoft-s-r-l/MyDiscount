@@ -12,6 +12,7 @@ class AppBarText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final siz = MediaQuery.of(context).devicePixelRatio;
     return Positioned(
       top: size.height * .08,
       left: size.width * .1,
@@ -22,9 +23,9 @@ class AppBarText extends StatelessWidget {
           text,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 22,
+            //fontSize: 22,
             fontWeight: FontWeight.bold,
-          ),
+          ),textScaleFactor: 1,
         ),
       ),
     );

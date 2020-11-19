@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+/* import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 class Company extends Equatable {
@@ -45,3 +45,4 @@ class CompanyModel extends Company {
   ListOfCompany(this.list);
   addtoList() => list.add(Company(amount: ));
 } */
+ */

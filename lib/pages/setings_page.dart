@@ -48,8 +48,8 @@ class SetingsPage extends StatelessWidget {
                           width: 20,
                         ),
                         Text(
-                          AppLocalizations.of(context).translate('text28'),
-                          style: TextStyle(fontSize: 25),
+                          AppLocalizations.of(context).translate('text28'),textScaleFactor: 1,
+                          //style: TextStyle(fontSize: 25),
                         )
                       ],
                     ),
@@ -78,8 +78,8 @@ class SetingsPage extends StatelessWidget {
                           width: 20,
                         ),
                         Text(
-                          AppLocalizations.of(context).translate('text29'),
-                          style: TextStyle(fontSize: 25),
+                          AppLocalizations.of(context).translate('text29'),textScaleFactor: 1,
+                         // style: TextStyle(fontSize: 25),
                         )
                       ],
                     ),
@@ -108,8 +108,8 @@ class SetingsPage extends StatelessWidget {
                           width: 20,
                         ),
                         Text(
-                          AppLocalizations.of(context).translate('text30'),
-                          style: TextStyle(fontSize: 25),
+                          AppLocalizations.of(context).translate('text30'),textScaleFactor: 1,
+                         // style: TextStyle(fontSize: 25),
                         )
                       ],
                     ),
@@ -124,7 +124,7 @@ class SetingsPage extends StatelessWidget {
               ),
             ),
              Container(
-                    height: size.height * .23,
+                    height: size.height * .22,
                     child: Stack(
                       alignment: AlignmentDirectional.center,
                       children: [
@@ -161,8 +161,8 @@ class SetingsPage extends StatelessWidget {
                                         AppLocalizations.of(context).translate('text31'),
                                         style: TextStyle(
                                             color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                            //fontSize: 20,
+                                            fontWeight: FontWeight.bold),textScaleFactor: 1,
                                       ),
                                     )
                                   ],

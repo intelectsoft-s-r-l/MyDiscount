@@ -38,6 +38,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
             CupertinoDialogAction(
               child: Text(
                 AppLocalizations.of(context).translate('text8'),
+                textScaleFactor: 1,
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -115,8 +116,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       AppLocalizations.of(context).translate('text18'),
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 30,
-                      ),
+                        //fontSize: 30,
+                      ),textScaleFactor: 1.5,
                       maxLines: 2,
                     )),
               ),
@@ -141,9 +142,9 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     AppLocalizations.of(context).translate('text12'),
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      //fontSize: 20,
                       fontWeight: FontWeight.bold,
-                    ),
+                    ),textScaleFactor: 1,
                   ),
                 ),
                 SizedBox(
@@ -177,9 +178,9 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           AppLocalizations.of(context).translate('text15'),
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            //fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
+                          ),textScaleFactor: 1,
                         ),
                       ],
                     ),
@@ -216,9 +217,9 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           AppLocalizations.of(context).translate('text16'),
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            //fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
+                          ),textScaleFactor:1,
                         ),
                       ],
                     ),
@@ -258,9 +259,9 @@ class _LoginScreen2State extends State<LoginScreen2> {
                                 AppLocalizations.of(context).translate('text17'),
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  //fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                ),
+                                ),textScaleFactor: 1,
                               ),
                             ],
                           ),

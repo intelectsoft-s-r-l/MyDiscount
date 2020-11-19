@@ -26,6 +26,7 @@ class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    //final data = MediaQueryData(devicePixelRatio: 1);
     return Scaffold(
       body: Column(
         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,7 +54,7 @@ class UserPage extends StatelessWidget {
                                   );
                                 },
                                 child: CircleAvatar(
-                                  radius: 34,
+                                  radius: 30,
                                   
                                   child: ClipRRect(
                                    
@@ -72,38 +73,38 @@ class UserPage extends StatelessWidget {
                               SizedBox(
                                 width: 10,
                               ),
-                              Column(
+                              Column(crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   snapshot.data['DisplayName'] != 'null null'?Text(
                                     '${snapshot.data['DisplayName']}',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20,
-                                    ),
+                                      //fontSize: 20,
+                                    ),textScaleFactor: 1.3,
                                   ):Container(),
                                   if (snapshot.data['RegisterMode'] == 1)
                                     Text(
                                       AppLocalizations.of(context).translate('text15'),
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16,
-                                      ),
+                                        //fontSize: 16,
+                                      ),textScaleFactor: 1,
                                     ),
                                   if (snapshot.data['RegisterMode'] == 2)
                                     Text(
                                       AppLocalizations.of(context).translate('text16'),
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16,
-                                      ),
+                                        //fontSize: 16,
+                                      ),textScaleFactor: 1,
                                     ),
                                   if (snapshot.data['RegisterMode'] == 3)
                                     Text(
                                       AppLocalizations.of(context).translate('text17'),
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16,
-                                      ),
+                                       // fontSize: 16,
+                                      ),textScaleFactor: 1,
                                     ),
                                 ],
                               )

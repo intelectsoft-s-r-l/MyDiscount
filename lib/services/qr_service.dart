@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
 
@@ -53,7 +52,7 @@ class QrService {
         return '';
       }
     } catch (e, s) {
-      FirebaseCrashlytics.instance.recordError(e, s);
+      //FirebaseCrashlytics.instance.recordError(e, s);
       return '';
     }
   }
@@ -70,10 +69,10 @@ class QrService {
             .get(url, headers: _headers)
             .timeout(Duration(seconds: 3));
         if (response.statusCode == 200) {
-          final Map<String,dynamic> companiesToMap =
+          final Map<String, dynamic> companiesToMap =
               json.decode(response.body);
-          final List listOfCompanies = companiesToMap['Companies'];
-          return listOfCompanies;
+          final List _listOfCompanies = companiesToMap['Companies'];
+          return _listOfCompanies;
         } else {
           return false;
         }
@@ -81,7 +80,7 @@ class QrService {
         return false;
       }
     } catch (e, s) {
-      FirebaseCrashlytics.instance.recordError(e, s);
+      //FirebaseCrashlytics.instance.recordError(e, s);
     }
   }
 }

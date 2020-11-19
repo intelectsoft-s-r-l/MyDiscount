@@ -8,7 +8,7 @@ part of 'received_notification.dart';
 
 class ReceivedNotificationAdapter extends TypeAdapter<ReceivedNotification> {
   @override
-  final int typeId = 32;
+  final int typeId = 0;
 
   @override
   ReceivedNotification read(BinaryReader reader) {

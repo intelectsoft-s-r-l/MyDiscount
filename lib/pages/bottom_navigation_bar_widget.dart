@@ -30,6 +30,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
+        unselectedFontSize:MediaQuery.of(context).devicePixelRatio+8,
+        selectedFontSize:MediaQuery.of(context).devicePixelRatio+10,
         onTap: (value) {
           if (value == 2) {
             Navigator.pushNamed(context, '/qrpage');
@@ -57,7 +59,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 MdiIcons.qrcode,
                 color: Colors.black,
               ),
-              label: 'QR' ),
+              label: 'QR', ),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.notifications,

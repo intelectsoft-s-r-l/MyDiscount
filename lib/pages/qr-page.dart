@@ -182,7 +182,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                 child: IconButton(
                   icon: Icon(
                     Icons.arrow_back,
-                    size: 30,
+                    //size: 30,
                     color: Colors.white,
                   ),
                   onPressed: () {
@@ -225,7 +225,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                  ),
+                                  ),//textScaleFactor: 1,
                                 )
                               : Text(
                                   AppLocalizations.of(context)
@@ -233,7 +233,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                  ),
+                                  ),//textScaleFactor: 1,
                                 ),
                           color: Colors.green,
                         ),
@@ -264,17 +264,17 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                       .translate('text19'),
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 22,
+                          //fontSize: 22,
                           fontWeight: FontWeight.bold,
-                        ),
+                        ),textScaleFactor: 1,
                       ),
                       Text(
                         AppLocalizations.of(context)
                                       .translate('text20'),
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
-                        ),
+                          //fontSize: 18,
+                        ),textScaleFactor: 1,
                       ),
                     ],
                   ),

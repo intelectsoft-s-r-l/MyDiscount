@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:MyDiscount/models/received_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +9,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-// import './Screens/first_screen.dart';
 import './services/fcm_service.dart';
 import 'pages/bottom_navigation_bar_widget.dart';
 import 'pages/login_screen2.dart';
@@ -19,20 +19,26 @@ import 'pages/qr-page.dart';
 import 'services/auth_service.dart';
 import 'widgets/localizations.dart';
 
-
 FCMService fcmService = FCMService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
+  Hive.isAdapterRegistered(0)
+      // ignore: unnecessary_statements
+      ? null
+      : Hive.registerAdapter<ReceivedNotification>(
+          ReceivedNotificationAdapter());
+  await Hive.openBox<ReceivedNotification>('notification');
+  //initializationOfHiveDB();
   // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   //FirebaseCrashlytics.instance.sendUnsentReports();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
   fcmService.getFlutterLocalNotificationPlugin();
-   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-     /*  statusBarColor: Colors.white, */ statusBarIconBrightness: Brightness.dark));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     /*  runZoned(() { */
@@ -55,7 +61,6 @@ getAuthState() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //authController.add(true);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         supportedLocales: [
@@ -88,7 +93,7 @@ class MyApp extends StatelessWidget {
               }
             }
           } catch (e, s) {
-            FirebaseCrashlytics.instance.recordError(e, s);
+            //FirebaseCrashlytics.instance.recordError(e, s);
           }
 
           return retLocale;
