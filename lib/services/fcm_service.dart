@@ -17,9 +17,10 @@ FCMService fcmService = FCMService();
 Future<void> initializationOfHiveDB(notification) async {
   await Hive.initFlutter();
   Hive.isAdapterRegistered(0)
-  // ignore: unnecessary_statements
+      // ignore: unnecessary_statements
       ? null
-      : Hive.registerAdapter<ReceivedNotification>(ReceivedNotificationAdapter());
+      : Hive.registerAdapter<ReceivedNotification>(
+          ReceivedNotificationAdapter());
   await Hive.openBox<ReceivedNotification>('notification');
   Box<ReceivedNotification> notificationBox =
       Hive.box<ReceivedNotification>('notification');
@@ -75,6 +76,7 @@ class FCMService {
       initializationSettings,
       onSelectNotification: (notification) async {
         selectNotificationSubject.add(notification);
+        initializationOfHiveDB(notification);
       },
     );
   }
@@ -178,13 +180,15 @@ class FCMService {
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
         _showNotification(notification);
-       // initializationOfHiveDB(notification);
+        initializationOfHiveDB(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
-        //_showNotification(notification);
+        // _showNotification(notification);
+        initializationOfHiveDB(notification);
       },
       onLaunch: (Map<String, dynamic> notification) async {
         //_showNotification(notification);
+        initializationOfHiveDB(notification);
       },
       onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
     );

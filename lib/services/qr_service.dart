@@ -8,8 +8,8 @@ import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../services/remote_config_service.dart';
 import '../services/shared_preferences_service.dart';
-import '../widgets/credentials.dart';
-import '../widgets/user_credentials.dart';
+import '../constants/credentials.dart';
+import '../models/user_credentials.dart';
 
 class QrService {
   SharedPref sPref = SharedPref();

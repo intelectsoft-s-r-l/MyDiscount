@@ -20,9 +20,9 @@ class User /* extends Equatable */ {
     @required this.accessToken,
   });
 
-  @override
+ /*  @override
   List<Object> get props =>
-      [displayName, email, id, photoUrl, pushToken, registerMode, accessToken];
+      [displayName, email, id, photoUrl, pushToken, registerMode, accessToken]; */
 }
 
 class UserModel extends User {

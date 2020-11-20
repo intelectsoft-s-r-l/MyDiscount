@@ -1,5 +1,6 @@
 
-import 'package:MyDiscount/widgets/localizations.dart';
+import 'package:MyDiscount/localization/localizations.dart';
+import 'package:MyDiscount/widgets/transactions_list_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/top_bar_image.dart';
@@ -17,7 +18,8 @@ class TransactionsPage extends StatelessWidget {
              TopBarImage(size: size),
              AppBarText(size: size, text: AppLocalizations.of(context).translate('text22'))
             ],
-          )
+          ),
+          TransactionList(size: size,),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/widgets/localizations.dart';
+import 'package:MyDiscount/localization/localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../services/qr_service.dart';

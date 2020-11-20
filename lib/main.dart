@@ -17,7 +17,7 @@ import 'pages/bottom_navigation_bar_widget.dart';
 import 'pages/login_screen2.dart';
 import 'pages/qr-page.dart';
 import 'services/auth_service.dart';
-import 'widgets/localizations.dart';
+import 'localization/localizations.dart';
 
 FCMService fcmService = FCMService();
 

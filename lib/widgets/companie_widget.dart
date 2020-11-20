@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import 'localizations.dart';
+import '../localization/localizations.dart';
 
 class CompanieWidget extends StatelessWidget {
   const CompanieWidget(this.companie);

@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../services/fcm_service.dart';
-import '../widgets/user_credentials.dart';
+import '../models/user_credentials.dart';
 
 StreamController<bool> authController = StreamController.broadcast();
 

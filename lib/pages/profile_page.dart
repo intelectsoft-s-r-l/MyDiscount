@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:MyDiscount/services/shared_preferences_service.dart';
-import 'package:MyDiscount/widgets/localizations.dart';
-import 'package:MyDiscount/widgets/user_credentials.dart';
+import 'package:MyDiscount/localization/localizations.dart';
+import 'package:MyDiscount/models/user_credentials.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -108,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Expanded(
               child: Container(
-                child: FutureBuilder<Map<String, String>>(
+                child: FutureBuilder<Map<String, dynamic>>(
                   initialData: {
                     'firstName': '',
                     'lastName': '',

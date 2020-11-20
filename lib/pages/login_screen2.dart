@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:MyDiscount/widgets/no_internet_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
-import '../widgets/localizations.dart';
+import '../localization/localizations.dart';
 
 class LoginScreen2 extends StatefulWidget {
   final NetworkConnectionImpl internet = NetworkConnectionImpl();
@@ -27,27 +28,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    getDialog() {
-      showCupertinoDialog(
-        context: (context),
-        builder: (_) => CupertinoAlertDialog(
-          title: Text(
-            AppLocalizations.of(context).translate('text6') + '!',
-          ),
-          actions: [
-            CupertinoDialogAction(
-              child: Text(
-                AppLocalizations.of(context).translate('text8'),
-                textScaleFactor: 1,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      );
-    }
+   
 
     void getAuthorizationApple() async {
       if (await widget.internet.isConnected) {
@@ -59,7 +40,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
           }
         });
       } else {
-        getDialog();
+        getDialog(context);
       }
     }
 
@@ -73,7 +54,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
           }
         });
       } else {
-        getDialog();
+        getDialog(context);
       }
     }
 
@@ -89,7 +70,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
           },
         );
       } else {
-        getDialog();
+        getDialog(context);
       }
     }
 
@@ -144,7 +125,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       color: Colors.black,
                       //fontSize: 20,
                       fontWeight: FontWeight.bold,
-                    ),textScaleFactor: 1,
+                    ),textScaleFactor: 1.5,
                   ),
                 ),
                 SizedBox(
@@ -180,7 +161,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                             color: Colors.white,
                             //fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),textScaleFactor: 1,
+                          ),textScaleFactor: 1.5,
                         ),
                       ],
                     ),
@@ -219,7 +200,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                             color: Colors.white,
                             //fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),textScaleFactor:1,
+                          ),textScaleFactor:1.5,
                         ),
                       ],
                     ),
@@ -261,7 +242,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                                   color: Colors.white,
                                   //fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                ),textScaleFactor: 1,
+                                ),textScaleFactor: 1.5,
                               ),
                             ],
                           ),
@@ -271,10 +252,10 @@ class _LoginScreen2State extends State<LoginScreen2> {
               ],
             ),
           ),
-          SizedBox(
+         /*  SizedBox(
             height: size.height * .01,
           ),
-          Text('Privacy policy'),
+          Text('Privacy policy'), */
         ],
       ),
       /*  ), */

@@ -2,24 +2,24 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-class ServiceClient {
-
-  final String credential;
+abstract class ServiceClient {
+  final String _credential;
   BaseClient _client;
 
-  ServiceClient(this.credential, {BaseClient client})
+  ServiceClient(this._credential, {BaseClient client})
       : _client = client ?? Client();
+  get credential;
 
   Future<dynamic> get(uri) => _send('GET', uri);
 
   Future<dynamic> post(uri, {Map<String, String> headers, body}) =>
-      _send('POST', uri,json: body);
+      _send('POST', uri, json: body);
 
   Future<dynamic> _send(String method, url, {json}) async {
     Uri uri = url is String ? Uri.parse(url) : url;
     var request = Request(method, uri);
 
-    if (credential != null) {
+    if (_credential != null) {
       request.headers['Authorization'] = 'Basic $credential';
     }
 
@@ -53,10 +53,10 @@ class ServiceClient {
 }
 
 class ServiceClientException implements Exception {
-  final int statusCode;
+  final int errorCode;
   final String message;
 
-  ServiceClientException(this.statusCode, this.message);
+  ServiceClientException(this.errorCode, this.message);
   @override
-  String toString() => '$message ($statusCode)';
+  String toString() => '$message ($errorCode)';
 }

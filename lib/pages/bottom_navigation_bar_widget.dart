@@ -1,4 +1,4 @@
-import 'package:MyDiscount/widgets/localizations.dart';
+import 'package:MyDiscount/localization/localizations.dart';
 
 import 'history_page.dart';
 import 'notification_page.dart';

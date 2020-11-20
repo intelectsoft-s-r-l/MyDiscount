@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import '../models/user_model.dart';
+import 'user_model.dart';
 import '../services/shared_preferences_service.dart';
 
 class UserCredentials {
@@ -36,7 +36,6 @@ class UserCredentials {
 
   Future<String> getRequestBodyData() async {
     final _prefs = await sPrefs.instance;
-    //final _prefs = await SharedPreferences.getInstance();
     if (_prefs.containsKey('Tid')) {
       String savedCredential = await sPrefs.readCredentials();
       Map<String, dynamic> userData = json.decode(savedCredential);
@@ -53,41 +52,52 @@ class UserCredentials {
   Future<String> getUserIdFromLocalStore() async {
     final _prefs = await sPrefs.instance;
     if (_prefs.containsKey('Tid')) {
-      var savedCredential = await sPrefs.readCredentials();
-      var userData = json.decode(savedCredential);
-      var id = userData['ID'];
+      Map<String, dynamic> userData = await _returnCredentialsAsMap();
+      String id = userData['ID'];
       return id;
     } else {
       return '';
     }
   }
 
-  Future<Map<String, String>> getUserProfileData() async {
+  Future<Map<String, dynamic>> _returnCredentialsAsMap() async {
     String savedCredential = await sPrefs.readCredentials();
-    String savedFormData = await sPrefs.readFormProfileData();
-    Map<String, dynamic> map = json.decode(savedCredential);
-    Map<String, dynamic> formMap = savedFormData != null
-        ? json.decode(savedFormData)
-        : {'birthDay': '', 'gender': '', 'phoneNumber': ''};
-    var profile = credentialsToProfileMap(
-      displayName: map['DisplayName'],
-      email: map['Email'],
-      birthDay: formMap['birthDay'],
-      gender: formMap['gender'],
-      phoneNumber: formMap['phoneNumber'],
-    );
-    sPrefs.saveProfileData(json.encode(profile));
-    return profile;
+    Map<String,dynamic> credential = json.decode(savedCredential) as Map<String,dynamic>;
+    return Future.value(credential);
   }
 
-  credentialsToProfileMap({
+  Future<Map<String, dynamic>> _returnProfileDataAsMap() async {
+    String savedFormData = await sPrefs.readFormProfileData();
+
+    return savedFormData != null
+        ? json.decode(savedFormData)
+        : {'birthDay': '', 'gender': '', 'phoneNumber': ''};
+  }
+
+  Future<Map<String, dynamic>> getUserProfileData() async {
+    Map<String, dynamic> credentialMap = await _returnCredentialsAsMap();
+
+    Map<String, dynamic> profileMap = await _returnProfileDataAsMap();
+
+    var profile = _credentialsToProfileMap(
+      displayName: credentialMap['DisplayName'],
+      email: credentialMap['Email'],
+      birthDay: profileMap['birthDay'],
+      gender: profileMap['gender'],
+      phoneNumber: profileMap['phoneNumber'],
+    );
+    sPrefs.saveProfileData(json.encode(profile));
+    return Future.value(profile);
+  }
+
+  Map<String, dynamic> _credentialsToProfileMap({
     @required String displayName,
     @required String email,
     @required String birthDay,
     @required String gender,
     @required String phoneNumber,
   }) {
-    var data = displayName.split(" ").map((e) => e.toString()).toList();
+    List<String> data = _splitTheStrings(displayName);
     return {
       'firstName': data[0],
       'lastName': data[1],
@@ -98,13 +108,17 @@ class UserCredentials {
     };
   }
 
-  saveFormProfileInfo({String birthDay, String gender, String phoneNumber}) {
-    var map = {
+  List<String> _splitTheStrings(String displayName) {
+    return displayName.split(" ").map((e) => e.toString()).toList();
+  }
+
+  void saveFormProfileInfo(
+      {String birthDay, String gender, String phoneNumber}) {
+    Map<String, String> map = {
       'birthDay': birthDay,
       'gender': gender,
       'phoneNumber': phoneNumber,
     };
     sPrefs.saveFormProfileData(json.encode(map));
-    return map;
   }
 }

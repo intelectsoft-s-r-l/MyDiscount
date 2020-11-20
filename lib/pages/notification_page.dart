@@ -1,6 +1,6 @@
 import 'package:MyDiscount/models/received_notification.dart';
 
-import 'package:MyDiscount/widgets/localizations.dart';
+import 'package:MyDiscount/localization/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';

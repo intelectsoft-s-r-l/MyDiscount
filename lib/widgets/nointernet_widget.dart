@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'localizations.dart';
+import '../localization/localizations.dart';
 
 class NoInternetWidget extends StatelessWidget {
   @override

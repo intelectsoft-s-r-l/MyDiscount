@@ -7,19 +7,16 @@ import '../services/internet_connection_service.dart';
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
 import '../widgets/human_image_widget.dart';
-import '../widgets/localizations.dart';
+import '../localization/localizations.dart';
 import '../widgets/nointernet_widget.dart';
 import '../widgets/qr-widget.dart';
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
 
-
 class QrPage extends StatefulWidget {
   QrPage({
     Key key,
   }) : super(key: key);
-  final QrService qrService = QrService();
-  final NetworkConnectionImpl internetConnection = NetworkConnectionImpl();
 
   @override
   _QrPageState createState() => _QrPageState();
@@ -28,29 +25,62 @@ class QrPage extends StatefulWidget {
 class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   StreamController<bool> _imageController = StreamController.broadcast();
   StreamController<double> _progressController = StreamController.broadcast();
+  final QrService qrService = QrService();
+  final NetworkConnectionImpl internetConnection = NetworkConnectionImpl();
 
   int countTID = 0;
-  bool serviceConection = true;
-  double _counter;
+  bool serviceConection;
+
   Timer _timer;
   int index = 1;
-  double _progress = 1;
 
   @override
   void initState() {
-    getAuthorization();
+    _getAuthorization();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
 
-  changeImages() {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _imageController.sink.add(true);
+        debugPrint('resumed');
+        _timer?.cancel();
+        _getAuthorization();
+        countTID = 0;
+        /* _counter = 7;
+        _progress = 1; */
+        // _progressController.sink.add(_progress);
+        break;
+
+      case AppLifecycleState.inactive:
+        _timer?.cancel();
+        debugPrint('inactive');
+        break;
+      case AppLifecycleState.paused:
+        debugPrint('paused');
+        _timer?.cancel();
+        break;
+      case AppLifecycleState.detached:
+        debugPrint('detached');
+        _timer?.cancel();
+        break;
+      default:
+        if (_timer.isActive) _timer?.cancel();
+        break;
+    }
+  }
+
+  _changeImages() {
     _imageController.sink.add(false);
   }
 
   void startTimer() {
+    double _counter = 7;
+    double _progress = 1;
     countTID++;
-    print('Count:$countTID');
-    _counter = 7;
     _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       if (_counter > 0) {
         _counter--;
@@ -59,72 +89,39 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
         debugPrint('$_counter');
       } else if (_counter == 0) {
         if (countTID < 3) {
-          getAuthorization();
+          _getAuthorization();
           _progress = 1;
           _timer?.cancel();
         } else {
-          changeImages();
-          _progress = 1;
+          _changeImages();
           _timer?.cancel();
         }
       } else {
         _timer?.cancel();
       }
     });
+    debugPrint('Count:$countTID');
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        _imageController.sink.add(true);
-        print('resumed');
-        _timer?.cancel();
-        getAuthorization();
-        countTID = 0;
-        _counter = 7;
-        _progress = 1;
-        _progressController.sink.add(_progress);
-        break;
-
-      case AppLifecycleState.inactive:
-        _timer?.cancel();
-        print('inactive');
-        break;
-      case AppLifecycleState.paused:
-        print('paused');
-        _timer?.cancel();
-        break;
-      case AppLifecycleState.detached:
-        print('detached');
-        _timer?.cancel();
-        break;
-      default:
-        // ignore: null_aware_in_condition
-        if (_timer?.isActive) _timer?.cancel();
-        break;
-    }
-  }
-
-  getAuthorization() async {
-   
-    _counter = 7;
-    if (await widget.internetConnection.isConnected) {
-      try {
-        var service = await widget.qrService.attemptSignIn();
-        if (countTID == 3) {
-          _imageController.sink.add(false);
-          setState(() {
+  _getAuthorization() async {
+    bool netConnection = await internetConnection.isConnected;
+    setState(() {
+      serviceConection = netConnection;
+    });
+    if (netConnection) {
+      /*   try { */
+      await qrService.attemptSignIn();
+      if (countTID == 3) {
+        _changeImages();
+        /*  setState(() {
             serviceConection = true;
-          });
+          }); */
+        if (_timer.isActive) _timer?.cancel();
+      } else {
+        startTimer();
+      }
 
-          // ignore: null_aware_in_condition
-          if (_timer?.isActive) _timer?.cancel();
-        } else {
-          startTimer();
-        }
-
-        if (service.isNotEmpty) {
+      /* if (service.isNotEmpty) {
           setState(() {
             serviceConection = true;
           });
@@ -136,18 +133,18 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
 
           // ignore: null_aware_in_condition
           if (_timer?.isActive) _timer?.cancel();
-        }
-      } catch (e) {
+        } */
+      /*  } catch (e) {
         // ignore: null_aware_in_condition
         if (_timer?.isActive) _timer?.cancel();
 
         print(e);
-      }
+      } */
     } else {
-      _imageController.add(false);
-      setState(() {
+      _changeImages();
+      /*  setState(() {
         serviceConection = false;
-      });
+      }); */
     }
   }
 
@@ -182,7 +179,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                 child: IconButton(
                   icon: Icon(
                     Icons.arrow_back,
-                    //size: 30,
+                    size: 30,
                     color: Colors.white,
                   ),
                   onPressed: () {
@@ -212,10 +209,10 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                         RaisedButton(
                           onPressed: () {
                             _imageController.add(true);
-                            setState(() {
+                            /* setState(() {
                               serviceConection = true;
-                            });
-                            getAuthorization();
+                            }); */
+                            _getAuthorization();
                             countTID = 0;
                           },
                           child: serviceConection
@@ -225,7 +222,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                  ),//textScaleFactor: 1,
+                                  ), //textScaleFactor: 1,
                                 )
                               : Text(
                                   AppLocalizations.of(context)
@@ -233,7 +230,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                  ),//textScaleFactor: 1,
+                                  ), //textScaleFactor: 1,
                                 ),
                           color: Colors.green,
                         ),
@@ -260,21 +257,21 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                   child: Column(
                     children: [
                       Text(
-                        AppLocalizations.of(context)
-                                      .translate('text19'),
+                        AppLocalizations.of(context).translate('text19'),
                         style: TextStyle(
                           color: Colors.white,
                           //fontSize: 22,
                           fontWeight: FontWeight.bold,
-                        ),textScaleFactor: 1,
+                        ),
+                        textScaleFactor: 1,
                       ),
                       Text(
-                        AppLocalizations.of(context)
-                                      .translate('text20'),
+                        AppLocalizations.of(context).translate('text20'),
                         style: TextStyle(
                           color: Colors.white,
                           //fontSize: 18,
-                        ),textScaleFactor: 1,
+                        ),
+                        textScaleFactor: 1,
                       ),
                     ],
                   ),
