@@ -1,4 +1,4 @@
-import 'package:MyDiscount/localization/localizations.dart';
+import '../localization/localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../services/auth_service.dart';

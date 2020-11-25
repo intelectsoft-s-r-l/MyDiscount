@@ -1,6 +1,6 @@
-import 'package:MyDiscount/localization/localizations.dart';
 import 'package:flutter/material.dart';
 
+import '../localization/localizations.dart';
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
 

@@ -1,10 +1,16 @@
-
 import 'package:flutter/material.dart';
 
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
 
-class NotificationSettingsPage extends StatelessWidget {
+class NotificationSettingsPage extends StatefulWidget {
+  @override
+  _NotificationSettingsPageState createState() => _NotificationSettingsPageState();
+}
+
+class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
+  var val = true;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -13,7 +19,7 @@ class NotificationSettingsPage extends StatelessWidget {
         children: [
           Stack(
             children: [
-             TopBarImage(size: size),
+              TopBarImage(size: size),
               AppBarText(size: size, text: 'Notifications Settings'),
               Positioned(
                 top: size.height * .06,
@@ -29,7 +35,26 @@ class NotificationSettingsPage extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
+          Container(
+            padding: EdgeInsets.all(10 ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('data'),
+                    Switch(
+                        value: val,
+                        onChanged: (value) {
+                          val = value;
+                        }),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

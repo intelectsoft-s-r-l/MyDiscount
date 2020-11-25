@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:MyDiscount/widgets/no_internet_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../localization/localizations.dart';
 import '../main.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
-import '../localization/localizations.dart';
+import '../widgets/no_internet_dialog.dart';
 
 class LoginScreen2 extends StatefulWidget {
   final NetworkConnectionImpl internet = NetworkConnectionImpl();
@@ -36,7 +36,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
           final prefs = await SharedPreferences.getInstance();
           if (prefs.containsKey('credentials')) {
             authController.sink.add(true);
-            Navigator.pushNamed(context, '/qrpage');
+            Navigator.pushNamedAndRemoveUntil(context, '/qrpage' ,(Route<dynamic> route)=>false);
           }
         });
       } else {
@@ -50,7 +50,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
           final prefs = await SharedPreferences.getInstance();
           if (prefs.containsKey('credentials')) {
             authController.sink.add(true);
-            Navigator.pushNamed(context, '/qrpage');
+            Navigator.pushNamedAndRemoveUntil(context, '/qrpage' ,(Route<dynamic> route)=>false);
           }
         });
       } else {
@@ -65,7 +65,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
             final prefs = await SharedPreferences.getInstance();
             if (prefs.containsKey('credentials')) {
               authController.sink.add(true);
-              Navigator.pushNamed(context, '/qrpage');
+              Navigator.pushNamedAndRemoveUntil(context, '/qrpage' ,(Route<dynamic> route)=>false);
             }
           },
         );

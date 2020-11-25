@@ -1,5 +1,6 @@
-import 'package:MyDiscount/localization/localizations.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../localization/localizations.dart';
 
 getDialog(context) {
       showCupertinoDialog(

@@ -169,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 fontSize: 18.0,
                               ),
                             )),
-                        Divider(),
+                        
                         _isEditing
                             ? Form(
                                 key: _formKey,
@@ -180,13 +180,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         type: DateTimePickerType.date,
                                         dateMask: 'd MMM, yyyy',
                                         initialValue:
-                                            /*  _isEditing
-                                            ? snapshot.data['birthDay']
-                                            :  */
                                             dataText,
                                         firstDate: DateTime(1900),
                                         lastDate: DateTime(2100),
-                                        //icon: Icon(Icons.event),
                                         dateLabelText: 'Date of birth',
                                         onChanged: (newValue) {
                                           setState(() {

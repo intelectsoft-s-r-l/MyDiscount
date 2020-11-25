@@ -1,13 +1,12 @@
-import 'package:MyDiscount/localization/localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../localization/localizations.dart';
 import 'history_page.dart';
 import 'notification_page.dart';
 import 'qr-page.dart';
 import 'setings_page.dart';
 import 'user_page.dart';
-import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 class BottomNavigationBarWidget extends StatefulWidget {
   @override
   _BottomNavigationBarWidgetState createState() =>
@@ -30,8 +29,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        unselectedFontSize:MediaQuery.of(context).devicePixelRatio+8,
-        selectedFontSize:MediaQuery.of(context).devicePixelRatio+10,
+        unselectedFontSize: MediaQuery.of(context).devicePixelRatio + 6,
+        selectedFontSize: MediaQuery.of(context).devicePixelRatio + 8,
         onTap: (value) {
           if (value == 2) {
             Navigator.pushNamed(context, '/qrpage');
@@ -50,16 +49,17 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 Icons.home,
                 color: Colors.black,
               ),
-              label:AppLocalizations.of(context).translate('text21')),
+              label: AppLocalizations.of(context).translate('text21')),
           BottomNavigationBarItem(
               icon: Icon(MdiIcons.wallet, color: Colors.black),
               label: AppLocalizations.of(context).translate('text22')),
           BottomNavigationBarItem(
-              icon: Icon(
-                MdiIcons.qrcode,
-                color: Colors.black,
-              ),
-              label: 'QR', ),
+            icon: Icon(
+              MdiIcons.qrcode,
+              color: Colors.black,
+            ),
+            label: 'QR',
+          ),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.notifications,
@@ -71,7 +71,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 Icons.settings,
                 color: Colors.black,
               ),
-              label: AppLocalizations.of(context).translate('text24') ),
+              label: AppLocalizations.of(context).translate('text24')),
         ],
       ),
     );

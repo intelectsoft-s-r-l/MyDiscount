@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:MyDiscount/models/received_notification.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../models/received_notification.dart';
 
 FirebaseMessaging _fcm = FirebaseMessaging();
 FCMService fcmService = FCMService();

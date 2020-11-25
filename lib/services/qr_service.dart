@@ -52,7 +52,8 @@ class QrService {
         return '';
       }
     } catch (e, s) {
-      //FirebaseCrashlytics.instance.recordError(e, s);
+      FirebaseCrashlytics.instance.recordError(e, s);
+
       return '';
     }
   }
@@ -80,7 +81,7 @@ class QrService {
         return false;
       }
     } catch (e, s) {
-      //FirebaseCrashlytics.instance.recordError(e, s);
+      FirebaseCrashlytics.instance.recordError(e, s);
     }
   }
 }

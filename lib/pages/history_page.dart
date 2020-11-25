@@ -1,5 +1,5 @@
 
-import 'package:MyDiscount/localization/localizations.dart';
+import '../localization/localizations.dart';
 import 'package:MyDiscount/widgets/transactions_list_widget.dart';
 import 'package:flutter/material.dart';
 

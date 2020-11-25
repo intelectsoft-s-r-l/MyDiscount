@@ -50,9 +50,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
         _timer?.cancel();
         _getAuthorization();
         countTID = 0;
-        /* _counter = 7;
-        _progress = 1; */
-        // _progressController.sink.add(_progress);
         break;
 
       case AppLifecycleState.inactive:
@@ -80,6 +77,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   void startTimer() {
     double _counter = 7;
     double _progress = 1;
+    
     countTID++;
     _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
       if (_counter > 0) {
@@ -105,54 +103,27 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
 
   _getAuthorization() async {
     bool netConnection = await internetConnection.isConnected;
-    setState(() {
+    if (netConnection) {
+      await qrService.attemptSignIn();
+   if (mounted) setState(() {
       serviceConection = netConnection;
     });
-    if (netConnection) {
-      /*   try { */
-      await qrService.attemptSignIn();
       if (countTID == 3) {
         _changeImages();
-        /*  setState(() {
-            serviceConection = true;
-          }); */
         if (_timer.isActive) _timer?.cancel();
       } else {
         startTimer();
       }
-
-      /* if (service.isNotEmpty) {
-          setState(() {
-            serviceConection = true;
-          });
-        } else {
-          changeImages();
-          setState(() {
-            serviceConection = false;
-          });
-
-          // ignore: null_aware_in_condition
-          if (_timer?.isActive) _timer?.cancel();
-        } */
-      /*  } catch (e) {
-        // ignore: null_aware_in_condition
-        if (_timer?.isActive) _timer?.cancel();
-
-        print(e);
-      } */
     } else {
       _changeImages();
-      /*  setState(() {
-        serviceConection = false;
-      }); */
     }
   }
 
   @override
   void dispose() {
+    super.dispose();
     _imageController.close();
     _progressController.close();
-    super.dispose();
     _timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
   }
@@ -162,7 +133,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     final size = MediaQuery.of(context).size;
     final SharedPref sPref = SharedPref();
     Future<String> _loadSharedPref() async {
-      //SharedPreferences preferences = await SharedPreferences.getInstance();
       final id = await sPref.readTID();
       return Future<String>.value(id);
     }
@@ -183,7 +153,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    //dispose();
                     Navigator.pushReplacementNamed(context, '/app');
                   },
                 ),
@@ -209,9 +178,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                         RaisedButton(
                           onPressed: () {
                             _imageController.add(true);
-                            /* setState(() {
-                              serviceConection = true;
-                            }); */
                             _getAuthorization();
                             countTID = 0;
                           },

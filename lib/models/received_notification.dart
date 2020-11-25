@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+
 part 'received_notification.g.dart';
 
 @HiveType(typeId: 0)

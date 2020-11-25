@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/localization/localizations.dart';
 import 'package:flutter/material.dart';
 
+import '../localization/localizations.dart';
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
@@ -16,8 +16,7 @@ class UserPage extends StatelessWidget {
   final QrService data = QrService();
   final SharedPref sPref = SharedPref();
 
-    Future<Map<String, dynamic>> _loadSharedPref() async {
-    //SharedPreferences preferences = await SharedPreferences.getInstance();
+  Future<Map<String, dynamic>> _loadSharedPref() async {
     final sharedMap = await sPref.readCredentials();
     final credential = json.decode(sharedMap);
     return Future<Map<String, dynamic>>.value(credential);
@@ -26,10 +25,8 @@ class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    //final data = MediaQueryData(devicePixelRatio: 1);
     return Scaffold(
       body: Column(
-        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Stack(
             children: [
@@ -55,9 +52,7 @@ class UserPage extends StatelessWidget {
                                 },
                                 child: CircleAvatar(
                                   radius: 30,
-                                  
                                   child: ClipRRect(
-                                   
                                     borderRadius: BorderRadius.circular(40),
                                     child: snapshot.data['PhotoUrl'] != null
                                         ? Image.network(
@@ -66,45 +61,56 @@ class UserPage extends StatelessWidget {
                                             scale: 0.7,
                                             filterQuality: FilterQuality.high,
                                           )
-                                        : Image.asset('assets/icons/profile.png'),
+                                        : Image.asset(
+                                            'assets/icons/profile.png'),
                                   ),
                                 ),
                               ),
                               SizedBox(
                                 width: 10,
                               ),
-                              Column(crossAxisAlignment: CrossAxisAlignment.start,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  snapshot.data['DisplayName'] != 'null null'?Text(
-                                    '${snapshot.data['DisplayName']}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      //fontSize: 20,
-                                    ),textScaleFactor: 1.3,
-                                  ):Container(),
+                                  snapshot.data['DisplayName'] != 'null null'
+                                      ? Text(
+                                          '${snapshot.data['DisplayName']}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            //fontSize: 20,
+                                          ),
+                                          textScaleFactor: 1.3,
+                                        )
+                                      : Container(),
                                   if (snapshot.data['RegisterMode'] == 1)
                                     Text(
-                                      AppLocalizations.of(context).translate('text15'),
+                                      AppLocalizations.of(context)
+                                          .translate('text15'),
                                       style: TextStyle(
                                         color: Colors.white,
                                         //fontSize: 16,
-                                      ),textScaleFactor: 1,
+                                      ),
+                                      textScaleFactor: 1,
                                     ),
                                   if (snapshot.data['RegisterMode'] == 2)
                                     Text(
-                                      AppLocalizations.of(context).translate('text16'),
+                                      AppLocalizations.of(context)
+                                          .translate('text16'),
                                       style: TextStyle(
                                         color: Colors.white,
                                         //fontSize: 16,
-                                      ),textScaleFactor: 1,
+                                      ),
+                                      textScaleFactor: 1,
                                     ),
                                   if (snapshot.data['RegisterMode'] == 3)
                                     Text(
-                                      AppLocalizations.of(context).translate('text17'),
+                                      AppLocalizations.of(context)
+                                          .translate('text17'),
                                       style: TextStyle(
                                         color: Colors.white,
-                                       // fontSize: 16,
-                                      ),textScaleFactor: 1,
+                                        // fontSize: 16,
+                                      ),
+                                      textScaleFactor: 1,
                                     ),
                                 ],
                               )
@@ -118,7 +124,6 @@ class UserPage extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              // height: size.height * .73,
               child: FutureBuilder<dynamic>(
                 future: data.getCompanyList(),
                 builder:
