@@ -3,7 +3,6 @@
     <string name="app_name">Enappd</string>
     <string name="facebook_app_id">710684789730528</string>
     <string name="fb_login_protocol_scheme">fb710684789730528</string>
-    <!-- <string name="default_web_client_id">{866892099029-suucl47jejoav6r5490i3s74tuf82dgd.apps.googleusercontent.com}</string> -->
+   <!--  <string name="default_web_client_id">{866892099029-bshovhvi3i8fa2hn373m7tn1s3q7nqum.apps.googleusercontent.com}</string> -->
 </resources>
 
-<!-- implementation platform('com.google.firebase:firebase-bom:25.12.0') -->

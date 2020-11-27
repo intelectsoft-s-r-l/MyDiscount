@@ -47,7 +47,7 @@ class UserCredentials {
           phone: profileMap.phone??'',
           email: profile.email??'',
           photoUrl: profile.photoUrl??'',
-          registerMode: profile.registerMode??'',
+          registerMode: profile.registerMode,
           pushToken: profile.pushToken??'',
         ),
       ),
