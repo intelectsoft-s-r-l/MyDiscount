@@ -16,7 +16,7 @@ class CompanieWidget extends StatelessWidget {
         width: 80,
         height: 80,
         child: Image.memory(
-            Base64Decoder().convert('${companie['Logo']}'),
+            Base64Decoder().convert('${companie['Logo'].toString().characters.skip(22)}'),
             filterQuality: FilterQuality.high,
             fit: BoxFit.contain,
           ),
