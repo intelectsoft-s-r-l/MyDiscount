@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrImageWidget extends StatelessWidget {
@@ -40,23 +39,24 @@ class QrImageWidget extends StatelessWidget {
                       ),
                     ),
                     StreamBuilder<double>(
-                        stream: _progress,
-                        initialData: 1,
-                        builder: (context, snapshot) {
-                          return Container(
-                            padding: EdgeInsets.only(
-                              left: 8,
-                              right: 8,
-                            ),
-                            width: MediaQuery.of(context).size.width * .65,
-                            child: LinearProgressIndicator(
-                              backgroundColor: Colors.white,
-                              minHeight: 4,
-                              valueColor: AlwaysStoppedAnimation(Colors.green),
-                              value: snapshot.data,
-                            ),
-                          );
-                        }),
+                      stream: _progress,
+                      initialData: 1,
+                      builder: (context, snapshot) {
+                        return Container(
+                          padding: EdgeInsets.only(
+                            left: 8,
+                            right: 8,
+                          ),
+                          width: MediaQuery.of(context).size.width * .65,
+                          child: LinearProgressIndicator(
+                            backgroundColor: Colors.white,
+                            minHeight: 4,
+                            valueColor: AlwaysStoppedAnimation(Colors.green),
+                            value: snapshot.data,
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 );
               } else {

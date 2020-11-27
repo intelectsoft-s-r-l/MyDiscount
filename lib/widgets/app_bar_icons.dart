@@ -29,11 +29,11 @@ class AppBarIcons extends StatelessWidget {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  if (selectedIndex != 0) {
+                  /* if (selectedIndex != 0) { */
                     _pageController.jumpToPage(0);
                     _indexController.add(0);
                    // FirebaseCrashlytics.instance.crash();
-                  }
+                 /*  } */
                 },
                 child: Container(
                   width: size.width * 0.33,

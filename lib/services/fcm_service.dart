@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 FirebaseMessaging _fcm = FirebaseMessaging();
@@ -17,8 +16,6 @@ Future<dynamic> myBackgroundMessageHandler(
 }
 
 class FCMService {
-  var _notificationAppLaunchDetails;
-
   StreamController didReceiveLocalNotificationSubject =
       StreamController.broadcast();
 
@@ -27,33 +24,28 @@ class FCMService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  get notificationAppLaunchDetails => _notificationAppLaunchDetails;
-
   void getFlutterLocalNotificationPlugin() async {
-    _notificationAppLaunchDetails =
-        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_stat_qq3');
 
     var initializationSettingsIOS = IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-      /*   onDidReceiveLocalNotification:
+        requestAlertPermission: false,
+        requestBadgePermission: false,
+        requestSoundPermission: false,
+        onDidReceiveLocalNotification:
             (int id, String title, String body, String payload) async {
           didReceiveLocalNotificationSubject.add(ReceivedNotification(
             body: body,
             title: title,
             id: id,
           ));
-        }*/
-    );
+        });
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
-     );
+    );
 
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -67,7 +59,7 @@ class FCMService {
     var vibrationPattern = Int64List(4);
     /*  vibrationPattern[0] = 0; */
     vibrationPattern[1] = 1000;
-   /*  vibrationPattern[2] = 5000;
+    /*  vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000; */
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -78,17 +70,18 @@ class FCMService {
         ledColor: Color(0x0000FF),
         ledOffMs: 2000,
         ledOnMs: 2000,
-        color: Color(0x00C569),
+        color: Color(0x00FF00),
         enableVibration: true,
         vibrationPattern: vibrationPattern,
         visibility: NotificationVisibility.public);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(android:
-        androidPlatformChannelSpecifics,iOS: iOSPlatformChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-        int.parse('${notification['data']['id']}'),
-        '${notification['data']['title']}',
-        '${notification['data']['body']}',
+        int.parse('${notification['notification']['id']}'),
+        '${notification['notification']['title']}',
+        '${notification['notification']['body']}',
         platformChannelSpecifics,
         payload: 'item x');
     print('is showpublicnotification:${notification['data']}');
@@ -116,10 +109,14 @@ class FCMService {
       enableVibration: true,
       vibrationPattern: vibrationPattern,
     );
-    var iOSPlatformChannelSpecifics =
-        IOSNotificationDetails(presentSound: false);
-   var platformChannelSpecifics = NotificationDetails(android:
-        androidPlatformChannelSpecifics,iOS: iOSPlatformChannelSpecifics);
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+      presentSound: true,
+      presentBadge: true,
+      presentAlert: true,
+    );
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       Platform.isIOS
           ? int.parse(notification['id'])
@@ -140,6 +137,9 @@ class FCMService {
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
     return list;
   } */
+  void dispose() {
+    fcmService.dispose();
+  }
 
   Future<String> getfcmToken() async {
     String token = await _fcm.getToken();
@@ -150,28 +150,21 @@ class FCMService {
     return token;
   }
 
-  void deleteAllNotification() {
-    flutterLocalNotificationsPlugin.cancelAll();
-  }
-
-  void dispose() {
-    selectNotificationSubject.close();
-    didReceiveLocalNotificationSubject.close();
-  }
-
   void fcmConfigure() {
-    _fcm.requestNotificationPermissions();
+    _fcm.requestNotificationPermissions(
+        IosNotificationSettings(sound: false, alert: false, badge: false));
+    _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
         _showNotification(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
         _showNotification(notification);
-       
       },
       onLaunch: (Map<String, dynamic> notification) async {
         _showNotification(notification);
-       
       },
       onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
     );
@@ -214,7 +207,7 @@ ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
   return receivedNotification;
 } */
 
-/* class ReceivedNotification {
+class ReceivedNotification {
   final int id;
   String title;
   String body;
@@ -226,4 +219,4 @@ ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
     @required this.body,
     this.payload,
   });
-} */
+}

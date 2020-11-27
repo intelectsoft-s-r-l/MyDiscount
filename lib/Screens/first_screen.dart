@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Screens/companies_screen.dart';
 import '../Screens/info_screen.dart';
@@ -12,12 +11,10 @@ import '../Screens/login_screen.dart';
 import '../Screens/qr_screen.dart';
 import '../services/auth_service.dart';
 import '../services/fcm_service.dart';
-import '../services/qr_service.dart';
+//import '../services/qr_service.dart';
 import '../widgets/app_bar_icons.dart';
 import '../widgets/app_bar_text.dart';
 //import '../widgets/drawer.dart';
-
-enum AuthState { authorized, unauthorized }
 
 class FirstScreen extends StatefulWidget {
   @override
@@ -31,7 +28,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
   PageController _pageController;
 
-  static QrService _qrService = QrService();
+  //static QrService _qrService = QrService();
 
   int selectedIndex = 0;
   @override
@@ -40,7 +37,13 @@ class _FirstScreenState extends State<FirstScreen> {
       initialPage: 1,
     );
     selectedIndex = _pageController.initialPage;
+    getAuthState();
     super.initState();
+  }
+
+  getAuthState() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('credentials')) authController.sink.add(true);
   }
 
   @override
@@ -134,11 +137,14 @@ class _FirstScreenState extends State<FirstScreen> {
                       icon: Icon(MdiIcons.locationExit),
                       onPressed: () {
                         data.signOut();
-                        _pageController.animateToPage(1,
-                            duration: Duration(
+                        _pageController.jumpToPage(
+                          1,
+                          /*  duration: Duration(
                               milliseconds: 50,
                             ),
-                            curve: Curves.ease);
+                            curve: Curves.ease */
+                        );
+                        authController.add(false);
                         setState(() {});
                       }),
                 ),
@@ -151,9 +157,9 @@ class _FirstScreenState extends State<FirstScreen> {
               ],
             ),
           ),
-          FutureBuilder<AuthState>(
-            // initialData: false,
-            future: _qrService.tryAutoLogin(),
+          StreamBuilder<bool>(
+            initialData: false,
+            stream: authController.stream, //_qrService.tryAutoLogin(),
             builder: (context, snapshot) => Expanded(
               child: PageView(
                 dragStartBehavior: DragStartBehavior.down,
@@ -172,9 +178,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     height: size.height * 0.6,
                     child: Companies(),
                   ),
-                  snapshot.data == AuthState.authorized
-                      ? QrScreen()
-                      : LoginPage(),
+                  snapshot.data == true ? QrScreen() : LoginPage(),
                   InfoScreen(),
                 ],
               ),

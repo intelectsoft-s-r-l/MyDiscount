@@ -1,5 +1,5 @@
-import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/material.dart';
+import '../widgets/localizations.dart';
 
 class InfoScreen extends StatelessWidget {
   @override

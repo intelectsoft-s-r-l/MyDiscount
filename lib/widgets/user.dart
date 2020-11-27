@@ -30,7 +30,7 @@ class UserCredentials extends User {
   }
 }
 abstract class User{
-String displayName;
+  String displayName;
   String email;
   int id;
   String photoUrl;

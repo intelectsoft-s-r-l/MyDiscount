@@ -3,9 +3,9 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 class InternetConnection  {
   verifyInternetConection() async {
    
-   /*  print("Current status: ${await DataConnectionChecker().connectionStatus}");
+    print("Current status: ${await DataConnectionChecker().connectionStatus}");
 
-      final listener = DataConnectionChecker().onStatusChange.listen((status) {
+      /* final listener = DataConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case DataConnectionStatus.connected:
           print('Data connection is available.');
@@ -16,7 +16,7 @@ class InternetConnection  {
       }
     });
     listener.cancel(); */
-    //await Future.delayed(Duration(seconds: 0));
+    await Future.delayed(Duration(seconds: 0));
     return await DataConnectionChecker().connectionStatus;
   }
 }
