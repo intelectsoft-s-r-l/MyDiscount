@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-abstract class ServiceClient {
-  final String _credential;
+/* abstract */ class ServiceClient {
+  final String credential;
   BaseClient _client;
 
-  ServiceClient(this._credential, {BaseClient client})
+  ServiceClient(this.credential, {BaseClient client})
       : _client = client ?? Client();
-  get credential;
+  //get credential;
 
   Future<dynamic> get(uri) => _send('GET', uri);
 
@@ -19,7 +19,7 @@ abstract class ServiceClient {
     Uri uri = url is String ? Uri.parse(url) : url;
     var request = Request(method, uri);
 
-    if (_credential != null) {
+    if (credential != null) {
       request.headers['Authorization'] = 'Basic $credential';
     }
 

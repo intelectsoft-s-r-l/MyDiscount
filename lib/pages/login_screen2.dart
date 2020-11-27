@@ -28,15 +28,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
 
   @override
   Widget build(BuildContext context) {
-   
-
     void getAuthorizationApple() async {
       if (await widget.internet.isConnected) {
         data.signInWithApple().whenComplete(() async {
           final prefs = await SharedPreferences.getInstance();
-          if (prefs.containsKey('credentials')) {
+          if (prefs.containsKey('user')) {
             authController.sink.add(true);
-            Navigator.pushNamedAndRemoveUntil(context, '/qrpage' ,(Route<dynamic> route)=>false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/qrpage', (Route<dynamic> route) => false);
           }
         });
       } else {
@@ -48,9 +47,10 @@ class _LoginScreen2State extends State<LoginScreen2> {
       if (await widget.internet.isConnected) {
         data.logwithG(context).whenComplete(() async {
           final prefs = await SharedPreferences.getInstance();
-          if (prefs.containsKey('credentials')) {
+          if (prefs.containsKey('user')) {
             authController.sink.add(true);
-            Navigator.pushNamedAndRemoveUntil(context, '/qrpage' ,(Route<dynamic> route)=>false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/qrpage', (Route<dynamic> route) => false);
           }
         });
       } else {
@@ -63,9 +63,10 @@ class _LoginScreen2State extends State<LoginScreen2> {
         data.authWithFacebook().whenComplete(
           () async {
             final prefs = await SharedPreferences.getInstance();
-            if (prefs.containsKey('credentials')) {
+            if (prefs.containsKey('user')) {
               authController.sink.add(true);
-              Navigator.pushNamedAndRemoveUntil(context, '/qrpage' ,(Route<dynamic> route)=>false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/qrpage', (Route<dynamic> route) => false);
             }
           },
         );
@@ -98,7 +99,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       style: TextStyle(
                         color: Colors.white,
                         //fontSize: 30,
-                      ),textScaleFactor: 1.5,
+                      ),
+                      textScaleFactor: 1.5,
                       maxLines: 2,
                     )),
               ),
@@ -125,7 +127,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       color: Colors.black,
                       //fontSize: 20,
                       fontWeight: FontWeight.bold,
-                    ),textScaleFactor: 1.5,
+                    ),
+                    textScaleFactor: 1.5,
                   ),
                 ),
                 SizedBox(
@@ -161,7 +164,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
                             color: Colors.white,
                             //fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),textScaleFactor: 1.5,
+                          ),
+                          textScaleFactor: 1.5,
                         ),
                       ],
                     ),
@@ -200,7 +204,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
                             color: Colors.white,
                             //fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),textScaleFactor:1.5,
+                          ),
+                          textScaleFactor: 1.5,
                         ),
                       ],
                     ),
@@ -237,12 +242,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
                                 width: 10,
                               ),
                               Text(
-                                AppLocalizations.of(context).translate('text17'),
+                                AppLocalizations.of(context)
+                                    .translate('text17'),
                                 style: TextStyle(
                                   color: Colors.white,
                                   //fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                ),textScaleFactor: 1.5,
+                                ),
+                                textScaleFactor: 1.5,
                               ),
                             ],
                           ),
@@ -252,7 +259,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
               ],
             ),
           ),
-         /*  SizedBox(
+          /*  SizedBox(
             height: size.height * .01,
           ),
           Text('Privacy policy'), */

@@ -77,27 +77,28 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   void startTimer() {
     double _counter = 7;
     double _progress = 1;
-    
+
     countTID++;
-    _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
-      if (_counter > 0) {
-        _counter--;
-        _progress -= 0.1428;
-        _progressController.sink.add(_progress);
-        debugPrint('$_counter');
-      } else if (_counter == 0) {
-        if (countTID < 3) {
-          _getAuthorization();
-          _progress = 1;
-          _timer?.cancel();
+    if (mounted)
+      _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
+        if (_counter > 0) {
+          _counter--;
+          _progress -= 0.1428;
+          _progressController.sink.add(_progress);
+          debugPrint('$_counter');
+        } else if (_counter == 0) {
+          if (countTID < 3) {
+            _getAuthorization();
+            _progress = 1;
+            _timer?.cancel();
+          } else {
+            _changeImages();
+            _timer?.cancel();
+          }
         } else {
-          _changeImages();
           _timer?.cancel();
         }
-      } else {
-        _timer?.cancel();
-      }
-    });
+      });
     debugPrint('Count:$countTID');
   }
 
@@ -105,9 +106,10 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     bool netConnection = await internetConnection.isConnected;
     if (netConnection) {
       await qrService.attemptSignIn();
-   if (mounted) setState(() {
-      serviceConection = netConnection;
-    });
+      if (mounted)
+        setState(() {
+          serviceConection = netConnection;
+        });
       if (countTID == 3) {
         _changeImages();
         if (_timer.isActive) _timer?.cancel();
@@ -116,15 +118,19 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
       }
     } else {
       _changeImages();
+      if (mounted)
+        setState(() {
+          serviceConection = netConnection;
+        });
     }
   }
 
   @override
   void dispose() {
     super.dispose();
-    _imageController.close();
-    _progressController.close();
-    _timer?.cancel();
+    if (mounted) _imageController.close();
+    if (mounted) _progressController.close();
+    if (mounted) _timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
   }
 

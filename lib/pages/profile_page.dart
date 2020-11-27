@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:MyDiscount/models/profile_model.dart';
 
 import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:MyDiscount/localization/localizations.dart';
@@ -73,22 +73,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   right: 30,
                   child: GestureDetector(
                     onTap: () async {
-                      var profile = json.decode(await prefs.readProfileData());
+                      Profile profile = Profile.fromJson(
+                          await userCredentials.getUserProfileData());
                       _isEditing
-                          ? userCredentials.saveFormProfileInfo(
+                          ? userCredentials.saveFormProfileInfo(Profile(
                               birthDay: dataText,
                               gender: dataInitialText,
-                              phoneNumber: _phoneController.text,
-                            )
+                              phone: _phoneController.text,
+                            ))
                           // ignore: unnecessary_statements
                           : null;
                       setState(() {
                         _isEditing = !_isEditing;
                         if (_isEditing) {
-                          dataText = profile['birthDay'];
+                          dataText = profile.birthDay;
                           dataInitialText =
-                              profile['gender'] != '' ? profile['gender'] : null;
-                          _phoneController.text = profile['phoneNumber'];
+                              profile.gender != '' ? profile.gender : null;
+                          _phoneController.text = profile.phone;
                         }
                       });
                       /*  if (_formKey.currentState.validate())
@@ -115,177 +116,183 @@ class _ProfilePageState extends State<ProfilePage> {
                     'email': '',
                     'birthDay': '',
                     'gender': '',
-                    'phoneNumber': ''
+                    'phone': ''
                   },
                   future: UserCredentials().getUserProfileData(),
-                  builder: (context, snapshot) => SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            AppLocalizations.of(context).translate('text26'),
-                            style: TextStyle(color: Colors.black45),
-                          ),
-                        ),
-                        Container(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text(
-                              snapshot.data['firstName'],
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.0,
-                              ),
-                            )),
-                        Divider(),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            AppLocalizations.of(context).translate('text27'),
-                            style: TextStyle(color: Colors.black45),
-                          ),
-                        ),
-                        Container(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text(
-                              snapshot.data['lastName'],
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.0,
-                              ),
-                            )),
-                        Divider(),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text('E-mail'),
-                        ),
-                        Container(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text(
-                              snapshot.data['email'],
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.0,
-                              ),
-                            )),
-                        
-                        _isEditing
-                            ? Form(
-                                key: _formKey,
-                                autovalidateMode: AutovalidateMode.always,
-                                child: Column(
-                                  children: [
-                                    DateTimePicker(
-                                        type: DateTimePickerType.date,
-                                        dateMask: 'd MMM, yyyy',
-                                        initialValue:
-                                            dataText,
-                                        firstDate: DateTime(1900),
-                                        lastDate: DateTime(2100),
-                                        dateLabelText: 'Date of birth',
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            dataText = newValue;
-                                          });
-                                        }),
-                                    DropdownButtonFormField(
-                                      decoration:
-                                          InputDecoration(labelText: 'Gender'),
-                                      items: _genders
-                                          .map(
-                                            (gender) =>
-                                                DropdownMenuItem<String>(
-                                              child: Text(gender),
-                                              value: gender,
-                                            ),
-                                          )
-                                          .toList(),
-                                      onChanged: (String value) {
-                                        setState(() {
-                                          dataInitialText = value;
-                                        });
-                                      },
-                                      value: dataInitialText,
-                                    ),
-                                    TextFormField(
-                                        controller: _phoneController,
-                                        decoration: InputDecoration(
-                                          labelText: 'Phone Number *',
-                                          hintText: 'Where can we reach you?',
-                                          prefixIcon: Icon(Icons.call),
-                                        ),
-                                        keyboardType: TextInputType.phone,
-                                        validator: (value) => value.length == 9
-                                            ? null
-                                            : 'Phone number must be ',
-                                        onSaved: (value) {
-                                          setState(() {
-                                            _phoneController.text = value;
-                                          });
-                                        }),
-                                  ],
+                  builder: (context, snapshot) => snapshot.hasData
+                      ? SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  AppLocalizations.of(context)
+                                      .translate('text26'),
+                                  style: TextStyle(color: Colors.black45),
                                 ),
-                              )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Divider(),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text('Date of birth'),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      snapshot.data['birthDay'] != null
-                                          ? snapshot.data['birthDay']
-                                          : '',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                      ),
-                                    ),
-                                  ),
-                                  Divider(),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text('Gender'),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      snapshot.data['gender'] != null
-                                          ? snapshot.data['gender']
-                                          : '',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                      ),
-                                    ),
-                                  ),
-                                  Divider(),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text('Phone Number'),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      snapshot.data['phoneNumber'] != null
-                                          ? snapshot.data['phoneNumber']
-                                          : '',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
-                      ],
-                    ),
-                  ),
+                              Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    snapshot.data['firstName'],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                    ),
+                                  )),
+                              Divider(),
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  AppLocalizations.of(context)
+                                      .translate('text27'),
+                                  style: TextStyle(color: Colors.black45),
+                                ),
+                              ),
+                              Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    snapshot.data['lastName'],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                    ),
+                                  )),
+                              Divider(),
+                              Container(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text('E-mail'),
+                              ),
+                              Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    snapshot.data['email'],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                    ),
+                                  )),
+                              _isEditing
+                                  ? Form(
+                                      key: _formKey,
+                                      autovalidateMode: AutovalidateMode.always,
+                                      child: Column(
+                                        children: [
+                                          DateTimePicker(
+                                              type: DateTimePickerType.date,
+                                              dateMask: 'd MMM, yyyy',
+                                              initialValue: dataText,
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime(2100),
+                                              dateLabelText: 'Date of birth',
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  dataText = newValue;
+                                                });
+                                              }),
+                                          DropdownButtonFormField(
+                                            decoration: InputDecoration(
+                                                labelText: 'Gender'),
+                                            items: _genders
+                                                .map(
+                                                  (gender) =>
+                                                      DropdownMenuItem<String>(
+                                                    child: Text(gender),
+                                                    value: gender,
+                                                  ),
+                                                )
+                                                .toList(),
+                                            onChanged: (String value) {
+                                              setState(() {
+                                                dataInitialText = value;
+                                              });
+                                            },
+                                            value: dataInitialText,
+                                          ),
+                                          TextFormField(
+                                              controller: _phoneController,
+                                              decoration: InputDecoration(
+                                                labelText: 'Phone Number *',
+                                                hintText:
+                                                    'Where can we reach you?',
+                                                prefixIcon: Icon(Icons.call),
+                                              ),
+                                              keyboardType: TextInputType.phone,
+                                              validator: (value) => value
+                                                          .length ==
+                                                      9
+                                                  ? null
+                                                  : 'Phone number lenght must pe 9 characters ',
+                                              onSaved: (value) {
+                                                setState(() {
+                                                  _phoneController.text = value;
+                                                });
+                                              }),
+                                        ],
+                                      ),
+                                    )
+                                  : Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Divider(),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text('Date of birth'),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            snapshot.data['birthDay'] != null
+                                                ? snapshot.data['birthDay']
+                                                : '',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text('Gender'),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            snapshot.data['gender'] != null
+                                                ? snapshot.data['gender']
+                                                : '',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text('Phone Number'),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            snapshot.data['phone'] != null
+                                                ? snapshot.data['phone']
+                                                : '',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ],
+                          ),
+                        )
+                      : Container(),
                 ),
               ),
             ),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'models/received_notification.dart';
@@ -32,7 +33,7 @@ void main() async {
           ReceivedNotificationAdapter());
   await Hive.openBox<ReceivedNotification>('notification');
   //initializationOfHiveDB();
-  // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   //FirebaseCrashlytics.instance.sendUnsentReports();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
@@ -41,13 +42,14 @@ void main() async {
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    /*  runZoned(() { */
+     runZoned(() {
 //getAuthState();
     runApp(MyApp());
 
     // ignore: unused_element
 
-    /*   }, onError: FirebaseCrashlytics.instance.recordError); */
+      }, onError: FirebaseCrashlytics.instance.recordError,
+      );
 
     //fcmService.getfcmToken();
   });
@@ -55,60 +57,60 @@ void main() async {
 
 getAuthState() async {
   final prefs = await SharedPreferences.getInstance();
-  if (prefs.containsKey('credentials')) authController.sink.add(true);
+  if (prefs.containsKey('user')) authController.sink.add(true);
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        supportedLocales: [
-          Locale('en', 'US'),
-          Locale('ru', 'RU'),
-          Locale('md', 'MD'),
-          Locale('ro', 'RO'),
-        ],
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate
-        ],
-        localeResolutionCallback:
-            (Locale locale, Iterable<Locale> supportedLocales) {
-          final retLocale = supportedLocales?.first;
-          print('$locale 2');
-          if (locale == null) {
-            debugPrint("*language locale is null!!!");
-            return supportedLocales.first;
-          }
-          try {
-            for (Locale supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode &&
-                  locale.languageCode != null) {
-                print(supportedLocale);
+      debugShowCheckedModeBanner: false,
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('ru', 'RU'),
+        Locale('md', 'MD'),
+        Locale('ro', 'RO'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      localeResolutionCallback:
+          (Locale locale, Iterable<Locale> supportedLocales) {
+        final retLocale = supportedLocales?.first;
+        print('$locale 2');
+        if (locale == null) {
+          debugPrint("*language locale is null!!!");
+          return supportedLocales.first;
+        }
+        try {
+          for (Locale supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode &&
+                locale.languageCode != null) {
+              print(supportedLocale);
 
-                return supportedLocale;
-              }
+              return supportedLocale;
             }
-          } catch (e, s) {
-            FirebaseCrashlytics.instance.recordError(e, s);
           }
+        } catch (e, s) {
+          FirebaseCrashlytics.instance.recordError(e, s);
+        }
 
-          return retLocale;
-        },
-        routes: {
-          '/loginscreen': (context) => LoginScreen2(),
-          '/app': (context) => BottomNavigationBarWidget(),
-          '/qrpage': (context) => QrPage(),
-        },
-        home: StreamBuilder(
-            initialData: false,
-            stream: authController.stream,
-            builder: (context, snapshot) =>
-                snapshot.data ? QrPage() : LoginScreen2()) //FirstScreen(),
-
-        );
+        return retLocale;
+      },
+      routes: {
+        '/loginscreen': (context) => LoginScreen2(),
+        '/app': (context) => BottomNavigationBarWidget(),
+        '/qrpage': (context) => QrPage(),
+      },
+      home: StreamBuilder(
+        initialData: false,
+        stream: authController.stream,
+        builder: (context, snapshot) =>
+            snapshot.data ? QrPage() : LoginScreen2(),
+      ),
+    );
   }
 }

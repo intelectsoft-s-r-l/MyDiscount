@@ -15,10 +15,13 @@ class CompanieWidget extends StatelessWidget {
       leading: Container(
         width: 60,
         height: 60,
+        //TODO de plasat in decoder pentru a taia tegurile care vin de la web cabinet 
+        /* .toString().characters.skip(22) */
         child: Image.memory(
-            Base64Decoder().convert('${companie['Logo']}'),
+            Base64Decoder().convert('${companie['Logo'].toString().characters.skip(22)}'),
             filterQuality: FilterQuality.high,
             fit: BoxFit.contain,
+            errorBuilder: (context,obj,_)=>Container(),
           ),
         ),
  

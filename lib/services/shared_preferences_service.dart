@@ -13,14 +13,14 @@ class SharedPref {
     return prefs.getString('Tid');
   }
 
-  saveCredentials(String data) async {
+  saveUser(String data) async {
     final authData = await SharedPreferences.getInstance();
-    authData.setString('credentials', data);
+    authData.setString('user', data);
   }
 
-  readCredentials() async {
+  readUser() async {
     final authData = await SharedPreferences.getInstance();
-    return authData.getString('credentials');
+    return authData.getString('user');
   }
 
   saveProfileData(String profile) async {
@@ -43,7 +43,7 @@ class SharedPref {
     return prefs.getString('formProfile');
   }
 
-  saveNotification(String notification) async {
+  /* saveNotification(String notification) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('notification', notification);
   }
@@ -51,5 +51,5 @@ class SharedPref {
   readNotification() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('notification');
-  }
+  } */
 }

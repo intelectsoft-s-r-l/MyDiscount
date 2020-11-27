@@ -4,9 +4,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 Future<String> getServiceNameFromRemoteConfig() async {
-  final RemoteConfig remoteConfig = await RemoteConfig.instance;
-
   try {
+    final RemoteConfig remoteConfig = await RemoteConfig.instance;
     await remoteConfig.fetch(expiration: Duration(hours: 12));
     await remoteConfig.activateFetched();
     final String dataFromRemoteConfig = remoteConfig.getString('service_name');

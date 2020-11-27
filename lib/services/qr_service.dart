@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../services/auth_service.dart';
@@ -23,14 +24,12 @@ class QrService {
     try {
       String serviceName = await getServiceNameFromRemoteConfig();
 
-      print(serviceName);
-
       final _bodyData = await UserCredentials().getRequestBodyData();
+      debugPrint(_bodyData);
 
       final url = '$serviceName/json/GetTID';
 
-      final response = await http.post(url, headers: _headers, body: _bodyData);
-      //.timeout(Duration(seconds: 10));
+      final response = await http.post(url, headers: _headers, body: _bodyData)/* .timeout(Duration(seconds: 10)) */;
 
       var decodedResponse = json.decode(response.body);
 
@@ -49,8 +48,8 @@ class QrService {
 
           authController.add(false);
         }
-        return '';
       }
+      return '';
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
 
