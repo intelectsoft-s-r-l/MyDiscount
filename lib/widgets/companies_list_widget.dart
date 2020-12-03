@@ -1,10 +1,11 @@
+import 'package:MyDiscount/models/company_model.dart';
 import 'package:flutter/material.dart';
 
 import 'companie_widget.dart';
 
 class CompaniesList extends StatelessWidget {
   const CompaniesList(this.list);
-  final list;
+  final List<Company>list;
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -19,7 +20,7 @@ class CompaniesList extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         elevation: 2.0,
-        child: CompanieWidget(list[index]),
+        child: CompanyWidget(list[index]),
       ),
     );
   }

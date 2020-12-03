@@ -15,9 +15,9 @@ class AppBarText extends StatelessWidget {
     //final siz = MediaQuery.of(context).devicePixelRatio;
     return Positioned(
       top: size.height * .08,
-      left: size.width * .1,
+      left: size.width * .2,
       child: Container(
-        width: size.width * .8,
+        width: size.width * .6,
         alignment: Alignment.center,
         child: Text(
           text,
@@ -25,7 +25,9 @@ class AppBarText extends StatelessWidget {
             color: Colors.white,
             //fontSize: 22,
             fontWeight: FontWeight.bold,
-          ),textScaleFactor: 1.5,
+          ),
+          textScaleFactor: 1.3,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

@@ -1,48 +1,29 @@
-/* import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
+part 'company_model.g.dart';
 
-class Company extends Equatable {
+@HiveType(typeId: 2)
+class Company {
+  @HiveField(0)
   final String amount;
+  @HiveField(1)
   final int id;
+  @HiveField(2)
   final String logo;
+  @HiveField(3)
   final String name;
-
   Company({
     @required this.amount,
     @required this.id,
     @required this.logo,
     @required this.name,
   });
-  @override
-  List<Object> get props => [amount, id, logo, name];
-}
 
-class CompanyModel extends Company {
-  CompanyModel({
-    @required String amount,
-    @required int id,
-    @required String logo,
-    @required String name,
-  }) : super(
-          amount: amount,
-          id: id,
-          logo: logo,
-          name: name,
-        );
-
-  factory CompanyModel.fromJson(Map<String, dynamic> json) {
-    return CompanyModel(
+  factory Company.fromJson(Map<String, dynamic> json) {
+    return Company(
         amount: json['Amount'],
         id: json['ID'],
         logo: json['Logo'],
         name: json['Name']);
   }
 }
-
-/* class ListOfCompany {
-  final List<Company> list;
-
-  ListOfCompany(this.list);
-  addtoList() => list.add(Company(amount: ));
-} */
- */

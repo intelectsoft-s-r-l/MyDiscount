@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:MyDiscount/models/company_model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../services/auth_service.dart';
@@ -11,6 +13,7 @@ import '../services/remote_config_service.dart';
 import '../services/shared_preferences_service.dart';
 import '../constants/credentials.dart';
 import '../models/user_credentials.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class QrService {
   SharedPref sPref = SharedPref();
@@ -29,7 +32,9 @@ class QrService {
 
       final url = '$serviceName/json/GetTID';
 
-      final response = await http.post(url, headers: _headers, body: _bodyData)/* .timeout(Duration(seconds: 10)) */;
+      final response = await http.post(url,
+          headers: _headers,
+          body: _bodyData) /* .timeout(Duration(seconds: 10)) */;
 
       var decodedResponse = json.decode(response.body);
 
@@ -72,7 +77,10 @@ class QrService {
           final Map<String, dynamic> companiesToMap =
               json.decode(response.body);
           final List _listOfCompanies = companiesToMap['Companies'];
-          return _listOfCompanies;
+          return _listOfCompanies
+              .map((map) => Company.fromJson(map))
+              .toList()
+              /* .forEach((element) => intializeCompanyDB(element)) */;
         } else {
           return false;
         }
@@ -82,5 +90,21 @@ class QrService {
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
     }
+  }
+
+  Future<void> intializeCompanyDB(Company company) async {
+    await Hive.initFlutter();
+    Hive.isAdapterRegistered(2)
+        // ignore: unnecessary_statements
+        ? null
+        : Hive.registerAdapter<Company>(CompanyAdapter());
+    await Hive.openBox<Company>('company');
+    Box<Company> companyBox = Hive.box<Company>('company');
+    companyBox.add(Company(
+        amount: company.amount,
+        id: company.id,
+        logo: company.logo,
+        name: company.name));
+    print(companyBox.values);
   }
 }

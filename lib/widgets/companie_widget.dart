@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/models/company_model.dart';
 import 'package:flutter/material.dart';
 
 import '../localization/localizations.dart';
 
-class CompanieWidget extends StatelessWidget {
-  const CompanieWidget(this.companie);
-  final companie;
+class CompanyWidget extends StatelessWidget {
+  const CompanyWidget(this.company);
+  final Company company;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class CompanieWidget extends StatelessWidget {
         //TODO de plasat in decoder pentru a taia tegurile care vin de la web cabinet 
         /* .toString().characters.skip(22) */
         child: Image.memory(
-            Base64Decoder().convert('${companie['Logo'].toString().characters.skip(22)}'),
+            Base64Decoder().convert('${company.logo.toString().characters.skip(22)}'),
             filterQuality: FilterQuality.high,
             fit: BoxFit.contain,
             errorBuilder: (context,obj,_)=>Container(),
@@ -27,7 +28,7 @@ class CompanieWidget extends StatelessWidget {
  
       title: FittedBox(fit: BoxFit.scaleDown,
               child: Text(
-          '${companie['Name']}',
+          '${company.name}',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -49,7 +50,7 @@ class CompanieWidget extends StatelessWidget {
             ),
             FittedBox(fit:BoxFit.contain,
                           child: Text(
-                '${double.parse(companie['Amount']).toStringAsFixed(2) } lei',
+                '${double.parse(company.amount).toStringAsFixed(2) } lei',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),

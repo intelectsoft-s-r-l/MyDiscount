@@ -20,7 +20,7 @@ class ProfileFormWidget extends StatelessWidget {
         ),
         Container(
           child: Text(
-            map['birthDay'] != null
+            map['birthDay'] != ''
                 ? DateFormat('d MMM, yyyy').format(
                     DateTime(
                       int.parse(data[0]),

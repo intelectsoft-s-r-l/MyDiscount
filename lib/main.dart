@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:MyDiscount/models/news_model.dart';
+import 'package:MyDiscount/pages/detail_news_page.dart';
+
 import 'models/received_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -25,13 +28,21 @@ FCMService fcmService = FCMService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   await Hive.initFlutter();
-  Hive.isAdapterRegistered(0)
+  Hive.isAdapterRegistered(1)
       // ignore: unnecessary_statements
       ? null
-      : Hive.registerAdapter<ReceivedNotification>(
-          ReceivedNotificationAdapter());
-  await Hive.openBox<ReceivedNotification>('notification');
+      : Hive.registerAdapter<News>(
+          NewsAdapter());
+  await Hive.openBox<News>('news');
+  
+ /*  Hive.isAdapterRegistered(2)
+      // ignore: unnecessary_statements
+      ? null
+      : Hive.registerAdapter<Company>(
+          CompanyAdapter());
+  await Hive.openBox<Company>('comapny'); */
   //initializationOfHiveDB();
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   //FirebaseCrashlytics.instance.sendUnsentReports();
@@ -42,14 +53,15 @@ void main() async {
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-     runZoned(() {
+    runZoned(
+      () {
 //getAuthState();
-    runApp(MyApp());
+        runApp(MyApp());
 
-    // ignore: unused_element
-
-      }, onError: FirebaseCrashlytics.instance.recordError,
-      );
+        // ignore: unused_element
+      },
+      onError: FirebaseCrashlytics.instance.recordError,
+    );
 
     //fcmService.getfcmToken();
   });
@@ -104,6 +116,7 @@ class MyApp extends StatelessWidget {
         '/loginscreen': (context) => LoginScreen2(),
         '/app': (context) => BottomNavigationBarWidget(),
         '/qrpage': (context) => QrPage(),
+        '/detailpage': (context) => DetailNewsPage(),
       },
       home: StreamBuilder(
         initialData: false,

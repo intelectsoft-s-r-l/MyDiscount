@@ -1,4 +1,5 @@
 import 'package:MyDiscount/localization/localizations.dart';
+
 import 'package:MyDiscount/models/user_credentials.dart';
 import 'package:flutter/material.dart';
 

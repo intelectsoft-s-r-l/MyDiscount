@@ -77,7 +77,7 @@ class AuthService extends UserCredentials {
       final fcmToken = await fcmService.getfcmToken();
 
       if (googleSignIn.currentUser != null) {
-        final data = auth.idToken;
+        // final data = auth.idToken;
         // decoder.parseJwtPayLoad(data ?? '');
         saveUserRegistrationDatatoMap(
           User(id: account.id, accessToken: auth.accessToken),
@@ -96,7 +96,7 @@ class AuthService extends UserCredentials {
       }
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
-
+      FirebaseCrashlytics.instance.setCustomKey('log with google', s);
       throw Exception(e);
     }
   }

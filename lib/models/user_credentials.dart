@@ -40,15 +40,15 @@ class UserCredentials {
     sPrefs.saveProfileData(
       json.encode(
         Profile(
-          firstName: profile.firstName??'',
-          lastName: profile.lastName??'',
-          birthDay: profileMap.birthDay??'',
-          gender: profileMap.gender??'',
-          phone: profileMap.phone??'',
-          email: profile.email??'',
-          photoUrl: profile.photoUrl??'',
+          firstName: profile.firstName ?? '',
+          lastName: profile.lastName ?? '',
+          birthDay: profileMap.birthDay ?? '',
+          gender: profileMap.gender ?? '',
+          phone: profileMap.phone ?? '',
+          email: profile.email ?? '',
+          photoUrl: profile.photoUrl ?? '',
           registerMode: profile.registerMode,
-          pushToken: profile.pushToken??'',
+          pushToken: profile.pushToken ?? '',
         ),
       ),
     );
@@ -98,7 +98,9 @@ class UserCredentials {
   Future<User> getRegistrationUserData() async {
     return Future.value(
       User.fromJson(
-        json.decode(await sPrefs.readUser()),
+        json.decode(
+          await sPrefs.readUser(),
+        ),
       ),
     );
   }
