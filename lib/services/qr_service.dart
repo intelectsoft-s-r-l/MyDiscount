@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:MyDiscount/core/image_format.dart';
 import 'package:MyDiscount/models/company_model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +18,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class QrService {
   SharedPref sPref = SharedPref();
+  ImageFormater formater = ImageFormater();
   final NetworkConnectionImpl status = NetworkConnectionImpl();
   Map<String, String> _headers = {
     'Content-type': 'application/json; charset=utf-8',
@@ -77,9 +79,9 @@ class QrService {
           final Map<String, dynamic> companiesToMap =
               json.decode(response.body);
           final List _listOfCompanies = companiesToMap['Companies'];
-          return _listOfCompanies
-              .map((map) => Company.fromJson(map))
-              .toList()
+          final companyList =
+              formater.checkImageFormatAndSkip(_listOfCompanies,'Logo');
+          return companyList.map((map) => Company.fromJson(map)).toList()
               /* .forEach((element) => intializeCompanyDB(element)) */;
         } else {
           return false;
@@ -92,7 +94,7 @@ class QrService {
     }
   }
 
-  Future<void> intializeCompanyDB(Company company) async {
+  /* Future<void> intializeCompanyDB(Company company) async {
     await Hive.initFlutter();
     Hive.isAdapterRegistered(2)
         // ignore: unnecessary_statements
@@ -106,5 +108,5 @@ class QrService {
         logo: company.logo,
         name: company.name));
     print(companyBox.values);
-  }
+  } */
 }

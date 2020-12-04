@@ -19,7 +19,7 @@ class CompanyWidget extends StatelessWidget {
         //TODO de plasat in decoder pentru a taia tegurile care vin de la web cabinet 
         /* .toString().characters.skip(22) */
         child: Image.memory(
-            Base64Decoder().convert('${company.logo.toString().characters.skip(22)}'),
+            Base64Decoder().convert('${company.logo.toString()}'),
             filterQuality: FilterQuality.high,
             fit: BoxFit.contain,
             errorBuilder: (context,obj,_)=>Container(),

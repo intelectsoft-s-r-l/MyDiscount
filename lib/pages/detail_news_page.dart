@@ -59,7 +59,7 @@ class DetailNewsPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: Image.memory(
                         Base64Decoder().convert(
-                            '${news.photo?.toString().characters.skip(23)}'),fit: BoxFit.cover,
+                            '${news.photo.toString()}'),fit: BoxFit.cover,
                       ),
                     ),
                   ),

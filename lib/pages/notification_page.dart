@@ -33,6 +33,7 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      //backgroundColor: Colors.grey,
       body: Column(
         children: [
           Stack(
@@ -55,9 +56,11 @@ class _NotificationPageState extends State<NotificationPage> {
                   return Container(
                     // padding: EdgeInsets.only(/* left: 5, */ right: 5),
                     child: ListView.separated(
+                      physics: BouncingScrollPhysics(),
                       //padding: EdgeInsets.only(right: 5),
-                      separatorBuilder: (context, index) => SizedBox(
+                      separatorBuilder: (context, index) => Container(
                         height: 10,
+                        //color: Colors.green,
                       ),
                       //shrinkWrap: true,
                       itemCount: list.length,
@@ -76,79 +79,111 @@ class _NotificationPageState extends State<NotificationPage> {
                                 arguments: list[index]);
                           },
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            //crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                child: Text(
-                                  date,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                              Stack(
+                                children: [
+                                  Container(
+                                    // padding: EdgeInsets.only(left: 5),
+                                    margin: EdgeInsets.only(left: 5, right: 5),
+                                    height: 75,
+
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
+                                      ),
+                                      color: Colors.red,
+                                    ),
+                                    width:
+                                        MediaQuery.of(context).size.width ,
                                   ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                child: Html(data: list[index].header),
-                              ),
-                              Container(
-                                child: Text(
-                                  list[index].companyName.toString(),
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    //fontSize: 18,
+                                  Positioned(
+                                    top: 5,
+                                    right: 10,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                      ),
+                                      child: Text(
+                                        date,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
+                                  Positioned(
+                                    top: 12,
+                                    left: 0,
+                                    child: Container(
+                                      width: size.width * .97,
+                                      padding: EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                      ),
+                                      child: Html(data: list[index].header),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 5,
+                                    left: 10,
+                                    child: Container(
+                                      child: Text(
+                                        list[index].companyName.toString(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: 5, right: 5),
+                                //alignment: Alignment.center,
+                                width: size.width,
+                                margin: EdgeInsets.only(left: 5, right: 5),
+                                //padding: EdgeInsets.only(left: 5, right: 5),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
+                                 // borderRadius: BorderRadius.circular(10),
                                   child: list[index].photo != null ||
                                           list[index].photo != ''
                                       ? Image.memory(
                                           Base64Decoder().convert(
-                                            '${list[index].photo.toString().characters.skip(23)}',
+                                            '${list[index].photo.toString()}',
                                           ),
                                           fit: BoxFit.cover,
                                         )
                                       : Container(),
                                 ),
                               ),
-                              /*  Positioned(
-                                top: 10,
-                                left: 10,
-                                child:  */
-                              /*    ), */
+                              
+
                               /* Positioned(
                                 bottom: 0,
                                 left: 0,
-                                child: */
-                              Container(
-                                // padding: EdgeInsets.only(left: 5),
-                                margin: EdgeInsets.only(left: 5, right: 5),
-                                height: 73,
+                                child: Container(
+                                  // padding: EdgeInsets.only(left: 5),
+                                  margin: EdgeInsets.only(left: 5, right: 5),
+                                  height: 73,
 
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                    ),
+                                    color: Colors.white30,
                                   ),
-                                  color: Colors.white30,
-                                ),
-                                width: MediaQuery.of(context).size.width * .974,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
+                                  width:
+                                      MediaQuery.of(context).size.width * .974,
+                                  child: Stack(
+                                    children: [
+                                      /*  Positioned(
                                       top: -30.0,
                                       left: 0.0,
                                       child: Container(
@@ -156,11 +191,11 @@ class _NotificationPageState extends State<NotificationPage> {
                                           list: list[index],
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ), */
+                                    ],
+                                  ),
                                 ),
-                                /*  ), */
-                              ),
+                              ), */
                             ],
                           ),
                         );
@@ -172,38 +207,6 @@ class _NotificationPageState extends State<NotificationPage> {
               },
             ),
           ),
-          /* ValueListenableBuilder(
-            valueListenable:
-                Hive.box<News>('news').listenable(),
-            builder: (context, Box<News> box, _) {
-              if (box.values.isEmpty)
-                return Center(
-                  child: Text("Todo list is empty"),
-                );
-              return Expanded(
-                // width: size.width,
-                // height: size.height * .729,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: box.values.length,
-                  itemBuilder: (context, index) {
-                    News res = box.getAt(index);
-                    return ListTile(leading:Image.memory(
-                                    Base64Decoder().convert(
-                                      '${res.photo.toString().characters.skip(23)}',
-                                    ),
-                                    fit: BoxFit.contain,
-                                  ), 
-                     /*  */   title: Text(res.companyName.toString()),
-                      subtitle: Html(data:res.header),
-                      trailing: Text(res.id.toString()),
-                    );
-                  },
-                ),
-              );
-            },
-          ), */
         ],
       ),
     );
