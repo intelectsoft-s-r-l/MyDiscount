@@ -16,7 +16,7 @@ class NewsService {
     'Content-type': 'application/json; charset=utf-8',
     'Authorization': 'Basic ' + Credentials.encoded,
   };
-  Future<List<News>> getNews() async {
+  Future<void /* List<News> */ > getNews() async {
     final id = await readIndexId();
     final url = 'http://dev.edi.md/ISMobileDiscountService/json/GetNews?ID=$id';
     final response = await http.get(url, headers: _headers);
@@ -30,11 +30,12 @@ class NewsService {
         d = map['ID'];
       }
     }
-    final dataList = formater.checkImageFormatAndSkip(list,'Photo');
-    final List<News> newsList = dataList.map((e) => News.fromJson(e)).toList();
     saveLastIndexId(d);
-    /*  .forEach((element) => intializeNewsDB(element)) */
-    return newsList;
+    final dataList = formater.checkImageFormatAndSkip(list, 'Photo');
+    dataList
+        .map((e) => News.fromJson(e))
+        .toList()
+        .forEach((element) => intializeNewsDB(element));
   }
 
   void saveLastIndexId(int id) async {
@@ -45,10 +46,13 @@ class NewsService {
   }
 
   Future<String> readIndexId() async {
-    String ids = '0';
-    // final data = await sPref.instance;
-    // ids = data.getString('id');
-    return ids;
+    //String ids = '0';
+    final data = await sPref.instance;
+    if (data.containsKey('id')) {
+      return data.getString('id');
+    } else {
+      return '0';
+    }
   }
 
   Future<void> intializeNewsDB(News news) async {
@@ -71,40 +75,4 @@ class NewsService {
     ));
     print(companyBox.values);
   }
-
- /*  Future<News> readDb() {
-    Hive.box('news').get(1);
-  } */
 }
-/* ValueListenableBuilder(
-            valueListenable:
-                Hive.box<News>('news').listenable(),
-            builder: (context, Box<News> box, _) {
-              if (box.values.isEmpty)
-                return Center(
-                  child: Text("Todo list is empty"),
-                );
-              return Expanded(
-                // width: size.width,
-                // height: size.height * .729,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: box.values.length,
-                  itemBuilder: (context, index) {
-                    News res = box.getAt(index);
-                    return ListTile(leading:Image.memory(
-                                    Base64Decoder().convert(
-                                      '${res.photo.toString().characters.skip(23)}',
-                                    ),
-                                    fit: BoxFit.contain,
-                                  ), 
-                     /*  */   title: Text(res.companyName.toString()),
-                      subtitle: Html(data:res.header),
-                      trailing: Text(res.id.toString()),
-                    );
-                  },
-                ),
-              );
-            },
-          ),  */

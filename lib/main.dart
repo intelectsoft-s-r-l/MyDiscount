@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:MyDiscount/models/news_model.dart';
 import 'package:MyDiscount/pages/detail_news_page.dart';
 
-import 'models/received_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,11 +32,10 @@ void main() async {
   Hive.isAdapterRegistered(1)
       // ignore: unnecessary_statements
       ? null
-      : Hive.registerAdapter<News>(
-          NewsAdapter());
+      : Hive.registerAdapter<News>(NewsAdapter());
   await Hive.openBox<News>('news');
-  
- /*  Hive.isAdapterRegistered(2)
+
+  /*  Hive.isAdapterRegistered(2)
       // ignore: unnecessary_statements
       ? null
       : Hive.registerAdapter<Company>(

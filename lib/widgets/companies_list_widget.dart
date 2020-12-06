@@ -5,12 +5,12 @@ import 'companie_widget.dart';
 
 class CompaniesList extends StatelessWidget {
   const CompaniesList(this.list);
-  final List<Company>list;
+  final List<Company> list;
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: const EdgeInsets.all(10),
-      physics: BouncingScrollPhysics(),
+      // physics: BouncingScrollPhysics(),
       separatorBuilder: (context, index) => const SizedBox(
         height: 3,
       ),

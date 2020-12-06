@@ -5,7 +5,6 @@ import 'package:MyDiscount/core/image_format.dart';
 import 'package:MyDiscount/models/company_model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../services/auth_service.dart';
@@ -14,7 +13,6 @@ import '../services/remote_config_service.dart';
 import '../services/shared_preferences_service.dart';
 import '../constants/credentials.dart';
 import '../models/user_credentials.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class QrService {
   SharedPref sPref = SharedPref();
@@ -80,7 +78,7 @@ class QrService {
               json.decode(response.body);
           final List _listOfCompanies = companiesToMap['Companies'];
           final companyList =
-              formater.checkImageFormatAndSkip(_listOfCompanies,'Logo');
+              formater.checkImageFormatAndSkip(_listOfCompanies, 'Logo');
           return companyList.map((map) => Company.fromJson(map)).toList()
               /* .forEach((element) => intializeCompanyDB(element)) */;
         } else {
