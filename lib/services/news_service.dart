@@ -74,5 +74,6 @@ class NewsService {
       photo: news.photo,
     ));
     print(companyBox.values);
+   // companyBox.deleteFromDisk();
   }
 }

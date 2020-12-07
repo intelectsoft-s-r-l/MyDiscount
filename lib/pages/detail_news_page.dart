@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:MyDiscount/models/news_model.dart';
 import 'package:MyDiscount/widgets/html_text_view_widget.dart';
 import 'package:MyDiscount/widgets/top_bar_image.dart';
-import 'package:MyDiscount/widgets/top_bar_text.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -57,10 +57,13 @@ class DetailNewsPage extends StatelessWidget {
                     padding: EdgeInsets.only(left: 5, right: 5),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.memory(
-                        Base64Decoder().convert(
-                            '${news.photo.toString()}'),fit: BoxFit.cover,
-                      ),
+                      child: news.photo != null && news.photo != ''
+                          ? Image.memory(
+                              Base64Decoder()
+                                  .convert('${news.photo.toString()}'),
+                              fit: BoxFit.cover,
+                            )
+                          : Container(),
                     ),
                   ),
                   HtmlText(
