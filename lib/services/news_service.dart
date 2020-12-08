@@ -6,7 +6,6 @@ import 'package:MyDiscount/core/image_format.dart';
 import 'package:MyDiscount/models/news_model.dart';
 import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class NewsService {
@@ -16,7 +15,7 @@ class NewsService {
     'Content-type': 'application/json; charset=utf-8',
     'Authorization': 'Basic ' + Credentials.encoded,
   };
-  Future<void /* List<News> */ > getNews() async {
+  Future<void> getNews() async {
     final id = await readIndexId();
     final url = 'http://dev.edi.md/ISMobileDiscountService/json/GetNews?ID=$id';
     final response = await http.get(url, headers: _headers);
@@ -35,33 +34,28 @@ class NewsService {
     dataList
         .map((e) => News.fromJson(e))
         .toList()
-        .forEach((element) => intializeNewsDB(element));
+        .forEach((element) => saveNewsOnDB(element));
   }
 
   void saveLastIndexId(int id) async {
-    final data = await sPref.instance;
-    data.setString('id', id.toString());
-    //data.clear();
-    print(id);
+    await sPref.saveNewsId(id);
   }
 
   Future<String> readIndexId() async {
-    //String ids = '0';
     final data = await sPref.instance;
     if (data.containsKey('id')) {
-      return data.getString('id');
+      final _id = await sPref.readNewsId();
+      return _id;
     } else {
       return '0';
     }
   }
 
-  Future<void> intializeNewsDB(News news) async {
-    await Hive.initFlutter();
-    Hive.isAdapterRegistered(1)
-        // ignore: unnecessary_statements
-        ? null
+  Future<void> saveNewsOnDB(News news) async {
+    /*  await Hive.initFlutter();
+    Hive.isAdapterRegistered(1)? null
         : Hive.registerAdapter<News>(NewsAdapter());
-    await Hive.openBox<News>('news');
+    await Hive.openBox<News>('news'); */
     Box<News> companyBox = Hive.box<News>('news');
     companyBox.add(News(
       companyName: news.companyName,
@@ -73,7 +67,7 @@ class NewsService {
       id: news.id,
       photo: news.photo,
     ));
-    print(companyBox.values);
-   // companyBox.deleteFromDisk();
+    print('companyBoxValue:$companyBox.values');
+    
   }
 }

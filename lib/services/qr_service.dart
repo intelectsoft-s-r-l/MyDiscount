@@ -17,7 +17,7 @@ import '../models/user_credentials.dart';
 class QrService {
   SharedPref sPref = SharedPref();
   ImageFormater formater = ImageFormater();
-  final NetworkConnectionImpl status = NetworkConnectionImpl();
+  NetworkConnectionImpl status = NetworkConnectionImpl();
   Map<String, String> _headers = {
     'Content-type': 'application/json; charset=utf-8',
     'Authorization': 'Basic ' + Credentials.encoded,
@@ -27,31 +27,33 @@ class QrService {
     try {
       String serviceName = await getServiceNameFromRemoteConfig();
 
-      final _bodyData = await UserCredentials().getRequestBodyData();
-      debugPrint(_bodyData);
+      if (serviceName != '') {
+        final _bodyData = await UserCredentials().getRequestBodyData();
 
-      final url = '$serviceName/json/GetTID';
+        debugPrint(_bodyData);
 
-      final response = await http.post(url,
-          headers: _headers,
-          body: _bodyData) /* .timeout(Duration(seconds: 10)) */;
+        final url = '$serviceName/json/GetTID';
+        final response = await http
+            .post(url, headers: _headers, body: _bodyData)
+            .timeout(Duration(seconds: 10));
 
-      var decodedResponse = json.decode(response.body);
+        var decodedResponse = json.decode(response.body);
 
-      //print(response.statusCode);
-      if (decodedResponse['ErrorCode'] == 0) {
-        sPref.saveTID(decodedResponse['TID']);
+        //print(response.statusCode);
+        if (decodedResponse['ErrorCode'] == 0) {
+          sPref.saveTID(decodedResponse['TID']);
 
-        return decodedResponse['TID'];
-      } else {
-        if (decodedResponse['ErrorCode'] == 103) {
-          final prefs = await sPref.instance;
+          return decodedResponse['TID'];
+        } else {
+          if (decodedResponse['ErrorCode'] == 103) {
+            final prefs = await sPref.instance;
 
-          prefs.clear();
+            prefs.clear();
 
-          AuthService().signOut();
+            AuthService().signOut();
 
-          authController.add(false);
+            authController.add(false);
+          }
         }
       }
       return '';
@@ -65,7 +67,7 @@ class QrService {
 //https://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<dynamic> getCompanyList() async {
     String id = await UserCredentials().getUserIdFromLocalStore();
-    // print(serviceName);
+
     try {
       if (await status.isConnected) {
         String serviceName = await getServiceNameFromRemoteConfig();
@@ -79,8 +81,7 @@ class QrService {
           final List _listOfCompanies = companiesToMap['Companies'];
           final companyList =
               formater.checkImageFormatAndSkip(_listOfCompanies, 'Logo');
-          return companyList.map((map) => Company.fromJson(map)).toList()
-              /* .forEach((element) => intializeCompanyDB(element)) */;
+          return companyList.map((map) => Company.fromJson(map)).toList();
         } else {
           return false;
         }
@@ -91,20 +92,4 @@ class QrService {
       FirebaseCrashlytics.instance.recordError(e, s);
     }
   }
-
-  /* Future<void> intializeCompanyDB(Company company) async {
-    await Hive.initFlutter();
-    Hive.isAdapterRegistered(2)
-        // ignore: unnecessary_statements
-        ? null
-        : Hive.registerAdapter<Company>(CompanyAdapter());
-    await Hive.openBox<Company>('company');
-    Box<Company> companyBox = Hive.box<Company>('company');
-    companyBox.add(Company(
-        amount: company.amount,
-        id: company.id,
-        logo: company.logo,
-        name: company.name));
-    print(companyBox.values);
-  } */
 }

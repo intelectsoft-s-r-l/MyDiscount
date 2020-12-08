@@ -1,8 +1,8 @@
 import 'package:MyDiscount/models/news_model.dart';
 import 'package:MyDiscount/services/news_service.dart';
+import 'package:MyDiscount/widgets/news_header_widget.dart';
 import 'package:MyDiscount/widgets/news_image_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 
 import 'package:hive/hive.dart';
@@ -31,7 +31,7 @@ class _NotificationPageState extends State<NotificationPage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      //backgroundColor: Colors.grey,
+      backgroundColor: Colors.grey.shade200,/* Color(0x00F5F5F5), */
       body: Column(
         children: [
           Stack(
@@ -46,13 +46,9 @@ class _NotificationPageState extends State<NotificationPage> {
             child: ValueListenableBuilder(
               valueListenable: Hive.box<News>('news').listenable(),
               builder: (context, Box<News> box, _) {
-                deleteNews(index) {
-                  box.deleteAt(index);
-                }
-
                 if (box.values.isEmpty) {
                   return Center(
-                    child: Text("Todo list is empty"),
+                    child: Text("News list is empty"),
                   );
                 } else {
                   return ListView.separated(
@@ -74,6 +70,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       final date = DateFormat('d MMM yyyy H:mm:ss').format(
                         DateTime.fromMillisecondsSinceEpoch(milisec),
                       );
+                      
                       return InkWell(
                         onTap: () {
                           Navigator.pushNamed(context, '/detailpage',
@@ -83,70 +80,13 @@ class _NotificationPageState extends State<NotificationPage> {
                           child: Column(
                             //crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    // padding: EdgeInsets.only(left: 5),
-                                    margin:
-                                        EdgeInsets.only(left: 5, right: 5),
-                                    height: 75,
-
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10),
-                                      ),
-                                      color: Colors.red,
-                                    ),
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                                  Positioned(
-                                    top: 5,
-                                    right: 10,
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                        left: 10,
-                                        right: 10,
-                                      ),
-                                      child: Text(
-                                        date,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 12,
-                                    left: 0,
-                                    child: Container(
-                                      width: size.width * .97,
-                                      padding: EdgeInsets.only(
-                                        left: 10,
-                                        right: 10,
-                                      ),
-                                      child: Html(data: news.header),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 5,
-                                    left: 10,
-                                    child: Container(
-                                      child: Text(
-                                        news.companyName.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              NewsHeaderWidget(
+                                date: date,
+                                size: size,
+                                news: news,
                               ),
                               NewsImageWidget(news: news, size: size),
+                            
                             ],
                           ),
                         ),

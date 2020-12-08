@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
@@ -20,7 +22,7 @@ class News {
   @HiveField(6)
   final String header;
   @HiveField(7)
-  final String photo;
+  final Uint8List photo;
   News( {@required this.companyName,
     @required this.appType,
     @required this.companyId,
@@ -40,7 +42,7 @@ class News {
       dateTime: json['CreateDate'],
       header: json['Header'],
       id: json['ID'],
-      photo: json['Photo'] ?? '',
+      photo: json['Photo'] ?? [],
     );
   }
 }

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 class ImageFormater {
   List checkImageFormatAndSkip(List list, String index) {
     final base64ImageString = list.map((map) {
@@ -9,9 +12,11 @@ class ImageFormater {
         } else if (imageType == "jpe") {
           photoNews = photoNews.replaceRange(0, 12, '');
         }
-        map[index] = photoNews;
+        final data = Base64Decoder().convert(photoNews);
+        map[index] = data;
         return map;
       } else {
+        map[index] = Uint8List.fromList([]);
         return map;
       }
     }).toList();

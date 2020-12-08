@@ -1,16 +1,18 @@
-import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
-part 'company_model.g.dart';
+import 'dart:typed_data';
 
-@HiveType(typeId: 2)
+import 'package:flutter/foundation.dart';
+
+
+
+
 class Company {
-  @HiveField(0)
+
   final String amount;
-  @HiveField(1)
+
   final int id;
-  @HiveField(2)
-  final String logo;
-  @HiveField(3)
+  
+  final Uint8List logo;
+
   final String name;
   Company({
     @required this.amount,

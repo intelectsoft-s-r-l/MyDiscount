@@ -74,7 +74,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     _imageController.sink.add(false);
   }
 
-  void startTimer() {
+  void _startTimer() {
     double _counter = 7;
     double _progress = 1;
 
@@ -114,7 +114,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
         _changeImages();
         if (_timer.isActive) _timer?.cancel();
       } else {
-        startTimer();
+        _startTimer();
       }
     } else {
       _changeImages();
@@ -143,115 +143,121 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
       return Future<String>.value(id);
     }
 
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Stack(
-            children: [
-              TopBarImage(size: size),
-              Positioned(
-                top: size.height * .07,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                    color: Colors.white,
+    return GestureDetector(
+      onHorizontalDragStart: (details) {
+        print(details);
+        Navigator.pushReplacementNamed(context, '/app');
+      },
+      child: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Stack(
+              children: [
+                TopBarImage(size: size),
+                Positioned(
+                  top: size.height * .07,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/app');
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/app');
-                  },
                 ),
-              ),
-              AppBarText(size: size, text: 'Qr-Code'),
-            ],
-          ),
-          StreamBuilder<bool>(
-            stream: _imageController.stream,
-            initialData: true,
-            builder: (context, snapshot) {
-              return snapshot.data
-                  ? QrImageWidget(
-                      function: _loadSharedPref(),
-                      size: size,
-                      progressController: _progressController)
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        serviceConection ? HumanImage() : NoInternetWidget(),
-                        const SizedBox(height: 10.0),
-                        RaisedButton(
-                          onPressed: () {
-                            _imageController.add(true);
-                            _getAuthorization();
-                            countTID = 0;
-                          },
-                          child: serviceConection
-                              ? Text(
-                                  AppLocalizations.of(context)
-                                      .translate('text5'),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ), //textScaleFactor: 1,
-                                )
-                              : Text(
-                                  AppLocalizations.of(context)
-                                      .translate('text8'),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ), //textScaleFactor: 1,
-                                ),
-                          color: Colors.green,
+                AppBarText(size: size, text: 'Qr-Code'),
+              ],
+            ),
+            StreamBuilder<bool>(
+              stream: _imageController.stream,
+              initialData: true,
+              builder: (context, snapshot) {
+                return snapshot.data
+                    ? QrImageWidget(
+                        function: _loadSharedPref(),
+                        size: size,
+                        progressController: _progressController)
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          serviceConection ? HumanImage() : NoInternetWidget(),
+                          const SizedBox(height: 10.0),
+                          RaisedButton(
+                            onPressed: () {
+                              _imageController.add(true);
+                              _getAuthorization();
+                              countTID = 0;
+                            },
+                            child: serviceConection
+                                ? Text(
+                                    AppLocalizations.of(context)
+                                        .translate('text5'),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ), //textScaleFactor: 1,
+                                  )
+                                : Text(
+                                    AppLocalizations.of(context)
+                                        .translate('text8'),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ), //textScaleFactor: 1,
+                                  ),
+                            color: Colors.green,
+                          ),
+                        ],
+                      );
+              },
+            ),
+            Stack(
+              children: [
+                Container(
+                  child: SvgPicture.asset(
+                    'assets/icons/bottom.svg',
+                    width: size.width,
+                    height: size.height * .18,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Positioned(
+                  left: size.width * .1,
+                  bottom: size.height * .035,
+                  child: Container(
+                    width: size.width * .8,
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Text(
+                          AppLocalizations.of(context).translate('text19'),
+                          style: TextStyle(
+                            color: Colors.white,
+                            //fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textScaleFactor: 1,
+                        ),
+                        Text(
+                          AppLocalizations.of(context).translate('text20'),
+                          style: TextStyle(
+                            color: Colors.white,
+                            //fontSize: 18,
+                          ),
+                          textScaleFactor: 1,
                         ),
                       ],
-                    );
-            },
-          ),
-          Stack(
-            children: [
-              Container(
-                child: SvgPicture.asset(
-                  'assets/icons/bottom.svg',
-                  width: size.width,
-                  height: size.height * .18,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Positioned(
-                left: size.width * .1,
-                bottom: size.height * .035,
-                child: Container(
-                  width: size.width * .8,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context).translate('text19'),
-                        style: TextStyle(
-                          color: Colors.white,
-                          //fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textScaleFactor: 1,
-                      ),
-                      Text(
-                        AppLocalizations.of(context).translate('text20'),
-                        style: TextStyle(
-                          color: Colors.white,
-                          //fontSize: 18,
-                        ),
-                        textScaleFactor: 1,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

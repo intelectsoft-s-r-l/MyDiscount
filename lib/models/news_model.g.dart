@@ -24,7 +24,7 @@ class NewsAdapter extends TypeAdapter<News> {
       dateTime: fields[4] as String,
       header: fields[6] as String,
       id: fields[5] as int,
-      photo: fields[7] as String,
+      photo: fields[7] as Uint8List,
     );
   }
 

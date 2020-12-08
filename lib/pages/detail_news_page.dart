@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:MyDiscount/models/news_model.dart';
 import 'package:MyDiscount/widgets/html_text_view_widget.dart';
 import 'package:MyDiscount/widgets/top_bar_image.dart';
@@ -57,10 +55,9 @@ class DetailNewsPage extends StatelessWidget {
                     padding: EdgeInsets.only(left: 5, right: 5),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: news.photo != null && news.photo != ''
+                      child: news.photo != null && news.photo != []
                           ? Image.memory(
-                              Base64Decoder()
-                                  .convert('${news.photo.toString()}'),
+                              news.photo,
                               fit: BoxFit.cover,
                             )
                           : Container(),
