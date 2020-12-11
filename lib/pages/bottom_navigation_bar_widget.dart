@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../localization/localizations.dart';
-import 'history_page.dart';
+import 'transactions_page.dart';
 import 'notification_page.dart';
 import 'qr-page.dart';
 import 'setings_page.dart';

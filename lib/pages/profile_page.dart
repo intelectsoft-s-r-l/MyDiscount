@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Positioned(
                   top: size.height * .08,
-                  right: 30,
+                  right: 15,
                   child: GestureDetector(
                     onTap: () async {
                       Profile profile = Profile.fromJson(
@@ -93,16 +93,17 @@ class _ProfilePageState extends State<ProfilePage> {
                           _phoneController.text = profile.phone;
                         }
                       });
-                      /*  if (_formKey.currentState.validate())
-                        // ignore: unnecessary_statements
-                        _isEditing ? _formKey.currentState.save() : null; */
                     },
                     child: Text(
-                      _isEditing ? 'Save' : 'Edit',
+                      _isEditing
+                          ? AppLocalizations.of(context).translate('save')
+                          : AppLocalizations.of(context).translate('edit'),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       ),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
@@ -111,14 +112,14 @@ class _ProfilePageState extends State<ProfilePage> {
             Expanded(
               child: Container(
                 child: FutureBuilder<Map<String, dynamic>>(
-                  initialData: {
+                /*   initialData: {
                     'firstName': '',
                     'lastName': '',
                     'email': '',
                     'birthDay': '',
                     'gender': '',
                     'phone': ''
-                  },
+                  },*/ 
                   future: UserCredentials().getUserProfileData(),
                   builder: (context, snapshot) => snapshot.hasData
                       ? SingleChildScrollView(
@@ -133,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Text(
                                     AppLocalizations.of(context)
                                         .translate('text26'),
-                                    style: TextStyle(color: Colors.black45),
+                                    style: TextStyle(color: Colors.black),
                                   ),
                                 ),
                                 Container(
@@ -149,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Text(
                                     AppLocalizations.of(context)
                                         .translate('text27'),
-                                    style: TextStyle(color: Colors.black45),
+                                    style: TextStyle(color: Colors.black),
                                   ),
                                 ),
                                 Container(

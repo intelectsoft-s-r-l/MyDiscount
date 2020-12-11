@@ -116,7 +116,7 @@ class AuthService extends UserCredentials {
             AppleIDAuthorizationScopes.email,
             AppleIDAuthorizationScopes.fullName
           ]);
-      print('appleCredential $appleCredentials');
+      //print('appleCredential $appleCredentials');
       final fcmToken = await fcmService.getfcmToken();
 
       saveUserRegistrationDatatoMap(User(
@@ -129,9 +129,9 @@ class AuthService extends UserCredentials {
           email: appleCredentials.email,
           registerMode: 3,
           pushToken: fcmToken));
-      final data = decoder.parseJwtPayLoad(appleCredentials.identityToken);
+     /*  final data = decoder.parseJwtPayLoad(appleCredentials.identityToken);
       print('apple data: $data');
-      decoder.parseJwtHeader(appleCredentials.identityToken);
+      decoder.parseJwtHeader(appleCredentials.identityToken); */
     } on SignInWithAppleAuthorizationException {
       throw SignInWithAppleCredentialsException(message: 'Remove from user');
     } catch (e, s) {

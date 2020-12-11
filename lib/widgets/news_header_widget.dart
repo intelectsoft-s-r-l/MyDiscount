@@ -22,7 +22,7 @@ class NewsHeaderWidget extends StatelessWidget {
           // padding: EdgeInsets.only(left: 5),
           // margin:
           //    const EdgeInsets.only(left: 5, right: 5),
-          height: 78,
+          height: 120,
 
           decoration: const BoxDecoration(
             /* borderRadius:const BorderRadius.only(
@@ -34,24 +34,25 @@ class NewsHeaderWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
         ),
         Positioned(
-          top: 5,
-          right: 10,
+          top: 25,
+          left: 60,
           child: Container(
             padding: EdgeInsets.only(
-              left: 10,
+              //left: 10,
               right: 10,
             ),
             child: Text(
               date,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
+                fontSize: 12,
+                color: Colors.black38
+              ),textAlign: TextAlign.left,
             ),
           ),
         ),
         Positioned(
-          top: 12,
+          top: 45,
           left: 0,
           child: Container(
             width: size.width * .97,
@@ -63,8 +64,8 @@ class NewsHeaderWidget extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 5,
-          left: 10,
+          top: 10,
+          left: 60,
           child: Container(
             child: Text(
               news.companyName.toString(),
@@ -76,6 +77,10 @@ class NewsHeaderWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
+        ),
+        Positioned(top: 0,left: 0,
+          child: Container(
+            width:60,height:60,child: Image.memory(news.logo,fit:BoxFit.cover)),
         ),
       ],
     );

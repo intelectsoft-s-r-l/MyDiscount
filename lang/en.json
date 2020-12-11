@@ -1,5 +1,5 @@
 {
-    "companies":"Companies",
+    "companies": "Companies",
     "text1": "Your QR-Code",
     "text2": "QR-code available:",
     "text3": "You have generate QR code too many times",
@@ -46,5 +46,8 @@
     "c": "\n     Contacte\n\n",
     "par6": "     Pentru orice informații cu privire la aplicația My Discount, vă rugăm să apelați la nr. (+373) 22 835 312",
     "ig1": "\n\n     Informații generale\n\n",
-    "par7": "     MyDiscount este o aplicație mobilă pe care o puteți instala gratuit atât pentru telefoanele care utilizeaza sistemul de operare Android, accesând Magazinul Google Play, cât și pe telefoanele cu iOS accesând App Store.\n\n\n"
+    "par7": "     MyDiscount este o aplicație mobilă pe care o puteți instala gratuit atât pentru telefoanele care utilizeaza sistemul de operare Android, accesând Magazinul Google Play, cât și pe telefoanele cu iOS accesând App Store.\n\n\n",
+    "qr": "QR-code",
+    "edit":"Edit",
+    "save":"Save"
 }

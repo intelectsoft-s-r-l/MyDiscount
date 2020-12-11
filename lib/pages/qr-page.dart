@@ -105,7 +105,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   _getAuthorization() async {
     bool netConnection = await internetConnection.isConnected;
     if (netConnection) {
-      await qrService.attemptSignIn();
+      await qrService.getTID();
       if (mounted)
         setState(() {
           serviceConection = netConnection;
@@ -168,7 +168,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                     },
                   ),
                 ),
-                AppBarText(size: size, text: 'Qr-Code'),
+                AppBarText(size: size, text: AppLocalizations.of(context).translate('qr')),
               ],
             ),
             StreamBuilder<bool>(

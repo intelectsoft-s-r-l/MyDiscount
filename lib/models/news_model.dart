@@ -23,7 +23,10 @@ class News {
   final String header;
   @HiveField(7)
   final Uint8List photo;
-  News( {@required this.companyName,
+  @HiveField(8)
+  final Uint8List logo;
+  News({
+    @required this.companyName,
     @required this.appType,
     @required this.companyId,
     @required this.content,
@@ -31,18 +34,19 @@ class News {
     @required this.header,
     @required this.id,
     @required this.photo,
+    @required this.logo,
   });
 
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
-      appType: json['AppType'],
-      companyId: json['CompanyID'],
-      companyName: json['CompanyName'],
-      content: json['Content'],
-      dateTime: json['CreateDate'],
-      header: json['Header'],
-      id: json['ID'],
-      photo: json['Photo'] ?? [],
-    );
+        appType: json['AppType'],
+        companyId: json['CompanyID'],
+        companyName: json['CompanyName'],
+        content: json['Content'],
+        dateTime: json['CreateDate'],
+        header: json['Header'],
+        id: json['ID'],
+        photo: json['Photo'] ?? Uint8List.fromList([]),
+        logo: json['Logo'] ?? Uint8List.fromList([]));
   }
 }

@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:MyDiscount/constants/credentials.dart';
 import 'package:MyDiscount/core/image_format.dart';
+import 'package:MyDiscount/models/company_model.dart';
 //import 'package:MyDiscount/models/company_model.dart';
 import 'package:MyDiscount/models/news_model.dart';
+import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -16,8 +18,9 @@ class NewsService {
     'Authorization': 'Basic ' + Credentials.encoded,
   };
   Future<void> getNews() async {
+    final serviceName = await getServiceNameFromRemoteConfig();
     final id = await readIndexId();
-    final url = 'http://dev.edi.md/ISMobileDiscountService/json/GetNews?ID=$id';
+    final url = '$serviceName/json/GetAppNews?ID=$id';
     final response = await http.get(url, headers: _headers);
     final decodedResponse = json.decode(response.body);
     print(decodedResponse);
@@ -30,11 +33,27 @@ class NewsService {
       }
     }
     saveLastIndexId(d);
+    //checkCompanyLogo(list);
     final dataList = formater.checkImageFormatAndSkip(list, 'Photo');
     dataList
         .map((e) => News.fromJson(e))
         .toList()
         .forEach((element) => saveNewsOnDB(element));
+  }
+
+  List checkCompanyLogo(List list) {
+    Box<Company> companyBox = Hive.box('company');
+    final keys = companyBox.keys;
+
+    final data = list.cast<Map>().map((e) {
+      for (dynamic key in keys) {
+        final company = companyBox.get(key);
+        if (company.name == e['CompanyName'])
+          e.putIfAbsent('Logo', () => company.logo);
+      }
+    }).toList();
+    print('this is newsList with company logo:$data');
+    return data;
   }
 
   void saveLastIndexId(int id) async {
@@ -52,12 +71,8 @@ class NewsService {
   }
 
   Future<void> saveNewsOnDB(News news) async {
-    /*  await Hive.initFlutter();
-    Hive.isAdapterRegistered(1)? null
-        : Hive.registerAdapter<News>(NewsAdapter());
-    await Hive.openBox<News>('news'); */
-    Box<News> companyBox = Hive.box<News>('news');
-    companyBox.add(News(
+    Box<News> newsBox = Hive.box<News>('news');
+    newsBox.add(news/* News(
       companyName: news.companyName,
       appType: news.appType,
       companyId: news.companyId,
@@ -66,8 +81,20 @@ class NewsService {
       header: news.header,
       id: news.id,
       photo: news.photo,
-    ));
-    print('companyBoxValue:$companyBox.values');
-    
+      logo: news.logo,
+    ) */);
+    /* newsBox.put(news.id,News(
+      companyName: news.companyName,
+      appType: news.appType,
+      companyId: news.companyId,
+      content: news.content,
+      dateTime: news.dateTime,
+      header: news.header,
+      id: news.id,
+      photo: news.photo,
+      logo: news.logo,
+    )); */
+    //newsBox.deleteFromDisk();
+    print('companyBoxValue:$newsBox.values');
   }
 }

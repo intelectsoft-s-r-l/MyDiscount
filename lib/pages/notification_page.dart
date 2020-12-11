@@ -22,8 +22,17 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   void initState() {
+   
     super.initState();
     service.getNews();
+  }
+
+ 
+
+  @override
+  void dispose() {
+   /*  Hive.box('news').close(); */
+    super.dispose();
   }
 
   @override
@@ -31,7 +40,8 @@ class _NotificationPageState extends State<NotificationPage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,/* Color(0x00F5F5F5), */
+      backgroundColor: Colors.grey.shade200,
+      /* Color(0x00F5F5F5), */
       body: Column(
         children: [
           Stack(
@@ -67,10 +77,10 @@ class _NotificationPageState extends State<NotificationPage> {
                           .replaceAll('/Date(', '')
                           .replaceAll('+0300)/', '')
                           .replaceAll('+0200)/', ''));
-                      final date = DateFormat('d MMM yyyy H:mm:ss').format(
+                      final date = DateFormat('d MMM yyyy').format(
                         DateTime.fromMillisecondsSinceEpoch(milisec),
                       );
-                      
+
                       return InkWell(
                         onTap: () {
                           Navigator.pushNamed(context, '/detailpage',
@@ -86,7 +96,6 @@ class _NotificationPageState extends State<NotificationPage> {
                                 news: news,
                               ),
                               NewsImageWidget(news: news, size: size),
-                            
                             ],
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:MyDiscount/models/company_model.dart';
 import 'package:MyDiscount/models/news_model.dart';
 import 'package:MyDiscount/pages/detail_news_page.dart';
 
@@ -29,19 +30,15 @@ void main() async {
   await Firebase.initializeApp();
 
   await Hive.initFlutter();
-  Hive.isAdapterRegistered(1)
+  /* Hive.isAdapterRegistered(1)
       // ignore: unnecessary_statements
       ? null
-      : Hive.registerAdapter<News>(NewsAdapter());
+      : */
+  Hive.registerAdapter<News>(NewsAdapter());
+  Hive.registerAdapter<Company>(CompanyAdapter());
+  await Hive.openBox<Company>('company');
   await Hive.openBox<News>('news');
 
-  /*  Hive.isAdapterRegistered(2)
-      // ignore: unnecessary_statements
-      ? null
-      : Hive.registerAdapter<Company>(
-          CompanyAdapter());
-  await Hive.openBox<Company>('comapny'); */
-  //initializationOfHiveDB();
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   //FirebaseCrashlytics.instance.sendUnsentReports();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
@@ -53,10 +50,7 @@ void main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runZoned(
       () {
-//getAuthState();
         runApp(MyApp());
-
-        // ignore: unused_element
       },
       onError: FirebaseCrashlytics.instance.recordError,
     );
@@ -90,7 +84,7 @@ class MyApp extends StatelessWidget {
       localeResolutionCallback:
           (Locale locale, Iterable<Locale> supportedLocales) {
         final retLocale = supportedLocales?.first;
-        print('$locale 2');
+        //print('$locale 2');
         if (locale == null) {
           debugPrint("*language locale is null!!!");
           return supportedLocales.first;
@@ -99,7 +93,7 @@ class MyApp extends StatelessWidget {
           for (Locale supportedLocale in supportedLocales) {
             if (supportedLocale.languageCode == locale.languageCode &&
                 locale.languageCode != null) {
-              print(supportedLocale);
+              //print(supportedLocale);
 
               return supportedLocale;
             }

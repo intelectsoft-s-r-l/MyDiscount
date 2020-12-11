@@ -5,6 +5,7 @@ import 'package:MyDiscount/core/image_format.dart';
 import 'package:MyDiscount/models/company_model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../services/auth_service.dart';
@@ -23,7 +24,7 @@ class QrService {
     'Authorization': 'Basic ' + Credentials.encoded,
   };
 
-  Future<String> attemptSignIn() async {
+  Future<String> getTID() async {
     try {
       String serviceName = await getServiceNameFromRemoteConfig();
 
@@ -79,9 +80,17 @@ class QrService {
           final Map<String, dynamic> companiesToMap =
               json.decode(response.body);
           final List _listOfCompanies = companiesToMap['Companies'];
-          final companyList =
+          final companyListwithdecodedLogo =
               formater.checkImageFormatAndSkip(_listOfCompanies, 'Logo');
-          return companyList.map((map) => Company.fromJson(map)).toList();
+          companyListwithdecodedLogo
+              .map((e) => Company.fromJson(e))
+              .toList()
+              .forEach((company) {
+            saveCompanyOnDB(company);
+          });
+          return companyListwithdecodedLogo
+              .map((map) => Company.fromJson(map))
+              .toList();
         } else {
           return false;
         }
@@ -91,5 +100,16 @@ class QrService {
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
     }
+  }
+
+  Future<void> saveCompanyOnDB(Company company) async {
+    Box<Company> companyBox = Hive.box<Company>('company');
+    companyBox.add(Company(
+      name: company.name,
+      id: company.id,
+      logo: company.logo,
+      amount: company.amount,
+    ));
+    print('companyBoxValue:$companyBox.values');
   }
 }
