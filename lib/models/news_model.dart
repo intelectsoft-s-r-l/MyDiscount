@@ -25,28 +25,32 @@ class News {
   final Uint8List photo;
   @HiveField(8)
   final Uint8List logo;
-  News({
-    @required this.companyName,
-    @required this.appType,
-    @required this.companyId,
-    @required this.content,
-    @required this.dateTime,
-    @required this.header,
-    @required this.id,
-    @required this.photo,
-    @required this.logo,
-  });
+  @HiveField(9)
+  final DateTime expireDate;
+  News(
+      {@required this.companyName,
+      @required this.appType,
+      @required this.companyId,
+      @required this.content,
+      @required this.dateTime,
+      @required this.header,
+      @required this.id,
+      @required this.photo,
+      @required this.logo,
+      @required this.expireDate});
 
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
-        appType: json['AppType'],
-        companyId: json['CompanyID'],
-        companyName: json['CompanyName'],
-        content: json['Content'],
-        dateTime: json['CreateDate'],
-        header: json['Header'],
-        id: json['ID'],
-        photo: json['Photo'] ?? Uint8List.fromList([]),
-        logo: json['Logo'] ?? Uint8List.fromList([]));
+      appType: json['AppType'],
+      companyId: json['CompanyID'],
+      companyName: json['CompanyName'],
+      content: json['Content'],
+      dateTime: json['CreateDate'],
+      header: json['Header'],
+      id: json['ID'],
+      photo: json['Photo'] ?? Uint8List.fromList([]),
+      logo: json['CompanyLogo'] ?? Uint8List.fromList([]),
+      expireDate: json['ExpireDate'],
+    );
   }
 }

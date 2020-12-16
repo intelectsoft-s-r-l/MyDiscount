@@ -1,5 +1,6 @@
-import 'package:MyDiscount/models/news_model.dart';
 import 'package:flutter/material.dart';
+
+import '../models/news_model.dart';
 
 class NewsImageWidget extends StatelessWidget {
   final Size size;
@@ -14,16 +15,16 @@ class NewsImageWidget extends StatelessWidget {
       //margin: EdgeInsets.only(left: 5, right: 5),
       //padding: EdgeInsets.only(left: 5, right: 5),
       child: ClipRRect(
-        // borderRadius: BorderRadius.only(
-        //     bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
-        child:news.photo.isNotEmpty
-            ? Image.memory(
-                news.photo,
-                filterQuality: FilterQuality.high,
-                fit: BoxFit.cover,
-              )
-            : Container(),
-      ),
+          // borderRadius: BorderRadius.only(
+          //     bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
+          child: Image.memory(
+        news.photo,
+        filterQuality: FilterQuality.high,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container();
+        },
+      )),
     );
   }
 }

@@ -1,6 +1,7 @@
-import 'package:MyDiscount/models/tranzaction_model.dart';
-import 'package:MyDiscount/services/transactions_service.dart';
 import 'package:flutter/material.dart';
+
+import '../models/tranzaction_model.dart';
+import '../services/transactions_service.dart';
 
 class TransactionList extends StatelessWidget {
   final TransactionService service = TransactionService();
@@ -113,53 +114,64 @@ class TransactionList extends StatelessWidget {
     return Expanded(
       child: FutureBuilder<List<Transaction>>(
         future: service.getTransactions(),
-        builder: (context, snapshot) => ListView.separated(
+        builder: (context, snapshot) =>
+            snapshot.data !=  null
+            ?
+            ListView.separated(
           separatorBuilder: (context, index) => SizedBox(
             height: 3,
           ),
           shrinkWrap: true,
           itemCount: snapshot.data.length,
-          itemBuilder: (context, index) => Container(
-            width: size.width * .9,
-            decoration: BoxDecoration(
-              color: colorList[index],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ListTile(
-              contentPadding: EdgeInsets.only(left: 5, right: 5),
-              title: FittedBox(
-                fit: BoxFit.contain,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Compania:",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "${snapshot.data[index].company}",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
+          itemBuilder: (context, index) {
+            if (snapshot.data.length == 0) {
+              return Container(
+                child: Center(
+                  child: Text('Nu aveti tranzactii efectuate !'),
                 ),
+              );
+            }
+            return Container(
+              width: size.width * .9,
+              decoration: BoxDecoration(
+                color: colorList[index],
+                borderRadius: BorderRadius.circular(10),
               ),
-              subtitle: FittedBox(
-                fit: BoxFit.contain,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Data tranzactiei:",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      " ${snapshot.data[index].dateOfSale}",
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
+              child: ListTile(
+                contentPadding: EdgeInsets.only(left: 5, right: 5),
+                title: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Compania:",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "${snapshot.data[index].company}",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              trailing: Container(
+                subtitle: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Data tranzactiei:",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        " ${snapshot.data[index].dateOfSale}",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ],
+                  ),
+                ),
+                trailing: Container(
                   width: size.width * .44,
                   padding: EdgeInsets.all(5),
                   child: Column(
@@ -199,10 +211,13 @@ class TransactionList extends StatelessWidget {
                         ),
                       )
                     ],
-                  )),
-            ),
-          ),
-        ),
+                  ),
+                ),
+              ),
+            );
+          },
+        )
+        : Container(),
       ),
     );
   }

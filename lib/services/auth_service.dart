@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:MyDiscount/core/decode.dart';
-import 'package:MyDiscount/models/profile_model.dart';
-import 'package:MyDiscount/models/user_model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,18 +8,21 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../core/decode.dart';
+import '../models/profile_model.dart';
 import '../models/user_credentials.dart';
+import '../models/user_model.dart';
 import '../services/fcm_service.dart';
 
 StreamController<bool> authController = StreamController.broadcast();
 
 class AuthService extends UserCredentials {
   Decoder decoder = Decoder();
-  FacebookLogin _facebookLogin = FacebookLogin();
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: [
     'email',
-    'openid',
   ]);
+  FacebookLogin _facebookLogin = FacebookLogin();
+
   FCMService fcmService = FCMService();
 
   Future<void> authWithFacebook() async {
@@ -76,7 +76,7 @@ class AuthService extends UserCredentials {
 
       final fcmToken = await fcmService.getfcmToken();
 
-      if (googleSignIn.currentUser != null) {
+      if (googleSignIn.currentUser.id != null) {
         // final data = auth.idToken;
         // decoder.parseJwtPayLoad(data ?? '');
         saveUserRegistrationDatatoMap(
@@ -129,7 +129,7 @@ class AuthService extends UserCredentials {
           email: appleCredentials.email,
           registerMode: 3,
           pushToken: fcmToken));
-     /*  final data = decoder.parseJwtPayLoad(appleCredentials.identityToken);
+      /*  final data = decoder.parseJwtPayLoad(appleCredentials.identityToken);
       print('apple data: $data');
       decoder.parseJwtHeader(appleCredentials.identityToken); */
     } on SignInWithAppleAuthorizationException {

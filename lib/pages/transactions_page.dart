@@ -1,10 +1,9 @@
-
-import '../localization/localizations.dart';
-import 'package:MyDiscount/widgets/transactions_list_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../localization/localizations.dart';
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
+import '../widgets/transactions_list_widget.dart';
 
 class TransactionsPage extends StatelessWidget {
   @override

@@ -1,6 +1,7 @@
-import 'package:MyDiscount/models/news_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+
+import '../models/news_model.dart';
 
 class HtmlText extends StatelessWidget {
   const HtmlText({

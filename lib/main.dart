@@ -1,10 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:MyDiscount/models/company_model.dart';
-import 'package:MyDiscount/models/news_model.dart';
-import 'package:MyDiscount/pages/detail_news_page.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,30 +9,34 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'services/fcm_service.dart';
+import 'localization/localizations.dart';
+import 'models/news_model.dart';
 import 'pages/bottom_navigation_bar_widget.dart';
+import 'pages/detail_news_page.dart';
 import 'pages/login_screen2.dart';
 import 'pages/qr-page.dart';
 import 'services/auth_service.dart';
-import 'localization/localizations.dart';
+import 'services/fcm_service.dart';
+import 'services/remote_config_service.dart';
 
 FCMService fcmService = FCMService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp();
-
+  getServiceNameFromRemoteConfig();
   await Hive.initFlutter();
   /* Hive.isAdapterRegistered(1)
       // ignore: unnecessary_statements
       ? null
       : */
   Hive.registerAdapter<News>(NewsAdapter());
-  Hive.registerAdapter<Company>(CompanyAdapter());
-  await Hive.openBox<Company>('company');
+  // Hive.registerAdapter<Company>(CompanyAdapter());
+  // await Hive.openBox<Company>('company');
   await Hive.openBox<News>('news');
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);

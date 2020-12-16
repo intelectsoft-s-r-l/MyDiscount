@@ -1,12 +1,12 @@
-import '../localization/localizations.dart';
 import 'package:flutter/material.dart';
 
+import '../localization/localizations.dart';
+import '../pages/app_inf_page.dart';
+import '../pages/notifications_settings_page.dart';
+import '../pages/profile_page.dart';
 import '../services/auth_service.dart';
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
-import 'app_inf_page.dart';
-import 'notifications_settings_page.dart';
-import 'profile_page.dart';
 class SetingsPage extends StatelessWidget {
   final AuthService service = AuthService();
   @override

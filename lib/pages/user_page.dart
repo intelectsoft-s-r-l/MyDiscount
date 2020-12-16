@@ -1,18 +1,18 @@
-import 'package:MyDiscount/localization/localizations.dart';
-
-import 'package:MyDiscount/models/user_credentials.dart';
+import 'package:MyDiscount/core/failure.dart';
+import 'package:MyDiscount/services/company_service.dart';
 import 'package:flutter/material.dart';
 
-import '../services/qr_service.dart';
+import '../localization/localizations.dart';
+import '../models/user_credentials.dart';
+import '../pages/profile_page.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/companies_list_widget.dart';
 import '../widgets/noCompani_list_widget.dart';
 import '../widgets/nointernet_widget.dart';
 import '../widgets/top_bar_image.dart';
-import 'profile_page.dart';
 
 class UserPage extends StatelessWidget {
-  final QrService data = QrService();
+  final CompanyService data = CompanyService();
   final UserCredentials credentials = UserCredentials();
 
   @override
@@ -47,12 +47,17 @@ class UserPage extends StatelessWidget {
                                   radius: 30,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(40),
-                                    child: snapshot.data['photoUrl'] != ''&&snapshot.data['photoUrl'] != null
+                                    child: snapshot.data['photoUrl'] != null
                                         ? Image.network(
                                             snapshot.data['photoUrl'],
                                             fit: BoxFit.fill,
                                             scale: 0.7,
                                             filterQuality: FilterQuality.high,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Image.asset(
+                                                  'assets/icons/profile.png');
+                                            },
                                           )
                                         : Image.asset(
                                             'assets/icons/profile.png'),
@@ -139,7 +144,16 @@ class UserPage extends StatelessWidget {
                 future: data.getCompanyList(),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  return Scaffold(
+                  if (snapshot.hasData) {
+                    return CompaniesList(snapshot.data);
+                  }
+                  if (snapshot.hasError) {
+                    return snapshot.error is EmptyList
+                        ? NoCompanieList()
+                        : NoInternetWidget();
+                  }
+                  return CircularProgresIndicatorWidget();
+                  /*  return Scaffold(
                     body: snapshot.data != false
                         ? Container(
                             child: snapshot.hasData
@@ -153,7 +167,7 @@ class UserPage extends StatelessWidget {
                         : Container(
                             child: NoInternetWidget(),
                           ),
-                  );
+                  ); */
                 },
               ),
             ),

@@ -1,5 +1,6 @@
-import 'package:MyDiscount/localization/localizations.dart';
 import 'package:flutter/material.dart';
+
+import '../localization/localizations.dart';
 
 class AppInfoWidget extends StatelessWidget {
   const AppInfoWidget({

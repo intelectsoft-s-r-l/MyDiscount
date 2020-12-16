@@ -1,21 +1,19 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/constants/credentials.dart';
-import 'package:MyDiscount/models/tranzaction_model.dart';
-import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants/credentials.dart';
+import '../models/tranzaction_model.dart';
+import '../services/remote_config_service.dart';
+
 class TransactionService {
-  Map<String, String> _headers = {
-    'Content-type': 'application/json; charset=utf-8',
-    'Authorization': 'Basic ' + Credentials.encoded,
-  };
+  Credentials _credentials = Credentials();
 
   Future<List<Transaction>> getTransactions() async {
     final serviceName = await getServiceNameFromRemoteConfig();
 
     final url = '$serviceName/json/GetTransactions';
-    final response = await http.get(url, headers: _headers);
+    final response = await http.get(url, headers: _credentials.header);
     final decodedResponse = json.decode(response.body);
     print(decodedResponse);
     //data.remove('id');

@@ -1,13 +1,12 @@
-import 'package:MyDiscount/models/profile_model.dart';
-
-import 'package:MyDiscount/services/shared_preferences_service.dart';
-import 'package:MyDiscount/localization/localizations.dart';
-import 'package:MyDiscount/models/user_credentials.dart';
-import 'package:MyDiscount/widgets/profile_form_widget.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../localization/localizations.dart';
+import '../models/profile_model.dart';
+import '../models/user_credentials.dart';
+import '../services/shared_preferences_service.dart';
+import '../widgets/profile_form_widget.dart';
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
 
@@ -28,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   List<String> _genders = ['Male', 'Female'];
   @override
   void initState() {
-    //UserCredentials().getUserProfileData();
+    UserCredentials().getUserProfileData();
     super.initState();
   }
 

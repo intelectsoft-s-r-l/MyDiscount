@@ -1,16 +1,17 @@
-import 'package:MyDiscount/models/news_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+
+import '../models/news_model.dart';
 
 class NewsHeaderWidget extends StatelessWidget {
   const NewsHeaderWidget({
     Key key,
-    @required this.date,
+   
     @required this.size,
     @required this.news,
   }) : super(key: key);
 
-  final String date;
+  
   final Size size;
   final News news;
 
@@ -42,12 +43,12 @@ class NewsHeaderWidget extends StatelessWidget {
               right: 10,
             ),
             child: Text(
-              date,
+              news.dateTime,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.black38
-              ),textAlign: TextAlign.left,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: Colors.black38),
+              textAlign: TextAlign.left,
             ),
           ),
         ),
@@ -78,9 +79,19 @@ class NewsHeaderWidget extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(top: 0,left: 0,
+        Positioned(
+          top: 0,
+          left: 0,
           child: Container(
-            width:60,height:60,child: Image.memory(news.logo,fit:BoxFit.cover)),
+              width: 60,
+              height: 60,
+              child: Image.memory(
+                news.logo,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container();
+                },
+              )),
         ),
       ],
     );

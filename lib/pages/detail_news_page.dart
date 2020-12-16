@@ -1,9 +1,9 @@
-import 'package:MyDiscount/models/news_model.dart';
-import 'package:MyDiscount/widgets/html_text_view_widget.dart';
-import 'package:MyDiscount/widgets/top_bar_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+
+import '../models/news_model.dart';
+import '../widgets/html_text_view_widget.dart';
+import '../widgets/top_bar_image.dart';
 
 class DetailNewsPage extends StatelessWidget {
   /* final News news; */

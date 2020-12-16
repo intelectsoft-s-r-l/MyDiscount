@@ -1,14 +1,12 @@
-import 'package:MyDiscount/models/news_model.dart';
-import 'package:MyDiscount/services/news_service.dart';
-import 'package:MyDiscount/widgets/news_header_widget.dart';
-import 'package:MyDiscount/widgets/news_image_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../localization/localizations.dart';
+import '../models/news_model.dart';
+import '../services/news_service.dart';
+import '../widgets/news_header_widget.dart';
+import '../widgets/news_image_widget.dart';
 import '../widgets/top_bar_image.dart';
 import '../widgets/top_bar_text.dart';
 
@@ -22,17 +20,8 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   void initState() {
-   
     super.initState();
     service.getNews();
-  }
-
- 
-
-  @override
-  void dispose() {
-   /*  Hive.box('news').close(); */
-    super.dispose();
   }
 
   @override
@@ -64,22 +53,12 @@ class _NotificationPageState extends State<NotificationPage> {
                   return ListView.separated(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
-                    //padding: EdgeInsets.only(right: 5),
                     separatorBuilder: (context, index) => Container(
                       height: 10,
-                      //color: Colors.green,
                     ),
-                    //shrinkWrap: true,
                     itemCount: box.length,
                     itemBuilder: (context, index) {
                       News news = box.getAt(index);
-                      int milisec = int.tryParse(news.dateTime
-                          .replaceAll('/Date(', '')
-                          .replaceAll('+0300)/', '')
-                          .replaceAll('+0200)/', ''));
-                      final date = DateFormat('d MMM yyyy').format(
-                        DateTime.fromMillisecondsSinceEpoch(milisec),
-                      );
 
                       return InkWell(
                         onTap: () {
@@ -88,10 +67,8 @@ class _NotificationPageState extends State<NotificationPage> {
                         },
                         child: Container(
                           child: Column(
-                            //crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               NewsHeaderWidget(
-                                date: date,
                                 size: size,
                                 news: news,
                               ),

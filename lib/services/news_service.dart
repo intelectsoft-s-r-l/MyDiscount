@@ -1,17 +1,19 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:MyDiscount/constants/credentials.dart';
-import 'package:MyDiscount/core/image_format.dart';
-import 'package:MyDiscount/models/company_model.dart';
-//import 'package:MyDiscount/models/company_model.dart';
-import 'package:MyDiscount/models/news_model.dart';
-import 'package:MyDiscount/services/remote_config_service.dart';
-import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants/credentials.dart';
+import '../core/formater.dart';
+import '../models/news_model.dart';
+import '../services/remote_config_service.dart';
+import '../services/shared_preferences_service.dart';
+
 class NewsService {
-  ImageFormater formater = ImageFormater();
+  Formater formater = Formater();
+
+  Box<News> newsBox = Hive.box<News>('news');
   SharedPref sPref = SharedPref();
   Map<String, String> _headers = {
     'Content-type': 'application/json; charset=utf-8',
@@ -19,82 +21,49 @@ class NewsService {
   };
   Future<void> getNews() async {
     final serviceName = await getServiceNameFromRemoteConfig();
-    final id = await readIndexId();
+    final id = await readEldestNewsId();
     final url = '$serviceName/json/GetAppNews?ID=$id';
     final response = await http.get(url, headers: _headers);
     final decodedResponse = json.decode(response.body);
     print(decodedResponse);
-    //data.remove('id');
+
     final list = decodedResponse['NewsList'] as List;
-    int d = int.parse(id);
-    for (Map map in list) {
-      if (map['ID'] > d) {
-        d = map['ID'];
-      }
-    }
-    saveLastIndexId(d);
-    //checkCompanyLogo(list);
-    final dataList = formater.checkImageFormatAndSkip(list, 'Photo');
+    final parseDate = formater.parseDateTimeAndSetExpireDate(list);
+    final dat = formater.checkImageFormatAndSkip(parseDate, 'CompanyLogo');
+
+    final dataList = formater.checkImageFormatAndSkip(dat, 'Photo');
     dataList
         .map((e) => News.fromJson(e))
         .toList()
         .forEach((element) => saveNewsOnDB(element));
   }
 
-  List checkCompanyLogo(List list) {
-    Box<Company> companyBox = Hive.box('company');
-    final keys = companyBox.keys;
-
-    final data = list.cast<Map>().map((e) {
-      for (dynamic key in keys) {
-        final company = companyBox.get(key);
-        if (company.name == e['CompanyName'])
-          e.putIfAbsent('Logo', () => company.logo);
+  Future<String> readEldestNewsId() async {
+    final listOfKeys = newsBox.keys;
+    // newsBox.deleteAll(listOfKeys);
+    int id = 0;
+    if (listOfKeys.isNotEmpty) 
+    //checkIfNewsIsNotOld(listOfKeys.toList());
+    for (int key in listOfKeys)
+      if (key > id) {
+        id = key;
       }
-    }).toList();
-    print('this is newsList with company logo:$data');
-    return data;
-  }
-
-  void saveLastIndexId(int id) async {
-    await sPref.saveNewsId(id);
-  }
-
-  Future<String> readIndexId() async {
-    final data = await sPref.instance;
-    if (data.containsKey('id')) {
-      final _id = await sPref.readNewsId();
-      return _id;
-    } else {
-      return '0';
-    }
+    return id.toString();
   }
 
   Future<void> saveNewsOnDB(News news) async {
-    Box<News> newsBox = Hive.box<News>('news');
-    newsBox.add(news/* News(
-      companyName: news.companyName,
-      appType: news.appType,
-      companyId: news.companyId,
-      content: news.content,
-      dateTime: news.dateTime,
-      header: news.header,
-      id: news.id,
-      photo: news.photo,
-      logo: news.logo,
-    ) */);
-    /* newsBox.put(news.id,News(
-      companyName: news.companyName,
-      appType: news.appType,
-      companyId: news.companyId,
-      content: news.content,
-      dateTime: news.dateTime,
-      header: news.header,
-      id: news.id,
-      photo: news.photo,
-      logo: news.logo,
-    )); */
-    //newsBox.deleteFromDisk();
+    newsBox.put(news.id, news);
+
     print('companyBoxValue:$newsBox.values');
+  }
+
+  checkIfNewsIsNotOld(List keys) {
+    for (int key in keys) {
+      final news = newsBox.get(key);
+      if (news.expireDate.isBefore(DateTime.now())) {
+        newsBox.delete(news.id);
+      }
+      newsBox.compact();
+    }
   }
 }
