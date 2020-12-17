@@ -48,7 +48,7 @@ class QrService {
         if (decodedResponse['ErrorCode'] == 103) {
           final prefs = await sPref.instance;
 
-          prefs.clear();
+          prefs.remove('user');
 
           AuthService().signOut();
 

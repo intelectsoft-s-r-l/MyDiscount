@@ -43,7 +43,7 @@ class SharedPref {
     return prefs.getString('formProfile');
   }
 
-  saveNewsId(int id) async {
+  /* saveNewsId(int id) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('id', id.toString());
   }
@@ -51,5 +51,5 @@ class SharedPref {
  Future<String> readNewsId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('id');
-  }
+  } */
 }

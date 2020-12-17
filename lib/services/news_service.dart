@@ -8,22 +8,19 @@ import '../constants/credentials.dart';
 import '../core/formater.dart';
 import '../models/news_model.dart';
 import '../services/remote_config_service.dart';
-import '../services/shared_preferences_service.dart';
+//import '../services/shared_preferences_service.dart';
 
 class NewsService {
   Formater formater = Formater();
-
+  Credentials credentials = Credentials();
   Box<News> newsBox = Hive.box<News>('news');
-  SharedPref sPref = SharedPref();
-  Map<String, String> _headers = {
-    'Content-type': 'application/json; charset=utf-8',
-    'Authorization': 'Basic ' + Credentials.encoded,
-  };
+  
+ 
   Future<void> getNews() async {
     final serviceName = await getServiceNameFromRemoteConfig();
     final id = await readEldestNewsId();
     final url = '$serviceName/json/GetAppNews?ID=$id';
-    final response = await http.get(url, headers: _headers);
+    final response = await http.get(url, headers: credentials.header);
     final decodedResponse = json.decode(response.body);
     print(decodedResponse);
 
@@ -57,7 +54,7 @@ class NewsService {
     print('companyBoxValue:$newsBox.values');
   }
 
-  checkIfNewsIsNotOld(List keys) {
+  void checkIfNewsIsNotOld(List keys) {
     for (int key in keys) {
       final news = newsBox.get(key);
       if (news.expireDate.isBefore(DateTime.now())) {

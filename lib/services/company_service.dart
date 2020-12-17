@@ -26,7 +26,7 @@ class CompanyService {
         final url = "$serviceName/json/GetCompany?ID=$id";
         final response = await http
             .get(url, headers: credentials.header)
-            .timeout(Duration(seconds: 3));
+            /* .timeout(Duration(seconds: 3)) */;
         if (response.statusCode == 200) {
           final Map<String, dynamic> companiesToMap =
               json.decode(response.body);
