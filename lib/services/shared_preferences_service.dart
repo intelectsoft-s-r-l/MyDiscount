@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref {
+  Future<SharedPreferences> get instance => SharedPreferences.getInstance();
+
   saveTID(String id) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
@@ -11,23 +13,43 @@ class SharedPref {
     return prefs.getString('Tid');
   }
 
-  credentials(String data) async {
+  saveUser(String data) async {
     final authData = await SharedPreferences.getInstance();
-    authData.setString('credentials', data);
+    authData.setString('user', data);
   }
 
-  credential() async {
+  readUser() async {
     final authData = await SharedPreferences.getInstance();
-    return authData.getString('credentials');
+    return authData.getString('user');
   }
 
-/*   saveRemote(var data) async {
-    final authData = await SharedPreferences.getInstance();
-    authData.setString('remote', data);
+  saveProfileData(String profile) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('profile', profile);
   }
 
-  readRemote() async {
-    final authData = await SharedPreferences.getInstance();
-    return authData.getString('remote');
+  readProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('profile');
+  }
+
+  saveFormProfileData(String profile) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('formProfile', profile);
+  }
+
+  readFormProfileData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('formProfile');
+  }
+
+  /* saveNewsId(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('id', id.toString());
+  }
+
+ Future<String> readNewsId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('id');
   } */
 }

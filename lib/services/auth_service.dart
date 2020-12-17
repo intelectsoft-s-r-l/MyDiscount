@@ -8,36 +8,47 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../core/decode.dart';
+import '../models/profile_model.dart';
+import '../models/user_credentials.dart';
+import '../models/user_model.dart';
 import '../services/fcm_service.dart';
-import '../widgets/user.dart';
 
 StreamController<bool> authController = StreamController.broadcast();
 
 class AuthService extends UserCredentials {
+  Decoder decoder = Decoder();
+  GoogleSignIn googleSignIn = GoogleSignIn(scopes: [
+    'email',
+  ]);
   FacebookLogin _facebookLogin = FacebookLogin();
-  GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
+
   FCMService fcmService = FCMService();
 
-  authWithFacebook() async {
+  Future<void> authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
+      print('facebook result:${result.toString()}');
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
           FacebookAccessToken _accessToken = result.accessToken;
-          final _graphResponse = await http.get(
-              'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=${_accessToken.token}');
-          final profile = json.decode(_graphResponse.body);
-          final fcmToken = await fcmService.getfcmToken();
-          saveUserCredentials(
-            _accessToken.userId,
-            2,
-            fcmToken,
-            profile['name'],
-            profile['email'],
-            profile['picture']['data']['url'],
-            _accessToken.token,
-            null,
-          );
+          final Map<String, dynamic> profile =
+              await getFacebookProfile(_accessToken.token);
+          final String fcmToken = await fcmService.getfcmToken();
+          saveUserRegistrationDatatoMap(User(
+            id: _accessToken.userId,
+            accessToken: _accessToken.token,
+          ));
+          final splitedDisplayName = splitTheStrings(profile['name']);
+          saveProfileRegistrationDataToMap(Profile(
+            firstName: splitedDisplayName[0],
+            lastName: splitedDisplayName[1],
+            email: profile['email'],
+            photoUrl: profile['picture']['data']['url'],
+            registerMode: 2,
+            pushToken: fcmToken,
+          ));
+
           break;
         case FacebookLoginStatus.cancelledByUser:
           break;
@@ -46,70 +57,86 @@ class AuthService extends UserCredentials {
       }
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
+
       throw Exception(e);
     }
   }
 
-  logwithG() async {
+  Future<Map<String, dynamic>> getFacebookProfile(String token) async {
+    final _graphResponse = await http.get(
+        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
+    return json.decode(_graphResponse.body);
+  }
+
+  Future<void> logwithG(context) async {
     try {
-      googleSignIn.signIn().then(
-        (final GoogleSignInAccount account) async {
-          final GoogleSignInAuthentication auth = await account.authentication;
-          final fcmToken = await fcmService.getfcmToken();
-          saveUserCredentials(
-            account.id,
-            1,
-            fcmToken,
-            account.displayName,
-            account.email,
-            account.photoUrl,
-            auth.accessToken,
-            null,
-          );
-        },
-      ).whenComplete(() async {
-        final prefs = await SharedPreferences.getInstance();
-        if (prefs.containsKey('credentials')) authController.sink.add(true);
-      });
+      final GoogleSignInAccount account = await googleSignIn.signIn();
+
+      final GoogleSignInAuthentication auth = await account.authentication;
+
+      final fcmToken = await fcmService.getfcmToken();
+
+      if (googleSignIn.currentUser.id != null) {
+        // final data = auth.idToken;
+        // decoder.parseJwtPayLoad(data ?? '');
+        saveUserRegistrationDatatoMap(
+          User(id: account.id, accessToken: auth.accessToken),
+        );
+        final splitedDisplayName = splitTheStrings(account.displayName);
+        saveProfileRegistrationDataToMap(
+          Profile(
+            firstName: splitedDisplayName[0],
+            lastName: splitedDisplayName[1],
+            email: account.email,
+            photoUrl: account.photoUrl,
+            registerMode: 1,
+            pushToken: fcmToken,
+          ),
+        );
+      }
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
+      FirebaseCrashlytics.instance.setCustomKey('log with google', s);
       throw Exception(e);
     }
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     final prefs = await SharedPreferences.getInstance();
     _facebookLogin.logOut();
     googleSignIn.signOut();
-    prefs.clear();
+    prefs.remove('Tid');
+    prefs.remove('user');
   }
 
-  Future signInWithApple() async {
+  Future<void> signInWithApple() async {
     try {
       var appleCredentials = await SignInWithApple.getAppleIDCredential(
           scopes: [
             AppleIDAuthorizationScopes.email,
             AppleIDAuthorizationScopes.fullName
           ]);
-
+      //print('appleCredential $appleCredentials');
       final fcmToken = await fcmService.getfcmToken();
 
-      saveUserCredentials(
-        appleCredentials.userIdentifier,
-        3,
-        fcmToken,
-        '${appleCredentials.familyName}' +
-            " " +
-            '${appleCredentials.givenName}',
-        appleCredentials.email,
-        null,
-        appleCredentials.identityToken,
-        appleCredentials.authorizationCode,
-      );
+      saveUserRegistrationDatatoMap(User(
+        id: appleCredentials.userIdentifier,
+        accessToken: appleCredentials.identityToken,
+      ));
+      saveProfileRegistrationDataToMap(Profile(
+          firstName: appleCredentials.familyName,
+          lastName: appleCredentials.givenName,
+          email: appleCredentials.email,
+          registerMode: 3,
+          pushToken: fcmToken));
+      /*  final data = decoder.parseJwtPayLoad(appleCredentials.identityToken);
+      print('apple data: $data');
+      decoder.parseJwtHeader(appleCredentials.identityToken); */
     } on SignInWithAppleAuthorizationException {
       throw SignInWithAppleCredentialsException(message: 'Remove from user');
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
+
       throw Exception(e);
     }
   }

@@ -1,30 +1,31 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
-import '../widgets/localizations.dart';
+import '../localization/localizations.dart';
+import '../models/company_model.dart';
 
-class CompanieWidget extends StatelessWidget {
-  const CompanieWidget(this.companie);
-  final companie;
+class CompanyWidget extends StatelessWidget {
+  const CompanyWidget(this.company);
+  final Company company;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.only(top: 10, bottom: 10,right: 5,left: 5),
+      contentPadding: EdgeInsets.only(top: 10, bottom: 10, right: 5, left: 5),
       leading: Container(
-        width: 80,
-        height: 80,
+        width: 60,
+        height: 60,
         child: Image.memory(
-            Base64Decoder().convert('${companie['Logo'].toString().characters.skip(22)}'),
-            filterQuality: FilterQuality.high,
-            fit: BoxFit.contain,
-          ),
+          company.logo,
+          filterQuality: FilterQuality.high,
+          fit: BoxFit.contain,
+          errorBuilder: (context, obj, _) => Container(),
         ),
- 
-      title: FittedBox(fit: BoxFit.scaleDown,
-              child: Text(
-          '${companie['Name']}',
+      ),
+
+      title: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          '${company.name}',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -44,9 +45,10 @@ class CompanieWidget extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
             ),
-            FittedBox(fit:BoxFit.contain,
-                          child: Text(
-                '${double.parse(companie['Amount']).toStringAsFixed(2) } lei',
+            FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                '${double.parse(company.amount).toStringAsFixed(2)} lei',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),

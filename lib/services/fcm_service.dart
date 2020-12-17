@@ -6,13 +6,37 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import '../models/received_notification.dart';
 
 FirebaseMessaging _fcm = FirebaseMessaging();
 FCMService fcmService = FCMService();
+Future<void> initializationOfHiveDB(notification) async {
+  await Hive.initFlutter();
+  Hive.isAdapterRegistered(0)
+      // ignore: unnecessary_statements
+      ? null
+      : Hive.registerAdapter<ReceivedNotification>(
+          ReceivedNotificationAdapter());
+  await Hive.openBox<ReceivedNotification>('notification');
+  Box<ReceivedNotification> notificationBox =
+      Hive.box<ReceivedNotification>('notification');
+  final _notifications = notification['data'] ?? notification;
+  final int id = int.parse(_notifications['id']).toInt();
+  String title = _notifications['title'];
+  String body = _notifications['body'];
+
+  notificationBox.add(ReceivedNotification(id: id, title: title, body: body));
+  print(notificationBox.values);
+  //notificationBox.close();
+}
 
 Future<dynamic> myBackgroundMessageHandler(
     Map<String, dynamic> notification) async {
   fcmService._showPublicNotification(notification);
+  initializationOfHiveDB(notification);
 }
 
 class FCMService {
@@ -51,6 +75,7 @@ class FCMService {
       initializationSettings,
       onSelectNotification: (notification) async {
         selectNotificationSubject.add(notification);
+        initializationOfHiveDB(notification);
       },
     );
   }
@@ -79,9 +104,9 @@ class FCMService {
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-        int.parse('${notification['notification']['id']}'),
-        '${notification['notification']['title']}',
-        '${notification['notification']['body']}',
+        int.parse('${notification['data']['id']}'),
+        '${notification['data']['title']}',
+        '${notification['data']['body']}',
         platformChannelSpecifics,
         payload: 'item x');
     print('is showpublicnotification:${notification['data']}');
@@ -132,11 +157,6 @@ class FCMService {
     print('is shownotification:$notification');
   }
 
-  /* Future<List> getListofNotification() async {
-    var list =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    return list;
-  } */
   void dispose() {
     fcmService.dispose();
   }
@@ -159,64 +179,17 @@ class FCMService {
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
         _showNotification(notification);
+        initializationOfHiveDB(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
-        _showNotification(notification);
+        // _showNotification(notification);
+        initializationOfHiveDB(notification);
       },
       onLaunch: (Map<String, dynamic> notification) async {
-        _showNotification(notification);
+        //_showNotification(notification);
+        initializationOfHiveDB(notification);
       },
       onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
     );
   }
-
-  /*  Future<void> _showBigTextNotification(notification) async {
-    _showNotifications(notification);
-    var bigTextStyleInformation = BigTextStyleInformation(
-        '<i>${notification['data']['body']}</i>',
-        htmlFormatBigText: true,
-        contentTitle: ' <b>${notification['data']['title']}</b> ',
-        htmlFormatContentTitle: true,
-        summaryText: ' <i>${notification['data']['sumary']}</i>',
-        htmlFormatSummaryText: true);
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'big text channel id',
-        'big text channel name',
-        'big text channel description',
-        styleInformation: bigTextStyleInformation);
-    var platformChannelSpecifics =
-        NotificationDetails(androidPlatformChannelSpecifics, null);
-    await flutterLocalNotificationsPlugin.show(
-        0,
-        '${notification['data']['title']}',
-        '${notification['data']['body']}',
-        platformChannelSpecifics);
-  } */
-}
-
-/* Map<dynamic, ReceivedNotification> _receivedNotification = {};
-
-ReceivedNotification _showNotifications(Map<String, dynamic> notification) {
-  final dynamic _notifications = notification['data'] ?? notification;
-  final int id = int.parse(_notifications['id']).toInt();
-  String title = _notifications['title'];
-  String body = _notifications['body'];
-  final ReceivedNotification receivedNotification =
-      _receivedNotification.putIfAbsent(
-          id, () => ReceivedNotification(id: id, title: title, body: body));
-  return receivedNotification;
-} */
-
-class ReceivedNotification {
-  final int id;
-  String title;
-  String body;
-  final String payload;
-
-  ReceivedNotification({
-    @required this.id,
-    @required this.title,
-    @required this.body,
-    this.payload,
-  });
 }
