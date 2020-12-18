@@ -11,14 +11,20 @@ class TransactionService {
 
   Future<List<Transaction>> getTransactions() async {
     final serviceName = await getServiceNameFromRemoteConfig();
+    try {
+      final url = '$serviceName/json/GetTransactions';
+      final response = await http.get(url, headers: _credentials.header);
+      final decodedResponse = json.decode(response.body);
+      print(decodedResponse);
+      //data.remove('id');
+      final list = decodedResponse['Transactions'] as List;
 
-    final url = '$serviceName/json/GetTransactions';
-    final response = await http.get(url, headers: _credentials.header);
-    final decodedResponse = json.decode(response.body);
-    print(decodedResponse);
-    //data.remove('id');
-    final list = decodedResponse['Transactions'] as List;
-
-    return list.map((e) => Transaction.fromJson(e)).toList();
+      return list.map((e) => Transaction.fromJson(e)).toList();
+    } on FormatException {
+      print('format exception');
+    } catch (e) {
+      print(e);
+    }
+    return [];
   }
 }

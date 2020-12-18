@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:MyDiscount/services/local_notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,30 +23,36 @@ import 'services/auth_service.dart';
 import 'services/fcm_service.dart';
 import 'services/remote_config_service.dart';
 
-FCMService fcmService = FCMService();
-
+FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
+LocalNotificationsService localNotificationsService =
+    LocalNotificationsService();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp();
+  try {
+    await Hive.initFlutter();
+
+    Hive.registerAdapter<News>(NewsAdapter());
+    // Hive.registerAdapter<Company>(CompanyAdapter());
+    // await Hive.openBox<Company>('company');
+    await Hive.openBox<News>('news');
+  } catch (e) {}
   getServiceNameFromRemoteConfig();
-  await Hive.initFlutter();
-  /* Hive.isAdapterRegistered(1)
-      // ignore: unnecessary_statements
-      ? null
-      : */
-  Hive.registerAdapter<News>(NewsAdapter());
-  // Hive.registerAdapter<Company>(CompanyAdapter());
-  // await Hive.openBox<Company>('company');
-  await Hive.openBox<News>('news');
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   //FirebaseCrashlytics.instance.sendUnsentReports();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
-  fcmService.getFlutterLocalNotificationPlugin();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
+  localNotificationsService.getFlutterLocalNotificationPlugin();
+  
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+    ),
+  );
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runZoned(

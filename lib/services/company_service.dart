@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/constants/credentials.dart';
-import 'package:MyDiscount/core/failure.dart';
-import 'package:MyDiscount/core/formater.dart';
-import 'package:MyDiscount/models/company_model.dart';
-import 'package:MyDiscount/models/user_credentials.dart';
-import 'package:MyDiscount/services/internet_connection_service.dart';
-import 'package:MyDiscount/services/remote_config_service.dart';
-import 'package:MyDiscount/services/shared_preferences_service.dart';
+import '../constants/credentials.dart';
+import '../core/failure.dart';
+import '../core/formater.dart';
+import '../models/company_model.dart';
+import '../models/user_credentials.dart';
+import '../services/internet_connection_service.dart';
+import '../services/remote_config_service.dart';
+import '../services/shared_preferences_service.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
 

@@ -21,7 +21,7 @@ class NewsService {
     final id = await readEldestNewsId();
     final url = '$serviceName/json/GetAppNews?ID=$id';
     final response = await http.get(url, headers: credentials.header);
-    final decodedResponse = json.decode(response.body);
+    final Map<String,dynamic> decodedResponse = json.decode(response.body);
     print(decodedResponse);
 
     final list = decodedResponse['NewsList'] as List;
@@ -54,7 +54,7 @@ class NewsService {
     print('companyBoxValue:$newsBox.values');
   }
 
-  void checkIfNewsIsNotOld(List keys) {
+  /* void checkIfNewsIsNotOld(List keys) {
     for (int key in keys) {
       final news = newsBox.get(key);
       if (news.expireDate.isBefore(DateTime.now())) {
@@ -62,5 +62,5 @@ class NewsService {
       }
       newsBox.compact();
     }
-  }
+  } */
 }

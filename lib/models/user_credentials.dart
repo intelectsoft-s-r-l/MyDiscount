@@ -15,24 +15,9 @@ class UserCredentials {
     sPrefs.saveProfileData(json.encode(profile.toJson()));
   }
 
-  Future<Profile> _returnRegistrationProfileDataAsMap() async {
-    Map<String, dynamic> profile =
-        json.decode(await sPrefs.readProfileData()) as Map<String, dynamic>;
-    return Future.value(Profile.fromJson(profile));
-  }
+  
 
-  Future<Profile> _returnFormProfileDataAsMap() async {
-    final data = await sPrefs.instance;
-    if (data.containsKey('formProfile')) {
-      String savedFormData = await sPrefs.readFormProfileData();
-
-      return Profile.fromJson(json.decode(savedFormData));
-    } else {
-      return Profile(birthDay: '', gender: '', phone: '');
-    }
-  }
-
-  Future<Map<String, dynamic>> getUserProfileData() async {
+  Future<Profile> getUserProfileData() async {
     Profile profile = await _returnRegistrationProfileDataAsMap();
 
     Profile profileMap = await _returnFormProfileDataAsMap();
@@ -46,13 +31,13 @@ class UserCredentials {
           gender: profileMap.gender ?? '',
           phone: profileMap.phone ?? '',
           email: profile.email ?? '',
-          photoUrl: profile.photoUrl ?? '',
+          photoUrl: profile.photoUrl,
           registerMode: profile.registerMode,
           pushToken: profile.pushToken ?? '',
         ),
       ),
     );
-    return Future.value(profile.toJson());
+    return Future.value(profile);
   }
 
   List<String> splitTheStrings(String displayName) {
@@ -65,7 +50,7 @@ class UserCredentials {
 
   Future<String> getRequestBodyData() async {
     final _prefs = await sPrefs.instance;
-    User user = await getRegistrationUserData();
+    User user = await _getRegistrationUserData();
     Profile profile = await _returnRegistrationProfileDataAsMap();
     if (_prefs.containsKey('Tid')) {
       final minUserData = json.encode(
@@ -88,14 +73,14 @@ class UserCredentials {
   Future<String> getUserIdFromLocalStore() async {
     final _prefs = await sPrefs.instance;
     if (_prefs.containsKey('Tid')) {
-      User user = await getRegistrationUserData();
+      User user = await _getRegistrationUserData();
       return user.id;
     } else {
       return '';
     }
   }
 
-  Future<User> getRegistrationUserData() async {
+  Future<User> _getRegistrationUserData() async {
     return Future.value(
       User.fromJson(
         json.decode(
@@ -103,6 +88,22 @@ class UserCredentials {
         ),
       ),
     );
+  }
+  Future<Profile> _returnRegistrationProfileDataAsMap() async {
+    Map<String, dynamic> profile =
+        json.decode(await sPrefs.readProfileData()) as Map<String, dynamic>;
+    return Future.value(Profile.fromJson(profile));
+  }
+
+  Future<Profile> _returnFormProfileDataAsMap() async {
+    final data = await sPrefs.instance;
+    if (data.containsKey('formProfile')) {
+      String savedFormData = await sPrefs.readFormProfileData();
+
+      return Profile.fromJson(json.decode(savedFormData));
+    } else {
+      return Profile(birthDay: '', gender: '', phone: '');
+    }
   }
 }
 
