@@ -25,7 +25,7 @@ class News {
   final Uint8List photo;
   @HiveField(8)
   final Uint8List logo;
-  @HiveField(9)
+
   
   News(
       {@required this.companyName,

@@ -10,7 +10,7 @@ import '../services/shared_preferences_service.dart';
 import '../widgets/human_image_widget.dart';
 import '../widgets/nointernet_widget.dart';
 import '../widgets/qr-widget.dart';
-import '../widgets/top_bar_image.dart';
+import '../widgets/top_bar_image_of_qr_page.dart';
 import '../widgets/top_bar_text.dart';
 
 class QrPage extends StatefulWidget {
@@ -149,7 +149,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
         children: [
           Stack(
             children: [
-              TopBarImage(size: size),
+              TopBarImageQRPage(size: size),
               Positioned(
                 top: size.height * .07,
                 child: IconButton(
