@@ -12,23 +12,25 @@ class Profile {
   final int registerMode;
 
   Profile({
-     this.firstName,
-     this.lastName,
-     this.birthDay,
-     this.gender,
-     this.phone,
-     this.email,
-     this.photoUrl,
-     this.registerMode,
-     this.pushToken,
-  });
+    this.firstName ,
+    this.lastName,
+    this.birthDay,
+    this.gender,
+    this.phone,
+    this.email,
+    this.photoUrl = '',
+    this.registerMode,
+    this.pushToken,
+  })  : assert(photoUrl != null)/*,
+        assert(firstName != null),
+        assert(lastName != null)  */;
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      firstName: json['firstName'],
-      lastName: json['lastName'],
+      firstName: json['firstName']??'',
+      lastName: json['lastName']??'',
       email: json['email'],
-      photoUrl: json['photoUrl'],
+      photoUrl: json['photoUrl'] ?? '',
       birthDay: json['birthDay'],
       gender: json['gender'],
       phone: json['phone'],
