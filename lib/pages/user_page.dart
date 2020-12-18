@@ -1,4 +1,5 @@
 import 'package:MyDiscount/core/failure.dart';
+import 'package:MyDiscount/models/profile_model.dart';
 import 'package:MyDiscount/services/company_service.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class UserPage extends StatelessWidget {
               Positioned(
                 top: size.height * .05,
                 left: 30,
-                child: FutureBuilder<Map<String, dynamic>>(
+                child: FutureBuilder<Profile>(
                   future: credentials.getUserProfileData(), //_loadSharedPref(),
                   builder: (context, snapshot) {
                     print(snapshot.data);
@@ -47,9 +48,9 @@ class UserPage extends StatelessWidget {
                                   radius: 30,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(40),
-                                    child: snapshot.data['photoUrl'] != null
-                                        ? Image.network(
-                                            snapshot.data['photoUrl'],
+                                    child: /* snapshot.data.photoUrl != null
+                                        ?  */Image.network(
+                                            snapshot.data.photoUrl,
                                             fit: BoxFit.fill,
                                             scale: 0.7,
                                             filterQuality: FilterQuality.high,
@@ -59,8 +60,8 @@ class UserPage extends StatelessWidget {
                                                   'assets/icons/profile.png');
                                             },
                                           )
-                                        : Image.asset(
-                                            'assets/icons/profile.png'),
+                                        /* : Image.asset(
+                                            'assets/icons/profile.png'), */
                                   ),
                                 ),
                               ),
@@ -73,32 +74,30 @@ class UserPage extends StatelessWidget {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      snapshot.data['firstName'] != null
-                                          ? Text(
-                                              '${snapshot.data['firstName']}',
+                                      Text(
+                                              '${snapshot.data.firstName}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 //fontSize: 20,
                                               ),
                                               textScaleFactor: 1.3,
-                                            )
-                                          : Container(),
+                                            ),
+                                         
                                       SizedBox(
                                         width: 5,
                                       ),
-                                      snapshot.data['lastName'] != null
-                                          ? Text(
-                                              '${snapshot.data['lastName']}',
+                                       Text(
+                                              '${snapshot.data.lastName}',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 //fontSize: 20,
                                               ),
                                               textScaleFactor: 1.3,
-                                            )
-                                          : Container(),
+                                            ),
+                                          
                                     ],
                                   ),
-                                  if (snapshot.data['registerMode'] == 1)
+                                  if (snapshot.data.registerMode == 1)
                                     Text(
                                       AppLocalizations.of(context)
                                           .translate('text15'),
@@ -108,7 +107,7 @@ class UserPage extends StatelessWidget {
                                       ),
                                       textScaleFactor: 1,
                                     ),
-                                  if (snapshot.data['registerMode'] == 2)
+                                  if (snapshot.data.registerMode == 2)
                                     Text(
                                       AppLocalizations.of(context)
                                           .translate('text16'),
@@ -118,7 +117,7 @@ class UserPage extends StatelessWidget {
                                       ),
                                       textScaleFactor: 1,
                                     ),
-                                  if (snapshot.data['registerMode'] == 3)
+                                  if (snapshot.data.registerMode == 3)
                                     Text(
                                       AppLocalizations.of(context)
                                           .translate('text17'),

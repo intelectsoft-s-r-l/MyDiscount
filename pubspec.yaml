@@ -16,11 +16,11 @@ dependencies:
   cupertino_icons: ^1.0.0
   data_connection_checker: ^0.3.4
   date_time_picker: ^1.1.0
-  firebase_analytics: ^6.2.0
-  firebase_core: ^0.5.2
-  firebase_crashlytics: ^0.2.3
+  firebase_analytics: ^6.3.0
+  firebase_core: ^0.5.3
+  firebase_crashlytics: ^0.2.4
   firebase_messaging: ^7.0.3
-  firebase_remote_config: ^0.4.2
+  firebase_remote_config: ^0.4.3
   flutter_facebook_login: ^3.0.0
   flutter_html: ^1.1.1
   flutter_local_notifications: ^3.0.1+6

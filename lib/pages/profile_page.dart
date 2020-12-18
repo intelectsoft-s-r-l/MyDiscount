@@ -73,8 +73,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   right: 15,
                   child: GestureDetector(
                     onTap: () async {
-                      Profile profile = Profile.fromJson(
-                          await userCredentials.getUserProfileData());
+                      Profile profile =
+                          await userCredentials.getUserProfileData();
                       _isEditing
                           ? userCredentials.saveFormProfileInfo(Profile(
                               birthDay: dataText,
@@ -110,15 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Expanded(
               child: Container(
-                child: FutureBuilder<Map<String, dynamic>>(
-                /*   initialData: {
-                    'firstName': '',
-                    'lastName': '',
-                    'email': '',
-                    'birthDay': '',
-                    'gender': '',
-                    'phone': ''
-                  },*/ 
+                child: FutureBuilder<Profile>(
                   future: UserCredentials().getUserProfileData(),
                   builder: (context, snapshot) => snapshot.hasData
                       ? SingleChildScrollView(
@@ -138,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 Container(
                                     child: Text(
-                                  snapshot.data['firstName'],
+                                  snapshot.data.firstName,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -154,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 Container(
                                     child: Text(
-                                  snapshot.data['lastName'],
+                                  snapshot.data.lastName,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -166,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 Container(
                                     child: Text(
-                                  snapshot.data['email'],
+                                  snapshot.data.email,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
@@ -184,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               Divider(),
                                               DateTimePicker(
                                                   type: DateTimePickerType.date,
-                                                  dateMask: 'd MMM, yyyy',
+                                                  dateMask: 'd MMM yyyy',
                                                   initialValue: dataText,
                                                   firstDate: DateTime(1900),
                                                   lastDate: DateTime(2100),
@@ -243,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                       )
-                                    : ProfileFormWidget(map: snapshot.data),
+                                    : ProfileFormWidget(profile: snapshot.data),
                               ],
                             ),
                           ),
@@ -252,15 +244,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            //SizedBox(height: size.height*.14,),
-            /* Container(
-              child: SvgPicture.asset(
-                'assets/icons/bottom.svg',
-                width: size.width,
-                height: size.height * .18,
-                fit: BoxFit.fill,
-              ),
-            ), */
           ],
         ),
       ),

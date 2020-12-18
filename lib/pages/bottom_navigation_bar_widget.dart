@@ -33,7 +33,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
         selectedFontSize: MediaQuery.of(context).devicePixelRatio + 8,
         onTap: (value) {
           if (value == 2) {
-            Navigator.pushNamed(context, '/qrpage');
+            Navigator.pushReplacementNamed(context, '/qrpage');
           } else {
             setState(() {
               if (selectedIndex != 2) {

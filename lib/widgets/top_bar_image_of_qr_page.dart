@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class TopBarImage extends StatelessWidget {
-  const TopBarImage({
+class TopBarImageQRPage extends StatelessWidget {
+  const TopBarImageQRPage({
     Key key,
     @required this.size,
   }) : super(key: key);
@@ -11,8 +12,8 @@ class TopBarImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(width: size.width,
-        child: Image.asset(
-            'assets/icons/Background.png',width: size.width,height: size.height*.18,
+        child: SvgPicture.asset(
+            'assets/icons/top.svg',width: size.width,height: size.height*.18,
             fit: BoxFit.fill,
           ),
       );
