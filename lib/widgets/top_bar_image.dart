@@ -11,7 +11,7 @@ class TopBarImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container(width: size.width,
         child: SvgPicture.asset(
             'assets/icons/top.svg',width: size.width,height: size.height*.18,
             fit: BoxFit.fill,

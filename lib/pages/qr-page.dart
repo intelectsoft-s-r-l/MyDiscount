@@ -214,7 +214,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
           ),
           Stack(
             children: [
-              Container(
+              Container(width: size.width,
                 child: SvgPicture.asset(
                   'assets/icons/bottom.svg',
                   width: size.width,
