@@ -26,7 +26,7 @@ class News {
   @HiveField(8)
   final Uint8List logo;
   @HiveField(9)
-  final DateTime expireDate;
+  
   News(
       {@required this.companyName,
       @required this.appType,
@@ -37,7 +37,7 @@ class News {
       @required this.id,
       @required this.photo,
       @required this.logo,
-      @required this.expireDate});
+     });
 
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
@@ -50,7 +50,7 @@ class News {
       id: json['ID'],
       photo: json['Photo'] ?? Uint8List.fromList([]),
       logo: json['CompanyLogo'] ?? Uint8List.fromList([]),
-      expireDate: json['ExpireDate'],
+      //expireDate: json['ExpireDate'],
     );
   }
 }
