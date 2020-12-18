@@ -23,7 +23,7 @@ class AuthService extends UserCredentials {
   ]);
   FacebookLogin _facebookLogin = FacebookLogin();
 
-  FCMService fcmService = FCMService();
+  FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
 
   Future<void> authWithFacebook() async {
     try {
@@ -68,7 +68,7 @@ class AuthService extends UserCredentials {
     return json.decode(_graphResponse.body);
   }
 
-  Future<void> logwithG(context) async {
+  Future<void> logwithG() async {
     try {
       final GoogleSignInAccount account = await googleSignIn.signIn();
 
@@ -88,7 +88,7 @@ class AuthService extends UserCredentials {
             firstName: splitedDisplayName[0],
             lastName: splitedDisplayName[1],
             email: account.email,
-            photoUrl: account.photoUrl,
+            photoUrl: account.photoUrl??'',
             registerMode: 1,
             pushToken: fcmToken,
           ),
@@ -124,8 +124,8 @@ class AuthService extends UserCredentials {
         accessToken: appleCredentials.identityToken,
       ));
       saveProfileRegistrationDataToMap(Profile(
-          firstName: appleCredentials.familyName,
-          lastName: appleCredentials.givenName,
+          firstName: appleCredentials.familyName??'',
+          lastName: appleCredentials.givenName??'',
           email: appleCredentials.email,
           registerMode: 3,
           pushToken: fcmToken));
