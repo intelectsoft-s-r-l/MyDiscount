@@ -1,34 +1,34 @@
 //import 'package:equatable/equatable.dart';
 
-import 'package:flutter/foundation.dart';
 
 class User {
   final String id;
   final String accessToken;
- /*  final DateTime session;
-
- // bool _isLogedIn;
- bool get isLogedIn {
-    if(session.isAfter(DateTime.now())){
-     return false;
-    }else{
-     return true;
-    }
-  } */
+  DateTime _session;
+  DateTime get session => _session;
+  set session(value) {
+    _session = session;
+  }
 
   User({
-    @required this.id,
-    @required this.accessToken,
- /*    @required this.session, */
+     this.id,
+     this.accessToken,
   });
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        id: json['ID'],
-        accessToken: json['access_token'],
-        //session: json['Session']
-        );
+      id: json['ID'],
+      accessToken: json['access_token'],
+    );
   }
   Map<String, dynamic> toJson() {
-    return {"ID": id, "access_token": accessToken};
+    return {
+      "ID": id,
+      "access_token": accessToken,
+    };
   }
+  /* getAuthState() async {
+ /*  final prefs = await SharedPreferences.getInstance();
+  if (prefs.containsKey('user')) */ 
+  if(session) authController.sink.add(true);
+} */
 }
