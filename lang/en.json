@@ -31,6 +31,14 @@
     "text29": "Notifications Settings",
     "text30": "App Info",
     "text31": "Log Out",
+    "text32": "Privacy policy",
+    "text33": "Technical data",
+    "text34": "Manufacturer",
+    "text35": "Model",
+    "text36": "OS version",
+    "text37": "Phone number",
+    "text38": "Language",
+    "Info": "Information",
     "pc": "Politica de confidențialitate\n\n",
     "ig": "     Informații generale\n\n",
     "confdate": "     Confidențialitatea datelor dumneavoastră cu caracter personal reprezintă una dintre preocupările principale ale companiei IntelectSoft SRL în calitate de operator de date, cu sediul pe str. Alba Iulia 154 et.3, Chișinău, MD- 2051, Republica Moldova. Acest document are rolul de a vă informa cu privire la prelucrarea datelor dumneavoastră cu caracter personal, în contextul utilizării aplicației MyDiscount. (în continuare Aplicație)\n",
@@ -48,6 +56,6 @@
     "ig1": "\n\n     Informații generale\n\n",
     "par7": "     MyDiscount este o aplicație mobilă pe care o puteți instala gratuit atât pentru telefoanele care utilizeaza sistemul de operare Android, accesând Magazinul Google Play, cât și pe telefoanele cu iOS accesând App Store.\n\n\n",
     "qr": "QR-code",
-    "edit":"Edit",
-    "save":"Save"
+    "edit": "Edit",
+    "save": "Save"
 }
