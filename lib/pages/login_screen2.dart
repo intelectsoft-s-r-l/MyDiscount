@@ -35,9 +35,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
         future.whenComplete(() async {
           final prefs = await _pref.instance;
           if (prefs.containsKey('user') && prefs.containsKey('profile')) {
-            authController.sink.add(true);
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/qrpage', (Route<dynamic> route) => false);
+            //authController.sink.add(true);
+            Navigator.of(context).pushReplacementNamed('/app');
           }
         });
       } else {
