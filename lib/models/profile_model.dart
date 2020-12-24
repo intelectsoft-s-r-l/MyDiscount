@@ -5,8 +5,8 @@ class Profile {
   final String lastName;
   final String email;
   final String photoUrl;
-  final String birthDay;
-  final String gender;
+/*   final String birthDay;
+  final String gender; */
   final String phone;
   final String pushToken;
   final int registerMode;
@@ -14,8 +14,8 @@ class Profile {
   Profile({
     this.firstName ,
     this.lastName,
-    this.birthDay,
-    this.gender,
+   /*  this.birthDay,
+    this.gender, */
     this.phone,
     this.email,
     this.photoUrl = '',
@@ -31,8 +31,8 @@ class Profile {
       lastName: json['lastName']??'',
       email: json['email'],
       photoUrl: json['photoUrl'] ?? '',
-      birthDay: json['birthDay'],
-      gender: json['gender'],
+     /*  birthDay: json['birthDay'],
+      gender: json['gender'], */
       phone: json['phone'],
       registerMode: json['registerMode'],
       pushToken: json['pushToken'],
@@ -44,8 +44,8 @@ class Profile {
       "lastName": lastName,
       "email": email,
       "photoUrl": photoUrl,
-      "birthDay": birthDay,
-      "gender": gender,
+    /*   "birthDay": birthDay,
+      "gender": gender, */
       "phone": phone,
       "registerMode": registerMode,
       'pushToken': pushToken,
