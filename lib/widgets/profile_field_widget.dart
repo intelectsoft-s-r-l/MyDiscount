@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:MyDiscount/models/profile_model.dart';
 import 'package:MyDiscount/models/user_credentials.dart';
+import 'package:MyDiscount/services/phone_verification.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -19,9 +20,15 @@ class ProfileFieldWidget extends StatefulWidget {
 }
 
 class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
+  @override
+  void dispose() {
+    
+    super.dispose();
+  }
+
   bool isEdit = false;
   bool isVerifing = false;
-  String _currentCode = '0000';
+  //String _currentCode = '0000';
   TextEditingController _phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -52,12 +59,11 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                   });
                                 })
                             : PinFieldAutoFill(
-                                //currentCode: _currentCode,
                                 codeLength: 4,
                                 onCodeChanged: (code) {
-                                  _currentCode = code;
-                                },
-                                 onCodeSubmitted: (code) {
+                                  PhoneVerification()
+                                      .getVerificationLocalCode(code);
+
                                   print(code);
                                 },
                               ),
@@ -90,6 +96,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                         await SmsAutoFill().listenForCode;
                         print(SmsAutoFill().getAppSignature);
                       }
+
+                      // PhoneVerification().smsCodeVerification();
                       setState(() {
                         UserCredentials().saveFormProfileInfo(
                             Profile(phone: _phoneController.text));

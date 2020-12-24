@@ -20,15 +20,17 @@ class ProfileItemWidget extends StatelessWidget {
               style: TextStyle(color: Colors.black),
             ),
           ),
+          SizedBox(
+            height: 15,
+          ),
           Container(
               child: Text(
             text,
             style: TextStyle(
-              color: Colors.black,
-              fontSize: 18.0,
-            ),
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold),
           )),
-         
         ],
       ),
     );
