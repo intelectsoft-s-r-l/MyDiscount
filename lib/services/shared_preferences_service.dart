@@ -42,14 +42,13 @@ class SharedPref {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('formProfile');
   }
-
-  /* saveNewsId(int id) async {
+   saveLocale(String locale) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('id', id.toString());
+    prefs.setString('locale', locale);
   }
 
- Future<String> readNewsId() async {
+ Future<String> readLocale() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('id');
-  } */
+    return prefs.getString('locale');
+  }
 }

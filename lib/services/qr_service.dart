@@ -18,12 +18,9 @@ class QrService {
   Credentials credentials = Credentials();
   Formater formater = Formater();
   NetworkConnectionImpl status = NetworkConnectionImpl();
-  /* Map<String, String> _headers = {
-    'Content-type': 'application/json; charset=utf-8',
-    'Authorization': 'Basic ' + Credentials.encoded,
-  }; */
+  
 
-  Future<String> getTID() async {
+  Future<String> getTID(context) async {
     try {
       String serviceName = await getServiceNameFromRemoteConfig();
 
@@ -50,7 +47,7 @@ class QrService {
 
           prefs.remove('user');
 
-          AuthService().signOut();
+          AuthService().signOut(context);
 
           authController.add(false);
         }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -80,7 +81,10 @@ class AuthService extends UserCredentials {
         // final data = auth.idToken;
         // decoder.parseJwtPayLoad(data ?? '');
         saveUserRegistrationDatatoMap(
-          User(id: account.id, accessToken: auth.accessToken),
+          User(
+            id: account.id,
+            accessToken: auth.accessToken,
+          ),
         );
         final splitedDisplayName = splitTheStrings(account.displayName);
         saveProfileRegistrationDataToMap(
@@ -88,7 +92,7 @@ class AuthService extends UserCredentials {
             firstName: splitedDisplayName[0],
             lastName: splitedDisplayName[1],
             email: account.email,
-            photoUrl: account.photoUrl??'',
+            photoUrl: account.photoUrl ?? '',
             registerMode: 1,
             pushToken: fcmToken,
           ),
@@ -101,12 +105,14 @@ class AuthService extends UserCredentials {
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(context) async {
     final prefs = await SharedPreferences.getInstance();
     _facebookLogin.logOut();
     googleSignIn.signOut();
     prefs.remove('Tid');
     prefs.remove('user');
+    authController.add(false);
+    Navigator.of(context).pushReplacementNamed('/loginscreen');
   }
 
   Future<void> signInWithApple() async {
@@ -124,8 +130,8 @@ class AuthService extends UserCredentials {
         accessToken: appleCredentials.identityToken,
       ));
       saveProfileRegistrationDataToMap(Profile(
-          firstName: appleCredentials.familyName??'',
-          lastName: appleCredentials.givenName??'',
+          firstName: appleCredentials.familyName ?? '',
+          lastName: appleCredentials.givenName ?? '',
           email: appleCredentials.email,
           registerMode: 3,
           pushToken: fcmToken));
