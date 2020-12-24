@@ -1,6 +1,14 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:MyDiscount/models/user_model.dart';
+import 'package:MyDiscount/pages/about_app.dart';
+import 'package:MyDiscount/pages/app_inf_page.dart';
+import 'package:MyDiscount/pages/info_page.dart';
+import 'package:MyDiscount/pages/profile_page.dart';
+import 'package:MyDiscount/pages/technic_details_page.dart';
+import 'package:MyDiscount/pages/transactions_page.dart';
+import 'package:MyDiscount/pages/user_page.dart';
 import 'package:MyDiscount/services/local_notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -15,10 +23,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'localization/localizations.dart';
 import 'models/news_model.dart';
-import 'pages/bottom_navigation_bar_widget.dart';
+import 'widgets/bottom_navigation_bar_widget.dart';
 import 'pages/detail_news_page.dart';
 import 'pages/login_screen2.dart';
-import 'pages/qr-page.dart';
+//import 'pages/qr-page.dart';
+import 'pages/settings_page.dart';
 import 'services/auth_service.dart';
 import 'services/fcm_service.dart';
 import 'services/remote_config_service.dart';
@@ -26,6 +35,7 @@ import 'services/remote_config_service.dart';
 FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
 LocalNotificationsService localNotificationsService =
     LocalNotificationsService();
+User user = User();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -45,7 +55,7 @@ void main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
   localNotificationsService.getFlutterLocalNotificationPlugin();
-  
+
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -62,7 +72,7 @@ void main() async {
       onError: FirebaseCrashlytics.instance.recordError,
     );
 
-    //fcmService.getfcmToken();
+    fcmService.getfcmToken();
   });
 }
 
@@ -71,10 +81,38 @@ getAuthState() async {
   if (prefs.containsKey('user')) authController.sink.add(true);
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    state.setLocale(newLocale);
+  }
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale;
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    AppLocalizations(_locale).getLocale().then((locale) {
+      setState(() {
+        this._locale = locale;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: _locale,
       debugShowCheckedModeBanner: false,
       supportedLocales: [
         Locale('en', 'US'),
@@ -114,14 +152,21 @@ class MyApp extends StatelessWidget {
       routes: {
         '/loginscreen': (context) => LoginScreen2(),
         '/app': (context) => BottomNavigationBarWidget(),
-        '/qrpage': (context) => QrPage(),
         '/detailpage': (context) => DetailNewsPage(),
+        '/profilepage': (context) => ProfilePage(),
+        '/companypage': (context) => CompanyListPage(),
+        '/transactionlist': (context) => TransactionsPage(),
+        '/infopage': (context) => InformationPage(),
+        '/politicaconf': (context) => AppInfoPage(),
+        '/technicdetail': (context) => TechnicDetailPage(),
+        '/about': (context) => AboutAppPage(),
+        '/settings': (context) => SettingsPage(),
       },
       home: StreamBuilder(
         initialData: false,
         stream: authController.stream,
         builder: (context, snapshot) =>
-            snapshot.data ? QrPage() : LoginScreen2(),
+            snapshot.data ? BottomNavigationBarWidget() : LoginScreen2(),
       ),
     );
   }
