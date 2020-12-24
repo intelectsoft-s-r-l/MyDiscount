@@ -14,10 +14,10 @@ class AppInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 5,
+       // vertical: 5,
         horizontal: 10,
       ),
-      height: size.height * .8,
+      //height: size.height * .8,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -37,8 +37,7 @@ class AppInfoWidget extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: AppLocalizations.of(context)
-                        .translate('confdate'),
+                    text: AppLocalizations.of(context).translate('confdate'),
                     style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                   TextSpan(
