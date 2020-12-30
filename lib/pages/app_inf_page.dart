@@ -1,6 +1,6 @@
-import 'package:MyDiscount/localization/localizations.dart';
 import 'package:flutter/material.dart';
 
+import '../localization/localizations.dart';
 import '../widgets/app_info_widget.dart';
 
 class AppInfoPage extends StatelessWidget {

@@ -1,3 +1,4 @@
+import 'package:MyDiscount/localization/localizations.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,19 +12,17 @@ class ProfileFieldWidget extends StatefulWidget {
     Key key,
     @required this.labelText,
   }) : super(key: key);
-  
+
   final String labelText;
-  
 
   @override
   _ProfileFieldWidgetState createState() => _ProfileFieldWidgetState();
 }
 
 class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
-  
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _codeController = TextEditingController();
-  
+
   final _formKey = GlobalKey<FormState>();
 
   FocusNode focusNode = FocusNode();
@@ -65,7 +64,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                     },
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       RaisedButton(
                         onPressed: () {
@@ -88,18 +87,22 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           if (coresponde) {
                             provider.phone = _phoneController.text;
                             Navigator.pop(context);
-                            FlushbarHelper.createSuccess(message: 'Verified')
+                            FlushbarHelper.createSuccess(
+                                    message: AppLocalizations.of(context)
+                                        .translate('text45'))
                                 .show(context);
                             _focusNode.unfocus();
                           } else {
                             provider.phone = '';
                             Navigator.pop(context);
                             FlushbarHelper.createError(
-                                    message: 'Verification Code is incorrect ')
+                                    message: AppLocalizations.of(context)
+                                        .translate('text46'))
                                 .show(context);
                           }
                         },
-                        child: Text('Send Code'),
+                        child: Text(
+                            AppLocalizations.of(context).translate('text47')),
                       )
                     ],
                   ),
@@ -125,15 +128,18 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                       controller: _phoneController,
                       maxLength: 9,
                       decoration: InputDecoration(
-                        labelText: 'Phone Number *',
-                        hintText: 'Where can we reach you?',
+                        //labelText: 'Phone Number *',
+                        hintText:
+                            AppLocalizations.of(context).translate('text42'),
                       ),
                       keyboardType: TextInputType.phone,
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Enter a phone number';
+                          return AppLocalizations.of(context)
+                              .translate('text43');
                         } else if (value.length < 9) {
-                          return 'Phone Number is too short';
+                          return AppLocalizations.of(context)
+                              .translate('text44');
                         }
                         return null;
                       },

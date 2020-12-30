@@ -1,15 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:MyDiscount/models/user_model.dart';
-import 'package:MyDiscount/pages/about_app.dart';
-import 'package:MyDiscount/pages/app_inf_page.dart';
-import 'package:MyDiscount/pages/info_page.dart';
-import 'package:MyDiscount/pages/profile_page.dart';
-import 'package:MyDiscount/pages/technic_details_page.dart';
-import 'package:MyDiscount/pages/transactions_page.dart';
-import 'package:MyDiscount/pages/user_page.dart';
-import 'package:MyDiscount/services/local_notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,12 +13,21 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'localization/localizations.dart';
-import 'models/news_model.dart';
 import 'widgets/bottom_navigation_bar_widget.dart';
+import 'models/news_model.dart';
+import 'models/user_model.dart';
 import 'pages/detail_news_page.dart';
+import 'pages/about_app.dart';
+import 'pages/app_inf_page.dart';
+import 'pages/info_page.dart';
+import 'pages/profile_page.dart';
+import 'pages/technic_details_page.dart';
+import 'pages/transactions_page.dart';
+import 'pages/user_page.dart';
 import 'pages/login_screen2.dart';
-//import 'pages/qr-page.dart';
 import 'pages/settings_page.dart';
+
+import 'services/local_notification_service.dart';
 import 'services/auth_service.dart';
 import 'services/fcm_service.dart';
 import 'services/remote_config_service.dart';
@@ -44,14 +44,13 @@ void main() async {
     await Hive.initFlutter();
 
     Hive.registerAdapter<News>(NewsAdapter());
-    // Hive.registerAdapter<Company>(CompanyAdapter());
-    // await Hive.openBox<Company>('company');
+    
     await Hive.openBox<News>('news');
   } catch (e) {}
   getServiceNameFromRemoteConfig();
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  //FirebaseCrashlytics.instance.sendUnsentReports();
+ 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
   localNotificationsService.getFlutterLocalNotificationPlugin();
@@ -129,7 +128,7 @@ class _MyAppState extends State<MyApp> {
       localeResolutionCallback:
           (Locale locale, Iterable<Locale> supportedLocales) {
         final retLocale = supportedLocales?.first;
-        //print('$locale 2');
+        
         if (locale == null) {
           debugPrint("*language locale is null!!!");
           return supportedLocales.first;
@@ -138,7 +137,7 @@ class _MyAppState extends State<MyApp> {
           for (Locale supportedLocale in supportedLocales) {
             if (supportedLocale.languageCode == locale.languageCode &&
                 locale.languageCode != null) {
-              //print(supportedLocale);
+             
 
               return supportedLocale;
             }

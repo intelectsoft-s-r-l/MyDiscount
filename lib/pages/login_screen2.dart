@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:MyDiscount/services/shared_preferences_service.dart';
-import 'package:MyDiscount/widgets/login_button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../localization/localizations.dart';
 import '../main.dart';
+import '../localization/localizations.dart';
+import '../services/shared_preferences_service.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../widgets/no_internet_dialog.dart';
+import '../widgets/login_button_widget.dart';
 
 class LoginScreen2 extends StatefulWidget {
   final NetworkConnectionImpl internet = NetworkConnectionImpl();
@@ -35,7 +35,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
         future.whenComplete(() async {
           final prefs = await _pref.instance;
           if (prefs.containsKey('user') && prefs.containsKey('profile')) {
-            //authController.sink.add(true);
+            
             Navigator.of(context).pushReplacementNamed('/app');
           }
         });
@@ -78,7 +78,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       AppLocalizations.of(context).translate('text18'),
                       style: TextStyle(
                         color: Colors.white,
-                        //fontSize: 30,
                       ),
                       textScaleFactor: 1.5,
                       maxLines: 2,
@@ -105,7 +104,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     AppLocalizations.of(context).translate('text12'),
                     style: TextStyle(
                       color: Colors.black,
-                      //fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                     textScaleFactor: 1.5,
@@ -146,13 +144,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
               ],
             ),
           ),
-          /*  SizedBox(
-            height: size.height * .01,
-          ),
-          Text('Privacy policy'), */
         ],
       ),
-      /*  ), */
     );
   }
 }

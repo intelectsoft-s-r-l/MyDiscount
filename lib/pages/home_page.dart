@@ -1,8 +1,9 @@
 
-import 'package:MyDiscount/localization/localizations.dart';
-import 'package:MyDiscount/widgets/home_page_top_widget.dart';
-import 'package:MyDiscount/widgets/profile_home_item_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../localization/localizations.dart';
+import '../widgets/home_page_top_widget.dart';
+import '../widgets/profile_home_item_widget.dart';
 
 class HomePage extends StatelessWidget {
   

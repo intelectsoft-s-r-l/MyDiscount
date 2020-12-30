@@ -1,6 +1,7 @@
-import 'package:MyDiscount/localization/localizations.dart';
-import 'package:MyDiscount/widgets/profile_home_item_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../localization/localizations.dart';
+import '../widgets/profile_home_item_widget.dart';
 
 class InformationPage extends StatelessWidget {
   @override
@@ -19,9 +20,7 @@ class InformationPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10.0),
           child: Container(
             width: size.width,
-            //height: size.height * .9,
             child: Container(
-              //padding: EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),

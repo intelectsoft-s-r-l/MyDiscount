@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:MyDiscount/localization/localizations.dart';
-import 'package:MyDiscount/services/device_info_service.dart';
 import 'package:flutter/material.dart';
+
+import '../services/device_info_service.dart';
+import '../localization/localizations.dart';
 
 class TechnicDetailPage extends StatefulWidget {
   @override

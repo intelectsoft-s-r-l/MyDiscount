@@ -1,8 +1,8 @@
-import 'package:MyDiscount/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../localization/localizations.dart';
+import '../pages/home_page.dart';
 import '../pages/notification_page.dart';
 import '../pages/qr-page.dart';
 
@@ -25,9 +25,9 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
    
-    /* if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed) {
        Navigator.of(context).pushReplacementNamed('/app');
-    }  */
+    } 
     super.didChangeAppLifecycleState(state);
   }
 
@@ -46,7 +46,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
         NotificationPage(),
       ].elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        /* type: BottomNavigationBarType.shifting, */
         backgroundColor: Colors.white,
         unselectedFontSize: MediaQuery.of(context).devicePixelRatio + 6,
         selectedFontSize: MediaQuery.of(context).devicePixelRatio + 8,

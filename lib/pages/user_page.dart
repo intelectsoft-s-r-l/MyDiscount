@@ -1,8 +1,7 @@
-import 'package:MyDiscount/core/failure.dart';
-
-import 'package:MyDiscount/services/company_service.dart';
 import 'package:flutter/material.dart';
 
+import '../core/failure.dart';
+import '../services/company_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/companies_list_widget.dart';
 import '../widgets/noCompani_list_widget.dart';
@@ -14,10 +13,10 @@ class CompanyListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final size = MediaQuery.of(context).size;
+    
     final String pageName = ModalRoute.of(context).settings.arguments;
+    
     return Scaffold(
-      //backgroundColor: Colors.green,
       appBar: AppBar(
         title: Text(pageName),
         backgroundColor: Colors.green,
@@ -51,21 +50,6 @@ class CompanyListPage extends StatelessWidget {
                             : NoInternetWidget();
                       }
                       return CircularProgresIndicatorWidget();
-                      /*  return Scaffold(
-                        body: snapshot.data != false
-                            ? Container(
-                                child: snapshot.hasData
-                                    ? Container(
-                                        child: snapshot.data.length != 0
-                                            ? CompaniesList(snapshot.data)
-                                            : NoCompanieList(),
-                                      )
-                                    : CircularProgresIndicatorWidget(),
-                              )
-                            : Container(
-                                child: NoInternetWidget(),
-                              ),
-                      ); */
                     },
                   ),
                 ),

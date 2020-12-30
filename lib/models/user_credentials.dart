@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+
 import 'user_model.dart';
 import 'profile_model.dart';
+
 import '../services/shared_preferences_service.dart';
 
-class UserCredentials {
+class UserCredentials{
   SharedPref sPrefs = SharedPref();
 
   void saveUserRegistrationDatatoMap(User user) {
@@ -19,18 +22,13 @@ class UserCredentials {
   Future<Profile> getUserProfileData() async {
     Profile profile = await _returnRegistrationProfileDataAsMap();
 
-    Profile profileMap = await _returnFormProfileDataAsMap();
-
     sPrefs.saveProfileData(
       json.encode(
         Profile(
           firstName: profile.firstName ?? '',
           lastName: profile.lastName ?? '',
-          /*    birthDay: profileMap.birthDay ?? '',
-          gender: profileMap.gender ?? '', */
-          phone: profileMap.phone ?? '',
           email: profile.email ?? '',
-          photoUrl: profile.photoUrl??'https://edi.md/wp-content/uploads/2016/01/logo_is.png',
+          photoUrl: profile.photoUrl,
           registerMode: profile.registerMode,
           pushToken: profile.pushToken ?? '',
         ),
@@ -39,17 +37,8 @@ class UserCredentials {
     return Future.value(profile);
   }
 
-  Future<String> getUserPhone() async {
-    Profile profileMap = await _returnFormProfileDataAsMap();
-    return profileMap.phone??'';
-  }
-
   List<String> splitTheStrings(String displayName) {
     return displayName.split(" ").map((e) => e.toString()).toList();
-  }
-
-  void saveFormProfileInfo(Profile profile) {
-    sPrefs.saveFormProfileData(json.encode(profile.toJson()));
   }
 
   Future<String> getRequestBodyData() async {
@@ -75,7 +64,6 @@ class UserCredentials {
     }
   }
 
-/*  */
   Future<String> getUserIdFromLocalStore() async {
     final _prefs = await sPrefs.instance;
     if (_prefs.containsKey('Tid')) {
@@ -101,15 +89,6 @@ class UserCredentials {
         json.decode(await sPrefs.readProfileData()) as Map<String, dynamic>;
     return Future.value(Profile.fromJson(profile));
   }
-
-  Future<Profile> _returnFormProfileDataAsMap() async {
-    final data = await sPrefs.instance;
-    if (data.containsKey('formProfile')) {
-      String savedFormData = await sPrefs.readFormProfileData();
-
-      return Profile.fromJson(json.decode(savedFormData));
-    } else {
-      return Profile(/* birthDay: '', gender: '', */ phone: '');
-    }
-  }
 }
+
+
