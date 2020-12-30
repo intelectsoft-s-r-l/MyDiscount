@@ -1,116 +1,195 @@
-import 'dart:io';
-
-import 'package:MyDiscount/models/profile_model.dart';
-import 'package:MyDiscount/models/user_credentials.dart';
-import 'package:MyDiscount/services/phone_verification.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+
+import '../models/phone_number.dart';
+import '../services/phone_verification.dart';
 
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({
     Key key,
-    @required this.info,
     @required this.labelText,
   }) : super(key: key);
+  
   final String labelText;
-  final String info;
+  
 
   @override
   _ProfileFieldWidgetState createState() => _ProfileFieldWidgetState();
 }
 
 class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
-  @override
-  void dispose() {
-    
-    super.dispose();
-  }
+  
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _codeController = TextEditingController();
+  
+  final _formKey = GlobalKey<FormState>();
+
+  FocusNode focusNode = FocusNode();
+  FocusNode _focusNode = FocusNode();
 
   bool isEdit = false;
   bool isVerifing = false;
-  //String _currentCode = '0000';
-  TextEditingController _phoneController = TextEditingController();
+  String _currentCode;
+
+  @override
+  void dispose() {
+    super.dispose();
+    focusNode.dispose();
+    _focusNode.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: UserCredentials().getUserPhone(),
-      builder: (context, snapshot) => snapshot.hasData
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                isEdit
-                    ? Expanded(
-                        child: !isVerifing
-                            ? TextFormField(
-                                controller: _phoneController,
-                                decoration: InputDecoration(
-                                  labelText: 'Phone Number *',
-                                  hintText: 'Where can we reach you?',
-                                  /* prefixIcon:
-                        Icon(Icons.call), */
-                                ),
-                                keyboardType: TextInputType.phone,
-                                validator: (value) => value.length == 9
-                                    ? null
-                                    : 'Phone number lenght must pe 9 characters ',
-                                onSaved: (value) {
-                                  setState(() {
-                                    _phoneController.text = value;
-                                  });
-                                })
-                            : PinFieldAutoFill(
-                                codeLength: 4,
-                                onCodeChanged: (code) {
-                                  PhoneVerification()
-                                      .getVerificationLocalCode(code);
+    showPinCodDialog(PhoneNumber provider) {
+      showDialog(
+        //barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              height: 120,
+              child: Column(
+                children: [
+                  PinFieldAutoFill(
+                    controller: _codeController,
+                    focusNode: _focusNode,
+                    // autofocus: true,
+                    codeLength: 4,
+                    onCodeChanged: (code) {
+                      _currentCode = code;
 
-                                  print(code);
-                                },
-                              ),
+                      print(code);
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RaisedButton(
+                        onPressed: () {
+                          provider.phone = _phoneController.text;
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancel'),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      RaisedButton(
+                        onPressed: () async {
+                          bool coresponde = false;
+                          if (_currentCode != '') {
+                            coresponde = await PhoneVerification()
+                                .smsCodeVerification(
+                                    VerificationCode(_currentCode));
+                          }
+                          if (coresponde) {
+                            provider.phone = _phoneController.text;
+                            Navigator.pop(context);
+                            FlushbarHelper.createSuccess(message: 'Verified')
+                                .show(context);
+                            _focusNode.unfocus();
+                          } else {
+                            provider.phone = '';
+                            Navigator.pop(context);
+                            FlushbarHelper.createError(
+                                    message: 'Verification Code is incorrect ')
+                                .show(context);
+                          }
+                        },
+                        child: Text('Send Code'),
                       )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Text(
-                              widget.labelText,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                          Container(
-                              child: Text(
-                            snapshot.data,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                            ),
-                          )),
-                        ],
-                      ) /* ProfileItemWidget(labelText: widget.labelText, text: widget.info) */,
-                IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () async {
-                      Profile profile =
-                          await UserCredentials().getUserProfileData();
-                      if (Platform.isAndroid) {
-                        await SmsAutoFill().listenForCode;
-                        print(SmsAutoFill().getAppSignature);
-                      }
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
 
-                      // PhoneVerification().smsCodeVerification();
-                      setState(() {
-                        UserCredentials().saveFormProfileInfo(
-                            Profile(phone: _phoneController.text));
-                        isEdit = !isEdit;
-                        if (isEdit) {
-                          _phoneController.text = profile.phone;
-                          if (profile.phone != '') isVerifing = !isVerifing;
+    return Consumer(
+      builder: (context, PhoneNumber provider, _) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          provider.editing
+              ? Expanded(
+                  child: Form(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.always,
+                  child: TextFormField(
+                      focusNode: focusNode,
+                      controller: _phoneController,
+                      maxLength: 9,
+                      decoration: InputDecoration(
+                        labelText: 'Phone Number *',
+                        hintText: 'Where can we reach you?',
+                      ),
+                      keyboardType: TextInputType.phone,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Enter a phone number';
+                        } else if (value.length < 9) {
+                          return 'Phone Number is too short';
                         }
-                      });
-                    })
-              ],
-            )
-          : Container(),
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _phoneController.text = value;
+                      }),
+                ))
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Text(widget.labelText,
+                          style: TextStyle(
+                            color: Colors.black,
+                          )),
+                    ),
+                    FutureProvider.value(
+                        value: PhoneNumber().getUserPhone(),
+                        builder: (context, _) {
+                          if (provider.phone != null) {
+                            return Container(
+                                child: Text(
+                              provider.phone,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ));
+                          }
+                          return Container();
+                        }),
+                  ],
+                ),
+          IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () async {
+                focusNode.requestFocus();
+                provider.editing = !provider.editing;
+                if (provider.editing) {
+                  _phoneController.text = provider.phone;
+                } else {
+                  PhoneVerification()
+                      .getVerificationCodeFromServer(_phoneController.text);
+
+                  focusNode.requestFocus();
+                  focusNode.unfocus();
+                  if (_formKey.currentState.validate()) {
+                    showPinCodDialog(provider);
+                  }
+                  _focusNode.unfocus();
+                  if (_focusNode.canRequestFocus) _focusNode.requestFocus();
+                }
+              })
+        ],
+      ),
     );
   }
 }

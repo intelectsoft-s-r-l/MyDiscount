@@ -22,6 +22,7 @@ dependencies:
   firebase_crashlytics: ^0.2.4
   firebase_messaging: ^7.0.3
   firebase_remote_config: ^0.4.3
+  flushbar: ^1.10.4
   flutter_facebook_login: ^3.0.0
   flutter_html: ^1.1.1
   flutter_local_notifications: ^3.0.1+6
@@ -34,6 +35,7 @@ dependencies:
   intl: ^0.16.1
   material_design_icons_flutter: ^4.0.5755
   path_provider: ^1.6.24
+  provider: ^4.3.2+3
   qr_flutter: ^3.2.0
   shared_preferences: ^0.5.12+4
   sign_in_with_apple: ^2.5.4

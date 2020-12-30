@@ -1,16 +1,27 @@
+import 'dart:convert';
+
+import '../constants/credentials.dart';
+import 'shared_preferences_service.dart';
+import 'package:http/http.dart' as http;
+
 class PhoneVerification {
-  Future<String> getVerificationCodeFromServer() {
-    return Future.value('1234');
+  SharedPref prefs = SharedPref();
+
+  Future<void> getVerificationCodeFromServer(String phoneNumber) async {
+    final url =
+        'http://dev.edi.md/ISMobileDiscountService/json/ValidatePhone?Phone=$phoneNumber';
+    try {
+      final response = await http.get(url, headers: Credentials().header);
+      if (response.statusCode == 200) {
+        final codeMap = json.decode(response.body);
+        prefs.saveCode(codeMap['CODE']);
+      }
+    } catch (e) {}
   }
 
-  String getVerificationLocalCode(String code) {
-    return '1234';
-  }
-
-  Future<bool> smsCodeVerification() async {
-    final codeFromServer = await getVerificationCodeFromServer();
-    final codefromLocal = getVerificationLocalCode(codeFromServer);
-    if (codefromLocal == codeFromServer) {
+  Future<bool> smsCodeVerification(VerificationCode code) async {
+    final codeFromServer = await prefs.readCode();
+    if (code == VerificationCode(codeFromServer)) {
       print('true');
       return true;
     }
@@ -19,15 +30,17 @@ class PhoneVerification {
   }
 }
 
-abstract class VerificationCode {
+class VerificationCode {
   final String code;
 
-  VerificationCode(this.code);
+  const VerificationCode(this.code);
 
   int get lenght => code.length;
-
-  bool operator(Object o) {
-    if (identical(this, o)) return true;
-    return false;
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is VerificationCode && code == other.code;
   }
+
+  int get hashCode => code.hashCode;
 }
