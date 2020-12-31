@@ -43,13 +43,42 @@ class SharedPref {
     return prefs.getString('formProfile');
   }
 
-  /* saveNewsId(int id) async {
+  saveLocale(String locale) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('id', id.toString());
+    prefs.setString('locale', locale);
   }
 
- Future<String> readNewsId() async {
+  Future<String> readLocale() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('id');
-  } */
+    return prefs.getString('locale');
+  }
+
+  saveCode(String code) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString('code', code);
+  }
+
+  Future<String> readCode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('code');
+  }
+
+  saveFCMState(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setBool('fcmState', value);
+  }
+
+  Future<bool> readFCMState() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('fcmState');
+  }
+  saveNewsState(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setBool('newsState', value);
+  }
+
+  Future<bool> readNewsState() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('newsState');
+  }
 }

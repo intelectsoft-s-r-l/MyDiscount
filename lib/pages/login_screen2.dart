@@ -1,24 +1,24 @@
 import 'dart:io';
 
-import 'package:MyDiscount/services/shared_preferences_service.dart';
-import 'package:MyDiscount/widgets/login_button_widget.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../localization/localizations.dart';
 import '../main.dart';
+import '../localization/localizations.dart';
+import '../services/shared_preferences_service.dart';
 import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
-import '../widgets/no_internet_dialog.dart';
+/* import '../widgets/no_internet_dialog.dart'; */
+import '../widgets/login_button_widget.dart';
 
 class LoginScreen2 extends StatefulWidget {
-  final NetworkConnectionImpl internet = NetworkConnectionImpl();
-
   @override
   _LoginScreen2State createState() => _LoginScreen2State();
 }
 
 class _LoginScreen2State extends State<LoginScreen2> {
+  final NetworkConnectionImpl internet = NetworkConnectionImpl();
   final AuthService data = AuthService();
   SharedPref _pref = SharedPref();
   @override
@@ -30,31 +30,43 @@ class _LoginScreen2State extends State<LoginScreen2> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    void _authorize(Future future, context) async {
-      if (await widget.internet.isConnected) {
-        future.whenComplete(() async {
-          final prefs = await _pref.instance;
-          if (prefs.containsKey('user') && prefs.containsKey('profile')) {
-            authController.sink.add(true);
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/qrpage', (Route<dynamic> route) => false);
-          }
-        });
-      } else {
-        getDialog(context);
-      }
+    void _authorize(future, context) async {
+      future.whenComplete(() async {
+        final prefs = await _pref.instance;
+        if (prefs.containsKey('user') && prefs.containsKey('profile')) {
+          Navigator.of(context).pushReplacementNamed('/app');
+        }
+      });
     }
 
     void getAuthorizationApple() async {
-      _authorize(data.signInWithApple(), context);
+      if (await internet.isConnected) {
+        _authorize(data.signInWithApple(), context);
+      } else {
+        FlushbarHelper.createError(
+                message: AppLocalizations.of(context).translate('text6'))
+            .show(context); 
+      }
     }
 
     void getAuthorizationGoogle() async {
-      _authorize(data.logwithG(), context);
+      if (await internet.isConnected) {
+        _authorize(data.logwithG(), context);
+      } else {
+        FlushbarHelper.createError(
+                message: AppLocalizations.of(context).translate('text6'))
+            .show(context);
+      }
     }
 
     void getAuthorizationFB() async {
-      _authorize(data.authWithFacebook(), context);
+      if (await internet.isConnected) {
+        _authorize(data.authWithFacebook(), context);
+      } else {
+        FlushbarHelper.createError(
+                message: AppLocalizations.of(context).translate('text6'))
+            .show(context); 
+      }
     }
 
     return Scaffold(
@@ -79,7 +91,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       AppLocalizations.of(context).translate('text18'),
                       style: TextStyle(
                         color: Colors.white,
-                        //fontSize: 30,
                       ),
                       textScaleFactor: 1.5,
                       maxLines: 2,
@@ -106,7 +117,6 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     AppLocalizations.of(context).translate('text12'),
                     style: TextStyle(
                       color: Colors.black,
-                      //fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                     textScaleFactor: 1.5,
@@ -147,13 +157,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
               ],
             ),
           ),
-          /*  SizedBox(
-            height: size.height * .01,
-          ),
-          Text('Privacy policy'), */
         ],
       ),
-      /*  ), */
     );
   }
 }

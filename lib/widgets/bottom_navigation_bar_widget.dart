@@ -2,45 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../localization/localizations.dart';
-import 'transactions_page.dart';
-import 'notification_page.dart';
-import 'qr-page.dart';
-import 'setings_page.dart';
-import 'user_page.dart';
+import '../pages/home_page.dart';
+import '../pages/notification_page.dart';
+import '../pages/qr-page.dart';
+
 class BottomNavigationBarWidget extends StatefulWidget {
   @override
   _BottomNavigationBarWidgetState createState() =>
       _BottomNavigationBarWidgetState();
 }
 
-class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
-  int selectedIndex = 0;
+class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
+    with WidgetsBindingObserver {
+  int selectedIndex = 1;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+   
+    if (state == AppLifecycleState.resumed) {
+       Navigator.of(context).pushReplacementNamed('/app');
+    } 
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: [
-        UserPage(),
-        TransactionsPage(),
+        HomePage(),
         QrPage(),
         NotificationPage(),
-        SetingsPage(),
       ].elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        /* type: BottomNavigationBarType.shifting, */
         backgroundColor: Colors.white,
         unselectedFontSize: MediaQuery.of(context).devicePixelRatio + 6,
         selectedFontSize: MediaQuery.of(context).devicePixelRatio + 8,
         onTap: (value) {
-          if (value == 2) {
-            Navigator.pushReplacementNamed(context, '/qrpage');
-          } else {
-            setState(() {
-              if (selectedIndex != 2) {
-                selectedIndex = value;
-              }
-            });
-          }
+          setState(() {
+            selectedIndex = value;
+          });
         },
         currentIndex: selectedIndex,
         items: <BottomNavigationBarItem>[
@@ -50,9 +63,6 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 color: Colors.black,
               ),
               label: AppLocalizations.of(context).translate('text21')),
-          BottomNavigationBarItem(
-              icon: Icon(MdiIcons.wallet, color: Colors.black),
-              label: AppLocalizations.of(context).translate('text22')),
           BottomNavigationBarItem(
             icon: Icon(
               MdiIcons.qrcode,
@@ -66,12 +76,6 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                 color: Colors.black,
               ),
               label: AppLocalizations.of(context).translate('text23')),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.black,
-              ),
-              label: AppLocalizations.of(context).translate('text24')),
         ],
       ),
     );

@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/constants/credentials.dart';
-import 'package:MyDiscount/core/failure.dart';
-import 'package:MyDiscount/core/formater.dart';
-import 'package:MyDiscount/models/company_model.dart';
-import 'package:MyDiscount/models/user_credentials.dart';
-import 'package:MyDiscount/services/internet_connection_service.dart';
-import 'package:MyDiscount/services/remote_config_service.dart';
-import 'package:MyDiscount/services/shared_preferences_service.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import '../constants/credentials.dart';
+import '../core/failure.dart';
+import '../core/formater.dart';
+import '../models/company_model.dart';
+import '../models/user_credentials.dart';
+import '../services/internet_connection_service.dart';
+import '../services/remote_config_service.dart';
+import '../services/shared_preferences_service.dart';
+//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
 
 class CompanyService {
@@ -24,18 +24,21 @@ class CompanyService {
     if (await status.isConnected) {
       try {
         final url = "$serviceName/json/GetCompany?ID=$id";
-        final response = await http
-            .get(url, headers: credentials.header)
+        final response = await http.get(url, headers: credentials.header)
             /* .timeout(Duration(seconds: 3)) */;
         if (response.statusCode == 200) {
           final Map<String, dynamic> companiesToMap =
               json.decode(response.body);
           final List _listOfCompanies = companiesToMap['Companies'];
-          final companyListwithdecodedLogo =
-              formater.checkImageFormatAndSkip(_listOfCompanies, 'Logo');
-          return companyListwithdecodedLogo
-              .map((e) => Company.fromJson(e))
-              .toList();
+          if (_listOfCompanies.isNotEmpty) {
+            final companyListwithdecodedLogo =
+                formater.checkImageFormatAndSkip(_listOfCompanies, 'Logo');
+            return companyListwithdecodedLogo
+                .map((e) => Company.fromJson(e))
+                .toList();
+          } else {
+            throw EmptyList();
+          }
           /* .forEach((company) {
             saveCompanyOnDB(company) });*/
 
@@ -45,8 +48,8 @@ class CompanyService {
         } else {
           throw NoInternetConection();
         }
-      } catch (e,s) {
-        FirebaseCrashlytics.instance.recordError(e, s);
+      } catch (e) {
+       /*  FirebaseCrashlytics.instance.recordError(e, s); */
         throw EmptyList();
       }
     } else {
