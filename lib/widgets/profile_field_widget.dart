@@ -29,7 +29,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   FocusNode _focusNode = FocusNode();
 
   bool isEdit = false;
-  bool isVerifing = false;
+  //bool isVerifing = false;
   String _currentCode;
 
   @override
@@ -43,7 +43,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   Widget build(BuildContext context) {
     showPinCodDialog(PhoneNumber provider) {
       showDialog(
-        //barrierDismissible: false,
+        barrierDismissible: false,
         context: context,
         builder: (_) {
           return Dialog(
