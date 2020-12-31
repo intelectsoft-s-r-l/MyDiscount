@@ -1,13 +1,45 @@
 import 'dart:async';
 
+import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'local_notification_service.dart';
 
-class FirebaseCloudMessageService {
+class FirebaseCloudMessageService with ChangeNotifier {
   FirebaseMessaging _fcm = FirebaseMessaging();
-  LocalNotificationsService _localNotificationsService =
-      LocalNotificationsService();
+  final _localNotificationsService = LocalNotificationsService();
+  SharedPref _prefs = SharedPref();
+
+  bool _isActivate = false;
+
+  bool get isActivate => _isActivate;
+
+  set isActivate(bool value) {
+    _isActivate = value;
+    _saveFCMState();
+    notifyListeners();
+  }
+
+  FirebaseCloudMessageService() {
+    // _saveFCMState();
+    getFCMState();
+    notifyListeners();
+  }
+  _saveFCMState() async {
+    /*  final data = await _prefs.instance;
+    if (!data.containsKey('fcmState')) */
+    _prefs.saveFCMState(_isActivate);
+    // notifyListeners();
+  }
+
+  checkIfContainKey() async {}
+
+  getFCMState() async {
+    _isActivate = await _prefs.readFCMState();
+
+    notifyListeners();
+  }
 
   void fcmConfigure() {
     _fcm.requestNotificationPermissions(
@@ -17,23 +49,30 @@ class FirebaseCloudMessageService {
     });
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
-        _localNotificationsService.showNotification(notification);
+        if (await _prefs.readFCMState())
+          _localNotificationsService.showNotification(notification);
       },
       onResume: (Map<String, dynamic> notification) async {
-        _localNotificationsService.showNotification(notification);
+        if (await _prefs.readFCMState())
+          _localNotificationsService.showNotification(notification);
       },
       onLaunch: (Map<String, dynamic> notification) async {
-        _localNotificationsService.showNotification(notification);
+        if (await _prefs.readFCMState())
+          _localNotificationsService.showNotification(notification);
       },
     );
   }
 
   Future<String> getfcmToken() async {
-    String token = await _fcm.getToken();
-    _fcm.onTokenRefresh.listen((event) {
-      event = token;
-    });
-    print(token);
-    return token;
+    if (await _prefs.readFCMState()) {
+      String token = await _fcm.getToken();
+      _fcm.onTokenRefresh.listen((event) {
+        event = token;
+      });
+      print(token);
+      return token;
+    } else {
+      return '';
+    }
   }
 }
