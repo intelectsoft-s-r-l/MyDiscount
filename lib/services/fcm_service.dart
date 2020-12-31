@@ -36,7 +36,8 @@ class FirebaseCloudMessageService with ChangeNotifier {
   checkIfContainKey() async {}
 
   getFCMState() async {
-    _isActivate = await _prefs.readFCMState();
+    final data = await _prefs.instance;
+    if (data.containsKey('fcmState')) _isActivate = await _prefs.readFCMState();
 
     notifyListeners();
   }
@@ -64,7 +65,8 @@ class FirebaseCloudMessageService with ChangeNotifier {
   }
 
   Future<String> getfcmToken() async {
-    if (await _prefs.readFCMState()) {
+    final data = await _prefs.instance;
+    if (data.containsKey('fcmState')) if (await _prefs.readFCMState()) {
       String token = await _fcm.getToken();
       _fcm.onTokenRefresh.listen((event) {
         event = token;
@@ -74,5 +76,6 @@ class FirebaseCloudMessageService with ChangeNotifier {
     } else {
       return '';
     }
+    return '';
   }
 }

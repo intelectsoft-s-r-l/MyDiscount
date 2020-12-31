@@ -20,14 +20,14 @@ class NewsSettings with ChangeNotifier {
     notifyListeners();
   }
   _saveNewsState() async {
-   /*  final data = await _prefs.instance;
-    if (!data.containsKey('newsState')) */
-     _prefs.saveNewsState(_isActivate);
-     notifyListeners();
+    _prefs.saveNewsState(_isActivate);
+    notifyListeners();
   }
 
   getNewsState() async {
-    _isActivate = await _prefs.readNewsState();
+    final data = await _prefs.instance;
+    if (data.containsKey('newsState'))
+      _isActivate = await _prefs.readNewsState();
 
     notifyListeners();
   }

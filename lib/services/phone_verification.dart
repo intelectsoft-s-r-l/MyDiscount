@@ -8,7 +8,7 @@ class PhoneVerification {
   SharedPref prefs = SharedPref();
 
   Future<void> getVerificationCodeFromServer(String phoneNumber) async {
-    final url =
+   /*  final url =
         'http://dev.edi.md/ISMobileDiscountService/json/ValidatePhone?Phone=$phoneNumber';
     try {
       final response = await http.get(url, headers: Credentials().header);
@@ -16,7 +16,7 @@ class PhoneVerification {
         final codeMap = json.decode(response.body);
         prefs.saveCode(codeMap['CODE']);
       }
-    } catch (e) {}
+    } catch (e) {} */
   }
 
   Future<bool> smsCodeVerification(VerificationCode code) async {
