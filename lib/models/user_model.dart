@@ -4,11 +4,11 @@
 class User {
   final String id;
   final String accessToken;
-  DateTime _session;
-  DateTime get session => _session;
+  //DateTime _session;
+ /*  DateTime get session => _session;
   set session(value) {
     _session = session;
-  }
+  } */
 
   User({
      this.id,
