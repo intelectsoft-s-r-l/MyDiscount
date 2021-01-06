@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class NewsSettings with ChangeNotifier {
   final SharedPref _prefs = SharedPref();
-  bool _isActivate = false;
+  bool _isActivate = true;
 
   bool get isActivate => _isActivate;
 
