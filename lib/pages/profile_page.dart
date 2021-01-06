@@ -30,9 +30,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     final String pageName = ModalRoute.of(context).settings.arguments;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(pageName),
@@ -79,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     Divider(),
                                     ProfileItemWidget(
                                         labelText: 'E-mail',
-                                        text: snapshot.data.email),
+                                        text: snapshot.data.email ?? ''),
                                     Divider(),
                                     ProfileFieldWidget(
                                       labelText: AppLocalizations.of(context)
