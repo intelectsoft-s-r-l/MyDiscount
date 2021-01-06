@@ -12,8 +12,9 @@ class DetailNewsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final News news = ModalRoute.of(context).settings.arguments;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Html(data: news.companyName),
+        title: Text(news.companyName),
         backgroundColor: Colors.green,
         elevation: 0,
       ),
@@ -31,6 +32,7 @@ class DetailNewsPage extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
+                  Html(data: news.header),
                   Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
@@ -42,8 +44,10 @@ class DetailNewsPage extends StatelessWidget {
                           : Container(),
                     ),
                   ),
-                  HtmlText(
-                    list: news,
+                  Container(
+                    child: HtmlText(
+                      list: news,
+                    ),
                   ),
                 ],
               ),

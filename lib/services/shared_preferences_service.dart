@@ -72,6 +72,7 @@ class SharedPref {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool('fcmState');
   }
+
   saveNewsState(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.setBool('newsState', value);
@@ -79,8 +80,10 @@ class SharedPref {
 
   Future<bool> readNewsState() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('newsState');
+    if (prefs.containsKey('newsState')) return prefs.getBool('newsState');
+    return true;
   }
+
   saveIOSCredentials(String value) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.setString('IOS', value);

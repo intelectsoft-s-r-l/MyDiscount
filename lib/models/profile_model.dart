@@ -2,6 +2,7 @@ class Profile {
   final String firstName;
   final String lastName;
   final String email;
+  final String phone;
   final String photoUrl;
   final String pushToken;
   final int registerMode;
@@ -10,6 +11,7 @@ class Profile {
     this.firstName,
     this.lastName,
     this.email,
+    this.phone,
     this.photoUrl = '',
     this.registerMode,
     this.pushToken,
@@ -20,6 +22,7 @@ class Profile {
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       email: json['email'],
+      phone:json['phone'],
       photoUrl: json['photoUrl'] ?? '',
       registerMode: json['registerMode'],
       pushToken: json['pushToken'],
@@ -30,9 +33,10 @@ class Profile {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
+      "phone":phone,
       "photoUrl": photoUrl,
       "registerMode": registerMode,
-      'pushToken': pushToken,
+      "pushToken": pushToken,
     };
   }
 }

@@ -1,10 +1,9 @@
-import 'package:MyDiscount/models/news_settings.dart';
-import 'package:MyDiscount/services/fcm_service.dart';
-import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../localization/localizations.dart';
+import '../services/fcm_service.dart';
+import '../models/news_settings.dart';
 import '../main.dart';
 
 class SettingsPage extends StatelessWidget {

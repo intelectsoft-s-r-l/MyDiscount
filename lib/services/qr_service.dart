@@ -18,7 +18,6 @@ class QrService {
   Credentials credentials = Credentials();
   Formater formater = Formater();
   NetworkConnectionImpl status = NetworkConnectionImpl();
-  
 
   Future<String> getTID(context) async {
     try {

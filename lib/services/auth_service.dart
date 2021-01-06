@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+//import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -111,6 +112,7 @@ class AuthService extends UserCredentials {
     googleSignIn.signOut();
     prefs.remove('Tid');
     prefs.remove('user');
+    //prefs.remove('IOS');
     authController.add(false);
     Navigator.of(context).pushReplacementNamed('/loginscreen');
   }
@@ -129,6 +131,8 @@ class AuthService extends UserCredentials {
         id: appleCredentials.userIdentifier,
         accessToken: appleCredentials.identityToken,
       ));
+      /* print(DateFormat('d, MM, yyyy hh mm ss')
+          .format(DateTime.fromMillisecondsSinceEpoch(1609924045000))); */
       saveProfileRegistrationDataToMap(Profile(
           firstName: appleCredentials.familyName ?? '',
           lastName: appleCredentials.givenName ?? '',

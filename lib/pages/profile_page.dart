@@ -85,9 +85,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                           .translate('text37'),
                                     ),
                                     Divider(),
+                                    SizedBox(
+                                          height: MediaQuery.of(context).size.height*.2,
+                                        ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 20,

@@ -27,10 +27,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
     notifyListeners();
   }
   _saveFCMState() async {
-    /*  final data = await _prefs.instance;
-    if (!data.containsKey('fcmState')) */
     _prefs.saveFCMState(_isActivate);
-    // notifyListeners();
   }
 
   checkIfContainKey() async {}

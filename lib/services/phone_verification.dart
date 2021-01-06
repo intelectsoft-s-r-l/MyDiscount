@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/services/remote_config_service.dart';
+
 import '../constants/credentials.dart';
 import 'shared_preferences_service.dart';
 import 'package:http/http.dart' as http;
@@ -8,15 +10,17 @@ class PhoneVerification {
   SharedPref prefs = SharedPref();
 
   Future<void> getVerificationCodeFromServer(String phoneNumber) async {
-   /*  final url =
-        'http://dev.edi.md/ISMobileDiscountService/json/ValidatePhone?Phone=$phoneNumber';
     try {
+      String serviceName = await getServiceNameFromRemoteConfig();
+      final url = '$serviceName/json/ValidatePhone?Phone=$phoneNumber';
       final response = await http.get(url, headers: Credentials().header);
       if (response.statusCode == 200) {
         final codeMap = json.decode(response.body);
         prefs.saveCode(codeMap['CODE']);
       }
-    } catch (e) {} */
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future<bool> smsCodeVerification(VerificationCode code) async {

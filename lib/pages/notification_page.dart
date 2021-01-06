@@ -28,13 +28,13 @@ class _NotificationPageState extends State<NotificationPage> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(AppLocalizations.of(context).translate('text23')),
         centerTitle: true,
         backgroundColor: Colors.green,
         elevation: 0,
       ),
       backgroundColor: Colors.grey.shade200,
-      
       body: Container(
         color: Colors.green,
         child: Padding(
@@ -45,9 +45,7 @@ class _NotificationPageState extends State<NotificationPage> {
               topRight: Radius.circular(20),
             ),
             child: Container(
-             
               decoration: BoxDecoration(
-              
                 color: Colors.white,
               ),
               child: ValueListenableBuilder(
@@ -66,7 +64,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       ),
                       itemCount: box.length,
                       itemBuilder: (context, index) {
-                        News news = box.getAt(index);
+                        News news = box?.getAt(index);
 
                         return InkWell(
                           onTap: () {

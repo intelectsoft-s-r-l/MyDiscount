@@ -1,22 +1,23 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-
 import 'user_model.dart';
 import 'profile_model.dart';
 
 import '../services/shared_preferences_service.dart';
 
-class UserCredentials{
+class UserCredentials {
   SharedPref sPrefs = SharedPref();
 
   void saveUserRegistrationDatatoMap(User user) {
-    user.session = DateTime.now().add(Duration(minutes: 2));
+    // user.session = DateTime.now().add(Duration(minutes: 2));
     sPrefs.saveUser(json.encode(user.toJson()));
   }
 
-  void saveProfileRegistrationDataToMap(Profile profile) {
+  void saveProfileRegistrationDataToMap(Profile profile) async {
     sPrefs.saveProfileData(json.encode(profile.toJson()));
+    final prefs = await sPrefs.instance;
+    if (profile.registerMode == 3 && !prefs.containsKey('IOS'))
+      sPrefs.saveIOSCredentials(json.encode(profile.toJson()));
   }
 
   Future<Profile> getUserProfileData() async {
@@ -44,8 +45,9 @@ class UserCredentials{
   Future<String> getRequestBodyData() async {
     final _prefs = await sPrefs.instance;
     User user = await _getRegistrationUserData();
-    print(user.session);
+    // print(user.session);
     Profile profile = await _returnRegistrationProfileDataAsMap();
+    //String phone = await _readFormPhoneNumber();
     if (_prefs.containsKey('Tid')) {
       final minUserData = json.encode(
         {"ID": user.id, "RegisterMode": profile.registerMode},
@@ -84,11 +86,20 @@ class UserCredentials{
     );
   }
 
+ /*  Future<String> _readFormPhoneNumber() async {
+    final String phone = await sPrefs.readPhoneNumber();
+    if (phone != null) return phone;
+    return '';
+  } */
+
   Future<Profile> _returnRegistrationProfileDataAsMap() async {
     Map<String, dynamic> profile =
         json.decode(await sPrefs.readProfileData()) as Map<String, dynamic>;
+    if (profile['registerMode'] == 3) {
+      Map<String, dynamic> iOSProfile = json
+          .decode(await sPrefs.readIOSCredentials()) as Map<String, dynamic>;
+      return Future.value(Profile.fromJson(iOSProfile));
+    }
     return Future.value(Profile.fromJson(profile));
   }
 }
-
-

@@ -22,7 +22,7 @@ class LocalNotificationsService {
 
     var initializationSettingsIOS = IOSInitializationSettings(
         requestAlertPermission: false,
-        requestBadgePermission: false,
+        requestBadgePermission: true,
         requestSoundPermission: false,
         onDidReceiveLocalNotification:
             (int id, String title, String body, String payload) async {
@@ -38,7 +38,14 @@ class LocalNotificationsService {
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
-
+   /* final bool result = await flutterLocalNotificationsPlugin
+    .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>()
+    ?.requestPermissions(
+    alert: true,
+    badge: true,
+    sound: true,
+    ); */
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onSelectNotification: (notification) async {

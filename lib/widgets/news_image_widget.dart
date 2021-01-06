@@ -18,7 +18,7 @@ class NewsImageWidget extends StatelessWidget {
           // borderRadius: BorderRadius.only(
           //     bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
           child: Image.memory(
-        news.photo,
+        news?.photo,
         filterQuality: FilterQuality.high,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {

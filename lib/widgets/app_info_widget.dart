@@ -22,11 +22,11 @@ class AppInfoWidget extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: Column(
           children: <Widget>[
-            Text(
+           /*  Text(
               AppLocalizations.of(context).translate('pc'),
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
+            ), */
             RichText(
               textAlign: TextAlign.justify,
               text: TextSpan(
