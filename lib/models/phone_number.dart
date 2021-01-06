@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../services/shared_preferences_service.dart';
 
 class PhoneNumber with ChangeNotifier {
   SharedPref _sPrefs = SharedPref();
-
+ 
   String _phone = '';
 
   bool _editing = false;
@@ -18,7 +20,7 @@ class PhoneNumber with ChangeNotifier {
     notifyListeners();
   }
 
-  set phone(value) {
+  set phone(String value) {
     _phone = value;
     _savePhone();
     notifyListeners();
@@ -26,17 +28,17 @@ class PhoneNumber with ChangeNotifier {
 
   PhoneNumber() {
     getUserPhone();
-
     notifyListeners();
   }
+
   _savePhone() {
-    _sPrefs.saveFormProfileData(_phone);
+    _sPrefs.savePhoneNumber(_phone);
   }
 
   getUserPhone() async {
     final data = await _sPrefs.instance;
-    if (data.containsKey('formProfile')) {
-      String savedFormData = await _sPrefs.readFormProfileData();
+    if (data.containsKey('phone')) {
+      String savedFormData = await _sPrefs.readPhoneNumber();
       _phone = savedFormData;
       notifyListeners();
     }

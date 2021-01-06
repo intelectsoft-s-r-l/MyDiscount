@@ -33,14 +33,14 @@ class SharedPref {
     return prefs.getString('profile');
   }
 
-  saveFormProfileData(String profile) async {
+  savePhoneNumber(String profile) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('formProfile', profile);
+    prefs.setString('phone', profile);
   }
 
-  readFormProfileData() async {
+  readPhoneNumber() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('formProfile');
+    return prefs.getString('phone');
   }
 
   saveLocale(String locale) async {
@@ -80,5 +80,14 @@ class SharedPref {
   Future<bool> readNewsState() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool('newsState');
+  }
+  saveIOSCredentials(String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString('IOS', value);
+  }
+
+  Future<String> readIOSCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('IOS');
   }
 }
