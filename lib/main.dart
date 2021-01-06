@@ -77,7 +77,7 @@ void main() async {
 
 getAuthState() async {
   final prefs = await SharedPreferences.getInstance();
-  if (prefs.containsKey('user')) authController.sink.add(true);
+  if (prefs.containsKey('user')&&prefs.containsKey('profile')) authController.sink.add(true);
 }
 
 class MyApp extends StatefulWidget {
