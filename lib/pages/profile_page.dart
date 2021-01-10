@@ -31,13 +31,13 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final String pageName = ModalRoute.of(context).settings.arguments;
-
+    final appBar = AppBar(
+      title: Text(pageName),
+      backgroundColor: Colors.green,
+      elevation: 0,
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageName),
-        backgroundColor: Colors.green,
-        elevation: 0,
-      ),
+      appBar: appBar,
       body: ChangeNotifierProvider.value(
         value: PhoneNumber(),
         child: Container(
@@ -48,6 +48,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Container(
+                    height: MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -58,64 +61,75 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: FutureBuilder<Profile>(
                       future: UserCredentials().getUserProfileData(),
                       builder: (context, snapshot) => snapshot.hasData
-                          ? SingleChildScrollView(
-                              physics: BouncingScrollPhysics(),
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, top: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ProfileItemWidget(
-                                        labelText: AppLocalizations.of(context)
-                                            .translate('text26'),
-                                        text: snapshot.data.firstName),
-                                    Divider(),
-                                    ProfileItemWidget(
-                                        labelText: AppLocalizations.of(context)
-                                            .translate('text27'),
-                                        text: snapshot.data.lastName),
-                                    Divider(),
-                                    ProfileItemWidget(
-                                        labelText: 'E-mail',
-                                        text: snapshot.data.email ?? ''),
-                                    Divider(),
-                                    ProfileFieldWidget(
-                                      labelText: AppLocalizations.of(context)
-                                          .translate('text37'),
-                                    ),
-                                    Divider(),
-                                    SizedBox(
-                                          height: MediaQuery.of(context).size.height*.2,
-                                        ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        OutlineButton(
-                                          onPressed: () {
-                                            service.signOut(context);
-                                          },
-                                          splashColor: Colors.green,
-                                          borderSide:
-                                              BorderSide(color: Colors.green),
-                                          highlightColor: Colors.green,
-                                          highlightedBorderColor: Colors.red,
-                                          child: Text(
+                          ? ListView(
+                              // physics: BouncingScrollPhysics(),
+                              children: [
+                                Container(
+                                  height: (MediaQuery.of(context).size.height -
+                                          appBar.preferredSize.height-30) *
+                                      .6,
+                                  padding: EdgeInsets.only(
+                                      left: 10, right: 10, top: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ProfileItemWidget(
+                                          labelText:
                                               AppLocalizations.of(context)
-                                                  .translate('text31')),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                                  .translate('text26'),
+                                          text: snapshot.data.firstName),
+                                      Divider(),
+                                      ProfileItemWidget(
+                                          labelText:
+                                              AppLocalizations.of(context)
+                                                  .translate('text27'),
+                                          text: snapshot.data.lastName),
+                                      Divider(),
+                                      ProfileItemWidget(
+                                          labelText: 'E-mail',
+                                          text: snapshot.data.email ?? ''),
+                                      Divider(),
+                                      ProfileFieldWidget(
+                                        labelText: AppLocalizations.of(context)
+                                            .translate('text37'),
+                                      ),
+                                      Divider(),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  height:
+                                     ( MediaQuery.of(context).size.height- appBar.preferredSize.height) * .4,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          OutlineButton(
+                                            onPressed: () {
+                                              service.signOut(context);
+                                            },
+                                            splashColor: Colors.green,
+                                            borderSide:
+                                                BorderSide(color: Colors.green),
+                                            highlightColor: Colors.green,
+                                            highlightedBorderColor: Colors.red,
+                                            child: Text(
+                                                AppLocalizations.of(context)
+                                                    .translate('text31')),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
                             )
                           : Container(),
                     ),

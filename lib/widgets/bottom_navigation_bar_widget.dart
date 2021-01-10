@@ -88,13 +88,13 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                         Icon(
                           Icons.home,
                           color:
-                              snapshot.data == 0 ? Colors.blue : Colors.black,
+                              snapshot.data == 0 ? Colors.green : Colors.black,
                         ),
                         Text(
                           AppLocalizations.of(context).translate('text21'),
                           style: TextStyle(
                             color:
-                                snapshot.data == 0 ? Colors.blue : Colors.black,
+                                snapshot.data == 0 ? Colors.green : Colors.black,
                           ),
                         ),
                       ],
@@ -132,13 +132,13 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                         Icon(
                            MdiIcons.newspaper,
                           color:
-                              snapshot.data == 2 ? Colors.blue : Colors.black,
+                              snapshot.data == 2 ? Colors.green : Colors.black,
                         ),
                         Text(
                           AppLocalizations.of(context).translate('text23'),
                           style: TextStyle(
                             color:
-                                snapshot.data == 2 ? Colors.blue : Colors.black,
+                                snapshot.data == 2 ? Colors.green : Colors.black,
                             //fontSize: snapshot.data == 2?15:10
                           ),
                         ),

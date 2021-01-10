@@ -18,7 +18,7 @@ class DetailNewsPage extends StatelessWidget {
         backgroundColor: Colors.green,
         elevation: 0,
       ),
-      body: Container(
+      body: Container(height: MediaQuery.of(context).size.longestSide,
         color: Colors.green,
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
