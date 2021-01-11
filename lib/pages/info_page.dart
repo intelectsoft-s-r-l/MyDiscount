@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../localization/localizations.dart';
+import '../core/localization/localizations.dart';
 import '../widgets/profile_home_item_widget.dart';
 
 class InformationPage extends StatelessWidget {

@@ -10,13 +10,8 @@ class NewsImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //alignment: Alignment.center,
       width: size.width,
-      //margin: EdgeInsets.only(left: 5, right: 5),
-      //padding: EdgeInsets.only(left: 5, right: 5),
       child: ClipRRect(
-          // borderRadius: BorderRadius.only(
-          //     bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
           child: Image.memory(
         news?.photo,
         filterQuality: FilterQuality.high,

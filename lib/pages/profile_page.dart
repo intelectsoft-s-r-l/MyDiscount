@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
-import '../localization/localizations.dart';
-import '../models/phone_number.dart';
+import '../core/localization/localizations.dart';
 import '../models/profile_model.dart';
 import '../models/user_credentials.dart';
+import '../providers/phone_number.dart';
 import '../services/auth_service.dart';
 import '../widgets/profile_field_widget.dart';
 import '../widgets/profile_item_widget.dart';
@@ -50,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Container(
                     height: MediaQuery.of(context).size.height -
                         appBar.preferredSize.height -
-                        20,
+                        30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -66,8 +67,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 Container(
                                   height: (MediaQuery.of(context).size.height -
-                                          appBar.preferredSize.height-30) *
-                                      .6,
+                                          appBar.preferredSize.height -
+                                          30) *
+                                      .7,
                                   padding: EdgeInsets.only(
                                       left: 10, right: 10, top: 10),
                                   child: Column(
@@ -99,8 +101,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 Container(
-                                  height:
-                                     ( MediaQuery.of(context).size.height- appBar.preferredSize.height) * .4,
+                                  height: (MediaQuery.of(context).size.height -
+                                          appBar.preferredSize.height) *
+                                      .25,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [

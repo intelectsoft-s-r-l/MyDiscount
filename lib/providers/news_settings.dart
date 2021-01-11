@@ -1,5 +1,6 @@
-import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
+
+import '../services/shared_preferences_service.dart';
 
 class NewsSettings with ChangeNotifier {
   final SharedPref _prefs = SharedPref();
@@ -30,6 +31,6 @@ class NewsSettings with ChangeNotifier {
       _isActivate = await _prefs.readNewsState();
     // ignore: unnecessary_statements
     notifyListeners();
-   return _isActivate;
+    return _isActivate;
   }
 }

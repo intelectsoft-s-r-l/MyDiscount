@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-//import 'package:flutter_svg/svg.dart';
 
-import '../localization/localizations.dart';
+import '../core/localization/localizations.dart';
 import '../services/internet_connection_service.dart';
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
@@ -110,7 +109,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   _getAuthorization() async {
     bool netConnection = await internetConnection.isConnected;
     if (netConnection) {
-      await qrService.getTID(context);
+      await qrService.getTID(false);
       if (mounted)
         setState(() {
           serviceConection = netConnection;
@@ -133,8 +132,8 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     super.dispose();
-    if (mounted) _imageController.close();
-    if (mounted) _progressController.close();
+    if (mounted) _imageController?.close();
+    if (mounted) _progressController?.close();
     if (mounted) _timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
   }

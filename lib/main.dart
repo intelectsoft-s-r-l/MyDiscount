@@ -12,10 +12,8 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'localization/localizations.dart';
-import 'widgets/bottom_navigation_bar_widget.dart';
+import 'core/localization/localizations.dart';
 import 'models/news_model.dart';
-import 'models/user_model.dart';
 import 'pages/detail_news_page.dart';
 import 'pages/about_app.dart';
 import 'pages/app_inf_page.dart';
@@ -26,31 +24,30 @@ import 'pages/transactions_page.dart';
 import 'pages/user_page.dart';
 import 'pages/login_screen2.dart';
 import 'pages/settings_page.dart';
-
 import 'services/local_notification_service.dart';
 import 'services/auth_service.dart';
 import 'services/fcm_service.dart';
 import 'services/remote_config_service.dart';
+import 'widgets/bottom_navigation_bar_widget.dart';
 
-FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
-LocalNotificationsService localNotificationsService =
-    LocalNotificationsService();
-User user = User();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
+  LocalNotificationsService localNotificationsService =
+      LocalNotificationsService();
+ 
   await Firebase.initializeApp();
   try {
     await Hive.initFlutter();
 
     Hive.registerAdapter<News>(NewsAdapter());
-    
+
     await Hive.openBox<News>('news');
   } catch (e) {}
   getServiceNameFromRemoteConfig();
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
- 
+
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
   localNotificationsService.getFlutterLocalNotificationPlugin();
@@ -77,7 +74,8 @@ void main() async {
 
 getAuthState() async {
   final prefs = await SharedPreferences.getInstance();
-  if (prefs.containsKey('user')&&prefs.containsKey('profile')) authController.sink.add(true);
+  if (prefs.containsKey('user') && prefs.containsKey('profile'))
+    authController.sink.add(true);
 }
 
 class MyApp extends StatefulWidget {
@@ -128,7 +126,7 @@ class _MyAppState extends State<MyApp> {
       localeResolutionCallback:
           (Locale locale, Iterable<Locale> supportedLocales) {
         final retLocale = supportedLocales?.first;
-        
+
         if (locale == null) {
           debugPrint("*language locale is null!!!");
           return supportedLocales.first;
@@ -137,8 +135,6 @@ class _MyAppState extends State<MyApp> {
           for (Locale supportedLocale in supportedLocales) {
             if (supportedLocale.languageCode == locale.languageCode &&
                 locale.languageCode != null) {
-             
-
               return supportedLocale;
             }
           }

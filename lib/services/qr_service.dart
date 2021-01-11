@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:http/http.dart' as http;
 
-import '../constants/credentials.dart';
+import '../core/constants/credentials.dart';
 import '../core/formater.dart';
 import '../models/user_credentials.dart';
 import '../services/auth_service.dart';
@@ -19,12 +20,12 @@ class QrService {
   Formater formater = Formater();
   NetworkConnectionImpl status = NetworkConnectionImpl();
 
-  Future<String> getTID(context) async {
+  Future<String> getTID(bool isPhoneVerification, [context]) async {
     try {
       String serviceName = await getServiceNameFromRemoteConfig();
 
-      /* if (serviceName != '') { */
-      final _bodyData = await UserCredentials().getRequestBodyData();
+      final _bodyData =
+          await UserCredentials().getRequestBodyData(isPhoneVerification);
 
       debugPrint(_bodyData);
 
@@ -35,10 +36,9 @@ class QrService {
 
       var decodedResponse = json.decode(response.body);
 
-      //print(response.statusCode);
       if (decodedResponse['ErrorCode'] == 0) {
         sPref.saveTID(decodedResponse['TID']);
-
+        print('decodedresponse:${decodedResponse['TID']}');
         return decodedResponse['TID'];
       } else {
         if (decodedResponse['ErrorCode'] == 103) {
@@ -50,7 +50,6 @@ class QrService {
 
           authController.add(false);
         }
-        /*   } */
       }
       return '';
     } catch (e, s) {

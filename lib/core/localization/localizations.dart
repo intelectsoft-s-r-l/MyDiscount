@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../services/shared_preferences_service.dart';
+import '../../services/shared_preferences_service.dart';
 
 class AppLocalizations {
   final Locale locale;

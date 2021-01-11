@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../localization/localizations.dart';
+import '../core/localization/localizations.dart';
 import '../widgets/app_info_widget.dart';
 
 class AppInfoPage extends StatelessWidget {

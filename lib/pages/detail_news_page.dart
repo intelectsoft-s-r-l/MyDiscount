@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter/material.dart';
 
 import '../models/news_model.dart';
 import '../widgets/html_text_view_widget.dart';

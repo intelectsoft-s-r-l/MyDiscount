@@ -1,21 +1,23 @@
-import 'package:MyDiscount/new_button/circle_painter.dart';
-import 'package:MyDiscount/new_button/curve_wave.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
+
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../new_button/circle_painter.dart';
+import '../new_button/curve_wave.dart';
 
 class RipplesAnimation extends StatefulWidget {
   const RipplesAnimation({
     Key key,
     this.size = 20.0,
     this.color = Colors.green,
-    this.onPressed,
-    this.child,
+    // this.onPressed,
+    // this.child,
   }) : super(key: key);
   final double size;
   final Color color;
-  final Widget child;
-  final VoidCallback onPressed;
+  // final Widget child;
+  // final VoidCallback onPressed;
   @override
   _RipplesAnimationState createState() => _RipplesAnimationState();
 }

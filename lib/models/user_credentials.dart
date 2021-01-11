@@ -42,18 +42,13 @@ class UserCredentials {
     return displayName.split(" ").map((e) => e.toString()).toList();
   }
 
-  Future<String> getRequestBodyData() async {
+  Future<String> getRequestBodyData(bool isPhoneVerification) async {
     final _prefs = await sPrefs.instance;
     User user = await _getRegistrationUserData();
     // print(user.session);
     Profile profile = await _returnRegistrationProfileDataAsMap();
-    //String phone = await _readFormPhoneNumber();
-    if (_prefs.containsKey('Tid')) {
-      final minUserData = json.encode(
-        {"ID": user.id, "RegisterMode": profile.registerMode},
-      );
-      return minUserData;
-    } else {
+    String phone = await _readFormPhoneNumber();
+    if(isPhoneVerification){
       return json.encode({
         "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
         "Email": profile.email,
@@ -62,6 +57,24 @@ class UserCredentials {
         "PushToken": profile.pushToken,
         "RegisterMode": profile.registerMode,
         "access_token": user.accessToken,
+        "phone":phone,
+      });
+    }
+    if (_prefs.containsKey('Tid')) {
+      final minUserData = json.encode(
+        {"ID": user.id, "RegisterMode": profile.registerMode},
+      );
+      return minUserData;
+    } else {
+       return json.encode({
+        "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
+        "Email": profile.email,
+        "ID": user.id,
+        "PhotoUrl": profile.photoUrl,
+        "PushToken": profile.pushToken,
+        "RegisterMode": profile.registerMode,
+        "access_token": user.accessToken,
+        "phone":phone??"",
       });
     }
   }
@@ -86,11 +99,11 @@ class UserCredentials {
     );
   }
 
- /*  Future<String> _readFormPhoneNumber() async {
+  Future<String> _readFormPhoneNumber() async {
     final String phone = await sPrefs.readPhoneNumber();
     if (phone != null) return phone;
     return '';
-  } */
+  }
 
   Future<Profile> _returnRegistrationProfileDataAsMap() async {
     Map<String, dynamic> profile =

@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
-import '../constants/credentials.dart';
+
+import '../core/constants/credentials.dart';
 import '../core/formater.dart';
 import '../models/news_model.dart';
+import '../services/shared_preferences_service.dart';
 import '../services/remote_config_service.dart';
-//import '../services/shared_preferences_service.dart';
 
 class NewsService {
   SharedPref _prefs = SharedPref();
@@ -60,7 +60,7 @@ class NewsService {
 
     print('companyBoxValue:$newsBox.values');
   }
-
+  //create for delete the old news
   /* void checkIfNewsIsNotOld(List keys) {
     for (int key in keys) {
       final news = newsBox.get(key);

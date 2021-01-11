@@ -1,5 +1,7 @@
-import 'package:MyDiscount/localization/localizations.dart';
+
 import 'package:flutter/material.dart';
+
+import '../core/localization/localizations.dart';
 
 class AboutAppPage extends StatelessWidget {
   @override

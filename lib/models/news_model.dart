@@ -69,10 +69,10 @@ class News {
       companyName: companyName ?? this.companyName,
       content: content ?? this.content,
       dateTime: dateTime ?? this.dateTime,
-      id: id ?? id,
-      header: header ?? header,
-      photo: photo ?? photo,
-      logo: logo ?? logo,
+      id: id ?? this.id,
+      header: header ?? this.header,
+      photo: photo ?? this.photo,
+      logo: logo ?? this.logo,
     );
   }
 }

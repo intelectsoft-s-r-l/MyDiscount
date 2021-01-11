@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import '../core/localization/localizations.dart';
 import '../services/device_info_service.dart';
-import '../localization/localizations.dart';
 
 class TechnicDetailPage extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
     final String pageName = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text(pageName,style: TextStyle(fontSize: 18)),
+        title: Text(pageName, style: TextStyle(fontSize: 18)),
         backgroundColor: Colors.green,
         elevation: 0,
       ),

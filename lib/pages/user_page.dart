@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../core/failure.dart';
+import '../models/company_model.dart';
 import '../services/company_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/companies_list_widget.dart';
 import '../widgets/noCompani_list_widget.dart';
 import '../widgets/nointernet_widget.dart';
 
-
 class CompanyListPage extends StatelessWidget {
   final CompanyService data = CompanyService();
 
   @override
   Widget build(BuildContext context) {
-    
     final String pageName = ModalRoute.of(context).settings.arguments;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(pageName),
@@ -37,7 +36,7 @@ class CompanyListPage extends StatelessWidget {
                     ),
                     color: Colors.white,
                   ),
-                  child: FutureBuilder<dynamic>(
+                  child: FutureBuilder<List<Company>>(
                     future: data.getCompanyList(),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {

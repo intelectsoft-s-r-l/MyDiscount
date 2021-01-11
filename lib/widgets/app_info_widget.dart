@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../localization/localizations.dart';
+import '../core/localization/localizations.dart';
 
 class AppInfoWidget extends StatelessWidget {
   const AppInfoWidget({
@@ -14,19 +14,12 @@ class AppInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-       // vertical: 5,
         horizontal: 10,
       ),
-      //height: size.height * .8,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: <Widget>[
-           /*  Text(
-              AppLocalizations.of(context).translate('pc'),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ), */
             RichText(
               textAlign: TextAlign.justify,
               text: TextSpan(

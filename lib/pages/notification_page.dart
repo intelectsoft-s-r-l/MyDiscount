@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-import '../localization/localizations.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+
+import '../core/localization/localizations.dart';
 import '../models/news_model.dart';
 import '../services/news_service.dart';
 import '../widgets/news_header_widget.dart';

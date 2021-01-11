@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
-import '../localization/localizations.dart';
+import '../core/localization/localizations.dart';
+import '../providers/news_settings.dart';
 import '../services/fcm_service.dart';
-import '../models/news_settings.dart';
 import '../main.dart';
 
 class SettingsPage extends StatelessWidget {

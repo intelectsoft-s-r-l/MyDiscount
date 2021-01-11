@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_html/flutter_html.dart';
 
 import '../models/news_model.dart';
@@ -6,12 +7,10 @@ import '../models/news_model.dart';
 class NewsHeaderWidget extends StatelessWidget {
   const NewsHeaderWidget({
     Key key,
-   
     @required this.size,
     @required this.news,
   }) : super(key: key);
 
-  
   final Size size;
   final News news;
 
@@ -20,16 +19,8 @@ class NewsHeaderWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          // padding: EdgeInsets.only(left: 5),
-          // margin:
-          //    const EdgeInsets.only(left: 5, right: 5),
           height: 120,
-
           decoration: const BoxDecoration(
-            /* borderRadius:const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ), */
             color: Colors.white,
           ),
           width: MediaQuery.of(context).size.width,
@@ -39,7 +30,6 @@ class NewsHeaderWidget extends StatelessWidget {
           left: 60,
           child: Container(
             padding: EdgeInsets.only(
-              //left: 10,
               right: 10,
             ),
             child: Text(

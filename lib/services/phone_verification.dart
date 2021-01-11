@@ -1,16 +1,17 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/services/remote_config_service.dart';
-
-import '../constants/credentials.dart';
-import 'shared_preferences_service.dart';
 import 'package:http/http.dart' as http;
+
+import '../core/constants/credentials.dart';
+import '../services/shared_preferences_service.dart';
+import '../services/qr_service.dart';
+import '../services/remote_config_service.dart';
 
 class PhoneVerification {
   SharedPref prefs = SharedPref();
-
+  QrService _qrService = QrService();
   Future<void> getVerificationCodeFromServer(String phoneNumber) async {
-    try {
+     try {
       String serviceName = await getServiceNameFromRemoteConfig();
       final url = '$serviceName/json/ValidatePhone?Phone=$phoneNumber';
       final response = await http.get(url, headers: Credentials().header);
@@ -27,6 +28,7 @@ class PhoneVerification {
     final codeFromServer = await prefs.readCode();
     if (code == VerificationCode(codeFromServer)) {
       print('true');
+      _qrService.getTID(true);
       return true;
     }
     print(false);

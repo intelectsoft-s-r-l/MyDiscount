@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import 'dart:math' as math show  sqrt;
+import 'dart:math' as math show sqrt;
+
 import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 
 class CirclePainter extends CustomPainter {
   CirclePainter(

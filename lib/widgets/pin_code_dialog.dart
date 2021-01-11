@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:MyDiscount/localization/localizations.dart';
-import 'package:MyDiscount/models/phone_number.dart';
-import 'package:MyDiscount/services/phone_verification.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+
+import '../core/localization/localizations.dart';
+import '../providers/phone_number.dart';
+import '../services/phone_verification.dart';
 
 class PinCodeDialog extends StatefulWidget {
   const PinCodeDialog({this.provider, this.phone});
@@ -46,7 +47,6 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
         }
       }
     });
-    // notifyListeners();
   }
 
   @override
@@ -65,12 +65,11 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
     final phone = widget.phone;
 
     return AlertDialog(
-      //insetPadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
       title: Text(AppLocalizations.of(context).translate('text58'),
           style: TextStyle(fontSize: 15)),
       content: Container(
-        height: 110,
+        height: 80,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
@@ -84,9 +83,6 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
                 _currentCode = code;
                 print(code);
               },
-            ),
-            SizedBox(
-              height: 15,
             ),
             StreamBuilder(
                 stream: _controller.stream,

@@ -16,8 +16,7 @@ Future<String> getServiceNameFromRemoteConfig() async {
     return serviceNameAsMap['service_name'];
   } on FetchThrottledException {
     throw FetchThrottledException;
-  } on dynamic
-  catch (e, s) {
+  } on dynamic catch (e, s) {
     FirebaseCrashlytics.instance.recordError(e, s);
   }
   return '';

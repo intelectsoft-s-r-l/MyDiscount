@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'local_notification_service.dart';
+import '../services/shared_preferences_service.dart';
+import '../services/local_notification_service.dart';
 
 class FirebaseCloudMessageService with ChangeNotifier {
   FirebaseMessaging _fcm = FirebaseMessaging();

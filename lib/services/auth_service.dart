@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-//import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -79,8 +78,7 @@ class AuthService extends UserCredentials {
       final fcmToken = await fcmService.getfcmToken();
 
       if (googleSignIn.currentUser.id != null) {
-        // final data = auth.idToken;
-        // decoder.parseJwtPayLoad(data ?? '');
+       
         saveUserRegistrationDatatoMap(
           User(
             id: account.id,
@@ -124,24 +122,23 @@ class AuthService extends UserCredentials {
             AppleIDAuthorizationScopes.email,
             AppleIDAuthorizationScopes.fullName
           ]);
-      //print('appleCredential $appleCredentials');
+
       final fcmToken = await fcmService.getfcmToken();
 
       saveUserRegistrationDatatoMap(User(
         id: appleCredentials.userIdentifier,
         accessToken: appleCredentials.identityToken,
       ));
-      /* print(DateFormat('d, MM, yyyy hh mm ss')
-          .format(DateTime.fromMillisecondsSinceEpoch(1609924045000))); */
-      saveProfileRegistrationDataToMap(Profile(
+
+      saveProfileRegistrationDataToMap(
+        Profile(
           firstName: appleCredentials.familyName ?? '',
           lastName: appleCredentials.givenName ?? '',
           email: appleCredentials.email,
           registerMode: 3,
-          pushToken: fcmToken));
-      /*  final data = decoder.parseJwtPayLoad(appleCredentials.identityToken);
-      print('apple data: $data');
-      decoder.parseJwtHeader(appleCredentials.identityToken); */
+          pushToken: fcmToken,
+        ),
+      );
     } on SignInWithAppleAuthorizationException {
       throw SignInWithAppleCredentialsException(message: 'Remove from user');
     } catch (e, s) {

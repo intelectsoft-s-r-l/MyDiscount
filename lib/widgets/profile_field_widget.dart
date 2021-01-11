@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
-import '../localization/localizations.dart';
-import '../models/phone_number.dart';
+import '../core/localization/localizations.dart';
+import '../providers/phone_number.dart';
 import '../services/phone_verification.dart';
 import '../widgets/pin_code_dialog.dart';
 
@@ -38,113 +38,121 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Consumer(
-          builder: (context, PhoneNumber provider, _) => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              provider.editing
-                  ? Expanded(
-                      child: Form(
-                      key: _formKey,
-                      autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                          focusNode: focusNode,
-                          controller: _phoneController,
-                          maxLength: 9,
-                          decoration: InputDecoration(
-                            //labelText: 'Phone Number *',
-                            hintText: AppLocalizations.of(context)
-                                .translate('text42'),
-                          ),
-                          keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
-                                  .translate('text43');
-                            } else if (value.characters.first != '0') {
-                              return AppLocalizations.of(context)
-                                  .translate('text57');
-                            } else if (value.length < 9) {
-                              return AppLocalizations.of(context)
-                                  .translate('text44');
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _phoneController.text = value;
-                          }),
-                    ))
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(widget.labelText,
-                              style: TextStyle(
-                                color: Colors.black,
-                              )),
-                        ),
-                        FutureProvider.value(
-                            value: PhoneNumber().getUserPhone(),
-                            builder: (context, _) {
-                              if (provider.phone != null) {
-                                return Container(
-                                    child: Text(
-                                  provider.phone,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ));
+    return ChangeNotifierProvider<PhoneNumber>(
+      create: (context) => PhoneNumber(),
+      builder: (context, _) {
+        final provider = Provider.of<PhoneNumber>(context, listen: true);
+        return Column(
+          children: [
+            /* Consumer(
+            builder: (context, PhoneNumber provider, _)   =>*/
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                provider.editing
+                    ? Expanded(
+                        child: Form(
+                        key: _formKey,
+                        autovalidateMode: AutovalidateMode.always,
+                        child: TextFormField(
+                            focusNode: focusNode,
+                            controller: _phoneController,
+                            maxLength: 9,
+                            decoration: InputDecoration(
+                              //labelText: 'Phone Number *',
+                              hintText: AppLocalizations.of(context)
+                                  .translate('text42'),
+                            ),
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return AppLocalizations.of(context)
+                                    .translate('text43');
+                              } else if (value.characters.first != '0') {
+                                return AppLocalizations.of(context)
+                                    .translate('text57');
+                              } else if (value.length < 9) {
+                                return AppLocalizations.of(context)
+                                    .translate('text44');
                               }
-                              return Container();
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _phoneController.text = value;
                             }),
-                      ],
-                    ),
-            ],
-          ),
-        ),
-        Divider(),
-        Consumer(
-          builder: (context, PhoneNumber provider, _) => OutlineButton(
-            splashColor: Colors.green,
-            borderSide: BorderSide(color: Colors.green),
-            highlightColor: Colors.green,
-            highlightedBorderColor: Colors.red,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+                      ))
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Text(widget.labelText,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                )),
+                          ),
+                          FutureProvider.value(
+                              value: PhoneNumber().getUserPhone(),
+                              builder: (context, _) {
+                                if (provider.phone != null) {
+                                  return Container(
+                                      child: Text(
+                                    provider.phone,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ));
+                                }
+                                return Container();
+                              }),
+                        ],
+                      ),
+              ],
             ),
-            child: provider.editing
-                ? Text(AppLocalizations.of(context).translate('text60'))
-                : provider.phone != ''
-                    ? Text(AppLocalizations.of(context).translate('text52'))
-                    : Text(AppLocalizations.of(context).translate('text53')),
-            onPressed: () async {
-              focusNode.requestFocus();
-              provider.editing = !provider.editing;
-              if (provider.editing) {
-                _phoneController.text = provider.phone;
-              } else {
-                PhoneVerification()
-                    .getVerificationCodeFromServer(_phoneController.text);
+            /*   ), */
+            Divider(),
+            Consumer(
+              builder: (context, PhoneNumber provider, _) => OutlineButton(
+                splashColor: Colors.green,
+                borderSide: BorderSide(color: Colors.green),
+                highlightColor: Colors.green,
+                highlightedBorderColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: provider.editing
+                    ? Text(AppLocalizations.of(context).translate('text60'))
+                    : provider.phone != ''
+                        ? Text(AppLocalizations.of(context).translate('text52'))
+                        : Text(
+                            AppLocalizations.of(context).translate('text53')),
+                onPressed: () async {
+                  focusNode.requestFocus();
+                  provider.editing = !provider.editing;
+                  if (provider.editing) {
+                    _phoneController.text = provider.phone;
+                  } else {
+                    PhoneVerification()
+                        .getVerificationCodeFromServer(_phoneController.text);
 
-                focusNode.requestFocus();
-                focusNode.unfocus();
-                if (_formKey.currentState.validate()) {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => PinCodeDialog(
-                            provider: provider,
-                            phone: _phoneController.text,
-                          ));
-                }
-              }
-            },
-          ),
-        )
-      ],
+                    /*  focusNode.requestFocus();
+                  focusNode.unfocus(); */
+                    if (_formKey.currentState.validate()) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => PinCodeDialog(
+                                provider: provider,
+                                phone: _phoneController.text,
+                              ));
+                    }
+                  }
+                },
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../localization/localizations.dart';
+import '../core/localization/localizations.dart';
 import '../models/company_model.dart';
 
 class CompanyWidget extends StatelessWidget {
@@ -32,8 +32,6 @@ class CompanyWidget extends StatelessWidget {
           ),
         ),
       ),
-      //se va adauga in alta versiune
-      /* subtitle: Text('Index:${companie['Index']}'), */
       trailing: Container(
         width: 80,
         child: Column(
