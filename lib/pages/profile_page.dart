@@ -1,3 +1,4 @@
+import 'package:MyDiscount/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -6,7 +7,7 @@ import '../core/localization/localizations.dart';
 import '../models/profile_model.dart';
 import '../models/user_credentials.dart';
 import '../providers/phone_number.dart';
-import '../services/auth_service.dart';
+//import '../services/auth_service.dart';
 import '../widgets/profile_field_widget.dart';
 import '../widgets/profile_item_widget.dart';
 
@@ -17,7 +18,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final AuthService service = AuthService();
+  //final AuthService service = AuthService();
   @override
   void initState() {
     UserCredentials().getUserProfileData();
@@ -26,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AuthorizationProvider>(context, listen: false);
     final String pageName = ModalRoute.of(context).settings.arguments;
     final appBar = AppBar(
       title: Text(pageName),
@@ -37,7 +39,6 @@ class _ProfilePageState extends State<ProfilePage> {
       body: ChangeNotifierProvider.value(
         value: PhoneNumber(),
         child: Container(
-         
           color: Colors.green,
           child: Column(
             children: [
@@ -113,7 +114,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         children: [
                                           OutlineButton(
                                             onPressed: () {
-                                              service.signOut(context);
+                                              Navigator.pop(context);
+                                              provider.logOut();
+                                              //service.signOut(context);
                                             },
                                             splashColor: Colors.green,
                                             borderSide:

@@ -26,7 +26,9 @@ class AuthService extends UserCredentials {
 
   FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
 
-  Future<void> authWithFacebook() async {
+  String _expireDate = DateTime.now().add(Duration(hours: 3)).toString();
+
+  Future<User> authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
       print('facebook result:${result.toString()}');
@@ -39,6 +41,7 @@ class AuthService extends UserCredentials {
           saveUserRegistrationDatatoMap(User(
             id: _accessToken.userId,
             accessToken: _accessToken.token,
+            expireDate: _expireDate,
           ));
           final splitedDisplayName = splitTheStrings(profile['name']);
           saveProfileRegistrationDataToMap(Profile(
@@ -49,7 +52,11 @@ class AuthService extends UserCredentials {
             registerMode: 2,
             pushToken: fcmToken,
           ));
-
+          return User(
+            id: _accessToken.userId,
+            accessToken: _accessToken.token,
+            expireDate: _expireDate,
+          );
           break;
         case FacebookLoginStatus.cancelledByUser:
           break;
@@ -61,6 +68,7 @@ class AuthService extends UserCredentials {
 
       throw Exception(e);
     }
+    return User(id: null, accessToken: null, expireDate: null);
   }
 
   Future<Map<String, dynamic>> getFacebookProfile(String token) async {
@@ -78,11 +86,11 @@ class AuthService extends UserCredentials {
       final fcmToken = await fcmService.getfcmToken();
 
       if (googleSignIn.currentUser.id != null) {
-       
         saveUserRegistrationDatatoMap(
           User(
             id: account.id,
             accessToken: auth.accessToken,
+            expireDate: _expireDate,
           ),
         );
         final splitedDisplayName = splitTheStrings(account.displayName);
@@ -97,6 +105,11 @@ class AuthService extends UserCredentials {
           ),
         );
       }
+      return User(
+        id: account.id,
+        accessToken: auth.accessToken,
+        expireDate: _expireDate,
+      );
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
       FirebaseCrashlytics.instance.setCustomKey('log with google', s);
@@ -104,15 +117,14 @@ class AuthService extends UserCredentials {
     }
   }
 
-  Future<void> signOut(context) async {
+  Future<void> signOut() async {
     final prefs = await SharedPreferences.getInstance();
     _facebookLogin.logOut();
     googleSignIn.signOut();
     prefs.remove('Tid');
     prefs.remove('user');
-    //prefs.remove('IOS');
-    authController.add(false);
-    Navigator.of(context).pushReplacementNamed('/loginscreen');
+    //authController.add(false);
+    //Navigator.of(context).pushReplacementNamed('/loginscreen');
   }
 
   Future<void> signInWithApple() async {
@@ -128,6 +140,7 @@ class AuthService extends UserCredentials {
       saveUserRegistrationDatatoMap(User(
         id: appleCredentials.userIdentifier,
         accessToken: appleCredentials.identityToken,
+        expireDate: _expireDate,
       ));
 
       saveProfileRegistrationDataToMap(
@@ -138,6 +151,11 @@ class AuthService extends UserCredentials {
           registerMode: 3,
           pushToken: fcmToken,
         ),
+      );
+      return User(
+        id: appleCredentials.userIdentifier,
+        accessToken: appleCredentials.identityToken,
+        expireDate: _expireDate,
       );
     } on SignInWithAppleAuthorizationException {
       throw SignInWithAppleCredentialsException(message: 'Remove from user');

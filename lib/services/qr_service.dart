@@ -45,7 +45,7 @@ class QrService {
 
           prefs.remove('user');
 
-          AuthService().signOut(context);
+          AuthService().signOut();
 
           authController.add(false);
         }

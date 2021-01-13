@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:MyDiscount/providers/auth_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flushbar/flushbar_helper.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 import '../core/localization/localizations.dart';
@@ -18,19 +20,20 @@ class LoginScreen2 extends StatefulWidget {
 }
 
 class _LoginScreen2State extends State<LoginScreen2> {
-  final NetworkConnectionImpl internet = NetworkConnectionImpl();
+  /*  final NetworkConnectionImpl internet = NetworkConnectionImpl();
   final AuthService data = AuthService();
   SharedPref _pref = SharedPref();
   @override
   void initState() {
     getAuthState();
     super.initState();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
+  final provider =  Provider.of<AuthorizationProvider>(context,listen: false);
     var size = MediaQuery.of(context).size;
-    void _authorize(future, context) async {
+    /*   void _authorize(future, context) async {
       future.whenComplete(() async {
         final prefs = await _pref.instance;
         if (prefs.containsKey('user') && prefs.containsKey('profile')) {
@@ -67,7 +70,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 message: AppLocalizations.of(context).translate('text6'))
             .show(context); 
       }
-    }
+    } */
 
     return Scaffold(
       body: Column(
@@ -127,7 +130,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 ),
                 LoginButton(
                   size: size,
-                  function: getAuthorizationGoogle,
+                  function:provider.getAuthorizationGoogle ,// getAuthorizationGoogle,
                   picture: 'assets/icons/icon_google.svg',
                   text: AppLocalizations.of(context).translate('text15'),
                   color: Color(0xFF406BFB),
@@ -137,7 +140,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 ),
                 LoginButton(
                   size: size,
-                  function: getAuthorizationFB,
+                  function:provider.getAuthorizationFB, //getAuthorizationFB,
                   picture: 'assets/icons/icon_facebook.svg',
                   text: AppLocalizations.of(context).translate('text16'),
                   color: Color(0xFF2D4CB3),
@@ -148,7 +151,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 Platform.isIOS
                     ? LoginButton(
                         size: size,
-                        function: getAuthorizationApple,
+                        function: provider.getAuthorizationApple,
                         picture: 'assets/icons/icon_apple.svg',
                         text: AppLocalizations.of(context).translate('text17'),
                         color: Colors.black,

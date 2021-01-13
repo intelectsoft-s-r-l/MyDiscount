@@ -11,7 +11,7 @@ Future<String> getServiceNameFromRemoteConfig() async {
     await remoteConfig.activateFetched();
 
     final serviceNameAsMap =
-        _decodeRemoteConfigData(remoteConfig.getString('service_name'));
+        _decodeRemoteConfigData(remoteConfig.getString('service_name_dev'));
 
     return serviceNameAsMap['service_name'];
   } on FetchThrottledException {
