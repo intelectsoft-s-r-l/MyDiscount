@@ -43,7 +43,7 @@ class NewsService {
     }
     return [];
   }
-
+/* https://api.edi.md/ISMobileDiscountService/json/GetAppNews?ID={ID}*/
   Future<String> readEldestNewsId() async {
     final listOfKeys = newsBox.keys;
     // newsBox.deleteAll(listOfKeys);

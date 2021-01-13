@@ -54,6 +54,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
         _timer?.cancel();
         _getAuthorization();
         countTID = 0;
+        
         break;
 
       case AppLifecycleState.inactive:
