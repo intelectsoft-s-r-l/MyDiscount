@@ -1,3 +1,4 @@
+import 'package:MyDiscount/widgets/html_text_view_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -16,11 +17,12 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   NewsService service = NewsService();
-
+  bool showText /* = false */;
   @override
   void initState() {
     super.initState();
     service.getNews();
+    showText = false;
   }
 
   @override
@@ -66,11 +68,13 @@ class _NotificationPageState extends State<NotificationPage> {
                       itemCount: box.length,
                       itemBuilder: (context, index) {
                         News news = box?.getAt(index);
-
                         return InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, '/detailpage',
                                 arguments: news);
+                            setState(() {
+                              showText = !showText;
+                            });
                           },
                           child: Container(
                             child: Column(
@@ -80,6 +84,61 @@ class _NotificationPageState extends State<NotificationPage> {
                                   news: news,
                                 ),
                                 NewsImageWidget(news: news, size: size),
+                                InkResponse(
+                                  autofocus: true,
+                                  onTap: () {
+                                    setState(() {
+                                      showText = !showText;
+                                    });
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      !showText
+                                          ? Text(
+                                              'Aflati mai multe !',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.blue,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            )
+                                          : Container(),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: showText
+                                      ? Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            HtmlText(
+                                              list: news,
+                                            ),
+                                            MaterialButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  showText = !showText;
+                                                });
+                                              },
+                                              child: Text(
+                                                'Mai Putin !',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.blue,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      : Container(),
+                                ),
                               ],
                             ),
                           ),
