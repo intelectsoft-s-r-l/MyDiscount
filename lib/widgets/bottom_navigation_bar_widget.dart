@@ -27,14 +27,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
     super.initState();
   }
 
-  /* @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(mounted)
-    if (state == AppLifecycleState.resumed) {
-      Navigator.of(context).pushReplacementNamed('/app');
-    }
-    super.didChangeAppLifecycleState(state);
-  } */
+  
 
   @override
   void dispose() {
@@ -46,19 +39,24 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-        body: [
-          HomePage(),
-          QrPage(),
-          NotificationPage(),
-        ].elementAt(selectedIndex),
-        bottomNavigationBar: StreamBuilder(
-          stream: _indexController.stream,
-          builder: (context, snapshot) => Container(
+      backgroundColor: Colors.white,
+      body: [
+        HomePage(),
+        QrPage(),
+        NotificationPage(),
+      ].elementAt(selectedIndex),
+      bottomNavigationBar: StreamBuilder(
+        stream: _indexController.stream,
+        builder: (context, snapshot) => SafeArea(
+          top: true,
+          bottom: true,
+          maintainBottomViewPadding: true,
+          child: Container(
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border(
                   top: BorderSide(
+                    width: 2,
                     color: Colors.grey[200],
                   ),
                 ),
@@ -66,10 +64,9 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                   BoxShadow(
                     color: Colors.grey[200],
                     blurRadius: 0.1,
-                    spreadRadius: 1.0,
+                    spreadRadius: 1.5,
                   )
                 ]),
-            //color: Colors.red,
             height: 60,
             child: Row(
               children: [
@@ -82,7 +79,6 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * .33,
-                    // color: Colors.green,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -94,14 +90,15 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                         Text(
                           AppLocalizations.of(context).translate('text21'),
                           style: TextStyle(
-                            color:
-                                snapshot.data == 0 ? Colors.green : Colors.black,
+                            color: snapshot.data == 0
+                                ? Colors.green
+                                : Colors.black,
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),        
+                ),
                 Expanded(
                   child: InkResponse(
                     onTap: () {
@@ -131,16 +128,16 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                           MdiIcons.newspaper,
+                          MdiIcons.newspaper,
                           color:
                               snapshot.data == 2 ? Colors.green : Colors.black,
                         ),
                         Text(
                           AppLocalizations.of(context).translate('text23'),
                           style: TextStyle(
-                            color:
-                                snapshot.data == 2 ? Colors.green : Colors.black,
-                            //fontSize: snapshot.data == 2?15:10
+                            color: snapshot.data == 2
+                                ? Colors.green
+                                : Colors.black,
                           ),
                         ),
                       ],
@@ -150,39 +147,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
               ],
             ),
           ),
-        ) /* BottomNavigationBar(
-        /* type: BottomNavigationBarType.shifting, */
-        backgroundColor: Colors.white,
-        unselectedFontSize: MediaQuery.of(context).devicePixelRatio + 6,
-        selectedFontSize: MediaQuery.of(context).devicePixelRatio + 8,
-        onTap: (value) {
-          setState(() {
-            selectedIndex = value;
-          });
-        },
-        currentIndex: selectedIndex,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Colors.black,
-              ),
-              label: AppLocalizations.of(context).translate('text21')),
-          /* BottomNavigationBarItem(
-            icon: Icon(
-              MdiIcons.qrcode,
-              color: Colors.black,
-            ),
-            label: 'QR',
-          ), */
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.notifications,
-                color: Colors.black,
-              ),
-              label: AppLocalizations.of(context).translate('text23')),
-        ],
-      ), */
-        );
+        ),
+      ),
+    );
   }
 }

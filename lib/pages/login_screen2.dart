@@ -116,10 +116,10 @@ class _LoginScreen2State extends State<LoginScreen2> {
                   child: Text(
                     AppLocalizations.of(context).translate('text12'),
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.black87,
                       fontWeight: FontWeight.bold,
                     ),
-                    textScaleFactor: 1.5,
+                    textScaleFactor: 1.2,
                   ),
                 ),
                 SizedBox(

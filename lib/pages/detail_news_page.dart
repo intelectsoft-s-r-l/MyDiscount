@@ -11,6 +11,7 @@ class DetailNewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final News news = ModalRoute.of(context).settings.arguments;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -18,7 +19,8 @@ class DetailNewsPage extends StatelessWidget {
         backgroundColor: Colors.green,
         elevation: 0,
       ),
-      body: Container(height: MediaQuery.of(context).size.longestSide,
+      body: Container(
+        height: size.longestSide,
         color: Colors.green,
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
@@ -34,12 +36,14 @@ class DetailNewsPage extends StatelessWidget {
                 children: [
                   Html(data: news.header),
                   Container(
+                    height: size.width,
+                    width: size.width,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: news.photo != null && news.photo != []
                           ? Image.memory(
                               news.photo,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             )
                           : Container(),
                     ),

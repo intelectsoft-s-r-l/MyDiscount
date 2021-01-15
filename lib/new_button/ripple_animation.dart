@@ -54,16 +54,18 @@ class _RipplesAnimationState extends State<RipplesAnimation>
             ),
           ),
           child: ScaleTransition(
-              scale: Tween(begin: 0.95, end: 1.0).animate(
-                CurvedAnimation(
-                  parent: _controller,
-                  curve: const CurveWave(),
-                ),
+            scale: Tween(begin: 0.95, end: 1.0).animate(
+              CurvedAnimation(
+                parent: _controller,
+                curve: const CurveWave(),
               ),
-              child: Icon(
-                MdiIcons.qrcode,
-                size: 30,color: Colors.white,
-              )),
+            ),
+            child: Icon(
+              MdiIcons.qrcode,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );

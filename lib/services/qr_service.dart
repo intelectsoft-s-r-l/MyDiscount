@@ -38,7 +38,6 @@ class QrService {
 
       if (decodedResponse['ErrorCode'] == 0) {
         sPref.saveTID(decodedResponse['TID']);
-        print('decodedresponse:${decodedResponse['TID']}');
         return decodedResponse['TID'];
       } else {
         if (decodedResponse['ErrorCode'] == 103) {

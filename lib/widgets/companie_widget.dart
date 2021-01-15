@@ -22,14 +22,18 @@ class CompanyWidget extends StatelessWidget {
         ),
       ),
 
-      title: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-          '${company.name}',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+      title: Container(alignment: Alignment.centerLeft,
+        child: OverflowBar(
+          children: [
+            Text(
+              '${company.name}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ],
         ),
       ),
       trailing: Container(
