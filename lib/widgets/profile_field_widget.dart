@@ -46,8 +46,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
         final provider = Provider.of<PhoneNumber>(context, listen: true);
         return Column(
           children: [
-            /* Consumer(
-            builder: (context, PhoneNumber provider, _)   =>*/
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -61,7 +59,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             controller: _phoneController,
                             maxLength: 9,
                             decoration: InputDecoration(
-                              //labelText: 'Phone Number *',
                               hintText: AppLocalizations.of(context)
                                   .translate('text42'),
                             ),
@@ -138,8 +135,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                     PhoneVerification()
                         .getVerificationCodeFromServer(_phoneController.text);
 
-                    /*  focusNode.requestFocus();
-                  focusNode.unfocus(); */
                     if (_formKey.currentState.validate()) {
                       showDialog(
                           context: context,
@@ -158,6 +153,3 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     );
   }
 }
-
-/* <#> MyDiscount: Your code is 1234
-DJWuSAfFX53 */

@@ -45,10 +45,10 @@ class NewsService {
 
   Future<String> readEldestNewsId() async {
     final listOfKeys = newsBox.keys;
-    // newsBox.deleteAll(listOfKeys);
+    
     int id = 0;
     if (listOfKeys.isNotEmpty)
-      //checkIfNewsIsNotOld(listOfKeys.toList());
+      
       for (int key in listOfKeys)
         if (key > id) {
           id = key;
@@ -58,19 +58,7 @@ class NewsService {
 
   Future<void> saveNewsOnDB(News news) async {
     newsBox.put(news.id, news);
-
-    
   }
-  //created for delete the old news
-  /* void checkIfNewsIsNotOld(List keys) {
-    for (int key in keys) {
-      final news = newsBox.get(key);
-      if (news.expireDate.isBefore(DateTime.now())) {
-        newsBox.delete(news.id);
-      }
-      newsBox.compact();
-    }
-  } */
 
   Future<List<News>> _getReversedNewsList() async {
     List<News> newsList = [];

@@ -38,14 +38,7 @@ class LocalNotificationsService {
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
-   /* final bool result = await flutterLocalNotificationsPlugin
-    .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
-    ?.requestPermissions(
-    alert: true,
-    badge: true,
-    sound: true,
-    ); */
+   
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onSelectNotification: (notification) async {

@@ -36,7 +36,6 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
       if (_duration != 0) {
         _duration--;
         _controller.add(_duration);
-        // print(_duration);
       } else {
         if (mounted) {
           _timer.cancel();
@@ -151,9 +150,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
               _focusNode.unfocus();
             } else {
               PhoneVerification().getVerificationCodeFromServer(phone);
-              // provider.phone = '';
-              // Navigator.pop(context);
-
+              
               FlushbarHelper.createError(
                       message: AppLocalizations.of(context).translate('text46'))
                   .show(context);

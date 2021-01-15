@@ -123,7 +123,6 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * .33,
-                    //color: Colors.amber,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

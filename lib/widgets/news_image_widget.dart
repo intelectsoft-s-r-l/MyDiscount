@@ -13,7 +13,6 @@ class NewsImageWidget extends StatelessWidget {
       width: size.width,
      height: size.width,
       child: ClipRRect(
-        //borderRadius: BorderRadius.circular(20),
         child: Image.memory(
           news?.photo,
           filterQuality: FilterQuality.high,

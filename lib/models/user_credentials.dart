@@ -9,7 +9,6 @@ class UserCredentials {
   SharedPref sPrefs = SharedPref();
 
   void saveUserRegistrationDatatoMap(User user) {
-    // user.session = DateTime.now().add(Duration(minutes: 2));
     sPrefs.saveUser(json.encode(user.toJson()));
   }
 

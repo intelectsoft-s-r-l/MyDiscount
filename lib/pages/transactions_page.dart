@@ -6,7 +6,6 @@ class TransactionsPage extends StatelessWidget {
   const TransactionsPage();
   @override
   Widget build(BuildContext context) {
-    //final size = MediaQuery.of(context).size;
     final String pageName = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
