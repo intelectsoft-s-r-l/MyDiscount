@@ -9,7 +9,7 @@ class Credentials {
   
  final  Map<String, String> _headers = {
     'Content-type': 'application/json; charset=utf-8',
-    'Authorization': 'Basic ' + Credentials.encoded,
+    'Authorization': 'Basic ' + encoded,
   };
   
   Map<String, String> get header => _headers;

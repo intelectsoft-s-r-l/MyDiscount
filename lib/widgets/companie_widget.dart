@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../localization/localizations.dart';
+import '../core/localization/localizations.dart';
 import '../models/company_model.dart';
 
 class CompanyWidget extends StatelessWidget {
@@ -22,18 +22,20 @@ class CompanyWidget extends StatelessWidget {
         ),
       ),
 
-      title: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-          '${company.name}',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+      title: Container(alignment: Alignment.centerLeft,
+        child: OverflowBar(
+          children: [
+            Text(
+              '${company.name}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ],
         ),
       ),
-      //se va adauga in alta versiune
-      /* subtitle: Text('Index:${companie['Index']}'), */
       trailing: Container(
         width: 80,
         child: Column(

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 import '../models/news_model.dart';
 
 class NewsHeaderWidget extends StatelessWidget {
   const NewsHeaderWidget({
     Key key,
-   
     @required this.size,
     @required this.news,
   }) : super(key: key);
 
-  
   final Size size;
   final News news;
 
@@ -20,26 +17,17 @@ class NewsHeaderWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          // padding: EdgeInsets.only(left: 5),
-          // margin:
-          //    const EdgeInsets.only(left: 5, right: 5),
-          height: 120,
-
+          height: 65,
           decoration: const BoxDecoration(
-            /* borderRadius:const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ), */
             color: Colors.white,
           ),
           width: MediaQuery.of(context).size.width,
         ),
         Positioned(
-          top: 25,
-          left: 60,
+          top: 30,
+          left: 65,
           child: Container(
             padding: EdgeInsets.only(
-              //left: 10,
               right: 10,
             ),
             child: Text(
@@ -52,9 +40,9 @@ class NewsHeaderWidget extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: 45,
-          left: 0,
+        /* Positioned(
+          top: 50,
+          left: -13,
           child: Container(
             width: size.width * .97,
             padding: EdgeInsets.only(
@@ -63,10 +51,10 @@ class NewsHeaderWidget extends StatelessWidget {
             ),
             child: Html(data: news.header),
           ),
-        ),
+        ), */
         Positioned(
-          top: 10,
-          left: 60,
+          top: 15,
+          left: 65,
           child: Container(
             child: Text(
               news.companyName.toString(),
@@ -80,8 +68,8 @@ class NewsHeaderWidget extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 0,
-          left: 0,
+          top: 5,
+          left: 5,
           child: Container(
               width: 60,
               height: 60,

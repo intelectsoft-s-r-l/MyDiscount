@@ -26,14 +26,13 @@ class NewsAdapter extends TypeAdapter<News> {
       id: fields[5] as int,
       photo: fields[7] as Uint8List,
       logo: fields[8] as Uint8List,
-      expireDate: fields[9] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, News obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.appType)
       ..writeByte(1)
@@ -51,9 +50,7 @@ class NewsAdapter extends TypeAdapter<News> {
       ..writeByte(7)
       ..write(obj.photo)
       ..writeByte(8)
-      ..write(obj.logo)
-      ..writeByte(9)
-      ..write(obj.expireDate);
+      ..write(obj.logo);
   }
 
   @override

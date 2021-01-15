@@ -1,75 +1,62 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter/material.dart';
 
 import '../models/news_model.dart';
 import '../widgets/html_text_view_widget.dart';
-import '../widgets/top_bar_image.dart';
 
 class DetailNewsPage extends StatelessWidget {
-  /* final News news; */
-
   const DetailNewsPage({
     Key key,
-    /* this.news */
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     final News news = ModalRoute.of(context).settings.arguments;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(news.companyName),
+        backgroundColor: Colors.green,
+        elevation: 0,
+      ),
       body: Container(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                TopBarImage(size: size),
-                Positioned(
-                  top: size.height * .07,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                Positioned(
-                  top: size.height * .08,
-                  left: size.width * .2,
-                  child: Container(
-                    width: size.width * .6,
-                    alignment: Alignment.center,
-                    child: Html(data: news.companyName),
-                  ),
-                ),
-              ],
+        height: size.longestSide,
+        color: Colors.green,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
-            Expanded(
+            child: Container(
+              color: Colors.white,
               child: ListView(
                 shrinkWrap: true,
                 children: [
+                  Html(data: news.header),
                   Container(
-                    padding: EdgeInsets.only(left: 5, right: 5),
+                    height: size.width,
+                    width: size.width,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                       child: news.photo != null && news.photo != []
                           ? Image.memory(
                               news.photo,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             )
                           : Container(),
                     ),
                   ),
-                  HtmlText(
-                    list: news,
+                  Container(
+                    child: HtmlText(
+                      list: news,
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

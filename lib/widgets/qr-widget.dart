@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'package:qr_flutter/qr_flutter.dart';
 
-import 'circular_progress_indicator_widget.dart';
+import '../widgets/circular_progress_indicator_widget.dart';
 
 class QrImageWidget extends StatelessWidget {
   const QrImageWidget({
@@ -21,6 +22,7 @@ class QrImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Card(
+        color: Colors.transparent,
         elevation: 8,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -33,7 +35,10 @@ class QrImageWidget extends StatelessWidget {
           height: size.width * .8,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,24 +48,23 @@ class QrImageWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   child: FutureBuilder(
                     future: function,
-                    builder: (context, snapshot) =>
-                        snapshot.hasData
-                            ? ShaderMask(
-                                blendMode: BlendMode.srcATop,
-                                shaderCallback: (rect) => LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
-                                  colors: [
-                                    Colors.black,
-                                    Colors.green,
-                                  ],
-                                ).createShader(rect),
-                                child: QrImage(
-                                  data: snapshot.data,
-                                  size: size.width * .6,
-                                ),
-                              )
-                            : CircularProgresIndicatorWidget(),
+                    builder: (context, snapshot) => snapshot.hasData
+                        ? ShaderMask(
+                            blendMode: BlendMode.srcATop,
+                            shaderCallback: (rect) => LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black,
+                                Colors.green,
+                              ],
+                            ).createShader(rect),
+                            child: QrImage(
+                              data: snapshot.data,
+                              size: size.width * .6,
+                            ),
+                          )
+                        : CircularProgresIndicatorWidget(),
                   ),
                 ),
               ),

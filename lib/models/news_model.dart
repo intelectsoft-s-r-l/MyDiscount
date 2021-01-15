@@ -25,19 +25,18 @@ class News {
   final Uint8List photo;
   @HiveField(8)
   final Uint8List logo;
-  @HiveField(9)
-  final DateTime expireDate;
-  News(
-      {@required this.companyName,
-      @required this.appType,
-      @required this.companyId,
-      @required this.content,
-      @required this.dateTime,
-      @required this.header,
-      @required this.id,
-      @required this.photo,
-      @required this.logo,
-      @required this.expireDate});
+
+  News({
+    @required this.companyName,
+    @required this.appType,
+    @required this.companyId,
+    @required this.content,
+    @required this.dateTime,
+    @required this.header,
+    @required this.id,
+    @required this.photo,
+    @required this.logo,
+  });
 
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
@@ -50,7 +49,30 @@ class News {
       id: json['ID'],
       photo: json['Photo'] ?? Uint8List.fromList([]),
       logo: json['CompanyLogo'] ?? Uint8List.fromList([]),
-      expireDate: json['ExpireDate'],
+      //expireDate: json['ExpireDate'],
+    );
+  }
+  News copyWith({
+    int appType,
+    int companyId,
+    String companyName,
+    String content,
+    String dateTime,
+    int id,
+    String header,
+    Uint8List photo,
+    Uint8List logo,
+  }) {
+    return News(
+      appType: appType ?? this.appType,
+      companyId: companyId ?? this.companyId,
+      companyName: companyName ?? this.companyName,
+      content: content ?? this.content,
+      dateTime: dateTime ?? this.dateTime,
+      id: id ?? this.id,
+      header: header ?? this.header,
+      photo: photo ?? this.photo,
+      logo: logo ?? this.logo,
     );
   }
 }

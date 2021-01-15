@@ -12,40 +12,56 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'localization/localizations.dart';
+import 'core/localization/localizations.dart';
+import 'models/company_model.dart';
 import 'models/news_model.dart';
-import 'pages/bottom_navigation_bar_widget.dart';
 import 'pages/detail_news_page.dart';
+import 'pages/about_app.dart';
+import 'pages/app_inf_page.dart';
+import 'pages/info_page.dart';
+import 'pages/profile_page.dart';
+import 'pages/technic_details_page.dart';
+import 'pages/transactions_page.dart';
+import 'pages/user_page.dart';
 import 'pages/login_screen2.dart';
-import 'pages/qr-page.dart';
+import 'pages/settings_page.dart';
+import 'services/local_notification_service.dart';
 import 'services/auth_service.dart';
 import 'services/fcm_service.dart';
 import 'services/remote_config_service.dart';
-
-FCMService fcmService = FCMService();
+import 'widgets/bottom_navigation_bar_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+  FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
+  LocalNotificationsService localNotificationsService =
+      LocalNotificationsService();
+
   await Firebase.initializeApp();
+  try {
+    await Hive.initFlutter();
+
+    Hive.registerAdapter<News>(NewsAdapter());
+    Hive.registerAdapter<Company>(CompanyAdapter());
+
+    await Hive.openBox<News>('news');
+    await Hive.openBox<Company>('company');
+  } catch (e) {}
   getServiceNameFromRemoteConfig();
-  await Hive.initFlutter();
-  /* Hive.isAdapterRegistered(1)
-      // ignore: unnecessary_statements
-      ? null
-      : */
-  Hive.registerAdapter<News>(NewsAdapter());
-  // Hive.registerAdapter<Company>(CompanyAdapter());
-  // await Hive.openBox<Company>('company');
-  await Hive.openBox<News>('news');
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  //FirebaseCrashlytics.instance.sendUnsentReports();
+
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
-  fcmService.getFlutterLocalNotificationPlugin();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
+  localNotificationsService.getFlutterLocalNotificationPlugin();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+    ),
+  );
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runZoned(
@@ -55,19 +71,68 @@ void main() async {
       onError: FirebaseCrashlytics.instance.recordError,
     );
 
-    //fcmService.getfcmToken();
+    fcmService.getfcmToken();
   });
 }
 
 getAuthState() async {
   final prefs = await SharedPreferences.getInstance();
-  if (prefs.containsKey('user')) authController.sink.add(true);
+  if (prefs.containsKey('user') && prefs.containsKey('profile'))
+    authController.sink.add(true);
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    state.setLocale(newLocale);
+  }
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  Locale _locale;
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    AppLocalizations(_locale).getLocale().then((locale) {
+      setState(() {
+        this._locale = locale;
+      });
+    });
+  }
+
+ /*  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (mounted) if (state == AppLifecycleState.resumed) {
+      Navigator.of(context).pushReplacementNamed('/app');
+    }
+    super.didChangeAppLifecycleState(state);
+  } */
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: _locale,
       debugShowCheckedModeBanner: false,
       supportedLocales: [
         Locale('en', 'US'),
@@ -84,7 +149,7 @@ class MyApp extends StatelessWidget {
       localeResolutionCallback:
           (Locale locale, Iterable<Locale> supportedLocales) {
         final retLocale = supportedLocales?.first;
-        //print('$locale 2');
+
         if (locale == null) {
           debugPrint("*language locale is null!!!");
           return supportedLocales.first;
@@ -93,8 +158,6 @@ class MyApp extends StatelessWidget {
           for (Locale supportedLocale in supportedLocales) {
             if (supportedLocale.languageCode == locale.languageCode &&
                 locale.languageCode != null) {
-              //print(supportedLocale);
-
               return supportedLocale;
             }
           }
@@ -107,14 +170,21 @@ class MyApp extends StatelessWidget {
       routes: {
         '/loginscreen': (context) => LoginScreen2(),
         '/app': (context) => BottomNavigationBarWidget(),
-        '/qrpage': (context) => QrPage(),
         '/detailpage': (context) => DetailNewsPage(),
+        '/profilepage': (context) => ProfilePage(),
+        '/companypage': (context) => CompanyListPage(),
+        '/transactionlist': (context) => TransactionsPage(),
+        '/infopage': (context) => InformationPage(),
+        '/politicaconf': (context) => AppInfoPage(),
+        '/technicdetail': (context) => TechnicDetailPage(),
+        '/about': (context) => AboutAppPage(),
+        '/settings': (context) => SettingsPage(),
       },
       home: StreamBuilder(
         initialData: false,
         stream: authController.stream,
         builder: (context, snapshot) =>
-            snapshot.data ? QrPage() : LoginScreen2(),
+            snapshot.data ? BottomNavigationBarWidget() : LoginScreen2(),
       ),
     );
   }

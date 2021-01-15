@@ -1,17 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../localization/localizations.dart';
+import '../core/localization/localizations.dart';
 import '../services/internet_connection_service.dart';
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
 import '../widgets/human_image_widget.dart';
 import '../widgets/nointernet_widget.dart';
 import '../widgets/qr-widget.dart';
-import '../widgets/top_bar_image.dart';
-import '../widgets/top_bar_text.dart';
 
 class QrPage extends StatefulWidget {
   QrPage({
@@ -36,9 +33,16 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    _getAuthorization();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if(mounted)
+    _getAuthorization();
+    
   }
 
   @override
@@ -105,7 +109,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   _getAuthorization() async {
     bool netConnection = await internetConnection.isConnected;
     if (netConnection) {
-      await qrService.getTID();
+      await qrService.getTID(false);
       if (mounted)
         setState(() {
           serviceConection = netConnection;
@@ -128,8 +132,8 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     super.dispose();
-    if (mounted) _imageController.close();
-    if (mounted) _progressController.close();
+    if (mounted) _imageController?.close();
+    if (mounted) _progressController?.close();
     if (mounted) _timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
   }
@@ -144,116 +148,82 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     }
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Stack(
-            children: [
-              TopBarImage(size: size),
-              Positioned(
-                top: size.height * .07,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/app');
-                  },
-                ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(AppLocalizations.of(context).translate('qr')),
+        centerTitle: true,
+        backgroundColor: Colors.green,
+        elevation: 0,
+      ),
+      body: Container(
+        color: Colors.green,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
-              AppBarText(
-                  size: size,
-                  text: AppLocalizations.of(context).translate('qr')),
-            ],
-          ),
-          StreamBuilder<bool>(
-            stream: _imageController.stream,
-            initialData: true,
-            builder: (context, snapshot) {
-              return snapshot.data
-                  ? QrImageWidget(
-                      function: _loadSharedPref(),
-                      size: size,
-                      progressController: _progressController)
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        serviceConection ? HumanImage() : NoInternetWidget(),
-                        const SizedBox(height: 10.0),
-                        RaisedButton(
-                          onPressed: () {
-                            _imageController.add(true);
-                            _getAuthorization();
-                            countTID = 0;
-                          },
-                          child: serviceConection
-                              ? Text(
-                                  AppLocalizations.of(context)
-                                      .translate('text5'),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ), //textScaleFactor: 1,
-                                )
-                              : Text(
-                                  AppLocalizations.of(context)
-                                      .translate('text8'),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ), //textScaleFactor: 1,
-                                ),
-                          color: Colors.green,
-                        ),
-                      ],
-                    );
-            },
-          ),
-          Stack(
-            children: [
-              Container(
-                child: SvgPicture.asset(
-                  'assets/icons/bottom.svg',
-                  width: size.width,
-                  height: size.height * .18,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Positioned(
-                left: size.width * .1,
-                bottom: size.height * .035,
-                child: Container(
-                  width: size.width * .8,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context).translate('text19'),
-                        style: TextStyle(
-                          color: Colors.white,
-                          //fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textScaleFactor: 1,
-                      ),
-                      Text(
-                        AppLocalizations.of(context).translate('text20'),
-                        style: TextStyle(
-                          color: Colors.white,
-                          //fontSize: 18,
-                        ),
-                        textScaleFactor: 1,
-                      ),
-                    ],
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: StreamBuilder<bool>(
+                      stream: _imageController.stream,
+                      initialData: true,
+                      builder: (context, snapshot) {
+                        return snapshot.data
+                            ? QrImageWidget(
+                                function: _loadSharedPref(),
+                                size: size,
+                                progressController: _progressController)
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  serviceConection
+                                      ? HumanImage()
+                                      : NoInternetWidget(),
+                                  const SizedBox(height: 10.0),
+                                  RaisedButton(
+                                    onPressed: () {
+                                      _imageController.add(true);
+                                      _getAuthorization();
+                                      countTID = 0;
+                                    },
+                                    child: serviceConection
+                                        ? Text(
+                                            AppLocalizations.of(context)
+                                                .translate('text5'),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ), //textScaleFactor: 1,
+                                          )
+                                        : Text(
+                                            AppLocalizations.of(context)
+                                                .translate('text8'),
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ), //textScaleFactor: 1,
+                                          ),
+                                    color: Colors.green,
+                                  ),
+                                ],
+                              );
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }

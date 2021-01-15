@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +24,7 @@ class AuthService extends UserCredentials {
   ]);
   FacebookLogin _facebookLogin = FacebookLogin();
 
-  FCMService fcmService = FCMService();
+  FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
 
   Future<void> authWithFacebook() async {
     try {
@@ -68,7 +69,7 @@ class AuthService extends UserCredentials {
     return json.decode(_graphResponse.body);
   }
 
-  Future<void> logwithG(context) async {
+  Future<void> logwithG() async {
     try {
       final GoogleSignInAccount account = await googleSignIn.signIn();
 
@@ -77,10 +78,12 @@ class AuthService extends UserCredentials {
       final fcmToken = await fcmService.getfcmToken();
 
       if (googleSignIn.currentUser.id != null) {
-        // final data = auth.idToken;
-        // decoder.parseJwtPayLoad(data ?? '');
+       
         saveUserRegistrationDatatoMap(
-          User(id: account.id, accessToken: auth.accessToken),
+          User(
+            id: account.id,
+            accessToken: auth.accessToken,
+          ),
         );
         final splitedDisplayName = splitTheStrings(account.displayName);
         saveProfileRegistrationDataToMap(
@@ -88,7 +91,7 @@ class AuthService extends UserCredentials {
             firstName: splitedDisplayName[0],
             lastName: splitedDisplayName[1],
             email: account.email,
-            photoUrl: account.photoUrl,
+            photoUrl: account.photoUrl ?? '',
             registerMode: 1,
             pushToken: fcmToken,
           ),
@@ -101,12 +104,15 @@ class AuthService extends UserCredentials {
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(context) async {
     final prefs = await SharedPreferences.getInstance();
     _facebookLogin.logOut();
     googleSignIn.signOut();
     prefs.remove('Tid');
     prefs.remove('user');
+    //prefs.remove('IOS');
+    authController.add(false);
+    Navigator.of(context).pushReplacementNamed('/loginscreen');
   }
 
   Future<void> signInWithApple() async {
@@ -116,22 +122,23 @@ class AuthService extends UserCredentials {
             AppleIDAuthorizationScopes.email,
             AppleIDAuthorizationScopes.fullName
           ]);
-      //print('appleCredential $appleCredentials');
+
       final fcmToken = await fcmService.getfcmToken();
 
       saveUserRegistrationDatatoMap(User(
         id: appleCredentials.userIdentifier,
         accessToken: appleCredentials.identityToken,
       ));
-      saveProfileRegistrationDataToMap(Profile(
-          firstName: appleCredentials.familyName,
-          lastName: appleCredentials.givenName,
+
+      saveProfileRegistrationDataToMap(
+        Profile(
+          firstName: appleCredentials.familyName ?? '',
+          lastName: appleCredentials.givenName ?? '',
           email: appleCredentials.email,
           registerMode: 3,
-          pushToken: fcmToken));
-      /*  final data = decoder.parseJwtPayLoad(appleCredentials.identityToken);
-      print('apple data: $data');
-      decoder.parseJwtHeader(appleCredentials.identityToken); */
+          pushToken: fcmToken,
+        ),
+      );
     } on SignInWithAppleAuthorizationException {
       throw SignInWithAppleCredentialsException(message: 'Remove from user');
     } catch (e, s) {
