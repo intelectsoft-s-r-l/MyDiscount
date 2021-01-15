@@ -41,6 +41,7 @@ class NewsService {
       if (newsBox.isNotEmpty) newsBox.deleteAll(keys);
       print('delete all news');
     }
+    return [];
   }
 
   Future<String> readEldestNewsId() async {
@@ -80,6 +81,6 @@ class NewsService {
       newsList.add(news);
     }
     print(newsList.reversed.toList()[0].companyName);
-    return newsList.reversed.toList();
+    return newsList.reversed?.toList();
   }
 }

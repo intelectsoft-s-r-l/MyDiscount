@@ -1,4 +1,5 @@
 //import 'package:MyDiscount/widgets/html_text_view_widget.dart';
+import 'package:MyDiscount/widgets/circular_progress_indicator_widget.dart';
 import 'package:MyDiscount/widgets/html_text_view_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -24,7 +25,7 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   void initState() {
     super.initState();
-    service.getNews();
+    // service.getNews();
   }
 
   @override
@@ -53,49 +54,53 @@ class _NotificationPageState extends State<NotificationPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: ValueListenableBuilder(
-                valueListenable: Hive.box<News>('news').listenable(),
-                builder: (context, Box<News> box, _) {
-                  if (box.values.isEmpty) {
-                    return Center(
-                      child: Container(
-                        width: size.width,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                                height: 200,
-                                width: 200,
-                                child: Image.asset('assets/icons/noNews.jpeg')),
-                            Text(AppLocalizations.of(context)
-                                .translate('text65')),
-                          ],
+              child: FutureBuilder<List<News>>(
+                future: service.getNews(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data.length == 0) {
+                      return Center(
+                        child: Container(
+                          width: size.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  height: 200,
+                                  width: 200,
+                                  child:
+                                      Image.asset('assets/icons/noNews.jpeg')),
+                              Text(AppLocalizations.of(context)
+                                  .translate('text65')),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  } else {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      separatorBuilder: (context, index) => Container(
-                        padding: EdgeInsets.only(left: 5, right: 5),
-                        height: 30,
-                        child: Divider(
-                          //height: 10.0,
-                          thickness: 5.0,
-                          // color: Colors.red,
+                      );
+                    } else {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        separatorBuilder: (context, index) => Container(
+                          padding: EdgeInsets.only(left: 5, right: 5),
+                          height: 30,
+                          child: Divider(
+                            //height: 10.0,
+                            thickness: 5.0,
+                            // color: Colors.red,
+                          ),
                         ),
-                      ),
-                      itemCount: box.length,
-                      itemBuilder: (context, index) {
-                        News news = box?.getAt(index);
-                        return NewsItem(
-                          news: news,
-                          size: size,
-                        );
-                      },
-                    );
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          News news = snapshot.data[index];
+                          return NewsItem(
+                            news: news,
+                            size: size,
+                          );
+                        },
+                      );
+                    }
                   }
+                  return CircularProgresIndicatorWidget();
                 },
               ),
             ),
