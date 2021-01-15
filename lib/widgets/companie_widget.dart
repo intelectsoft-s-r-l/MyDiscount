@@ -1,49 +1,62 @@
-import 'dart:convert';
-
-import 'package:MyDiscount/widgets/localizations.dart';
 import 'package:flutter/material.dart';
 
-class CompanieWidget extends StatelessWidget {
-  const CompanieWidget(this.companie);
-  final companie;
+import '../core/localization/localizations.dart';
+import '../models/company_model.dart';
+
+class CompanyWidget extends StatelessWidget {
+  const CompanyWidget(this.company);
+  final Company company;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-          contentPadding: EdgeInsets.only(top:10,bottom: 10),
-          leading: Container(
-              width: 80,
-              height: 80,
-              child: Image.memory(
-                Base64Decoder().convert('${companie['Logo']}'),
-              )),
-          title: Text(
-            '${companie['Name']}',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+      contentPadding: EdgeInsets.only(top: 10, bottom: 10, right: 5, left: 5),
+      leading: Container(
+        width: 60,
+        height: 60,
+        child: Image.memory(
+          company.logo,
+          filterQuality: FilterQuality.high,
+          fit: BoxFit.contain,
+          errorBuilder: (context, obj, _) => Container(),
+        ),
+      ),
+
+      title: Container(alignment: Alignment.centerLeft,
+        child: OverflowBar(
+          children: [
+            Text(
+              '${company.name}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.start,
             ),
-          ),
-          //se va adauga in alta versiune
-          /* subtitle: Text('Index:${companie['Index']}'), */
-          trailing: Container(
-            width: 80,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  AppLocalizations.of(context).translate('text11'),
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.start,
-                ),
-                Text(
-                  '${companie['Amount']} lei',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
+          ],
+        ),
+      ),
+      trailing: Container(
+        width: 80,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              AppLocalizations.of(context).translate('text11'),
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
             ),
-          ),
-        );
+            FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                '${double.parse(company.amount).toStringAsFixed(2)} lei',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
