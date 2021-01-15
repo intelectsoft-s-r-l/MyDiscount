@@ -27,7 +27,6 @@ class TransactionService {
             await http.post(url, headers: _credentials.header, body: _bodyData);
         if (response.statusCode == 200) {
           final decodedResponse = json.decode(response.body);
-          print(decodedResponse);
           final list = decodedResponse['Transactions'] as List;
           if (list.isNotEmpty) {
             formater.parseDateTimeAndSetExpireDate(list, 'DateTimeOfSale');

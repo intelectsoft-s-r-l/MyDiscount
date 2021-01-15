@@ -54,7 +54,7 @@ class Formater {
   List checkCompanyLogo(List list) {
     final List<Map<String, dynamic>> dat = list.map((map)=>_returnLogo(map)).toList();
     return dat;
-    //print('this is newsList with company logo:$data');
+    
   }
 
  Map<String,dynamic> _returnLogo(Map map) {

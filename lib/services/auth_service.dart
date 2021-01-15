@@ -29,7 +29,6 @@ class AuthService extends UserCredentials {
   Future<void> authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
-      print('facebook result:${result.toString()}');
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
           FacebookAccessToken _accessToken = result.accessToken;
@@ -78,7 +77,6 @@ class AuthService extends UserCredentials {
       final fcmToken = await fcmService.getfcmToken();
 
       if (googleSignIn.currentUser.id != null) {
-       
         saveUserRegistrationDatatoMap(
           User(
             id: account.id,
@@ -112,6 +110,7 @@ class AuthService extends UserCredentials {
     prefs.remove('user');
     //prefs.remove('IOS');
     authController.add(false);
+    Navigator.pop(context);
     Navigator.of(context).pushReplacementNamed('/loginscreen');
   }
 

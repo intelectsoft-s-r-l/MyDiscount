@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html/parser.dart' as htmlparser;
 
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
+/* import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart'; */
 
 import '../core/localization/localizations.dart';
 import '../models/news_model.dart';
@@ -21,12 +21,6 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
   NewsService service = NewsService();
-
-  @override
-  void initState() {
-    super.initState();
-    // service.getNews();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,33 +53,58 @@ class _NotificationPageState extends State<NotificationPage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data.length == 0) {
-                      return Center(
-                        child: Container(
-                          width: size.width,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                  height: 200,
-                                  width: 200,
-                                  child:
-                                      Image.asset('assets/icons/noNews.jpeg')),
-                              Text(AppLocalizations.of(context)
-                                  .translate('text65')),
-                            ],
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: size.width,
+                            height: size.width,
+                            child: Stack(
+                              //mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Positioned(
+                                  top: size.width * .15,
+                                  left: 0,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height:
+                                        MediaQuery.of(context).size.width * .75,
+                                    child: FittedBox(
+                                        fit: BoxFit.fill,
+                                        child: Image.asset(
+                                            'assets/icons/no_news.png')),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 0,
+                                  top: size.width * .75,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: size.width,
+                                    child: Text(
+                                      AppLocalizations.of(context)
+                                          .translate('text65'),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        ],
                       );
                     } else {
                       return ListView.separated(
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (context, index) => Container(
-                          padding: EdgeInsets.only(left: 5, right: 5),
+                          padding: EdgeInsets.only(left: 7, right: 7),
                           height: 30,
                           child: Divider(
                             //height: 10.0,
-                            thickness: 5.0,
+                            thickness: 3.0,
                             // color: Colors.red,
                           ),
                         ),
@@ -182,8 +201,7 @@ class _DetailedNewsState extends State<DetailedNews> {
     final string = htmlparser.parse(news.content);
     final str = string.body.text;
     final list = str.padLeft(1, ' ');
-    List<String> st = list.split('\n');
-    print('text:${st[0]}');
+    //List<String> st = list.split('\n');
     return Container(
       child: Column(
         children: [
@@ -214,7 +232,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              'Afișați mai multe',
+                              AppLocalizations.of(context).translate('text64'),
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.blue,
@@ -249,7 +267,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                               width: 12,
                             ),
                             Text(
-                              'Mai Putin',
+                              AppLocalizations.of(context).translate('text63'),
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.blue,

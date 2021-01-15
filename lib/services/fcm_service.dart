@@ -43,7 +43,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
     _fcm.requestNotificationPermissions(
         IosNotificationSettings(sound: false, alert: false, badge: false));
     _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
+     
     });
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
@@ -68,7 +68,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
       _fcm.onTokenRefresh.listen((event) {
         event = token;
       });
-      print(token);
+      debugPrint(token);
       return token;
     } else {
       return '';

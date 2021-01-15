@@ -23,8 +23,7 @@ class NewsService {
       final url = '$serviceName/json/GetAppNews?ID=$id';
       final response = await http.get(url, headers: credentials.header);
       final Map<String, dynamic> decodedResponse = json.decode(response.body);
-      print(decodedResponse);
-
+      
       final list = decodedResponse['NewsList'] as List;
       final parseDate =
           formater.parseDateTimeAndSetExpireDate(list, 'CreateDate');
@@ -39,7 +38,7 @@ class NewsService {
     } else {
       final keys = newsBox.keys;
       if (newsBox.isNotEmpty) newsBox.deleteAll(keys);
-      print('delete all news');
+      
     }
     return [];
   }
@@ -60,7 +59,7 @@ class NewsService {
   Future<void> saveNewsOnDB(News news) async {
     newsBox.put(news.id, news);
 
-    print('companyBoxValue:$newsBox.values');
+    
   }
   //created for delete the old news
   /* void checkIfNewsIsNotOld(List keys) {
@@ -80,7 +79,6 @@ class NewsService {
       final news = newsBox.get(key);
       newsList.add(news);
     }
-    print(newsList.reversed.toList()[0].companyName);
     return newsList.reversed?.toList();
   }
 }

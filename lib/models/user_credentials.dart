@@ -45,7 +45,6 @@ class UserCredentials {
   Future<String> getRequestBodyData(bool isPhoneVerification) async {
     final _prefs = await sPrefs.instance;
     User user = await _getRegistrationUserData();
-    // print(user.session);
     Profile profile = await _returnRegistrationProfileDataAsMap();
     String phone = await _readFormPhoneNumber();
     if(isPhoneVerification){

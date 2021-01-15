@@ -65,7 +65,7 @@ class LocalNotificationsService {
       'your channel description',
       importance: Importance.max,
       priority: Priority.max,
-      icon: '@mipmap/ic_stat_qq3',
+      icon: '@mipmap/ic_notification_icon',
       enableLights: true,
       ledColor: Color(0x0000FF),
       ledOffMs: 2000,
@@ -94,6 +94,6 @@ class LocalNotificationsService {
           : '${notification['data']['body']}',
       platformChannelSpecifics,
     );
-    print('is shownotification:$notification');
+    debugPrint('is shownotification:$notification');
   }
 }

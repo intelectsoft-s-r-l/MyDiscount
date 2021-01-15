@@ -36,7 +36,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
       if (_duration != 0) {
         _duration--;
         _controller.add(_duration);
-        print(_duration);
+        // print(_duration);
       } else {
         if (mounted) {
           _timer.cancel();
@@ -81,7 +81,6 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
               codeLength: 4,
               onCodeChanged: (code) {
                 _currentCode = code;
-                print(code);
               },
             ),
             StreamBuilder(
