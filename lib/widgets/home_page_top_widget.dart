@@ -24,7 +24,7 @@ class HomePageTopWidget extends StatelessWidget {
               ? Stack(
                   children: [
                     Positioned(
-                      top: 30,
+                      top: (size.height * .253)/4,
                       left: size.width * .2,
                       child: Container(
                         width: size.width * .6,

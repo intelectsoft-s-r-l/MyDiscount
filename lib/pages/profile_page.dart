@@ -25,11 +25,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final String pageName = ModalRoute.of(context).settings.arguments;
     final appBar = AppBar(
@@ -49,8 +44,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Container(
-                    height: MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height) -
                         30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -65,45 +60,49 @@ class _ProfilePageState extends State<ProfilePage> {
                           ? ListView(
                               // physics: BouncingScrollPhysics(),
                               children: [
-                                Container(
-                                  height: (MediaQuery.of(context).size.height -
-                                          appBar.preferredSize.height -
-                                          30) *
-                                      .7,
-                                  padding: EdgeInsets.only(
-                                      left: 10, right: 10, top: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ProfileItemWidget(
+                                SafeArea(
+                                  bottom: true,
+                                  child: Container(
+                                    height:
+                                        (MediaQuery.of(context).size.height -
+                                                appBar.preferredSize.height) *
+                                            .77,
+                                    padding: EdgeInsets.only(
+                                        left: 10, right: 10, top: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ProfileItemWidget(
+                                            labelText:
+                                                AppLocalizations.of(context)
+                                                    .translate('text26'),
+                                            text: snapshot.data.firstName),
+                                        Divider(),
+                                        ProfileItemWidget(
+                                            labelText:
+                                                AppLocalizations.of(context)
+                                                    .translate('text27'),
+                                            text: snapshot.data.lastName),
+                                        Divider(),
+                                        ProfileItemWidget(
+                                            labelText: 'E-mail',
+                                            text: snapshot.data.email ?? ''),
+                                        Divider(),
+                                        ProfileFieldWidget(
                                           labelText:
                                               AppLocalizations.of(context)
-                                                  .translate('text26'),
-                                          text: snapshot.data.firstName),
-                                      Divider(),
-                                      ProfileItemWidget(
-                                          labelText:
-                                              AppLocalizations.of(context)
-                                                  .translate('text27'),
-                                          text: snapshot.data.lastName),
-                                      Divider(),
-                                      ProfileItemWidget(
-                                          labelText: 'E-mail',
-                                          text: snapshot.data.email ?? ''),
-                                      Divider(),
-                                      ProfileFieldWidget(
-                                        labelText: AppLocalizations.of(context)
-                                            .translate('text37'),
-                                      ),
-                                      Divider(),
-                                    ],
+                                                  .translate('text37'),
+                                        ),
+                                        Divider(),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Container(
                                   height: (MediaQuery.of(context).size.height -
                                           appBar.preferredSize.height) *
-                                      .25,
+                                      .15,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [

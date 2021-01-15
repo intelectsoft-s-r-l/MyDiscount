@@ -13,6 +13,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/localization/localizations.dart';
+import 'models/company_model.dart';
 import 'models/news_model.dart';
 import 'pages/detail_news_page.dart';
 import 'pages/about_app.dart';
@@ -35,14 +36,16 @@ void main() async {
   FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
   LocalNotificationsService localNotificationsService =
       LocalNotificationsService();
- 
+
   await Firebase.initializeApp();
   try {
     await Hive.initFlutter();
 
     Hive.registerAdapter<News>(NewsAdapter());
+    Hive.registerAdapter<Company>(CompanyAdapter());
 
     await Hive.openBox<News>('news');
+    await Hive.openBox<Company>('company');
   } catch (e) {}
   getServiceNameFromRemoteConfig();
 
@@ -88,12 +91,18 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Locale _locale;
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -104,6 +113,20 @@ class _MyAppState extends State<MyApp> {
         this._locale = locale;
       });
     });
+  }
+
+ /*  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (mounted) if (state == AppLifecycleState.resumed) {
+      Navigator.of(context).pushReplacementNamed('/app');
+    }
+    super.didChangeAppLifecycleState(state);
+  } */
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override

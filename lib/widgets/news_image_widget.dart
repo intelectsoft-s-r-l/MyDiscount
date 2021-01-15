@@ -11,15 +11,18 @@ class NewsImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: size.width,
+     height: size.width,
       child: ClipRRect(
-          child: Image.memory(
-        news?.photo,
-        filterQuality: FilterQuality.high,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return Container();
-        },
-      )),
+        //borderRadius: BorderRadius.circular(20),
+        child: Image.memory(
+          news?.photo,
+          filterQuality: FilterQuality.high,
+          fit: BoxFit.fill,
+          errorBuilder: (context, error, stackTrace) {
+            return Container();
+          },
+        ),
+      ),
     );
   }
 }

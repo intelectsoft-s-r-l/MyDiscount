@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
-
 import '../core/constants/credentials.dart';
 import '../core/formater.dart';
 import '../models/news_model.dart';
@@ -17,7 +16,7 @@ class NewsService {
   Credentials credentials = Credentials();
   Box<News> newsBox = Hive.box<News>('news');
 
-  Future<void> getNews() async {
+  Future<List<News>> getNews() async {
     if (await _prefs.readNewsState()) {
       final serviceName = await getServiceNameFromRemoteConfig();
       final id = await readEldestNewsId();
@@ -27,7 +26,8 @@ class NewsService {
       print(decodedResponse);
 
       final list = decodedResponse['NewsList'] as List;
-      final parseDate = formater.parseDateTimeAndSetExpireDate(list);
+      final parseDate =
+          formater.parseDateTimeAndSetExpireDate(list, 'CreateDate');
       final dat = formater.checkImageFormatAndSkip(parseDate, 'CompanyLogo');
 
       final dataList = formater.checkImageFormatAndSkip(dat, 'Photo');
@@ -35,6 +35,7 @@ class NewsService {
           .map((e) => News.fromJson(e))
           .toList()
           .forEach((element) => saveNewsOnDB(element));
+      return _getReversedNewsList();
     } else {
       final keys = newsBox.keys;
       if (newsBox.isNotEmpty) newsBox.deleteAll(keys);
@@ -60,7 +61,7 @@ class NewsService {
 
     print('companyBoxValue:$newsBox.values');
   }
-  //create for delete the old news
+  //created for delete the old news
   /* void checkIfNewsIsNotOld(List keys) {
     for (int key in keys) {
       final news = newsBox.get(key);
@@ -70,4 +71,15 @@ class NewsService {
       newsBox.compact();
     }
   } */
+
+  Future<List<News>> _getReversedNewsList() async {
+    List<News> newsList = [];
+    final keys = newsBox.keys;
+    for (int key in keys) {
+      final news = newsBox.get(key);
+      newsList.add(news);
+    }
+    print(newsList.reversed.toList()[0].companyName);
+    return newsList.reversed.toList();
+  }
 }

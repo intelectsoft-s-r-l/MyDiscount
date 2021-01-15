@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:MyDiscount/models/company_model.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class Formater {
@@ -27,41 +29,53 @@ class Formater {
     return base64ImageString;
   }
 
-  parseDateTimeAndSetExpireDate(List list) {
+  parseDateTimeAndSetExpireDate(List list, String index) {
     final parsedDate = list.map((map) {
-      int milisec = int.tryParse(map['CreateDate'] ??
-          map['DateTimeOfSale']
-              .replaceAll('/Date(', '')
-              .replaceAll('+0300)/', '')
-              .replaceAll('+0200)/', ''));
+      int milisec = int.tryParse(map[index]
+          .replaceAll('/Date(', '')
+          .replaceAll('+0300)/', '')
+          .replaceAll('+0200)/', ''));
       final date = DateFormat('d MMM yyyy').format(
         DateTime.fromMillisecondsSinceEpoch(milisec),
       );
-      if (map is Map && map.containsKey('CreateDate')) {
-        map['CreateDate'] = date;
-      } else if (map is Map && map.containsKey('ExpireDate')) {
-        map['ExpireDate'] = DateTime.fromMillisecondsSinceEpoch(milisec)
-            .add(Duration(days: 10));
-      } else {
-        map['DateTimeOfSale'] = date;
+      if (map is Map && map.containsKey(index)) {
+        map[index] = date;
       }
+
       return map;
     }).toList();
     return parsedDate;
   }
+  //to add for auto delete the news from local DB
+  /*  map['ExpireDate'] = DateTime.fromMillisecondsSinceEpoch(milisec)
+            .add(Duration(days: 10)); */
 
-  /* List checkCompanyLogo(List list) {
+  /// add for save the company Logo to another DB if the company object is saved in to DB
+  List checkCompanyLogo(List list) {
+    final List<Map<String, dynamic>> dat = list.map((map)=>_returnLogo(map)).toList();
+    return dat;
+    //print('this is newsList with company logo:$data');
+  }
+
+ Map<String,dynamic> _returnLogo(Map map) {
     Box<Company> companyBox = Hive.box('company');
     final keys = companyBox.keys;
+    for (dynamic key in keys) {
+      final company = companyBox.get(key);
+      if (CompanyName(company.name) == CompanyName(map['Company']))
+        map.putIfAbsent('Logo', () => company.logo);
+    }
+      return map;
+  }
+}
 
-    final data = list.cast<Map>().map((e) {
-      for (dynamic key in keys) {
-        final company = companyBox.get(key);
-        if (company.name == e['CompanyName'])
-          e.putIfAbsent('Logo', () => company.logo);
-      }
-    }).toList();
-    print('this is newsList with company logo:$data');
-    return data;
-  }  */
+class CompanyName {
+  final String name;
+  CompanyName(this.name);
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) || other is CompanyName && name == other.name;
+  }
+
+  int get hashCode => name.hashCode;
 }

@@ -19,7 +19,7 @@ class TransactionService {
     final serviceName = await getServiceNameFromRemoteConfig();
 
     final _bodyData = await UserCredentials().getRequestBodyData(false);
-    
+
     if (await status.isConnected) {
       try {
         final url = '$serviceName/json/GetTransactions';
@@ -30,8 +30,9 @@ class TransactionService {
           print(decodedResponse);
           final list = decodedResponse['Transactions'] as List;
           if (list.isNotEmpty) {
-            formater.parseDateTimeAndSetExpireDate(list);
-            return list.map((e) => Transaction.fromJson(e)).toList();
+            formater.parseDateTimeAndSetExpireDate(list, 'DateTimeOfSale');
+           final transactions = formater.checkCompanyLogo(list);
+            return transactions.map((e) => Transaction.fromJson(e)).toList();
           } else {
             throw EmptyList();
           }

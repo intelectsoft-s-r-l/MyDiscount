@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 
@@ -33,7 +34,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   @override
   void dispose() {
     super.dispose();
-    focusNode.dispose();
+    focusNode?.dispose();
+    if (mounted) focusNode?.unfocus();
   }
 
   @override
