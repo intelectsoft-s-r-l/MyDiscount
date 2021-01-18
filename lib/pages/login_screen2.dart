@@ -4,14 +4,14 @@ import 'package:MyDiscount/providers/auth_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
 import '../core/localization/localizations.dart';
-import '../services/shared_preferences_service.dart';
-import '../services/auth_service.dart';
-import '../services/internet_connection_service.dart';
+// import 'package:flushbar/flushbar_helper.dart';
+// import '../main.dart';
+// import '../services/shared_preferences_service.dart';
+// import '../services/auth_service.dart';
+// import '../services/internet_connection_service.dart';
 import '../widgets/login_button_widget.dart';
 
 class LoginScreen2 extends StatefulWidget {
