@@ -9,13 +9,12 @@ class UserCredentials {
   SharedPref sPrefs = SharedPref();
 
   void saveUserRegistrationDatatoMap(User user) {
-    // user.session = DateTime.now().add(Duration(minutes: 2));
     sPrefs.saveUser(json.encode(user.toJson()));
   }
 
   void saveProfileRegistrationDataToMap(Profile profile) async {
-    sPrefs.saveProfileData(json.encode(profile.toJson()));
     final prefs = await sPrefs.instance;
+    sPrefs.saveProfileData(json.encode(profile.toJson()));
     if (profile.registerMode == 3 && !prefs.containsKey('IOS'))
       sPrefs.saveIOSCredentials(json.encode(profile.toJson()));
   }
@@ -48,7 +47,7 @@ class UserCredentials {
     // print(user.session);
     Profile profile = await _returnRegistrationProfileDataAsMap();
     String phone = await _readFormPhoneNumber();
-    if(isPhoneVerification){
+    if (isPhoneVerification) {
       return json.encode({
         "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
         "Email": profile.email,
@@ -57,7 +56,7 @@ class UserCredentials {
         "PushToken": profile.pushToken,
         "RegisterMode": profile.registerMode,
         "access_token": user.accessToken,
-        "phone":phone,
+        "phone": phone,
       });
     }
     if (_prefs.containsKey('Tid')) {
@@ -66,7 +65,7 @@ class UserCredentials {
       );
       return minUserData;
     } else {
-       return json.encode({
+      return json.encode({
         "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
         "Email": profile.email,
         "ID": user.id,
@@ -74,7 +73,7 @@ class UserCredentials {
         "PushToken": profile.pushToken,
         "RegisterMode": profile.registerMode,
         "access_token": user.accessToken,
-        "phone":phone??"",
+        "phone": phone ?? "",
       });
     }
   }

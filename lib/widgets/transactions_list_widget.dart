@@ -10,10 +10,10 @@ import '../widgets/transaction_list_widget.dart';
 
 
 class TransactionList extends StatelessWidget {
-  final TransactionService service = TransactionService();
+  final TransactionService service ;
 
   TransactionList({
-    Key key,
+    Key key,this.service
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,9 @@ import '../widgets/noCompani_list_widget.dart';
 import '../widgets/nointernet_widget.dart';
 
 class CompanyListPage extends StatelessWidget {
-  final CompanyService data = CompanyService();
+  final CompanyService data ;
+
+  const CompanyListPage({Key key, this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -17,8 +17,10 @@ class CompanyService {
   SharedPref sPref = SharedPref();
   Credentials credentials = Credentials();
   Formater formater = Formater();
-  NetworkConnectionImpl status = NetworkConnectionImpl();
+ final NetworkConnectionImpl status;
   Box<Company> companyBox = Hive.box<Company>('company');
+
+  CompanyService(this.status);
 
   //https://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<List<Company>> getCompanyList() async {

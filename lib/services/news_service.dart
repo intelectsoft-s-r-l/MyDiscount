@@ -46,10 +46,8 @@ class NewsService {
 /* https://api.edi.md/ISMobileDiscountService/json/GetAppNews?ID={ID}*/
   Future<String> readEldestNewsId() async {
     final listOfKeys = newsBox.keys;
-    // newsBox.deleteAll(listOfKeys);
     int id = 0;
     if (listOfKeys.isNotEmpty)
-      //checkIfNewsIsNotOld(listOfKeys.toList());
       for (int key in listOfKeys)
         if (key > id) {
           id = key;
@@ -62,16 +60,6 @@ class NewsService {
 
     print('companyBoxValue:$newsBox.values');
   }
-  //created for delete the old news
-  /* void checkIfNewsIsNotOld(List keys) {
-    for (int key in keys) {
-      final news = newsBox.get(key);
-      if (news.expireDate.isBefore(DateTime.now())) {
-        newsBox.delete(news.id);
-      }
-      newsBox.compact();
-    }
-  } */
 
   Future<List<News>> _getReversedNewsList() async {
     List<News> newsList = [];

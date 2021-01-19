@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>866892099029-ijr7680kvk6ti8jt1qjggbta379r72lo.apps.googleusercontent.com</string>
+	<string>1085422028711-mm3uiv4be7bq8h8s47u39u4h2ks8rsho.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.866892099029-ijr7680kvk6ti8jt1qjggbta379r72lo</string>
+	<string>com.googleusercontent.apps.1085422028711-mm3uiv4be7bq8h8s47u39u4h2ks8rsho</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>866892099029-slr4obk1m3g77e8npbe0nsnsv4iqjbgg.apps.googleusercontent.com</string>
+	<string>1085422028711-fnd63sk8br5p201eoulg430rlr7rl2ui.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBZ8dhx2Kg35IA0_e2L_t6ad8_5vhmfG40</string>
+	<string>AIzaSyBk11U31gmA_OrBYWhU2nltyGC6yb6Gddo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>866892099029</string>
+	<string>1085422028711</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.intelectsoft.discount</string>
 	<key>PROJECT_ID</key>
-	<string>qr-generator-d11f1</string>
+	<string>mydiscount-is</string>
 	<key>STORAGE_BUCKET</key>
-	<string>qr-generator-d11f1.appspot.com</string>
+	<string>mydiscount-is.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:866892099029:ios:488ca4ca7cc90e8290a15c</string>
-	<key>DATABASE_URL</key>
-	<string>https://qr-generator-d11f1.firebaseio.com</string>
+	<string>1:1085422028711:ios:36ab4bbda277cd03255882</string>
 </dict>
 </plist>

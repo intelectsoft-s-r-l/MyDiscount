@@ -13,7 +13,9 @@ import '../services/remote_config_service.dart';
 class TransactionService {
   Credentials _credentials = Credentials();
   Formater formater = Formater();
-  NetworkConnectionImpl status = NetworkConnectionImpl();
+  final NetworkConnectionImpl status;
+
+  TransactionService(this.status);
 
   Future<List<Transaction>> getTransactions() async {
     final serviceName = await getServiceNameFromRemoteConfig();
@@ -31,7 +33,7 @@ class TransactionService {
           final list = decodedResponse['Transactions'] as List;
           if (list.isNotEmpty) {
             formater.parseDateTimeAndSetExpireDate(list, 'DateTimeOfSale');
-           final transactions = formater.checkCompanyLogo(list);
+            final transactions = formater.checkCompanyLogo(list);
             return transactions.map((e) => Transaction.fromJson(e)).toList();
           } else {
             throw EmptyList();
