@@ -40,7 +40,7 @@ class QrService {
         sPref.saveTID(decodedResponse['TID']);
         return decodedResponse['TID'];
       } else {
-        if (decodedResponse['ErrorCode'] == 103) {
+        if (decodedResponse['ErrorCode'] != 0) {
           final prefs = await sPref.instance;
 
           prefs.remove('user');

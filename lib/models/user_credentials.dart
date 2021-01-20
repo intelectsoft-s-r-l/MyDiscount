@@ -46,7 +46,7 @@ class UserCredentials {
     User user = await _getRegistrationUserData();
     Profile profile = await _returnRegistrationProfileDataAsMap();
     String phone = await _readFormPhoneNumber();
-    if(isPhoneVerification){
+    if (isPhoneVerification) {
       return json.encode({
         "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
         "Email": profile.email,
@@ -55,7 +55,7 @@ class UserCredentials {
         "PushToken": profile.pushToken,
         "RegisterMode": profile.registerMode,
         "access_token": user.accessToken,
-        "phone":phone,
+        "phone": phone,
       });
     }
     if (_prefs.containsKey('Tid')) {
@@ -64,7 +64,7 @@ class UserCredentials {
       );
       return minUserData;
     } else {
-       return json.encode({
+      return json.encode({
         "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
         "Email": profile.email,
         "ID": user.id,
@@ -72,7 +72,6 @@ class UserCredentials {
         "PushToken": profile.pushToken,
         "RegisterMode": profile.registerMode,
         "access_token": user.accessToken,
-        "phone":phone??"",
       });
     }
   }

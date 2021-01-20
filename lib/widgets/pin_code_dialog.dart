@@ -24,7 +24,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
   Timer _timer;
   bool isActive = true;
 
-  int _duration = 30;
+  int _duration = 60;
   @override
   void initState() {
     super.initState();
