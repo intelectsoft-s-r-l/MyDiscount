@@ -41,8 +41,8 @@ class AuthService extends UserCredentials {
           ));
           final splitedDisplayName = splitTheStrings(profile['name']);
           saveProfileRegistrationDataToMap(Profile(
-            firstName: splitedDisplayName[0],
-            lastName: splitedDisplayName[1],
+            firstName: splitedDisplayName[0]??'',
+            lastName: splitedDisplayName[1]??'',
             email: profile['email'],
             photoUrl: profile['picture']['data']['url'],
             registerMode: 2,
@@ -86,8 +86,8 @@ class AuthService extends UserCredentials {
         final splitedDisplayName = splitTheStrings(account.displayName);
         saveProfileRegistrationDataToMap(
           Profile(
-            firstName: splitedDisplayName[0],
-            lastName: splitedDisplayName[1],
+            firstName: splitedDisplayName[0]??'',
+            lastName: splitedDisplayName[1]??'',
             email: account.email,
             photoUrl: account.photoUrl ?? '',
             registerMode: 1,

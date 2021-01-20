@@ -47,9 +47,10 @@ class QrImageWidget extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   child: FutureBuilder(
-                    future: function,
-                    builder: (context, snapshot) => snapshot.hasData
-                        ? ShaderMask(
+                      future: function,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ShaderMask(
                             blendMode: BlendMode.srcATop,
                             shaderCallback: (rect) => LinearGradient(
                               begin: Alignment.bottomCenter,
@@ -63,9 +64,14 @@ class QrImageWidget extends StatelessWidget {
                               data: snapshot.data,
                               size: size.width * .6,
                             ),
-                          )
-                        : CircularProgresIndicatorWidget(),
-                  ),
+                          );
+                        }
+
+                        if (snapshot.hasError) {
+                          return CircularProgresIndicatorWidget();
+                        }
+                        return CircularProgresIndicatorWidget();
+                      }),
                 ),
               ),
               StreamBuilder<double>(

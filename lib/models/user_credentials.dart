@@ -38,42 +38,51 @@ class UserCredentials {
   }
 
   List<String> splitTheStrings(String displayName) {
-    return displayName.split(" ").map((e) => e.toString()).toList();
+    if (displayName.contains(' ')) {
+      return displayName.split(" ").map((e) => e.toString()).toList();
+    } else {
+      final list = displayName.split(" ").map((e) => e.toString()).toList();
+      list.add('');
+      return list;
+    }
   }
 
   Future<String> getRequestBodyData(bool isPhoneVerification) async {
-    final _prefs = await sPrefs.instance;
-    User user = await _getRegistrationUserData();
-    Profile profile = await _returnRegistrationProfileDataAsMap();
-    String phone = await _readFormPhoneNumber();
-    if (isPhoneVerification) {
-      return json.encode({
-        "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
-        "Email": profile.email,
-        "ID": user.id,
-        "PhotoUrl": profile.photoUrl,
-        "PushToken": profile.pushToken,
-        "RegisterMode": profile.registerMode,
-        "access_token": user.accessToken,
-        "phone": phone,
-      });
-    }
-    if (_prefs.containsKey('Tid')) {
-      final minUserData = json.encode(
-        {"ID": user.id, "RegisterMode": profile.registerMode},
-      );
-      return minUserData;
-    } else {
-      return json.encode({
-        "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
-        "Email": profile.email,
-        "ID": user.id,
-        "PhotoUrl": profile.photoUrl,
-        "PushToken": profile.pushToken,
-        "RegisterMode": profile.registerMode,
-        "access_token": user.accessToken,
-      });
-    }
+    try {
+      final _prefs = await sPrefs.instance;
+      User user = await _getRegistrationUserData();
+      Profile profile = await _returnRegistrationProfileDataAsMap();
+      String phone = await _readFormPhoneNumber();
+      if (isPhoneVerification) {
+        return json.encode({
+          "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
+          "Email": profile.email,
+          "ID": user.id,
+          "PhotoUrl": profile.photoUrl,
+          "PushToken": profile.pushToken,
+          "RegisterMode": profile.registerMode,
+          "access_token": user.accessToken,
+          "phone": phone,
+        });
+      }
+      if (_prefs.containsKey('Tid')) {
+        final minUserData = json.encode(
+          {"ID": user.id, "RegisterMode": profile.registerMode},
+        );
+        return minUserData;
+      } else {
+        return json.encode({
+          "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
+          "Email": profile.email,
+          "ID": user.id,
+          "PhotoUrl": profile.photoUrl,
+          "PushToken": profile.pushToken,
+          "RegisterMode": profile.registerMode,
+          "access_token": user.accessToken,
+        });
+      }
+    } catch (e) {}
+    throw Exception();
   }
 
   Future<String> getUserIdFromLocalStore() async {
