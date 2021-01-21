@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:MyDiscount/models/company_model.dart';
+
+import 'package:MyDiscount/domain/entities/company_model.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 

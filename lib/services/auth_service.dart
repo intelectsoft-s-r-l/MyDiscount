@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:MyDiscount/domain/entities/profile_model.dart';
+import 'package:MyDiscount/domain/entities/user_model.dart';
+import 'package:MyDiscount/services/user_credentials.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,9 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../core/decode.dart';
-import '../models/profile_model.dart';
-import '../models/user_credentials.dart';
-import '../models/user_model.dart';
+
 import '../services/fcm_service.dart';
 
 StreamController<bool> authController = StreamController.broadcast();
