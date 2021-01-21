@@ -22,7 +22,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
   }
 
   FirebaseCloudMessageService() {
-    // _saveFCMState();
+    
     getFCMState();
     notifyListeners();
   }

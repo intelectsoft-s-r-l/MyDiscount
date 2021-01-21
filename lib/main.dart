@@ -115,14 +115,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     });
   }
 
- /*  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (mounted) if (state == AppLifecycleState.resumed) {
-      Navigator.of(context).pushReplacementNamed('/app');
-    }
-    super.didChangeAppLifecycleState(state);
-  } */
-
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);

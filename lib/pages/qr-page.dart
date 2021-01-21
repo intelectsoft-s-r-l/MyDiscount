@@ -219,7 +219,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
-                                            ), //textScaleFactor: 1,
+                                            ), 
                                           )
                                         : Text(
                                             AppLocalizations.of(context)
@@ -227,7 +227,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
-                                            ), //textScaleFactor: 1,
+                                            ), 
                                           ),
                                     color: Colors.green,
                                   ),

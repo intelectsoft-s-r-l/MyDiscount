@@ -201,7 +201,6 @@ class _DetailedNewsState extends State<DetailedNews> {
     final string = htmlparser.parse(news.content);
     final str = string.body.text;
     final list = str.padLeft(1, ' ');
-    //List<String> st = list.split('\n');
     return Container(
       child: Column(
         children: [
@@ -217,16 +216,14 @@ class _DetailedNewsState extends State<DetailedNews> {
               children: [
                 !showText
                     ? Container(
-                        //height: 55,
+                       
                         padding: EdgeInsets.only(left: 5),
                         width: size.width * .95,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              list
-                              /*  .replaceFirst('\n\n', '') */
-                              /*  .replaceFirst('\n', '') */,
+                              list,
                               maxLines: 3,
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,

@@ -52,8 +52,7 @@ class UserCredentials {
       final _prefs = await sPrefs.instance;
       User user = await _getRegistrationUserData();
       Profile profile = await _returnRegistrationProfileDataAsMap();
-      print(await _readFormPhoneNumber());
-      Map<String, dynamic> phoneMap = json.decode(await _readFormPhoneNumber());
+      String phone = await _readFormPhoneNumber();
       if (isPhoneVerification) {
         return json.encode({
           "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
@@ -63,7 +62,7 @@ class UserCredentials {
           "PushToken": profile.pushToken,
           "RegisterMode": profile.registerMode,
           "access_token": user.accessToken,
-          "phone": phoneMap['phone'] ?? "",
+          "phone": phone,
         });
       }
       if (_prefs.containsKey('Tid')) {
@@ -82,9 +81,8 @@ class UserCredentials {
           "access_token": user.accessToken,
         });
       }
-    } catch (e) {
-      throw Exception();
-    }
+    } catch (e) {}
+    throw Exception();
   }
 
   Future<String> getUserIdFromLocalStore() async {

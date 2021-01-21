@@ -24,7 +24,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
   Timer _timer;
   bool isActive = true;
 
-  int _duration = 30;
+  int _duration = 60;
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,6 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
       if (_duration != 0) {
         _duration--;
         _controller.add(_duration);
-        // print(_duration);
       } else {
         if (mounted) {
           _timer.cancel();
@@ -151,9 +150,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
               _focusNode.unfocus();
             } else {
               PhoneVerification().getVerificationCodeFromServer(phone);
-              // provider.phone = '';
-              // Navigator.pop(context);
-
+              
               FlushbarHelper.createError(
                       message: AppLocalizations.of(context).translate('text46'))
                   .show(context);

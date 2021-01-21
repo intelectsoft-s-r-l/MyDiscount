@@ -37,10 +37,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     if (mounted) focusNode?.unfocus();
   }
 
-  /* @override
-  void didUpdateWidget(ProfileFieldWidget oldWidget) {
-    if (oldWidget != widget) super.didUpdateWidget(oldWidget);
-  } */
+  
 
   String phoneNumber;
   String confirmedNumber = '';
@@ -70,7 +67,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           ) {
                             print(internationalizedPhoneNumber);
                             confirmedNumber = internationalizedPhoneNumber;
-                            provider.phoneIsoCode = isoCode;
+                           
                           },
                           errorText:
                               AppLocalizations.of(context).translate('text43'),
@@ -131,9 +128,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                   provider.editing = !provider.editing;
 
                   if (provider.editing) {
-                    if (provider.phone == '') {
-                      Navigator.pop(context);
-                    }
+                    
                   } else {
                     PhoneVerification()
                         .getVerificationCodeFromServer(confirmedNumber);
@@ -151,6 +146,3 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     );
   }
 }
-
-/* <#> MyDiscount: Your code is 1234
-DJWuSAfFX53 */

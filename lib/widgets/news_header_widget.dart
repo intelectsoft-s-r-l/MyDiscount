@@ -40,18 +40,6 @@ class NewsHeaderWidget extends StatelessWidget {
             ),
           ),
         ),
-        /* Positioned(
-          top: 50,
-          left: -13,
-          child: Container(
-            width: size.width * .97,
-            padding: EdgeInsets.only(
-              left: 10,
-              right: 10,
-            ),
-            child: Html(data: news.header),
-          ),
-        ), */
         Positioned(
           top: 15,
           left: 65,

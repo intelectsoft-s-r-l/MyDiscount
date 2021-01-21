@@ -15,7 +15,7 @@ class NewsSettings with ChangeNotifier {
   }
 
   NewsSettings() {
-    //_saveNewsState();
+    
     getNewsState();
 
     notifyListeners();
@@ -29,7 +29,7 @@ class NewsSettings with ChangeNotifier {
     final data = await _prefs.instance;
     if (data.containsKey('newsState'))
       _isActivate = await _prefs.readNewsState();
-    // ignore: unnecessary_statements
+    
     notifyListeners();
     return _isActivate;
   }

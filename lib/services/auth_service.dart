@@ -108,7 +108,6 @@ class AuthService extends UserCredentials {
     googleSignIn.signOut();
     prefs.remove('Tid');
     prefs.remove('user');
-    //prefs.remove('IOS');
     authController.add(false);
     Navigator.pop(context);
     Navigator.of(context).pushReplacementNamed('/loginscreen');

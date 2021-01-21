@@ -11,13 +11,9 @@ class RipplesAnimation extends StatefulWidget {
     Key key,
     this.size = 20.0,
     this.color = Colors.green,
-    // this.onPressed,
-    // this.child,
   }) : super(key: key);
   final double size;
   final Color color;
-  // final Widget child;
-  // final VoidCallback onPressed;
   @override
   _RipplesAnimationState createState() => _RipplesAnimationState();
 }
