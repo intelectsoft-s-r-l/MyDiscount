@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../core/localization/localizations.dart';
@@ -31,7 +30,7 @@ class AboutAppPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      AppLocalizations.of(context).translate('text18'),
+                      AppLocalizations.of(context).translate('welcome'),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -43,26 +42,26 @@ class AboutAppPage extends StatelessWidget {
                           fit: BoxFit.fill,
                         )),
                     Text(
-                      '${AppLocalizations.of(context).translate('text61')} 2.1.4',
+                      '${AppLocalizations.of(context).translate('appversion')} 2.1.4',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('text48'),
+                      AppLocalizations.of(context).translate('aboutpar.1'),
                       style: TextStyle(fontSize: 15),
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('text49'),
+                      AppLocalizations.of(context).translate('aboutpar.2'),
                       style: TextStyle(fontSize: 15),
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('text50'),
+                      AppLocalizations.of(context).translate('aboutpar.3'),
                       style: TextStyle(fontSize: 15),
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('text51'),
+                      AppLocalizations.of(context).translate('aboutpar.4'),
                       style: TextStyle(fontSize: 15),
                     ),
                     SizedBox(

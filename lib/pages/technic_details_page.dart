@@ -50,17 +50,17 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
                               if (Platform.isAndroid)
                                 ListTile(
                                   title: Text(AppLocalizations.of(context)
-                                      .translate('text34')),
+                                      .translate('manufacture')),
                                   trailing: Text('${snapshot.data['name']}'),
                                 ),
                               ListTile(
                                 title: Text(AppLocalizations.of(context)
-                                    .translate('text35')),
+                                    .translate('model')),
                                 trailing: Text('${snapshot.data['model']}'),
                               ),
                               ListTile(
                                 title: Text(AppLocalizations.of(context)
-                                    .translate('text36')),
+                                    .translate('version')),
                                 trailing:
                                     Text('${snapshot.data['systemVersion']}'),
                               ),

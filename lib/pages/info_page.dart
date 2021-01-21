@@ -31,15 +31,15 @@ class InformationPage extends StatelessWidget {
               child: Column(
                 children: [
                   ProfileHomeItemWidget(
-                    pageName: AppLocalizations.of(context).translate('text32'),
+                    pageName: AppLocalizations.of(context).translate('privacypolicy'),
                     routeName: '/politicaconf',
                   ),
                   ProfileHomeItemWidget(
-                    pageName: AppLocalizations.of(context).translate('text33'),
+                    pageName: AppLocalizations.of(context).translate('technicdata'),
                     routeName: '/technicdetail',
                   ),
                   ProfileHomeItemWidget(
-                    pageName: AppLocalizations.of(context).translate('text30'),
+                    pageName: AppLocalizations.of(context).translate('appinfo'),
                     routeName: '/about',
                   )
                 ],

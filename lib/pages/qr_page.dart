@@ -215,7 +215,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                     child: serviceConection
                                         ? Text(
                                             AppLocalizations.of(context)
-                                                .translate('text5'),
+                                                .translate('generate'),
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -223,7 +223,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                           )
                                         : Text(
                                             AppLocalizations.of(context)
-                                                .translate('text8'),
+                                                .translate('retry'),
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,

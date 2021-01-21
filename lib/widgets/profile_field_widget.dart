@@ -67,7 +67,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             confirmedNumber = internationalizedPhoneNumber;
                           },
                           errorText:
-                              AppLocalizations.of(context).translate('text43'),
+                              AppLocalizations.of(context).translate('inputerror'),
                           /* initialPhoneNumber:
                               provider.phone.characters.skip(4).toString(),
                           initialSelection: provider.phoneIsoCode, */
@@ -123,11 +123,11 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: provider.editing
-                    ? Text(AppLocalizations.of(context).translate('text60'))
+                    ? Text(AppLocalizations.of(context).translate('sendcode'))
                     : provider.phone != ''
-                        ? Text(AppLocalizations.of(context).translate('text52'))
+                        ? Text(AppLocalizations.of(context).translate('changephone'))
                         : Text(
-                            AppLocalizations.of(context).translate('text53')),
+                            AppLocalizations.of(context).translate('addphone')),
                 onPressed: () async {
                   provider.editing = !provider.editing;
 

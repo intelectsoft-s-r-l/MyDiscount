@@ -77,7 +77,7 @@ class HomePageTopWidget extends StatelessWidget {
                             if (snapshot.data.registerMode == 1)
                               Text(
                                 AppLocalizations.of(context)
-                                    .translate('text39'),
+                                    .translate('signinG'),
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -86,7 +86,7 @@ class HomePageTopWidget extends StatelessWidget {
                             if (snapshot.data.registerMode == 2)
                               Text(
                                 AppLocalizations.of(context)
-                                    .translate('text40'),
+                                    .translate('signinF'),
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -95,7 +95,7 @@ class HomePageTopWidget extends StatelessWidget {
                             if (snapshot.data.registerMode == 3)
                               Text(
                                 AppLocalizations.of(context)
-                                    .translate('text41'),
+                                    .translate('signinA'),
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),

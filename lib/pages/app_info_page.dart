@@ -10,7 +10,7 @@ class AppInfoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).translate('text32'),style: TextStyle(fontSize: 18),
+          AppLocalizations.of(context).translate('privacypolicy'),style: TextStyle(fontSize: 18),
         ),
         backgroundColor: Colors.green,
         elevation: 0,

@@ -19,7 +19,7 @@ class NoCompanieList extends StatelessWidget {
             scale: 1.2,
           ),
           Text(
-            AppLocalizations.of(context).translate('text13'),
+            AppLocalizations.of(context).translate('companylist'),
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
@@ -27,7 +27,7 @@ class NoCompanieList extends StatelessWidget {
             height: 20,
           ),
           Text(
-            AppLocalizations.of(context).translate('text14'),
+            AppLocalizations.of(context).translate('nocompany'),
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),

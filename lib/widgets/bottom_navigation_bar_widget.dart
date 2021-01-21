@@ -89,7 +89,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                               snapshot.data == 0 ? Colors.green : Colors.black,
                         ),
                         Text(
-                          AppLocalizations.of(context).translate('text21'),
+                          AppLocalizations.of(context).translate('home'),
                           style: TextStyle(
                             color: snapshot.data == 0
                                 ? Colors.green
@@ -133,7 +133,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                               snapshot.data == 2 ? Colors.green : Colors.black,
                         ),
                         Text(
-                          AppLocalizations.of(context).translate('text23'),
+                          AppLocalizations.of(context).translate('news'),
                           style: TextStyle(
                             color: snapshot.data == 2
                                 ? Colors.green

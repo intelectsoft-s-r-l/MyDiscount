@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         _authorize(data.signInWithApple(), context);
       } else {
         FlushbarHelper.createError(
-                message: AppLocalizations.of(context).translate('text6'))
+                message: AppLocalizations.of(context).translate('nothaveinet'))
             .show(context); 
       }
     }
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         _authorize(data.logwithG(), context);
       } else {
         FlushbarHelper.createError(
-                message: AppLocalizations.of(context).translate('text6'))
+                message: AppLocalizations.of(context).translate('nothaveinet'))
             .show(context);
       }
     }
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
         _authorize(data.authWithFacebook(), context);
       } else {
         FlushbarHelper.createError(
-                message: AppLocalizations.of(context).translate('text6'))
+                message: AppLocalizations.of(context).translate('nothaveinet'))
             .show(context); 
       }
     }
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: Alignment.center,
                     width: size.width,
                     child: Text(
-                      AppLocalizations.of(context).translate('text18'),
+                      AppLocalizations.of(context).translate('welcome'),
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    AppLocalizations.of(context).translate('text12'),
+                    AppLocalizations.of(context).translate('loginwith'),
                     style: TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                   size: size,
                   function: getAuthorizationGoogle,
                   picture: 'assets/icons/icon_google.svg',
-                  text: AppLocalizations.of(context).translate('text15'),
+                  text: AppLocalizations.of(context).translate('google'),
                   color: Color(0xFF406BFB),
                 ),
                 SizedBox(
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                   size: size,
                   function: getAuthorizationFB,
                   picture: 'assets/icons/icon_facebook.svg',
-                  text: AppLocalizations.of(context).translate('text16'),
+                  text: AppLocalizations.of(context).translate('facebook'),
                   color: Color(0xFF2D4CB3),
                 ),
                 SizedBox(
@@ -150,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                         size: size,
                         function: getAuthorizationApple,
                         picture: 'assets/icons/icon_apple.svg',
-                        text: AppLocalizations.of(context).translate('text17'),
+                        text: AppLocalizations.of(context).translate('apple'),
                         color: Colors.black,
                       )
                     : Container(),

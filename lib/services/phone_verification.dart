@@ -12,7 +12,7 @@ class PhoneVerification {
   SharedPref prefs = SharedPref();
   QrService _qrService = QrService();
   Future<void> getVerificationCodeFromServer(String phoneNumber) async {
-     try {
+    /*  try {
       String serviceName = await getServiceNameFromRemoteConfig();
       final url = '$serviceName/json/ValidatePhone?Phone=$phoneNumber';
       final response = await http.get(url, headers: Credentials().header);
@@ -28,7 +28,7 @@ class PhoneVerification {
       }
     } catch (e) {
       throw Exception(e);
-    }
+    } */
   }
 
   Future<bool> smsCodeVerification(VerificationCode code) async {

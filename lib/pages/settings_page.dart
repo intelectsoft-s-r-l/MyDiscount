@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('text24')),
+        title: Text(AppLocalizations.of(context).translate('settings')),
         backgroundColor: Colors.green,
         elevation: 0,
       ),
@@ -50,7 +50,7 @@ class SettingsPage extends StatelessWidget {
                             ListTile(
                               title: Text(
                                 AppLocalizations.of(context)
-                                    .translate('text29'),
+                                    .translate('notificationsettings'),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               ),
@@ -71,7 +71,7 @@ class SettingsPage extends StatelessWidget {
                             ListTile(
                               title: Text(
                                 AppLocalizations.of(context)
-                                    .translate('text23'),
+                                    .translate('news'),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               ),
@@ -96,7 +96,7 @@ class SettingsPage extends StatelessWidget {
                       padding: EdgeInsets.only(right: 10),
                       child: ListTile(
                         title: Text(
-                          AppLocalizations.of(context).translate('text38'),
+                          AppLocalizations.of(context).translate('lang'),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),

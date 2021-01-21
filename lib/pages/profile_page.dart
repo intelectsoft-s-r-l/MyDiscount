@@ -76,13 +76,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ProfileItemWidget(
                                             labelText:
                                                 AppLocalizations.of(context)
-                                                    .translate('text26'),
+                                                    .translate('firsname'),
                                             text: snapshot.data.firstName),
                                         Divider(),
                                         ProfileItemWidget(
                                             labelText:
                                                 AppLocalizations.of(context)
-                                                    .translate('text27'),
+                                                    .translate('lastname'),
                                             text: snapshot.data.lastName),
                                         Divider(),
                                         ProfileItemWidget(
@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ProfileFieldWidget(
                                           labelText:
                                               AppLocalizations.of(context)
-                                                  .translate('text37'),
+                                                  .translate('phone'),
                                         ),
                                         Divider(),
                                       ],
@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             highlightedBorderColor: Colors.red,
                                             child: Text(
                                                 AppLocalizations.of(context)
-                                                    .translate('text31')),
+                                                    .translate('logout')),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(20)),

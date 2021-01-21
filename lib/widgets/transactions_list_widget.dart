@@ -66,7 +66,7 @@ class TransactionList extends StatelessWidget {
                                 width: size.width,
                                 child: Text(
                                     AppLocalizations.of(context)
-                                        .translate('text66'),
+                                        .translate('notransactions'),
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),

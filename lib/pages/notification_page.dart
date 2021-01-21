@@ -26,7 +26,7 @@ class _NotificationPageState extends State<NotificationPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(AppLocalizations.of(context).translate('text23')),
+        title: Text(AppLocalizations.of(context).translate('news')),
         centerTitle: true,
         backgroundColor: Colors.green,
         elevation: 0,
@@ -80,7 +80,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                     width: size.width,
                                     child: Text(
                                       AppLocalizations.of(context)
-                                          .translate('text65'),
+                                          .translate('nonews'),
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
@@ -225,7 +225,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              AppLocalizations.of(context).translate('text64'),
+                              AppLocalizations.of(context).translate('more'),
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.blue,
@@ -261,7 +261,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                               width: 12,
                             ),
                             Text(
-                              AppLocalizations.of(context).translate('text63'),
+                              AppLocalizations.of(context).translate('less'),
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.blue,

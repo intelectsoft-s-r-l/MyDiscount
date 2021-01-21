@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
                 children: [
                   ProfileHomeItemWidget(
                     icon: Icons.account_circle_outlined,
-                    pageName:  AppLocalizations.of(context).translate('text25'),
+                    pageName:  AppLocalizations.of(context).translate('profile'),
                     routeName: '/profilepage',
                   ),
                   ProfileHomeItemWidget(
@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
                   ),
                   ProfileHomeItemWidget(
                     icon: Icons.transfer_within_a_station_outlined,
-                    pageName:  AppLocalizations.of(context).translate('text22'),
+                    pageName:  AppLocalizations.of(context).translate('transactions'),
                     routeName: '/transactionlist',
                   ),
                   ProfileHomeItemWidget(
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                   ),
                   ProfileHomeItemWidget(
                     icon: Icons.settings,
-                    pageName:  AppLocalizations.of(context).translate('text24'),
+                    pageName:  AppLocalizations.of(context).translate('settings'),
                     routeName: '/settings',
                   ),
                   

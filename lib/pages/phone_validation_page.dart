@@ -93,7 +93,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                     SizedBox(
                       height: 30,
                     ),
-                    Text(AppLocalizations.of(context).translate('text44'),
+                    Text(AppLocalizations.of(context).translate('entercode'),
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold)),
                     SizedBox(
@@ -148,8 +148,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                   width: size.width * .3,
                                   child: Text(
                                     snapshot.hasData
-                                        ? '${AppLocalizations.of(context).translate('text54')}(${snapshot.data})'
-                                        : '${AppLocalizations.of(context).translate('text54')}',
+                                        ? '${AppLocalizations.of(context).translate('send')}(${snapshot.data})'
+                                        : '${AppLocalizations.of(context).translate('send')}',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
@@ -179,7 +179,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                             } else {
                               FlushbarHelper.createError(
                                       message: AppLocalizations.of(context)
-                                          .translate('text46'))
+                                          .translate('incorectcode'))
                                   .show(context);
                             }
                           },
@@ -187,7 +187,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                             alignment: Alignment.center,
                             width: size.width * .3,
                             child: Text(
-                              AppLocalizations.of(context).translate('text47'),
+                              AppLocalizations.of(context).translate('verify'),
                             ),
                           ),
                         )
