@@ -37,8 +37,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     if (mounted) focusNode?.unfocus();
   }
 
-  
-
   String phoneNumber;
   String confirmedNumber = '';
 
@@ -67,7 +65,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           ) {
                             print(internationalizedPhoneNumber);
                             confirmedNumber = internationalizedPhoneNumber;
-                           
                           },
                           errorText:
                               AppLocalizations.of(context).translate('text43'),
@@ -79,32 +76,39 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           ],
                         ),
                       ))
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Text(widget.labelText,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                )),
-                          ),
-                          Consumer(
-                              builder: (context, PhoneNumber provider1, _) {
-                            if (provider1.phone != null) {
-                              return Container(
-                                child: Text(
-                                  provider.phone,
+                    : Container(
+                        height: 56,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: Text(widget.labelText,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ),
+                            SizedBox(
+                              height: 9,
+                            ),
+                            Consumer(
+                                builder: (context, PhoneNumber provider1, _) {
+                              if (provider1.phone != null) {
+                                return Container(
+                                  child: Text(
+                                    provider.phone,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              );
-                            }
-                            return Container();
-                          }),
-                        ],
+                                );
+                              }
+                              return Container();
+                            }),
+                          ],
+                        ),
                       ),
               ],
             ),
@@ -128,7 +132,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                   provider.editing = !provider.editing;
 
                   if (provider.editing) {
-                    
                   } else {
                     PhoneVerification()
                         .getVerificationCodeFromServer(confirmedNumber);

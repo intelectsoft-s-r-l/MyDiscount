@@ -19,39 +19,45 @@ class NewsService {
   Box<News> newsBox = Hive.box<News>('news');
 
   Future<List<News>> getNews() async {
-    if (await _prefs.readNewsState()) {
-      if (await status.isConnected) {
-        final serviceName = await getServiceNameFromRemoteConfig();
-        final id = await readEldestNewsId();
-        final url = '$serviceName/json/GetAppNews?ID=$id';
-        final response = await http.get(url, headers: credentials.header);
-        final Map<String, dynamic> decodedResponse = json.decode(response.body);
+    try {
+      if (await _prefs.readNewsState()) {
+        if (await status.isConnected) {
+          final serviceName = await getServiceNameFromRemoteConfig();
+          final id = await _readEldestNewsId();
+          final url = '$serviceName/json/GetAppNews?ID=$id';
+          final response = await http.get(url, headers: credentials.header);
+          final Map<String, dynamic> decodedResponse =
+              json.decode(response.body);
 
-        final list = decodedResponse['NewsList'] as List;
-        final parseDate =
-            formater.parseDateTimeAndSetExpireDate(list, 'CreateDate');
-        final dat = formater.checkImageFormatAndSkip(parseDate, 'CompanyLogo');
+          final list = decodedResponse['NewsList'] as List;
+          final parseDate =
+              formater.parseDateTimeAndSetExpireDate(list, 'CreateDate');
+          final dat =
+              formater.checkImageFormatAndSkip(parseDate, 'CompanyLogo');
 
-        final dataList = formater.checkImageFormatAndSkip(dat, 'Photo');
-        dataList
-            .map((e) => News.fromJson(e))
-            .toList()
-            .forEach((element) => saveNewsOnDB(element));
-        return _getReversedNewsList();
-      } else {
-        if (newsBox.isNotEmpty) {
+          final dataList = formater.checkImageFormatAndSkip(dat, 'Photo');
+          dataList
+              .map((e) => News.fromJson(e))
+              .toList()
+              .forEach((element) => _saveNewsOnDB(element));
           return _getReversedNewsList();
+        } else {
+          if (newsBox.isNotEmpty) {
+            return _getReversedNewsList();
+          }
         }
+      } else {
+        final keys = newsBox.keys;
+        if (newsBox.isNotEmpty) newsBox.deleteAll(keys);
       }
-    } else {
-      final keys = newsBox.keys;
-      if (newsBox.isNotEmpty) newsBox.deleteAll(keys);
+    } catch (e) {
+      return [];
     }
     return [];
   }
 
-  Future<String> readEldestNewsId() async {
-    final listOfKeys = newsBox.keys;
+  Future<String> _readEldestNewsId() async {
+    final listOfKeys = newsBox?.keys;
 
     int id = 0;
     if (listOfKeys.isNotEmpty)
@@ -62,17 +68,21 @@ class NewsService {
     return id.toString();
   }
 
-  Future<void> saveNewsOnDB(News news) async {
+  Future<void> _saveNewsOnDB(News news) async {
     newsBox.put(news.id, news);
   }
 
   Future<List<News>> _getReversedNewsList() async {
-    List<News> newsList = [];
-    final keys = newsBox.keys;
-    for (int key in keys) {
-      final news = newsBox.get(key);
-      newsList.add(news);
+    try {
+      List<News> newsList = [];
+      final keys = newsBox.keys;
+      for (int key in keys) {
+        final news = newsBox.get(key);
+        newsList.add(news);
+      }
+      return newsList.reversed?.toList();
+    } catch (e) {
+      rethrow;
     }
-    return newsList.reversed?.toList();
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../core/constants/credentials.dart';
+import '../core/failure.dart';
 import '../services/shared_preferences_service.dart';
 import '../services/qr_service.dart';
 import '../services/remote_config_service.dart';
@@ -17,7 +18,13 @@ class PhoneVerification {
       final response = await http.get(url, headers: Credentials().header);
       if (response.statusCode == 200) {
         final codeMap = json.decode(response.body);
-        prefs.saveCode(codeMap['CODE']);
+        if (codeMap['errorCode'] != 0) {
+          prefs.saveCode(codeMap['CODE']);
+        } else {
+          throw NoInternetConection();
+        }
+      } else {
+        throw NoInternetConection();
       }
     } catch (e) {
       throw Exception(e);
@@ -25,12 +32,16 @@ class PhoneVerification {
   }
 
   Future<bool> smsCodeVerification(VerificationCode code) async {
-    final codeFromServer = await prefs.readCode();
-    if (code == VerificationCode(codeFromServer)) {
-      _qrService.getTID(true);
-      return true;
+    try {
+      final codeFromServer = await prefs.readCode();
+      if (code == VerificationCode(codeFromServer)) {
+        _qrService.getTID(true);
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
     }
-    return false;
   }
 }
 

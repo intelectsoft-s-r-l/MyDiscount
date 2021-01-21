@@ -24,8 +24,8 @@ class NewsHeaderWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
         ),
         Positioned(
-          top: 30,
-          left: 65,
+          top: 39,
+          left: 69,
           child: Container(
             padding: EdgeInsets.only(
               right: 10,
@@ -42,7 +42,7 @@ class NewsHeaderWidget extends StatelessWidget {
         ),
         Positioned(
           top: 15,
-          left: 65,
+          left: 69,
           child: Container(
             child: Text(
               news.companyName.toString(),

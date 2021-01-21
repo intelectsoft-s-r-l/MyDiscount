@@ -37,7 +37,6 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
       if (_duration != 0) {
         _duration--;
         _controller.add(_duration);
-        
       } else {
         if (mounted) {
           _timer.cancel();
@@ -68,6 +67,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        title:
+            Text(AppLocalizations.of(context).translate('phoneverification')),
         backgroundColor: Colors.green,
         elevation: 0,
       ),
@@ -149,8 +150,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                     snapshot.hasData
                                         ? '${AppLocalizations.of(context).translate('text54')}(${snapshot.data})'
                                         : '${AppLocalizations.of(context).translate('text54')}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               );
@@ -187,7 +188,6 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                             width: size.width * .3,
                             child: Text(
                               AppLocalizations.of(context).translate('text47'),
-                              
                             ),
                           ),
                         )
@@ -200,7 +200,6 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
           ),
         ),
       ),
-      /*     ), */
     );
   }
 }

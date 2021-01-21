@@ -8,7 +8,8 @@ import '../core/localization/localizations.dart';
 import '../new_button/ripple_animation.dart';
 import '../pages/home_page.dart';
 import '../pages/notification_page.dart';
-import '../pages/qr-page.dart';
+import '../pages/qr_page.dart';
+
 
 class BottomNavigationBarWidget extends StatefulWidget {
   @override

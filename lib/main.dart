@@ -16,14 +16,15 @@ import 'core/localization/localizations.dart';
 import 'models/company_model.dart';
 import 'models/news_model.dart';
 import 'pages/detail_news_page.dart';
-import 'pages/about_app.dart';
-import 'pages/app_inf_page.dart';
+
+import 'pages/about_app_page.dart';
+import 'pages/app_info_page.dart';
+import 'pages/company_list_page.dart';
+import 'pages/login_page.dart';
 import 'pages/info_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/technic_details_page.dart';
 import 'pages/transactions_page.dart';
-import 'pages/user_page.dart';
-import 'pages/login_screen2.dart';
 import 'pages/settings_page.dart';
 import 'services/local_notification_service.dart';
 import 'services/auth_service.dart';
@@ -49,7 +50,7 @@ void main() async {
   } catch (e) {}
   getServiceNameFromRemoteConfig();
 
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();
@@ -160,7 +161,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         return retLocale;
       },
       routes: {
-        '/loginscreen': (context) => LoginScreen2(),
+        '/loginscreen': (context) => LoginPage(),
         '/app': (context) => BottomNavigationBarWidget(),
         '/detailpage': (context) => DetailNewsPage(),
         '/profilepage': (context) => ProfilePage(),
@@ -176,7 +177,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         initialData: false,
         stream: authController.stream,
         builder: (context, snapshot) =>
-            snapshot.data ? BottomNavigationBarWidget() : LoginScreen2(),
+            snapshot.data ? BottomNavigationBarWidget() : LoginPage(),
       ),
     );
   }

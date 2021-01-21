@@ -1,16 +1,13 @@
-//import 'package:MyDiscount/widgets/html_text_view_widget.dart';
-import 'package:MyDiscount/widgets/circular_progress_indicator_widget.dart';
-import 'package:MyDiscount/widgets/html_text_view_widget.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html/parser.dart' as htmlparser;
-
-/* import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart'; */
 
 import '../core/localization/localizations.dart';
 import '../models/news_model.dart';
 import '../services/news_service.dart';
+import '../widgets/circular_progress_indicator_widget.dart';
+import '../widgets/html_text_view_widget.dart';
 import '../widgets/news_header_widget.dart';
 import '../widgets/news_image_widget.dart';
 
@@ -216,8 +213,7 @@ class _DetailedNewsState extends State<DetailedNews> {
               children: [
                 !showText
                     ? Container(
-                       
-                        padding: EdgeInsets.only(left: 5),
+                        padding: EdgeInsets.only(left: 12),
                         width: size.width * .95,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,6 +243,7 @@ class _DetailedNewsState extends State<DetailedNews> {
             child: showText
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       HtmlText(

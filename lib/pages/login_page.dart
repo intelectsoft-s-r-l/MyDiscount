@@ -12,12 +12,12 @@ import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../widgets/login_button_widget.dart';
 
-class LoginScreen2 extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _LoginScreen2State createState() => _LoginScreen2State();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginScreen2State extends State<LoginScreen2> {
+class _LoginPageState extends State<LoginPage> {
   final NetworkConnectionImpl internet = NetworkConnectionImpl();
   final AuthService data = AuthService();
   SharedPref _pref = SharedPref();

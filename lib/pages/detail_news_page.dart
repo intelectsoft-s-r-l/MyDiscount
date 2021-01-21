@@ -1,5 +1,6 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/news_model.dart';
 import '../widgets/html_text_view_widget.dart';
@@ -34,7 +35,16 @@ class DetailNewsPage extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  Html(data: news.header),
+                  Html(
+                    data: news.header,
+                    onLinkTap: (url) async {
+                      if (await canLaunch(url)) {
+                        launch(url);
+                      } else {
+                        throw "Can't Launch Url ";
+                      }
+                    },
+                  ),
                   Container(
                     height: size.width,
                     width: size.width,

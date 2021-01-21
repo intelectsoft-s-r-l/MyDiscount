@@ -11,8 +11,10 @@ class ProfileItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 56,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             child: Text(
@@ -21,14 +23,14 @@ class ProfileItemWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 9,
           ),
           Container(
               child: Text(
             text,
             style: TextStyle(
                 color: Colors.black,
-                fontSize: 20.0,
+                fontSize: 17.0,
                 fontWeight: FontWeight.bold),
           )),
         ],
