@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:MyDiscount/providers/qr_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../core/localization/localizations.dart';
 import '../services/internet_connection_service.dart';
@@ -20,7 +22,8 @@ class QrPage extends StatefulWidget {
 }
 
 class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
-  StreamController<bool> _imageController = StreamController.broadcast();
+  QrService provider = QrService();
+  /*  StreamController<bool> _imageController = StreamController.broadcast();
   StreamController<double> _progressController = StreamController.broadcast();
   final QrService qrService = QrService();
   final NetworkConnectionImpl internetConnection = NetworkConnectionImpl();
@@ -29,20 +32,19 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   bool serviceConection;
 
   Timer _timer;
-  int index = 1;
+  int index = 1; */
 
   @override
   void initState() {
     super.initState();
+    provider.getTID(false);
     WidgetsBinding.instance.addObserver(this);
   }
 
-  @override
+  /* @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if(mounted)
-    _getAuthorization();
-    
+    if (mounted) _getAuthorization();
   }
 
   @override
@@ -127,25 +129,24 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
           serviceConection = netConnection;
         });
     }
-  }
+  } */
 
   @override
   void dispose() {
     super.dispose();
-    if (mounted) _imageController?.close();
+    /*  if (mounted) _imageController?.close();
     if (mounted) _progressController?.close();
-    if (mounted) _timer?.cancel();
+    if (mounted) _timer?.cancel(); */
     WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final SharedPref sPref = SharedPref();
+    /*   final SharedPref sPref = SharedPref();
     Future<String> _loadSharedPref() async {
       final id = await sPref.readTID();
       return Future<String>.value(id);
-    }
+    } */
 
     return Scaffold(
       appBar: AppBar(
@@ -155,76 +156,72 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
         backgroundColor: Colors.green,
         elevation: 0,
       ),
-      body: Container(
-        color: Colors.green,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-              color: Colors.white,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: StreamBuilder<bool>(
-                      stream: _imageController.stream,
-                      initialData: true,
-                      builder: (context, snapshot) {
-                        return snapshot.data
-                            ? QrImageWidget(
-                                function: _loadSharedPref(),
-                                size: size,
-                                progressController: _progressController)
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  serviceConection
-                                      ? HumanImage()
-                                      : NoInternetWidget(),
-                                  const SizedBox(height: 10.0),
-                                  RaisedButton(
-                                    onPressed: () {
-                                      _imageController.add(true);
-                                      _getAuthorization();
-                                      countTID = 0;
-                                    },
-                                    child: serviceConection
-                                        ? Text(
-                                            AppLocalizations.of(context)
-                                                .translate('text5'),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ), //textScaleFactor: 1,
-                                          )
-                                        : Text(
-                                            AppLocalizations.of(context)
-                                                .translate('text8'),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ), //textScaleFactor: 1,
-                                          ),
-                                    color: Colors.green,
-                                  ),
-                                ],
-                              );
-                      },
-                    ),
+      body: ChangeNotifierProvider(
+        create: (context) => QrService(),
+        child: Container(
+          color: Colors.green,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
+                  color: Colors.white,
                 ),
-              ],
-            ),
+                child: QrPageContainer()),
           ),
         ),
       ),
+    );
+  }
+}
+
+class QrPageContainer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final provider = Provider.of<QrService>(context);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Center(
+            child: !provider.showImage
+                ? QrImageWidget(
+                    size: size,
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      provider.showImage ? HumanImage() : NoInternetWidget(),
+                      const SizedBox(height: 10.0),
+                      RaisedButton(
+                        onPressed: () {},
+                        child: provider.showImage
+                            ? Text(
+                                AppLocalizations.of(context).translate('text5'),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ), //textScaleFactor: 1,
+                              )
+                            : Text(
+                                AppLocalizations.of(context).translate('text8'),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ), //textScaleFactor: 1,
+                              ),
+                        color: Colors.green,
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      ],
     );
   }
 }

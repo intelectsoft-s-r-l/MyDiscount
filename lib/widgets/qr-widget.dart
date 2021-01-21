@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:MyDiscount/providers/qr_provider.dart';
+import 'package:MyDiscount/services/qr_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -9,17 +12,18 @@ import '../widgets/circular_progress_indicator_widget.dart';
 class QrImageWidget extends StatelessWidget {
   const QrImageWidget({
     Key key,
-    @required this.function,
+    // @required this.function,
     @required this.size,
-    @required StreamController<double> progressController,
-  })  : _progressController = progressController,
+    //@required StreamController<double> progressController,
+  }) : // _progressController = progressController,
         super(key: key);
-  final Future<String> function;
+  //final Future<String> function;
   final Size size;
-  final StreamController<double> _progressController;
+  //final StreamController<double> _progressController;
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<QrService>(context, listen: true);
     return Container(
       child: Card(
         color: Colors.transparent,
@@ -46,38 +50,34 @@ class QrImageWidget extends StatelessWidget {
               Expanded(
                 child: Container(
                   alignment: Alignment.center,
-                  child: FutureBuilder(
-                    future: function,
-                    builder: (context, snapshot) => snapshot.hasData
-                        ? ShaderMask(
-                            blendMode: BlendMode.srcATop,
-                            shaderCallback: (rect) => LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black,
-                                Colors.green,
-                              ],
-                            ).createShader(rect),
-                            child: QrImage(
-                              data: snapshot.data,
-                              size: size.width * .6,
-                            ),
-                          )
-                        : CircularProgresIndicatorWidget(),
+                  child: ShaderMask(
+                    blendMode: BlendMode.srcATop,
+                    shaderCallback: (rect) => LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black,
+                        Colors.green,
+                      ],
+                    ).createShader(rect),
+                    child: QrImage(
+                      data: provider.tid,
+                      size: size.width * .6,
+                    ),
                   ),
                 ),
               ),
-              StreamBuilder<double>(
-                initialData: 1,
-                stream: _progressController.stream,
-                builder: (context, snapshot) {
-                  return LinearProgressIndicator(
-                    value: snapshot.data,
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(Colors.green),
-                  );
-                },
+              /*  StreamBuilder<double>(
+                  initialData: 1,
+                  stream: _progressController.stream,
+                  builder: (context, snapshot) { 
+                    return*/
+              LinearProgressIndicator(
+                value: provider.progress,
+                backgroundColor: Colors.white,
+                valueColor: AlwaysStoppedAnimation(Colors.green),
+                /*       );
+                  }, */
               ),
             ],
           ),

@@ -81,11 +81,11 @@ class _NotificationPageState extends State<NotificationPage> {
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
                         separatorBuilder: (context, index) => Container(
-                          padding: EdgeInsets.only(left: 5, right: 5),
+                          padding: EdgeInsets.only(left: 7, right: 7),
                           height: 30,
                           child: Divider(
                             //height: 10.0,
-                            thickness: 5.0,
+                            thickness: 3.0,
                             // color: Colors.red,
                           ),
                         ),
@@ -182,8 +182,8 @@ class _DetailedNewsState extends State<DetailedNews> {
     final string = htmlparser.parse(news.content);
     final str = string.body.text;
     final list = str.padLeft(1, ' ');
-    List<String> st = list.split('\n');
-    print('text:${st[0]}');
+    /* List<String> st = list.split('\n');
+    print('text:${st[0]}'); */
     return Container(
       child: Column(
         children: [
