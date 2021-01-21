@@ -43,7 +43,7 @@ class AboutAppPage extends StatelessWidget {
                           fit: BoxFit.fill,
                         )),
                     Text(
-                      '${AppLocalizations.of(context).translate('text61')} 2.1.2',
+                      '${AppLocalizations.of(context).translate('text61')} 2.1.4',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
