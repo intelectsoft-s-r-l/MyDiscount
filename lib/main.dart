@@ -49,7 +49,8 @@ void main() async {
   } catch (e) {}
   getServiceNameFromRemoteConfig();
 
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();

@@ -1,4 +1,3 @@
-import 'package:MyDiscount/pages/phone_validation_page.dart';
 
 import 'package:flutter/material.dart';
 
@@ -6,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:international_phone_input/international_phone_input.dart';
 
 import '../core/localization/localizations.dart';
+import '../pages/phone_validation_page.dart';
 import '../providers/phone_number.dart';
 import '../services/phone_verification.dart';
 
