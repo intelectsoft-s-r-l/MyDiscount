@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 import '../core/constants/credentials.dart';
 import '../core/formater.dart';
 import '../models/user_credentials.dart';
-import '../services/auth_service.dart';
 import '../services/internet_connection_service.dart';
 import '../services/remote_config_service.dart';
 import '../services/shared_preferences_service.dart';

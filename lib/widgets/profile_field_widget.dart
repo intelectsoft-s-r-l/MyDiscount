@@ -1,12 +1,13 @@
+import 'package:MyDiscount/pages/phone_validation_page.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
+import 'package:international_phone_input/international_phone_input.dart';
 
 import '../core/localization/localizations.dart';
 import '../providers/phone_number.dart';
 import '../services/phone_verification.dart';
-import '../widgets/pin_code_dialog.dart';
 
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({
@@ -21,8 +22,6 @@ class ProfileFieldWidget extends StatefulWidget {
 }
 
 class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
-  TextEditingController _phoneController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
   FocusNode focusNode = FocusNode();
@@ -38,6 +37,11 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     if (mounted) focusNode?.unfocus();
   }
 
+  
+
+  String phoneNumber;
+  String confirmedNumber = '';
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PhoneNumber>(
@@ -46,8 +50,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
         final provider = Provider.of<PhoneNumber>(context, listen: true);
         return Column(
           children: [
-            /* Consumer(
-            builder: (context, PhoneNumber provider, _)   =>*/
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -56,32 +58,26 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                         child: Form(
                         key: _formKey,
                         autovalidateMode: AutovalidateMode.always,
-                        child: TextFormField(
-                            focusNode: focusNode,
-                            controller: _phoneController,
-                            maxLength: 9,
-                            decoration: InputDecoration(
-                              //labelText: 'Phone Number *',
-                              hintText: AppLocalizations.of(context)
-                                  .translate('text42'),
-                            ),
-                            keyboardType: TextInputType.phone,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return AppLocalizations.of(context)
-                                    .translate('text43');
-                              } else if (value.characters.first != '0') {
-                                return AppLocalizations.of(context)
-                                    .translate('text57');
-                              } else if (value.length < 9) {
-                                return AppLocalizations.of(context)
-                                    .translate('text44');
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _phoneController.text = value;
-                            }),
+                        child: InternationalPhoneInput(
+                          hintText: 'xxxxxxxx',
+                          onPhoneNumberChange: (
+                            String number,
+                            String internationalizedPhoneNumber,
+                            String isoCode,
+                          ) {
+                            print(internationalizedPhoneNumber);
+                            confirmedNumber = internationalizedPhoneNumber;
+                           
+                          },
+                          errorText:
+                              AppLocalizations.of(context).translate('text43'),
+                          /* initialPhoneNumber:
+                              provider.phone.characters.skip(4).toString(),
+                          initialSelection: provider.phoneIsoCode, */
+                          enabledCountries: [
+                            '+373',
+                          ],
+                        ),
                       ))
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,27 +88,26 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                   color: Colors.black,
                                 )),
                           ),
-                          FutureProvider.value(
-                              value: PhoneNumber().getUserPhone(),
-                              builder: (context, _) {
-                                if (provider.phone != null) {
-                                  return Container(
-                                      child: Text(
-                                    provider.phone,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ));
-                                }
-                                return Container();
-                              }),
+                          Consumer(
+                              builder: (context, PhoneNumber provider1, _) {
+                            if (provider1.phone != null) {
+                              return Container(
+                                child: Text(
+                                  provider.phone,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            }
+                            return Container();
+                          }),
                         ],
                       ),
               ],
             ),
-            /*   ), */
             Divider(),
             Consumer(
               builder: (context, PhoneNumber provider, _) => OutlineButton(
@@ -130,24 +125,17 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                         : Text(
                             AppLocalizations.of(context).translate('text53')),
                 onPressed: () async {
-                  focusNode.requestFocus();
                   provider.editing = !provider.editing;
+
                   if (provider.editing) {
-                    _phoneController.text = provider.phone;
+                    
                   } else {
                     PhoneVerification()
-                        .getVerificationCodeFromServer(_phoneController.text);
-
-                    /*  focusNode.requestFocus();
-                  focusNode.unfocus(); */
-                    if (_formKey.currentState.validate()) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) => PinCodeDialog(
-                                provider: provider,
-                                phone: _phoneController.text,
-                              ));
-                    }
+                        .getVerificationCodeFromServer(confirmedNumber);
+                    if (confirmedNumber != '')
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PhoneVerificationPage(
+                              provider: provider, phone: confirmedNumber)));
                   }
                 },
               ),
@@ -158,6 +146,3 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     );
   }
 }
-
-/* <#> MyDiscount: Your code is 1234
-DJWuSAfFX53 */

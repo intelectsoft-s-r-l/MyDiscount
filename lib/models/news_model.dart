@@ -49,7 +49,6 @@ class News {
       id: json['ID'],
       photo: json['Photo'] ?? Uint8List.fromList([]),
       logo: json['CompanyLogo'] ?? Uint8List.fromList([]),
-      //expireDate: json['ExpireDate'],
     );
   }
   News copyWith({

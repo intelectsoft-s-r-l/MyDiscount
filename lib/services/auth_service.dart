@@ -29,7 +29,6 @@ class AuthService extends UserCredentials {
   Future<void> authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
-      print('facebook result:${result.toString()}');
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
           FacebookAccessToken _accessToken = result.accessToken;
@@ -42,8 +41,8 @@ class AuthService extends UserCredentials {
           ));
           final splitedDisplayName = splitTheStrings(profile['name']);
           saveProfileRegistrationDataToMap(Profile(
-            firstName: splitedDisplayName[0],
-            lastName: splitedDisplayName[1],
+            firstName: splitedDisplayName[0]??'',
+            lastName: splitedDisplayName[1]??'',
             email: profile['email'],
             photoUrl: profile['picture']['data']['url'],
             registerMode: 2,
@@ -78,7 +77,6 @@ class AuthService extends UserCredentials {
       final fcmToken = await fcmService.getfcmToken();
 
       if (googleSignIn.currentUser.id != null) {
-       
         saveUserRegistrationDatatoMap(
           User(
             id: account.id,
@@ -88,8 +86,8 @@ class AuthService extends UserCredentials {
         final splitedDisplayName = splitTheStrings(account.displayName);
         saveProfileRegistrationDataToMap(
           Profile(
-            firstName: splitedDisplayName[0],
-            lastName: splitedDisplayName[1],
+            firstName: splitedDisplayName[0]??'',
+            lastName: splitedDisplayName[1]??'',
             email: account.email,
             photoUrl: account.photoUrl ?? '',
             registerMode: 1,
@@ -110,8 +108,8 @@ class AuthService extends UserCredentials {
     googleSignIn.signOut();
     prefs.remove('Tid');
     prefs.remove('user');
-    //prefs.remove('IOS');
     authController.add(false);
+    Navigator.pop(context);
     Navigator.of(context).pushReplacementNamed('/loginscreen');
   }
 

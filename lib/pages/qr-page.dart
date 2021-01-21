@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:MyDiscount/core/failure.dart';
 import 'package:MyDiscount/providers/qr_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -111,16 +113,24 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   _getAuthorization() async {
     bool netConnection = await internetConnection.isConnected;
     if (netConnection) {
-      await qrService.getTID(false);
-      if (mounted)
-        setState(() {
-          serviceConection = netConnection;
-        });
-      if (countTID == 3) {
-        _changeImages();
-        if (_timer.isActive) _timer?.cancel();
+      final response = await qrService.getTID(false);
+      if (response['ErrorCode'] == 0 || response.isNotEmpty) {
+        if (mounted)
+          setState(() {
+            serviceConection = netConnection;
+          });
+        if (countTID == 3) {
+          _changeImages();
+          if (_timer.isActive) _timer?.cancel();
+        } else {
+          _startTimer();
+        }
       } else {
-        _startTimer();
+        _changeImages();
+        if (mounted)
+          setState(() {
+            serviceConection = false;
+          });
       }
     } else {
       _changeImages();
@@ -142,11 +152,21 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    /*   final SharedPref sPref = SharedPref();
+    final size = MediaQuery.of(context).size;
+    final SharedPref sPref = SharedPref();
+
     Future<String> _loadSharedPref() async {
-      final id = await sPref.readTID();
-      return Future<String>.value(id);
-    } */
+      //final data = await sPref.instance;
+      final jsonMap = await sPref.readTID();
+      final Map<String, dynamic> map = json.decode(jsonMap);
+      if (map['ErrorCode'] == 0) {
+        final String id = map['TID'];
+        //data.remove('Tid');
+        return Future<String>.value(id);
+      } else {
+        throw NoInternetConection();
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(

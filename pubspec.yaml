@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 2.1.2+5
+version: 2.1.4+7
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -32,6 +32,7 @@ dependencies:
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
   http: ^0.12.2
+  international_phone_input: ^1.0.4
   intl: ^0.16.1
   material_design_icons_flutter: ^4.0.5755
   path_provider: ^1.6.24

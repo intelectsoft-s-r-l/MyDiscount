@@ -27,11 +27,9 @@ class PhoneVerification {
   Future<bool> smsCodeVerification(VerificationCode code) async {
     final codeFromServer = await prefs.readCode();
     if (code == VerificationCode(codeFromServer)) {
-      print('true');
       _qrService.getTID(true);
       return true;
     }
-    print(false);
     return false;
   }
 }
