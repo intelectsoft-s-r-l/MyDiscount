@@ -9,41 +9,57 @@ class UserCredentials {
   SharedPref sPrefs = SharedPref();
 
   void saveUserRegistrationDatatoMap(User user) {
-    sPrefs.saveUser(json.encode(user.toJson()));
+    try {
+      sPrefs.saveUser(json.encode(user.toJson()));
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void saveProfileRegistrationDataToMap(Profile profile) async {
-    sPrefs.saveProfileData(json.encode(profile.toJson()));
-    final prefs = await sPrefs.instance;
-    if (profile.registerMode == 3 && !prefs.containsKey('IOS'))
-      sPrefs.saveIOSCredentials(json.encode(profile.toJson()));
+    try {
+      sPrefs.saveProfileData(json.encode(profile.toJson()));
+      final prefs = await sPrefs.instance;
+      if (profile.registerMode == 3 && !prefs.containsKey('IOS'))
+        sPrefs.saveIOSCredentials(json.encode(profile.toJson()));
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<Profile> getUserProfileData() async {
-    Profile profile = await _returnRegistrationProfileDataAsMap();
+    try {
+      Profile profile = await _returnRegistrationProfileDataAsMap();
 
-    sPrefs.saveProfileData(
-      json.encode(
-        Profile(
-          firstName: profile.firstName ?? '',
-          lastName: profile.lastName ?? '',
-          email: profile.email ?? '',
-          photoUrl: profile.photoUrl,
-          registerMode: profile.registerMode,
-          pushToken: profile.pushToken ?? '',
+      sPrefs.saveProfileData(
+        json.encode(
+          Profile(
+            firstName: profile.firstName ?? '',
+            lastName: profile.lastName ?? '',
+            email: profile.email ?? '',
+            photoUrl: profile.photoUrl,
+            registerMode: profile.registerMode,
+            pushToken: profile.pushToken ?? '',
+          ),
         ),
-      ),
-    );
-    return Future.value(profile);
+      );
+      return Future.value(profile);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   List<String> splitTheStrings(String displayName) {
-    if (displayName.contains(' ')) {
-      return displayName.split(" ").map((e) => e.toString()).toList();
-    } else {
-      final list = displayName.split(" ").map((e) => e.toString()).toList();
-      list.add('');
-      return list;
+    try {
+      if (displayName.contains(' ')) {
+        return displayName.split(" ").map((e) => e.toString()).toList();
+      } else {
+        final list = displayName.split(" ").map((e) => e.toString()).toList();
+        list.add('');
+        return list;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -81,44 +97,61 @@ class UserCredentials {
           "access_token": user.accessToken,
         });
       }
-    } catch (e) {}
-    throw Exception();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<String> getUserIdFromLocalStore() async {
-    final _prefs = await sPrefs.instance;
-    if (_prefs.containsKey('Tid')) {
-      User user = await _getRegistrationUserData();
-      return user.id;
-    } else {
-      return '';
+    try {
+      final _prefs = await sPrefs.instance;
+      if (_prefs.containsKey('Tid')) {
+        User user = await _getRegistrationUserData();
+        return user.id;
+      } else {
+        return '';
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<User> _getRegistrationUserData() async {
-    return Future.value(
-      User.fromJson(
-        json.decode(
-          await sPrefs.readUser(),
+    try {
+      return Future.value(
+        User.fromJson(
+          json.decode(
+            await sPrefs.readUser(),
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<String> _readFormPhoneNumber() async {
-    final String phone = await sPrefs.readPhoneNumber();
-    if (phone != null) return phone;
-    return '{}';
+    try {
+      final String phone = await sPrefs.readPhoneNumber();
+      if (phone != null) return phone;
+      return '{}';
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<Profile> _returnRegistrationProfileDataAsMap() async {
-    Map<String, dynamic> profile =
-        json.decode(await sPrefs.readProfileData()) as Map<String, dynamic>;
-    if (profile['registerMode'] == 3) {
-      Map<String, dynamic> iOSProfile = json
-          .decode(await sPrefs.readIOSCredentials()) as Map<String, dynamic>;
-      return Future.value(Profile.fromJson(iOSProfile));
+    try {
+      Map<String, dynamic> profile =
+          json.decode(await sPrefs.readProfileData()) as Map<String, dynamic>;
+      if (profile['registerMode'] == 3) {
+        Map<String, dynamic> iOSProfile = json
+            .decode(await sPrefs.readIOSCredentials()) as Map<String, dynamic>;
+        return Future.value(Profile.fromJson(iOSProfile));
+      }
+      return Future.value(Profile.fromJson(profile));
+    } catch (e) {
+      rethrow;
     }
-    return Future.value(Profile.fromJson(profile));
   }
 }
