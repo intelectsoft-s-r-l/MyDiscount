@@ -26,7 +26,7 @@ class LoginButton extends StatelessWidget {
       splashColor: Colors.transparent,
       child: Container(
         height: 40,
-        width: size.width * .84,
+        width: size.width * .86,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: color,
@@ -36,13 +36,13 @@ class LoginButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: 30,
+              width: 15,
             ),
             SvgPicture.asset(
               picture,
             ),
             SizedBox(
-              width: 10,
+              width: 5,
             ),
             Text(
               text,
@@ -50,7 +50,7 @@ class LoginButton extends StatelessWidget {
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
-              textScaleFactor: 1.4,
+              textScaleFactor: 1.1,
             ),
           ],
         ),
