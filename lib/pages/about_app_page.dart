@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
 import '../core/localization/localizations.dart';
 
-class AboutAppPage extends StatelessWidget {
+class AboutAppPage extends StatefulWidget {
+  @override
+  _AboutAppPageState createState() => _AboutAppPageState();
+}
+
+class _AboutAppPageState extends State<AboutAppPage> {
+  String appversion;
+  @override
+  void initState() {
+    super.initState();
+    PackageInfo.fromPlatform().then((pack) {
+      setState(() {
+        appversion = pack.version;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -42,7 +59,7 @@ class AboutAppPage extends StatelessWidget {
                           fit: BoxFit.fill,
                         )),
                     Text(
-                      '${AppLocalizations.of(context).translate('appversion')} 2.1.4',
+                      '${AppLocalizations.of(context).translate('appversion')} $appversion',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(

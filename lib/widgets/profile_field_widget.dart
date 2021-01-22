@@ -37,6 +37,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     if (mounted) focusNode?.unfocus();
   }
 
+  String phoneIsoCode;
   String phoneNumber;
   String confirmedNumber = '';
 
@@ -65,12 +66,15 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           ) {
                             print(internationalizedPhoneNumber);
                             confirmedNumber = internationalizedPhoneNumber;
+                            setState(() {
+                              phoneIsoCode = isoCode;
+                            });
                           },
-                          errorText:
-                              AppLocalizations.of(context).translate('inputerror'),
+                          errorText: AppLocalizations.of(context)
+                              .translate('inputerror'),
                           /* initialPhoneNumber:
-                              provider.phone.characters.skip(4).toString(),
-                          initialSelection: provider.phoneIsoCode, */
+                              provider.phone.characters.skip(4).toString(),*/
+                          initialSelection: phoneIsoCode,
                           enabledCountries: [
                             '+373',
                           ],
@@ -125,7 +129,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                 child: provider.editing
                     ? Text(AppLocalizations.of(context).translate('sendcode'))
                     : provider.phone != ''
-                        ? Text(AppLocalizations.of(context).translate('changephone'))
+                        ? Text(AppLocalizations.of(context)
+                            .translate('changephone'))
                         : Text(
                             AppLocalizations.of(context).translate('addphone')),
                 onPressed: () async {

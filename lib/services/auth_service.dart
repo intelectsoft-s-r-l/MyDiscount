@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -28,21 +29,21 @@ class AuthService extends UserCredentials {
 
   Future<void> authWithFacebook() async {
     try {
-      final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
+      final FacebookLoginResult result = await _facebookLogin?.logIn(['email']);
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
-          FacebookAccessToken _accessToken = result.accessToken;
+          FacebookAccessToken _accessToken = result?.accessToken;
           final Map<String, dynamic> profile =
-              await getFacebookProfile(_accessToken.token);
+              await getFacebookProfile(_accessToken?.token);
           final String fcmToken = await fcmService.getfcmToken();
           saveUserRegistrationDatatoMap(User(
-            id: _accessToken.userId,
-            accessToken: _accessToken.token,
+            id: _accessToken?.userId,
+            accessToken: _accessToken?.token,
           ));
           final splitedDisplayName = splitTheStrings(profile['name']);
           saveProfileRegistrationDataToMap(Profile(
-            firstName: splitedDisplayName[0]??'',
-            lastName: splitedDisplayName[1]??'',
+            firstName: splitedDisplayName[0] ?? '',
+            lastName: splitedDisplayName[1] ?? '',
             email: profile['email'],
             photoUrl: profile['picture']['data']['url'],
             registerMode: 2,
@@ -72,11 +73,11 @@ class AuthService extends UserCredentials {
     try {
       final GoogleSignInAccount account = await googleSignIn.signIn();
 
-      final GoogleSignInAuthentication auth = await account.authentication;
+      if (account != null) {
+        final GoogleSignInAuthentication auth = await account?.authentication;
 
-      final fcmToken = await fcmService.getfcmToken();
+        final fcmToken = await fcmService.getfcmToken();
 
-      if (googleSignIn.currentUser.id != null) {
         saveUserRegistrationDatatoMap(
           User(
             id: account.id,
@@ -86,8 +87,8 @@ class AuthService extends UserCredentials {
         final splitedDisplayName = splitTheStrings(account.displayName);
         saveProfileRegistrationDataToMap(
           Profile(
-            firstName: splitedDisplayName[0]??'',
-            lastName: splitedDisplayName[1]??'',
+            firstName: splitedDisplayName[0] ?? '',
+            lastName: splitedDisplayName[1] ?? '',
             email: account.email,
             photoUrl: account.photoUrl ?? '',
             registerMode: 1,
@@ -95,6 +96,9 @@ class AuthService extends UserCredentials {
           ),
         );
       }
+      /* else {
+        throw 'Canceled by User';
+      } */
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
       FirebaseCrashlytics.instance.setCustomKey('log with google', s);
@@ -138,7 +142,7 @@ class AuthService extends UserCredentials {
         ),
       );
     } on SignInWithAppleAuthorizationException {
-      throw SignInWithAppleCredentialsException(message: 'Remove from user');
+      //throw SignInWithAppleCredentialsException(message: 'Remove from user');
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
 

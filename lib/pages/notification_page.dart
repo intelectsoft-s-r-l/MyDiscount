@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_html/flutter_html.dart';
-import 'package:html/parser.dart' as htmlparser;
+//import 'package:html/parser.dart' as htmlparser;
+import 'package:simple_html_css/simple_html_css.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../core/localization/localizations.dart';
 import '../models/news_model.dart';
@@ -127,20 +129,16 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 }
 
-class NewsItem extends StatefulWidget {
+class NewsItem extends StatelessWidget {
   final News news;
   final Size size;
 
   const NewsItem({Key key, this.news, this.size}) : super(key: key);
-  @override
-  _NewsItemState createState() => _NewsItemState();
-}
 
-class _NewsItemState extends State<NewsItem> {
   @override
   Widget build(BuildContext context) {
-    final news = widget.news;
-    final size = widget.size;
+    // final news =widget.news;
+    // final size = widget.size;
 
     return InkWell(
       onTap: () {
@@ -195,50 +193,57 @@ class _DetailedNewsState extends State<DetailedNews> {
   Widget build(BuildContext context) {
     final news = widget.news;
     final size = widget.size;
-    final string = htmlparser.parse(news.content);
-    final str = string.body.text;
-    final list = str.padLeft(1, ' ');
+    final textContent = HTML.toTextSpan(context, news.content,
+        //defaultTextStyle: TextStyle(fontSize: 13, color: Colors.blue[900]),
+        linksCallback: (url) async {
+      if (await canLaunch(url)) {
+        launch(url);
+      } else {
+        throw "Can't Launch Url ";
+      }
+    });
+  
     return Container(
       child: Column(
         children: [
-          InkResponse(
-            autofocus: true,
-            onTap: () {
-              setState(() {
-                showText = !showText;
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                !showText
-                    ? Container(
-                        padding: EdgeInsets.only(left: 12),
-                        width: size.width * .95,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              list,
-                              maxLines: 3,
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              AppLocalizations.of(context).translate('more'),
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
+          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            !showText
+                ? Container(
+                    padding: EdgeInsets.only(left: 12),
+                    width: size.width * .95,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                       /*  Text(data), */
+                        RichText(
+                          text: textContent,
+                          maxLines: 6,
+                          overflow: TextOverflow.ellipsis,
+                          textHeightBehavior: TextHeightBehavior.fromEncoded(2),
                         ),
-                      )
-                    : Container(),
-              ],
-            ),
-          ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        InkResponse(
+                          autofocus: true,
+                          onTap: () {
+                            setState(() {
+                              showText = !showText;
+                            });
+                          },
+                          child: Text(
+                            AppLocalizations.of(context).translate('more'),
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ))
+                : Container(),
+          ]),
           Container(
             child: showText
                 ? Column(

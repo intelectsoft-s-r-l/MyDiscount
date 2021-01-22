@@ -36,6 +36,7 @@ class PhoneVerification {
       final codeFromServer = await prefs.readCode();
       if (code == VerificationCode(codeFromServer)) {
         _qrService.getTID(true);
+        prefs.remove('code');
         return true;
       }
       return false;

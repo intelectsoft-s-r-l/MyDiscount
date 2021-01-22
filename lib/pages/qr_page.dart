@@ -75,7 +75,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   }
 
   _changeImages() {
-    _imageController.sink.add(false);
+    _imageController.sink?.add(false);
   }
 
   void _startTimer() {
@@ -83,7 +83,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     double _progress = 1;
 
     countTID++;
-    if (mounted)
+    if (mounted) {
       _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
         if (_counter > 0) {
           _counter--;
@@ -103,6 +103,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
           _timer?.cancel();
         }
       });
+    }
     debugPrint('Count:$countTID');
   }
 
@@ -122,18 +123,20 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
           _startTimer();
         }
       } else {
-        _changeImages();
-        if (mounted)
+        if (mounted) {
+          _changeImages();
           setState(() {
             serviceConection = false;
           });
+        }
       }
     } else {
-      _changeImages();
-      if (mounted)
+      if (mounted) {
+        _changeImages();
         setState(() {
           serviceConection = netConnection;
         });
+      }
     }
   }
 
@@ -152,15 +155,18 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     final SharedPref sPref = SharedPref();
 
     Future<String> _loadSharedPref() async {
-      //final data = await sPref.instance;
       final jsonMap = await sPref.readTID();
-      final Map<String, dynamic> map = json.decode(jsonMap);
-      if (map['ErrorCode'] == 0) {
-        final String id = map['TID'];
-        //data.remove('Tid');
-        return Future<String>.value(id);
+      if (jsonMap != null) {
+        final Map<String, dynamic> map = json.decode(jsonMap);
+        if (map['ErrorCode'] == 0) {
+          final String id = map['TID'];
+          print('id is:$id');
+          return Future<String>.value(id);
+        } else {
+          throw NoInternetConection();
+        }
       } else {
-        throw NoInternetConection();
+        return null;
       }
     }
 
@@ -219,7 +225,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
-                                            ), 
+                                            ),
                                           )
                                         : Text(
                                             AppLocalizations.of(context)
@@ -227,7 +233,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
-                                            ), 
+                                            ),
                                           ),
                                     color: Colors.green,
                                   ),

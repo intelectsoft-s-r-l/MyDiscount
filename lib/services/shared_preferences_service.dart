@@ -3,6 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPref {
   Future<SharedPreferences> get instance => SharedPreferences.getInstance();
 
+  void remove(String key) async {
+    final authData = await SharedPreferences.getInstance();
+    if (authData.containsKey(key)) authData.remove(key);
+  }
+
   saveTID(String id) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
