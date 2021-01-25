@@ -1,7 +1,8 @@
+import 'package:MyDiscount/domain/entities/company_model.dart';
 import 'package:flutter/material.dart';
 
 import '../core/failure.dart';
-import '../models/company_model.dart';
+
 import '../services/company_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/companies_list_widget.dart';

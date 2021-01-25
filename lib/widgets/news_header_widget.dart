@@ -1,6 +1,6 @@
+import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:flutter/material.dart';
 
-import '../models/news_model.dart';
 
 class NewsHeaderWidget extends StatelessWidget {
   const NewsHeaderWidget({

@@ -1,6 +1,7 @@
+import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:flutter/material.dart';
 
-import '../models/news_model.dart';
+
 
 class NewsImageWidget extends StatelessWidget {
   final Size size;

@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/domain/entities/tranzaction_model.dart';
+import 'package:MyDiscount/services/user_credentials.dart';
 import 'package:http/http.dart' as http;
 
 import '../core/constants/credentials.dart';
 import '../core/failure.dart';
 import '../core/formater.dart';
-import '../models/user_credentials.dart';
-import '../models/tranzaction_model.dart';
+
 import '../services/internet_connection_service.dart';
 import '../services/remote_config_service.dart';
 

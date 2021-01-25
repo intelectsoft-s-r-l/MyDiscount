@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/models/user_model.dart';
+import 'package:MyDiscount/domain/entities/user_model.dart';
 import 'package:MyDiscount/services/auth_service.dart';
 import 'package:MyDiscount/services/internet_connection_service.dart';
 import 'package:MyDiscount/services/shared_preferences_service.dart';

@@ -10,8 +10,8 @@ void main() {
   MockDataConnectionChecker mockDataConnectionChecker;
   setUp(() {
     mockDataConnectionChecker = MockDataConnectionChecker();
-    networkConnectionImpl =
-        NetworkConnectionImpl(connectionChecker: mockDataConnectionChecker);
+    //networkConnectionImpl =
+      //  NetworkConnectionImpl(connectionChecker: mockDataConnectionChecker);
   });
 
   group('check internet connection', () {

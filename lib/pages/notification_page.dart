@@ -1,10 +1,11 @@
+import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html/parser.dart' as htmlparser;
 
 
 import '../core/localization/localizations.dart';
-import '../models/news_model.dart';
+
 import '../services/news_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/html_text_view_widget.dart';

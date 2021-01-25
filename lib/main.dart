@@ -15,8 +15,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/localization/localizations.dart';
-import 'models/company_model.dart';
-import 'models/news_model.dart';
+
+import 'domain/entities/company_model.dart';
+import 'domain/entities/news_model.dart';
 import 'pages/detail_news_page.dart';
 import 'pages/about_app.dart';
 import 'pages/app_inf_page.dart';

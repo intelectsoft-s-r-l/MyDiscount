@@ -5,9 +5,9 @@ abstract class NetworkConnection {
 }
 
 class NetworkConnectionImpl implements NetworkConnection {
-  final DataConnectionChecker connectionChecker;
+  final DataConnectionChecker connectionChecker =DataConnectionChecker();
 
-  NetworkConnectionImpl({this.connectionChecker});
+  //NetworkConnectionImpl({this.connectionChecker});
 
   @override
   Future<bool> get isConnected => connectionChecker.hasConnection;

@@ -1,11 +1,12 @@
+import 'package:MyDiscount/domain/entities/profile_model.dart';
 import 'package:MyDiscount/providers/auth_provider.dart';
+import 'package:MyDiscount/services/user_credentials.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
 import '../core/localization/localizations.dart';
-import '../models/profile_model.dart';
-import '../models/user_credentials.dart';
+
 import '../providers/phone_number.dart';
 //import '../services/auth_service.dart';
 import '../widgets/profile_field_widget.dart';
