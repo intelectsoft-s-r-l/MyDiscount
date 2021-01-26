@@ -79,16 +79,17 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   }
 
   void _startTimer() {
-    double _counter = 7;
-    double _progress = 1;
-
-    countTID++;
     if (mounted) {
+      double _counter = 7;
+      double _progress = 1;
+
+      countTID++;
+
       _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
         if (_counter > 0) {
           _counter--;
           _progress -= 0.1428;
-          _progressController.sink.add(_progress);
+          if (mounted) _progressController.sink?.add(_progress);
           debugPrint('$_counter');
         } else if (_counter == 0) {
           if (countTID < 3) {
@@ -104,6 +105,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
         }
       });
     }
+
     debugPrint('Count:$countTID');
   }
 

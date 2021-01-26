@@ -6,46 +6,39 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class Formater {
-  List checkImageFormatAndSkip(List list, String index) {
+  static const String _placeholder =
+      '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';
+  List<Map<String, dynamic>> checkImageFormatAndDecode(
+    List list,
+    String index,
+  ) {
     try {
-      final base64ImageString = list.map((map) {
-        if (map[index] != '' && map[index] != null) {
-          String photoNews = map[index]
-              .toString()
-              .replaceRange(0, map[index].toString().indexOf(',') + 1, '');
-          final Uint8List data = Base64Decoder().convert(photoNews);
-          map[index] = data ?? Uint8List.fromList([]);
-          return map;
-        } else {
-          final Uint8List data = Base64Decoder().convert(
-              'iVBORw0KGgoAAAANSUhEUgAAASwAAAD6CAYAAAAbbXrzAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NUUwMDAzQUQyQUM4MTFFMEI0MTdFOUE4QjVEMTk3RjkiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NUUwMDAzQUUyQUM4MTFFMEI0MTdFOUE4QjVEMTk3RjkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1RTAwMDNBQjJBQzgxMUUwQjQxN0U5QThCNUQxOTdGOSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1RTAwMDNBQzJBQzgxMUUwQjQxN0U5QThCNUQxOTdGOSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PlFEpL4AABA6SURBVHja7N1daFxp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');
-          map[index] = data;
+      final _listOfBytes = list.map((dynamicMap) {
+        final Map<String, dynamic> map = dynamicMap;
+        if (map.isNotEmpty && map.containsKey(index)) {
+          final String base64String = _deleteImageFormat(map[index]);
+          final Uint8List _bytes = _readBase64String(base64String);
+          map[index] = _bytes;
           return map;
         }
       }).toList();
-      return base64ImageString;
+      return _listOfBytes;
     } catch (e) {
       rethrow;
     }
   }
 
-  parseDateTimeAndSetExpireDate(List list, String index) {
+  List parseDateTime(List list, String index) {
     try {
-      final parsedDate = list.map((map) {
-        int milisec = int.tryParse(map[index]
-            .replaceAll('/Date(', '')
-            .replaceAll('+0300)/', '')
-            .replaceAll('+0200)/', ''));
-        final date = DateFormat('d MMM yyyy').format(
-          DateTime.fromMillisecondsSinceEpoch(milisec),
-        );
-        if (map is Map && map.containsKey(index)) {
-          map[index] = date;
+      final _formatedDate = list.map((map) {
+        if (map is Map<String, dynamic> && map.containsKey(index)) {
+          final int milliseconds = _parseMillisecondsToInt(map[index]);
+          final String _dateTime = _formatDateTimeFromMiliseconds(milliseconds);
+          map[index] = _dateTime;
         }
-
         return map;
       }).toList();
-      return parsedDate;
+      return _formatedDate;
     } catch (e) {
       rethrow;
     }
@@ -61,18 +54,58 @@ class Formater {
     }
   }
 
+  String _deleteImageFormat(String _base64) {
+    return _base64
+        .toString()
+        .replaceRange(0, _base64.toString().indexOf(',') + 1, '');
+  }
+
+  Uint8List _readBase64String(String _base64) {
+    if (_base64.isNotEmpty) {
+      return Base64Decoder().convert(_base64);
+    } else {
+      return _returnPlaceholderAsBytes();
+    }
+  }
+
+  int _parseMillisecondsToInt(String _datetime) {
+    return int.tryParse(_datetime
+        .replaceAll('/Date(', '')
+        .replaceAll('+0300)/', '')
+        .replaceAll('+0200)/', ''));
+  }
+
+  String _formatDateTimeFromMiliseconds(int miliseconds) {
+    return DateFormat('d MMM yyyy').format(
+      DateTime.fromMillisecondsSinceEpoch(miliseconds),
+    );
+  }
+
   Map<String, dynamic> _returnLogo(Map map) {
     try {
       Box<Company> companyBox = Hive.box('company');
-      final keys = companyBox.keys;
-      for (dynamic key in keys) {
-        final company = companyBox.get(key);
-        if (CompanyName(company.name) == CompanyName(map['Company']))
-          map.putIfAbsent('Logo', () => company.logo);
+      if (companyBox.isNotEmpty) {
+        final keys = companyBox.keys;
+        _addLogoToMap(keys, companyBox, map);
+        return map;
+      } else {
+        map.putIfAbsent('Logo', () => _returnPlaceholderAsBytes());
+        return map;
       }
-      return map;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Uint8List _returnPlaceholderAsBytes() {
+    return Base64Decoder().convert(_placeholder);
+  }
+
+  _addLogoToMap(dynamic keys, Box<Company> companyBox, Map map) {
+    for (dynamic key in keys) {
+      final company = companyBox.get(key);
+      if (CompanyName(company.name) == CompanyName(map['Company']))
+        map.putIfAbsent('Logo', () => company.logo);
     }
   }
 }

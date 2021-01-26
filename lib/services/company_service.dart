@@ -31,18 +31,22 @@ class CompanyService {
             .get(url, headers: credentials.header)
             .timeout(Duration(seconds: 3));
         if (response.statusCode == 200) {
-          final Map<String, dynamic> companiesToMap =
+          final Map<String, dynamic> _responseJsonMap =
               json.decode(response.body);
-          final List _listOfCompanies = companiesToMap['Companies'];
-          if (_listOfCompanies.isNotEmpty) {
-            final companyListwithdecodedLogo =
-                formater.checkImageFormatAndSkip(_listOfCompanies, 'Logo');
 
-            final comp = companyListwithdecodedLogo
-                .map((e) => Company.fromJson(e))
-                .toList();
-            comp.forEach((c) => _saveCompanyToDB(c));
-            return comp;
+          final List _listOfCompanyMaps = _responseJsonMap['Companies'];
+
+          if (_listOfCompanyMaps.isNotEmpty) {
+            final companyListwithDecodedLogo =
+                formater.checkImageFormatAndDecode(_listOfCompanyMaps, 'Logo');
+
+            final List<Company> _listOfCompanyObjects =
+                companyListwithDecodedLogo
+                    .map((map) => Company.fromJson(map))
+                    .toList();
+            _listOfCompanyObjects.forEach((company) => _saveCompanyToDB(company));
+
+            return _listOfCompanyObjects;
           } else {
             throw EmptyList();
           }

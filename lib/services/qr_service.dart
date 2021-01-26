@@ -26,8 +26,9 @@ class QrService {
       final _bodyData =
           await UserCredentials().getRequestBodyData(isPhoneVerification);
 
-      debugPrint(_bodyData);
+      //debugPrint(_bodyData);
       final url = '$serviceName/json/GetTID';
+      
       final response = await http
           .post(url, headers: credentials.header, body: _bodyData)
           .timeout(Duration(seconds: 10));

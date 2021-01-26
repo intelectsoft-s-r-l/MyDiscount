@@ -23,23 +23,26 @@ class NewsService {
       if (await _prefs.readNewsState()) {
         if (await status.isConnected) {
           final serviceName = await getServiceNameFromRemoteConfig();
+
           final id = await _readEldestNewsId();
+
           final url = '$serviceName/json/GetAppNews?ID=$id';
+
           final response = await http.get(url, headers: credentials.header);
-          final Map<String, dynamic> decodedResponse =
+
+          final Map<String, dynamic> _decodedResponse =
               json.decode(response.body);
 
-          final list = decodedResponse['NewsList'] as List;
-          final parseDate =
-              formater.parseDateTimeAndSetExpireDate(list, 'CreateDate');
-          final dat =
-              formater.checkImageFormatAndSkip(parseDate, 'CompanyLogo');
+          final List<dynamic> _listOfNewsMaps = _decodedResponse['NewsList'];
 
-          final dataList = formater.checkImageFormatAndSkip(dat, 'Photo');
-          dataList
-              .map((e) => News.fromJson(e))
-              .toList()
-              .forEach((element) => _saveNewsOnDB(element));
+          formater.parseDateTime(_listOfNewsMaps, 'CreateDate');
+
+          formater.checkImageFormatAndDecode(_listOfNewsMaps, 'CompanyLogo');
+
+          formater.checkImageFormatAndDecode(_listOfNewsMaps, 'Photo');
+
+          _saveNewsinDBAsObjects(_listOfNewsMaps);
+
           return _getReversedNewsList();
         } else {
           if (newsBox.isNotEmpty) {
@@ -56,6 +59,8 @@ class NewsService {
     return [];
   }
 
+  
+
   Future<String> _readEldestNewsId() async {
     final listOfKeys = newsBox?.keys;
 
@@ -67,6 +72,12 @@ class NewsService {
         }
     return id.toString();
   }
+  _saveNewsinDBAsObjects(List _listOfNewsMaps) {
+    _listOfNewsMaps
+        .map((e) => News.fromJson(e))
+        .toList()
+        .forEach((element) => _saveNewsOnDB(element));
+  }
 
   Future<void> _saveNewsOnDB(News news) async {
     newsBox.put(news.id, news);
@@ -75,9 +86,9 @@ class NewsService {
   Future<List<News>> _getReversedNewsList() async {
     try {
       List<News> newsList = [];
-      final keys = newsBox.keys;
+      final keys = newsBox?.keys;
       for (int key in keys) {
-        final news = newsBox.get(key);
+        final news = newsBox?.get(key);
         newsList.add(news);
       }
       return newsList.reversed?.toList();

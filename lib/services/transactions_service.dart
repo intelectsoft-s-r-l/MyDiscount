@@ -16,21 +16,29 @@ class TransactionService {
   NetworkConnectionImpl status = NetworkConnectionImpl();
 
   Future<List<Transaction>> getTransactions() async {
-    final serviceName = await getServiceNameFromRemoteConfig();
-
-    final _bodyData = await UserCredentials().getRequestBodyData(false);
-
     if (await status.isConnected) {
       try {
+        final serviceName = await getServiceNameFromRemoteConfig();
+
+        final _bodyData = await UserCredentials().getRequestBodyData(false);
+
         final url = '$serviceName/json/GetTransactions';
+
         final response =
             await http.post(url, headers: _credentials.header, body: _bodyData);
+
         if (response.statusCode == 200) {
-          final decodedResponse = json.decode(response.body);
-          final list = decodedResponse['Transactions'] as List;
-          if (list.isNotEmpty) {
-            formater.parseDateTimeAndSetExpireDate(list, 'DateTimeOfSale');
-           final transactions = formater.checkCompanyLogo(list);
+          final Map<String, dynamic> _decodedResponse =
+              json.decode(response.body);
+
+          final List<dynamic> _listOfTransactionsMaps =
+              _decodedResponse['Transactions'];
+
+          if (_listOfTransactionsMaps.isNotEmpty) {
+            formater.parseDateTime(_listOfTransactionsMaps, 'DateTimeOfSale');
+
+            final transactions =
+                formater.checkCompanyLogo(_listOfTransactionsMaps);
             return transactions.map((e) => Transaction.fromJson(e)).toList();
           } else {
             throw EmptyList();

@@ -52,7 +52,7 @@ class SettingsPage extends StatelessWidget {
                                 AppLocalizations.of(context)
                                     .translate('notificationsettings'),
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
+                                    fontWeight: FontWeight.bold, fontSize: 17),
                               ),
                               trailing: FutureProvider.value(
                                 value:
@@ -73,7 +73,7 @@ class SettingsPage extends StatelessWidget {
                                 AppLocalizations.of(context)
                                     .translate('news'),
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
+                                    fontWeight: FontWeight.bold, fontSize: 17),
                               ),
                               trailing:
                                   Switch(
@@ -98,7 +98,7 @@ class SettingsPage extends StatelessWidget {
                         title: Text(
                           AppLocalizations.of(context).translate('lang'),
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
+                              fontWeight: FontWeight.bold, fontSize: 17),
                         ),
                         trailing: FutureBuilder<Language>(
                           future: AppLocalizations.of(context).getLanguage(),

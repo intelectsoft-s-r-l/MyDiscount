@@ -25,7 +25,7 @@ class ProfileHomeItemWidget extends StatelessWidget {
             title: Text(
               pageName,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
