@@ -22,9 +22,9 @@ class QrService with ChangeNotifier {
   double _progress = 1;
   int _countTID = 0;
   String _tid = '';
-   bool _showImage = false;
+  bool _showImage = false;
   bool _showNoInternet = false;
-   get progress => _progress;
+  get progress => _progress;
   get tid => _tid;
   get showImage => _showImage;
   get showNoInet => _showNoInternet;
@@ -36,59 +36,52 @@ class QrService with ChangeNotifier {
         _countTID++;
         print(_countTID);
         double _counter = 7;
-        String serviceName = await getServiceNameFromRemoteConfig();
+        final response = await returnTId(isPhoneVerification);
+        
 
-        final _bodyData =
-            await UserCredentials().getRequestBodyData(isPhoneVerification);
-
-        debugPrint(_bodyData);
-
-        final url = '$serviceName/json/GetTID';
-        final response = await http
-            .post(url, headers: credentials.header, body: _bodyData)
-            .timeout(Duration(seconds: 10));
-
-        var _tid = json.decode(response.body);
-        notifyListeners();
         debugPrint('Tid: $_tid');
         // ignore: unused_local_variable
-        if(!isPhoneVerification){
-           Timer _timer = Timer.periodic(Duration(seconds: 1), (_timer) async {
-          if (_counter > 0) {
-            _counter--;
-            _progress -= 0.1428;
-            debugPrint('$_counter');
-          } else if (_counter == 0 && _countTID < 3) {
-            _progress = 1;
-            _timer?.cancel();
-            getTID(false);
-          } else {
-            _timer?.cancel();
-          }
-        });
-        if (_countTID == 3) {}
-      } else {}
-        }
-       
-      /* if (decodedResponse['ErrorCode'] == 0) {
-        sPref.saveTID(decodedResponse['TID']);
-        return decodedResponse['TID'];
-      } else {
-        if (decodedResponse['ErrorCode'] == 103) {
-          final prefs = await sPref.instance;
-
-          prefs.remove('user');
-
-          AuthService().signOut();
-
-          authController.add(false);
-        }
-      } */
-     // return decodedResponse as Map<String, dynamic>;
+        if (!isPhoneVerification) {
+          Timer _timer = Timer.periodic(Duration(seconds: 1), (_timer) async {
+            if (_counter > 0) {
+              _counter--;
+              _progress -= 0.1428;
+              debugPrint('$_counter');
+            } else if (_counter == 0 && _countTID < 3) {
+              _progress = 1;
+              _timer?.cancel();
+              getTID(false);
+            } else {
+              _timer?.cancel();
+            }
+          });
+          if (_countTID == 3) {}
+        } else {}
+      }
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
 
       return {};
     }
+  }
+
+  Future<String> returnTId(
+    bool isPhoneVerification,
+  ) async {
+    String serviceName = await getServiceNameFromRemoteConfig();
+
+    final _bodyData =
+        await UserCredentials().getRequestBodyData(isPhoneVerification);
+
+    debugPrint(_bodyData);
+
+    final url = '$serviceName/json/GetTID';
+    final response = await http
+        .post(url, headers: credentials.header, body: _bodyData)
+        .timeout(Duration(seconds: 10));
+    final map = json.decode(response.body);
+    _tid = map['TID'];
+    notifyListeners();
+    return _tid;
   }
 }

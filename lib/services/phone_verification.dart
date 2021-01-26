@@ -9,9 +9,8 @@ import '../services/remote_config_service.dart';
 
 class PhoneVerification {
   SharedPref prefs = SharedPref();
- final  QrService _qrService ;
+ final  QrService _qrService =QrService();
 
-  PhoneVerification(this._qrService);
   Future<void> getVerificationCodeFromServer(String phoneNumber) async {
      try {
       String serviceName = await getServiceNameFromRemoteConfig();

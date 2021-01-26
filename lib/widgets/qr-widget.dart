@@ -10,9 +10,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 
 class QrImageWidget extends StatelessWidget {
+  final QrService provider;
+
   const QrImageWidget({
     Key key,
-    // @required this.function,
+    @required this.provider,
     @required this.size,
     //@required StreamController<double> progressController,
   }) : // _progressController = progressController,
@@ -23,7 +25,7 @@ class QrImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<QrService>(context, listen: true);
+    //final provider = Provider.of<QrService>(context, listen: true);
     return Container(
       child: Card(
         color: Colors.transparent,
@@ -60,12 +62,13 @@ class QrImageWidget extends StatelessWidget {
                         Colors.green,
                       ],
                     ).createShader(rect),
-                    child: QrImage(
-                      data: provider.tid,
-                      size: size.width * .6,
+                    child:QrImage(
+                        data: provider.tid,
+                        size: size.width * .6,
+                      ),
                     ),
                   ),
-                ),
+              
               ),
               /*  StreamBuilder<double>(
                   initialData: 1,

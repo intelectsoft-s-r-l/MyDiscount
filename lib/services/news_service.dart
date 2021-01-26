@@ -37,7 +37,7 @@ class NewsService {
         dataList
             .map((e) => News.fromJson(e))
             .toList()
-            .forEach((element) => saveNewsOnDB(element));
+            .forEach((element) => _saveNewsOnDB(element));
         return _getReversedNewsList();
       } else {
         if (newsBox.isNotEmpty) {
@@ -62,7 +62,7 @@ class NewsService {
     return id.toString();
   }
 
-  Future<void> saveNewsOnDB(News news) async {
+  Future<void> _saveNewsOnDB(News news) async {
     newsBox.put(news.id, news);
   }
 

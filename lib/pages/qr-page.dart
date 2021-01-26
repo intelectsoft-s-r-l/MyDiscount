@@ -204,45 +204,50 @@ class QrPageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final provider = Provider.of<QrService>(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Center(
-            child: !provider.showImage
-                ? QrImageWidget(
-                    size: size,
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      provider.showImage ? HumanImage() : NoInternetWidget(),
-                      const SizedBox(height: 10.0),
-                      RaisedButton(
-                        onPressed: () {},
-                        child: provider.showImage
-                            ? Text(
-                                AppLocalizations.of(context).translate('text5'),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ), //textScaleFactor: 1,
-                              )
-                            : Text(
-                                AppLocalizations.of(context).translate('text8'),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ), //textScaleFactor: 1,
-                              ),
-                        color: Colors.green,
+    return ChangeNotifierProvider.value(
+      value: QrService(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Consumer(
+            builder:(context, QrService provider,_)=> Expanded(
+              child: Center(
+                child: !provider.showImage
+                    ? QrImageWidget(
+                        size: size,provider:provider
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          provider.showImage ? HumanImage() : NoInternetWidget(),
+                          const SizedBox(height: 10.0),
+                          RaisedButton(
+                            onPressed: () {},
+                            child: provider.showImage
+                                ? Text(
+                                    AppLocalizations.of(context).translate('text5'),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ), //textScaleFactor: 1,
+                                  )
+                                : Text(
+                                    AppLocalizations.of(context).translate('text8'),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ), //textScaleFactor: 1,
+                                  ),
+                            color: Colors.green,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
