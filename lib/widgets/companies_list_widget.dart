@@ -1,6 +1,6 @@
+import 'package:MyDiscount/domain/entities/company_model.dart';
 import 'package:flutter/material.dart';
 
-import '../models/company_model.dart';
 import '../widgets/companie_widget.dart';
 
 class CompaniesList extends StatelessWidget {

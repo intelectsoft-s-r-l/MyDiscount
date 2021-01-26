@@ -1,18 +1,19 @@
+import 'package:MyDiscount/domain/entities/tranzaction_model.dart';
 import 'package:flutter/material.dart';
 
 import '../core/failure.dart';
 import '../core/localization/localizations.dart';
-import '../models/tranzaction_model.dart';
+
 import '../services/transactions_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/nointernet_widget.dart';
 import '../widgets/transaction_list_widget.dart';
 
 class TransactionList extends StatelessWidget {
-  final TransactionService service = TransactionService();
+  final TransactionService service ;
 
   TransactionList({
-    Key key,
+    Key key,this.service
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

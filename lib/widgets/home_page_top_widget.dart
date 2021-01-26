@@ -1,7 +1,8 @@
+import 'package:MyDiscount/services/user_credentials.dart';
 import 'package:flutter/material.dart';
 
 import '../core/localization/localizations.dart';
-import '../models/user_credentials.dart';
+
 
 class HomePageTopWidget extends StatelessWidget {
   HomePageTopWidget({

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:MyDiscount/services/user_credentials.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -8,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../core/constants/credentials.dart';
 import '../core/formater.dart';
-import '../models/user_credentials.dart';
+
 import '../services/internet_connection_service.dart';
 import '../services/remote_config_service.dart';
 import '../services/shared_preferences_service.dart';
@@ -78,7 +79,7 @@ class QrService with ChangeNotifier {
 
           prefs.remove('user');
 
-          AuthService().signOut(context);
+          AuthService().signOut();
 
           authController.add(false);
         }

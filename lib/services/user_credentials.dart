@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'user_model.dart';
-import 'profile_model.dart';
+
+import 'package:MyDiscount/domain/entities/profile_model.dart';
+import 'package:MyDiscount/domain/entities/user_model.dart';
 
 import '../services/shared_preferences_service.dart';
 

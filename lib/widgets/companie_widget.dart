@@ -1,7 +1,8 @@
+import 'package:MyDiscount/domain/entities/company_model.dart';
 import 'package:flutter/material.dart';
 
 import '../core/localization/localizations.dart';
-import '../models/company_model.dart';
+
 
 class CompanyWidget extends StatelessWidget {
   const CompanyWidget(this.company);

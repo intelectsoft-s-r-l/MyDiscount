@@ -9,9 +9,10 @@ import '../providers/phone_number.dart';
 import '../services/phone_verification.dart';
 
 class PinCodeDialog extends StatefulWidget {
-  const PinCodeDialog({this.provider, this.phone});
+  const PinCodeDialog({this.provider, this.phone,this.phoneVerification});
   final PhoneNumber provider;
   final String phone;
+  final PhoneVerification phoneVerification;
   @override
   _PinCodeDialogState createState() => _PinCodeDialogState();
 }
@@ -91,7 +92,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
                             style: TextStyle(fontSize: 15))
                         : InkResponse(
                             onTap: () {
-                              PhoneVerification()
+                             widget.phoneVerification
                                   .getVerificationCodeFromServer(phone);
                               setState(() {
                                 isActive = true;
@@ -138,7 +139,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
           onPressed: () async {
             bool coresponde = false;
             if (_currentCode != '') {
-              coresponde = await PhoneVerification()
+              coresponde = await widget.phoneVerification
                   .smsCodeVerification(VerificationCode(_currentCode));
             }
             if (coresponde) {

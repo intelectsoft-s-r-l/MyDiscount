@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:MyDiscount/widgets/circular_progress_indicator_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,11 +11,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/localization/localizations.dart';
-import 'models/company_model.dart';
-import 'models/news_model.dart';
+
+import 'domain/entities/company_model.dart';
+import 'domain/entities/news_model.dart';
 import 'pages/detail_news_page.dart';
 import 'pages/about_app.dart';
 import 'pages/app_inf_page.dart';
@@ -25,6 +28,7 @@ import 'pages/transactions_page.dart';
 import 'pages/user_page.dart';
 import 'pages/login_screen2.dart';
 import 'pages/settings_page.dart';
+import 'providers/auth_provider.dart';
 import 'services/local_notification_service.dart';
 import 'services/auth_service.dart';
 import 'services/fcm_service.dart';
@@ -116,6 +120,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     });
   }
 
+  /*  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (mounted) if (state == AppLifecycleState.resumed) {
+      Navigator.of(context).pushReplacementNamed('/app');
+    }
+    super.didChangeAppLifecycleState(state);
+  } */
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -124,61 +136,84 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      locale: _locale,
-      debugShowCheckedModeBanner: false,
-      supportedLocales: [
-        Locale('en', 'US'),
-        Locale('ru', 'RU'),
-        Locale('md', 'MD'),
-        Locale('ro', 'RO'),
-      ],
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
-      localeResolutionCallback:
-          (Locale locale, Iterable<Locale> supportedLocales) {
-        final retLocale = supportedLocales?.first;
+    return ChangeNotifierProvider.value(
+      value: AuthorizationProvider(),
+      child: MaterialApp(
+          locale: _locale,
+          debugShowCheckedModeBanner: false,
+          supportedLocales: [
+            Locale('en', 'US'),
+            Locale('ru', 'RU'),
+            Locale('md', 'MD'),
+            Locale('ro', 'RO'),
+          ],
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate
+          ],
+          localeResolutionCallback:
+              (Locale locale, Iterable<Locale> supportedLocales) {
+            final retLocale = supportedLocales?.first;
 
-        if (locale == null) {
-          debugPrint("*language locale is null!!!");
-          return supportedLocales.first;
-        }
-        try {
-          for (Locale supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode &&
-                locale.languageCode != null) {
-              return supportedLocale;
+            if (locale == null) {
+              debugPrint("*language locale is null!!!");
+              return supportedLocales.first;
             }
-          }
-        } catch (e, s) {
-          FirebaseCrashlytics.instance.recordError(e, s);
-        }
+            try {
+              for (Locale supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    locale.languageCode != null) {
+                  return supportedLocale;
+                }
+              }
+            } catch (e, s) {
+              FirebaseCrashlytics.instance.recordError(e, s);
+            }
 
-        return retLocale;
-      },
-      routes: {
-        '/loginscreen': (context) => LoginScreen2(),
-        '/app': (context) => BottomNavigationBarWidget(),
-        '/detailpage': (context) => DetailNewsPage(),
-        '/profilepage': (context) => ProfilePage(),
-        '/companypage': (context) => CompanyListPage(),
-        '/transactionlist': (context) => TransactionsPage(),
-        '/infopage': (context) => InformationPage(),
-        '/politicaconf': (context) => AppInfoPage(),
-        '/technicdetail': (context) => TechnicDetailPage(),
-        '/about': (context) => AboutAppPage(),
-        '/settings': (context) => SettingsPage(),
-      },
-      home: StreamBuilder(
-        initialData: false,
-        stream: authController.stream,
-        builder: (context, snapshot) =>
-            snapshot.data ? BottomNavigationBarWidget() : LoginScreen2(),
-      ),
+            return retLocale;
+          },
+          routes: {
+           // '/loginscreen': (context) => LoginScreen2(),
+           // '/app': (context) => BottomNavigationBarWidget(),
+            '/detailpage': (context) => DetailNewsPage(),
+            '/profilepage': (context) => ProfilePage(),
+            '/companypage': (context) => CompanyListPage(),
+            '/transactionlist': (context) => TransactionsPage(),
+            '/infopage': (context) => InformationPage(),
+            '/politicaconf': (context) => AppInfoPage(),
+            '/technicdetail': (context) => TechnicDetailPage(),
+            '/about': (context) => AboutAppPage(),
+            '/settings': (context) => SettingsPage(),
+          },
+          home: Consumer(
+              builder: (context, AuthorizationProvider auth, _) => auth.isAuth
+                  ? BottomNavigationBarWidget()
+                  : FutureBuilder(
+                      future: auth.tryAutoLogin(),
+                      builder: (context, snapshot) =>
+                          snapshot.connectionState == ConnectionState.waiting
+                              ? SplashScreen()
+                              : /* snapshot.data
+                                  ? BottomNavigationBarWidget()
+                                  : */ LoginScreen2(),
+                    )) /* StreamBuilder(
+          initialData: false,
+          stream: authController.stream,
+          builder: (context, snapshot) =>
+              snapshot.data ? BottomNavigationBarWidget() : LoginScreen2(),
+        ), */
+          ),
+    );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CircularProgresIndicatorWidget(),
     );
   }
 }

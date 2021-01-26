@@ -1,6 +1,7 @@
+import 'package:MyDiscount/domain/entities/tranzaction_model.dart';
 import 'package:flutter/material.dart';
 
-import '../models/tranzaction_model.dart';
+
 import '../widgets/tranzaction_widget.dart';
 
 class TranzactionListWidget extends StatelessWidget {

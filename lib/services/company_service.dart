@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/domain/entities/company_model.dart';
+import 'package:MyDiscount/services/user_credentials.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -7,8 +9,7 @@ import 'package:http/http.dart' as http;
 import '../core/constants/credentials.dart';
 import '../core/failure.dart';
 import '../core/formater.dart';
-import '../models/company_model.dart';
-import '../models/user_credentials.dart';
+
 import '../services/internet_connection_service.dart';
 import '../services/remote_config_service.dart';
 import '../services/shared_preferences_service.dart';
@@ -17,8 +18,10 @@ class CompanyService {
   SharedPref sPref = SharedPref();
   Credentials credentials = Credentials();
   Formater formater = Formater();
-  NetworkConnectionImpl status = NetworkConnectionImpl();
+ final NetworkConnectionImpl status;
   Box<Company> companyBox = Hive.box<Company>('company');
+
+  CompanyService(this.status);
 
   //https://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<List<Company>> getCompanyList() async {

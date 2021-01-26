@@ -1,6 +1,7 @@
+import 'package:MyDiscount/domain/entities/tranzaction_model.dart';
 import 'package:flutter/material.dart';
 
-import '../models/tranzaction_model.dart';
+
 
 class TranzactionWidget extends StatelessWidget {
   const TranzactionWidget({
@@ -109,7 +110,7 @@ class TranzactionWidget extends StatelessWidget {
                 Container(
                   width: size.width * .9,
                   child: Text(
-                    '${transaction.salesPoint}',
+                    'Strada Petricani 84, Chișinău 2059',
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
@@ -122,4 +123,4 @@ class TranzactionWidget extends StatelessWidget {
     );
   }
 }
-/*  */
+/* ${transaction.salesPoint} */

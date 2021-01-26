@@ -12,11 +12,11 @@ import '../services/phone_verification.dart';
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({
     Key key,
-    @required this.labelText,
+    @required this.labelText, this.phoneVerification,
   }) : super(key: key);
 
   final String labelText;
-
+  final PhoneVerification phoneVerification;
   @override
   _ProfileFieldWidgetState createState() => _ProfileFieldWidgetState();
 }
