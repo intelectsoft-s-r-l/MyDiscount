@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:MyDiscount/providers/phone_number.dart';
 import 'package:MyDiscount/services/phone_verification.dart';
+import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,139 +65,118 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     final size = MediaQuery.of(context).size;
     final provider = widget.provider;
     final phone = widget.phone;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title:
-            Text(AppLocalizations.of(context).translate('phoneverification')),
-        backgroundColor: Colors.green,
-        elevation: 0,
-      ),
-      body: ChangeNotifierProvider.value(
-        value: PhoneNumber(),
-        child: Container(
-          color: Colors.green,
-          child: Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+    return CustomAppBar(
+      title: AppLocalizations.of(context).translate('phoneverification'),
+      child: Container(
+        color: Colors.white,
+        child: ChangeNotifierProvider.value(
+          value: PhoneNumber(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 30,
               ),
-              child: Container(
-                padding: EdgeInsets.only(left: 5, right: 5),
-                color: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text(AppLocalizations.of(context).translate('entercode'),
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold)),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      phone,
-                      style: TextStyle(color: Colors.green),
-                    ),
-                    Container(
-                      width: size.width * .6,
-                      child: PinFieldAutoFill(
-                        controller: _codeController,
-                        focusNode: _focusNode,
-                        autofocus: true,
-                        codeLength: 4,
-                        onCodeChanged: (code) {
-                          _currentCode = code;
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        StreamBuilder<int>(
-                            stream: _controller.stream,
-                            builder: (context, snapshot) {
-                              return OutlineButton(
-                                onPressed: snapshot.data == 0
-                                    ? () {
-                                        PhoneVerification()
-                                            .getVerificationCodeFromServer(
-                                                phone);
-                                        setState(() {
-                                          isActive = true;
-                                          _duration = 60;
-                                        });
-                                        startTimer();
-                                      }
-                                    : null,
-                                borderSide: BorderSide(color: Colors.green),
-                                splashColor: Colors.green,
-                                highlightColor: Colors.green,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: size.width * .3,
-                                  child: Text(
-                                    snapshot.hasData
-                                        ? '${AppLocalizations.of(context).translate('send')}(${snapshot.data})'
-                                        : '${AppLocalizations.of(context).translate('send')}',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              );
-                            }),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        OutlineButton(
+              Text(AppLocalizations.of(context).translate('entercode'),
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold)),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                phone,
+                style: TextStyle(color: Colors.green),
+              ),
+              Container(
+                width: size.width * .6,
+                child: PinFieldAutoFill(
+                  controller: _codeController,
+                  focusNode: _focusNode,
+                  autofocus: true,
+                  codeLength: 4,
+                  onCodeChanged: (code) {
+                    _currentCode = code;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  StreamBuilder<int>(
+                      stream: _controller.stream,
+                      builder: (context, snapshot) {
+                        return OutlineButton(
+                          onPressed: snapshot.data == 0
+                              ? () {
+                                  PhoneVerification()
+                                      .getVerificationCodeFromServer(phone);
+                                  setState(() {
+                                    isActive = true;
+                                    _duration = 60;
+                                  });
+                                  startTimer();
+                                }
+                              : null,
                           borderSide: BorderSide(color: Colors.green),
                           splashColor: Colors.green,
                           highlightColor: Colors.green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          onPressed: () async {
-                            bool coresponde = false;
-                            if (_currentCode != '') {
-                              coresponde = await PhoneVerification()
-                                  .smsCodeVerification(
-                                      VerificationCode(_currentCode));
-                            }
-                            if (coresponde) {
-                              provider.phone = phone;
-                              Navigator.of(context).pop();
-                            } else {
-                              FlushbarHelper.createError(
-                                      message: AppLocalizations.of(context)
-                                          .translate('incorectcode'))
-                                  .show(context);
-                            }
-                          },
                           child: Container(
                             alignment: Alignment.center,
                             width: size.width * .3,
                             child: Text(
-                              AppLocalizations.of(context).translate('verify'),
+                              snapshot.hasData
+                                  ? '${AppLocalizations.of(context).translate('send')}(${snapshot.data})'
+                                  : '${AppLocalizations.of(context).translate('send')}',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
+                        );
+                      }),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  OutlineButton(
+                    borderSide: BorderSide(color: Colors.green),
+                    splashColor: Colors.green,
+                    highlightColor: Colors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    onPressed: () async {
+                      bool coresponde = false;
+                      if (_currentCode != '') {
+                        coresponde = await PhoneVerification()
+                            .smsCodeVerification(
+                                VerificationCode(_currentCode));
+                      }
+                      if (coresponde) {
+                        provider.phone = phone;
+                        Navigator.of(context).pop();
+                      } else {
+                        FlushbarHelper.createError(
+                                message: AppLocalizations.of(context)
+                                    .translate('incorectcode'))
+                            .show(context);
+                      }
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: size.width * .3,
+                      child: Text(
+                        AppLocalizations.of(context).translate('verify'),
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
           ),
         ),
       ),

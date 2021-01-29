@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:MyDiscount/core/failure.dart';
+import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../core/localization/localizations.dart';
@@ -172,82 +173,64 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
       }
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(AppLocalizations.of(context).translate('qr')),
-        centerTitle: true,
-        backgroundColor: Colors.green,
-        elevation: 0,
-      ),
-      body: Container(
-        color: Colors.green,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-              color: Colors.white,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: StreamBuilder<bool>(
-                      stream: _imageController.stream,
-                      initialData: true,
-                      builder: (context, snapshot) {
-                        return snapshot.data
-                            ? QrImageWidget(
-                                function: _loadSharedPref(),
-                                size: size,
-                                progressController: _progressController)
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  serviceConection
-                                      ? HumanImage()
-                                      : NoInternetWidget(),
-                                  const SizedBox(height: 10.0),
-                                  RaisedButton(
-                                    onPressed: () {
-                                      _imageController.add(true);
-                                      _getAuthorization();
-                                      countTID = 0;
-                                    },
-                                    child: serviceConection
-                                        ? Text(
-                                            AppLocalizations.of(context)
-                                                .translate('generate'),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          )
-                                        : Text(
-                                            AppLocalizations.of(context)
-                                                .translate('retry'),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                    color: Colors.green,
-                                  ),
-                                ],
-                              );
-                      },
-                    ),
-                  ),
+    return CustomAppBar(
+      title: AppLocalizations.of(context).translate('qr'),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Center(
+                child: StreamBuilder<bool>(
+                  stream: _imageController.stream,
+                  initialData: true,
+                  builder: (context, snapshot) {
+                    return snapshot.data
+                        ? QrImageWidget(
+                            function: _loadSharedPref(),
+                            size: size,
+                            progressController: _progressController)
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              serviceConection
+                                  ? HumanImage()
+                                  : NoInternetWidget(),
+                              const SizedBox(height: 10.0),
+                              RaisedButton(
+                                onPressed: () {
+                                  _imageController.add(true);
+                                  _getAuthorization();
+                                  countTID = 0;
+                                },
+                                child: serviceConection
+                                    ? Text(
+                                        AppLocalizations.of(context)
+                                            .translate('generate'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : Text(
+                                        AppLocalizations.of(context)
+                                            .translate('retry'),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                color: Colors.green,
+                              ),
+                            ],
+                          );
+                  },
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

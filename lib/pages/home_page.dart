@@ -24,7 +24,8 @@ class HomePage extends StatelessWidget {
                 ),
                 color: Colors.white,
               ),
-              child: Column(
+              child: ListView(
+                physics: BouncingScrollPhysics(),
                 children: [
                   ProfileHomeItemWidget(
                     icon: Icons.account_circle_outlined,

@@ -1,3 +1,4 @@
+import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -27,117 +28,72 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final String pageName = ModalRoute.of(context).settings.arguments;
-    final appBar = AppBar(
-      title: Text(pageName),
-      backgroundColor: Colors.green,
-      elevation: 0,
-    );
-    return Scaffold(
-      appBar: appBar,
-      body: ChangeNotifierProvider.value(
+    return CustomAppBar(
+      title: pageName,
+      child: ChangeNotifierProvider.value(
         value: PhoneNumber(),
         child: Container(
-          color: Colors.green,
-          child: Column(
+          color: Colors.white,
+          child: Stack(
             children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height) -
-                        30,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
-                      color: Colors.white,
-                    ),
-                    child: FutureBuilder<Profile>(
-                      future: UserCredentials().getUserProfileData(),
-                      builder: (context, snapshot) => snapshot.hasData
-                          ? ListView(
-                              // physics: BouncingScrollPhysics(),
+              FutureBuilder<Profile>(
+                future: UserCredentials().getUserProfileData(),
+                builder: (context, snapshot) => snapshot.hasData
+                    ? ListView(
+                        physics: BouncingScrollPhysics(),
+                        children: [
+                          Container(
+                            padding:
+                                EdgeInsets.only(left: 10, right: 10, top: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SafeArea(
-                                  bottom: true,
-                                  child: Container(
-                                    height:
-                                        (MediaQuery.of(context).size.height -
-                                                appBar.preferredSize.height) *
-                                            .77,
-                                    padding: EdgeInsets.only(
-                                        left: 10, right: 10, top: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ProfileItemWidget(
-                                            labelText:
-                                                AppLocalizations.of(context)
-                                                    .translate('firsname'),
-                                            text: snapshot.data.firstName),
-                                        Divider(),
-                                        ProfileItemWidget(
-                                            labelText:
-                                                AppLocalizations.of(context)
-                                                    .translate('lastname'),
-                                            text: snapshot.data.lastName),
-                                        Divider(),
-                                        ProfileItemWidget(
-                                            labelText: 'E-mail',
-                                            text: snapshot.data.email ?? ''),
-                                        Divider(),
-                                        ProfileFieldWidget(
-                                          labelText:
-                                              AppLocalizations.of(context)
-                                                  .translate('phone'),
-                                        ),
-                                        Divider(),
-                                      ],
-                                    ),
-                                  ),
+                                ProfileItemWidget(
+                                    labelText: AppLocalizations.of(context)
+                                        .translate('firsname'),
+                                    text: snapshot.data.firstName),
+                                Divider(),
+                                ProfileItemWidget(
+                                    labelText: AppLocalizations.of(context)
+                                        .translate('lastname'),
+                                    text: snapshot.data.lastName),
+                                Divider(),
+                                ProfileItemWidget(
+                                    labelText: 'E-mail',
+                                    text: snapshot.data.email ?? ''),
+                                Divider(),
+                                ProfileFieldWidget(
+                                  labelText: AppLocalizations.of(context)
+                                      .translate('phone'),
                                 ),
-                                Container(
-                                  height: (MediaQuery.of(context).size.height -
-                                          appBar.preferredSize.height) *
-                                      .15,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          OutlineButton(
-                                            onPressed: () {
-                                              service.signOut(context);
-                                            },
-                                            splashColor: Colors.green,
-                                            borderSide:
-                                                BorderSide(color: Colors.green),
-                                            highlightColor: Colors.green,
-                                            highlightedBorderColor: Colors.red,
-                                            child: Text(
-                                                AppLocalizations.of(context)
-                                                    .translate('logout')),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                Divider(),
                               ],
-                            )
-                          : Container(),
-                    ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(),
+              ),
+              Positioned(
+                top: MediaQuery.of(context).size.height *.77,
+                left: MediaQuery.of(context).size.width / 3,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * .33,
+                  child: OutlineButton(
+                    onPressed: () {
+                      service.signOut(context);
+                    },
+                    splashColor: Colors.green,
+                    borderSide: BorderSide(color: Colors.green),
+                    highlightColor: Colors.green,
+                    highlightedBorderColor: Colors.red,
+                    child:
+                        Text(AppLocalizations.of(context).translate('logout')),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),

@@ -9,6 +9,7 @@ class CompaniesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      physics: BouncingScrollPhysics(),
       padding: const EdgeInsets.all(10),
       separatorBuilder: (context, index) => const SizedBox(
         height: 3,
