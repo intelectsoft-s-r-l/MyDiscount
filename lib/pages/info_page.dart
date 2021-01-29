@@ -1,8 +1,8 @@
-import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../core/localization/localizations.dart';
-import '../widgets/profile_home_item_widget.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/profile_page_widgets/profile_home_item_widget.dart';
 
 class InformationPage extends StatelessWidget {
   @override

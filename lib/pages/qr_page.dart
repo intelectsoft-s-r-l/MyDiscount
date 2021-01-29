@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:MyDiscount/core/failure.dart';
-import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
+import '../core/failure.dart';
 import '../core/localization/localizations.dart';
 import '../services/internet_connection_service.dart';
 import '../services/qr_service.dart';
 import '../services/shared_preferences_service.dart';
-import '../widgets/human_image_widget.dart';
+import '../widgets/custom_app_bar.dart';
 import '../widgets/nointernet_widget.dart';
-import '../widgets/qr-widget.dart';
+import '../widgets/qr_page_widgets/human_image_widget.dart';
+import '../widgets/qr_page_widgets/qr-widget.dart';
 
 class QrPage extends StatefulWidget {
   QrPage({
@@ -32,7 +32,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   bool serviceConection;
 
   Timer _timer;
-  int index = 1;
 
   @override
   void initState() {
@@ -55,6 +54,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
         _timer?.cancel();
         _getAuthorization();
         countTID = 0;
+        _progress = 1.1;
         break;
 
       case AppLifecycleState.inactive:
@@ -79,23 +79,23 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     _imageController.sink?.add(false);
   }
 
+  double _progress = 1.1;
+
   void _startTimer() {
     if (mounted) {
-      double _counter = 7;
-      double _progress = 1;
+      double _counter = 11;
 
       countTID++;
 
       _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
         if (_counter > 0) {
           _counter--;
-          _progress -= 0.1428;
-          if (mounted) _progressController.sink?.add(_progress);
+          _showProgress();
           debugPrint('$_counter');
         } else if (_counter == 0) {
           if (countTID < 3) {
             _getAuthorization();
-            _progress = 1;
+            _progress = 1.1;
             _timer?.cancel();
           } else {
             _changeImages();
@@ -108,6 +108,12 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     }
 
     debugPrint('Count:$countTID');
+  }
+
+  _showProgress() {
+    _progress -= .1;
+    print('progress: ${_progress.toStringAsFixed(2)}');
+    if (mounted) _progressController.sink?.add(_progress);
   }
 
   _getAuthorization() async {
@@ -204,6 +210,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                   _imageController.add(true);
                                   _getAuthorization();
                                   countTID = 0;
+                                  _progress = 1.1;
                                 },
                                 child: serviceConection
                                     ? Text(

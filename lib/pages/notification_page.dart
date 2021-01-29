@@ -5,7 +5,7 @@ import '../core/localization/localizations.dart';
 import '../models/news_model.dart';
 import '../services/news_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
-import '../widgets/news_item.dart';
+import '../widgets/news_page_widgets/news_item.dart';
 
 class NotificationPage extends StatefulWidget {
   @override
@@ -84,7 +84,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     News news = snapshot.data[index];
-                    return NewsItem(
+                    return NewsListItem(
                       news: news,
                       size: size,
                     );

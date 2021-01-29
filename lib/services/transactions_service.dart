@@ -31,8 +31,21 @@ class TransactionService {
           final Map<String, dynamic> _decodedResponse =
               json.decode(response.body);
 
-          final List<dynamic> _listOfTransactionsMaps =
-              _decodedResponse['Transactions'];
+          final List<dynamic> _listOfTransactionsMaps = [
+            {
+              "Amount": 1267.543,
+              "Company": "SUPRATEN",
+              "DateTimeOfSale": "\/Date(928138800000+0300)\/",
+              "SalesPoint": "str. Petricani",
+            },
+            {
+              "Amount": 126.54,
+              "Company": "SUPRATEN",
+              "DateTimeOfSale": "\/Date(928138800000+0300)\/",
+              "SalesPoint": "str. Petricani",
+            }
+          ];
+          //  _decodedResponse['Transactions'];
 
           if (_listOfTransactionsMaps.isNotEmpty) {
             formater.parseDateTime(_listOfTransactionsMaps, 'DateTimeOfSale');
@@ -54,3 +67,16 @@ class TransactionService {
     }
   }
 }
+/* {
+		"Amount":12678967.543233,
+		"Company":"String content",
+		"DateTimeOfSale":"\/Date(928138800000+0300)\/",
+		"SalesPoint":"String content"
+	} */
+
+/* {
+		"Amount":"String content",
+		"ID":2147483647,
+		"Logo":"String content",
+		"Name":"String content"
+	} */

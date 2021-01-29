@@ -1,15 +1,18 @@
-import 'package:MyDiscount/models/news_model.dart';
-import 'package:MyDiscount/widgets/detailed_news.dart';
-import 'package:MyDiscount/widgets/news_header_widget.dart';
-import 'package:MyDiscount/widgets/news_image_widget.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_html/flutter_html.dart';
 
-class NewsItem extends StatelessWidget {
+import '../news_page_widgets/detailed_news.dart';
+import '../news_page_widgets/news_header_widget.dart';
+import '../news_page_widgets/news_image_widget.dart';
+
+import '../../models/news_model.dart';
+
+class NewsListItem extends StatelessWidget {
   final News news;
   final Size size;
 
-  const NewsItem({Key key, this.news, this.size}) : super(key: key);
+  const NewsListItem({Key key, this.news, this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

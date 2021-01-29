@@ -16,7 +16,6 @@ import 'core/localization/localizations.dart';
 import 'models/company_model.dart';
 import 'models/news_model.dart';
 import 'pages/detail_news_page.dart';
-
 import 'pages/about_app_page.dart';
 import 'pages/app_info_page.dart';
 import 'pages/company_list_page.dart';
@@ -30,7 +29,7 @@ import 'services/local_notification_service.dart';
 import 'services/auth_service.dart';
 import 'services/fcm_service.dart';
 import 'services/remote_config_service.dart';
-import 'widgets/bottom_navigation_bar_widget.dart';
+import 'widgets/bottom_navigator/bottom_navigation_bar_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +50,7 @@ void main() async {
   getServiceNameFromRemoteConfig();
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   fcmService.fcmConfigure();

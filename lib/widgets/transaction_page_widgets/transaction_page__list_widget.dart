@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../core/failure.dart';
-import '../core/localization/localizations.dart';
-import '../models/tranzaction_model.dart';
-import '../services/transactions_service.dart';
-import '../widgets/circular_progress_indicator_widget.dart';
-import '../widgets/nointernet_widget.dart';
-import '../widgets/transaction_list_widget.dart';
+import '../../core/failure.dart';
+import '../../core/localization/localizations.dart';
+import '../../models/tranzaction_model.dart';
+import '../../services/transactions_service.dart';
+import '../../widgets/circular_progress_indicator_widget.dart';
+import '../../widgets/nointernet_widget.dart';
+import '../transaction_page_widgets/transaction_list_widget.dart';
 
-class TransactionList extends StatelessWidget {
+class TransactionPageList extends StatelessWidget {
   final TransactionService service = TransactionService();
 
-  TransactionList({
+  TransactionPageList({
     Key key,
   }) : super(key: key);
   @override

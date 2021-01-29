@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/tranzaction_model.dart';
-import '../widgets/tranzaction_widget.dart';
+import '../../models/tranzaction_model.dart';
+import '../transaction_page_widgets/tranzaction_widget.dart';
 
 class TranzactionListWidget extends StatelessWidget {
   const TranzactionListWidget({
@@ -22,9 +22,15 @@ class TranzactionListWidget extends StatelessWidget {
       shrinkWrap: true,
       itemCount: transactionList.length,
       itemBuilder: (context, index) {
-        return TranzactionWidget(
-          size: size,
-          transaction: transactionList[index],
+        return Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: TranzactionWidget(
+            size: size,
+            transaction: transactionList[index],
+          ),
         );
       },
     );

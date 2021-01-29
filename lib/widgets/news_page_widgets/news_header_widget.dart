@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/news_model.dart';
+import '../../models/news_model.dart';
 
 class NewsHeaderWidget extends StatelessWidget {
   const NewsHeaderWidget({
@@ -59,15 +59,16 @@ class NewsHeaderWidget extends StatelessWidget {
           top: 5,
           left: 5,
           child: Container(
-              width: 60,
-              height: 60,
-              child: Image.memory(
-                news.logo,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container();
-                },
-              )),
+            width: 60,
+            height: 60,
+            child: Image.memory(
+              news.logo,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container();
+              },
+            ),
+          ),
         ),
       ],
     );

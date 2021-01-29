@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../widgets/circular_progress_indicator_widget.dart';
+import '../circular_progress_indicator_widget.dart';
 
 class QrImageWidget extends StatelessWidget {
   const QrImageWidget({
@@ -79,7 +79,7 @@ class QrImageWidget extends StatelessWidget {
                 stream: _progressController.stream,
                 builder: (context, snapshot) {
                   return LinearProgressIndicator(
-                    value: snapshot.data,
+                    value:snapshot.data,
                     backgroundColor: Colors.white,
                     valueColor: AlwaysStoppedAnimation(Colors.green),
                   );

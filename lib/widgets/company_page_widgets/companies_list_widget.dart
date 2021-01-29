@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/company_model.dart';
-import '../widgets/companie_widget.dart';
+import '../../models/company_model.dart';
+import '../company_page_widgets/companie_widget.dart';
 
 class CompaniesList extends StatelessWidget {
   const CompaniesList(this.list);

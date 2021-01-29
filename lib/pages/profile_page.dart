@@ -8,8 +8,8 @@ import '../models/profile_model.dart';
 import '../models/user_credentials.dart';
 import '../providers/phone_number.dart';
 import '../services/auth_service.dart';
-import '../widgets/profile_field_widget.dart';
-import '../widgets/profile_item_widget.dart';
+import '../widgets/profile_page_widgets/profile_field_widget.dart';
+import '../widgets/profile_page_widgets/profile_item_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage();

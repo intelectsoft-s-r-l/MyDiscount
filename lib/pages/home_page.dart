@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core/localization/localizations.dart';
 import '../widgets/home_page_top_widget.dart';
-import '../widgets/profile_home_item_widget.dart';
+import '../widgets/profile_page_widgets/profile_home_item_widget.dart';
 
 class HomePage extends StatelessWidget {
   

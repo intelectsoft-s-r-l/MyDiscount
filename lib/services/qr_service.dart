@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../core/constants/credentials.dart';
@@ -26,12 +25,13 @@ class QrService {
       final _bodyData =
           await UserCredentials().getRequestBodyData(isPhoneVerification);
 
-      //debugPrint(_bodyData);
+      debugPrint(_bodyData);
+
       final url = '$serviceName/json/GetTID';
-      
+
       final response = await http
           .post(url, headers: credentials.header, body: _bodyData)
-          .timeout(Duration(seconds: 10));
+          .timeout(Duration(seconds: 3));
 
       Map<String, dynamic> decodedResponse = json.decode(response.body);
 

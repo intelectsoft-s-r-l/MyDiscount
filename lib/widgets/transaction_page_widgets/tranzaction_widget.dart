@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/tranzaction_model.dart';
+import '../../models/tranzaction_model.dart';
 
 class TranzactionWidget extends StatelessWidget {
   const TranzactionWidget({
@@ -14,12 +14,7 @@ class TranzactionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Container(
+    return Container(
         padding: EdgeInsets.all(10),
         width: size.width * .96,
         child: Column(
@@ -118,7 +113,7 @@ class TranzactionWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
+     
     );
   }
 }

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../new_button/circle_painter.dart';
-import '../new_button/curve_wave.dart';
+import 'circle_painter.dart';
+import 'curve_wave.dart';
 
 class RipplesAnimation extends StatefulWidget {
   const RipplesAnimation({

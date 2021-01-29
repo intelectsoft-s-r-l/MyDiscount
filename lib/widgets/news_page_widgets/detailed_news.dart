@@ -1,6 +1,6 @@
 import 'package:MyDiscount/core/localization/localizations.dart';
 import 'package:MyDiscount/models/news_model.dart';
-import 'package:MyDiscount/widgets/html_text_view_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,8 +24,7 @@ class _DetailedNewsState extends State<DetailedNews> {
     final textContent = HTML.toTextSpan(context, news.content,
         defaultTextStyle: TextStyle(
           fontSize: 14,
-        ),
-        linksCallback: (url) async {
+        ), linksCallback: (url) async {
       if (await canLaunch(url)) {
         launch(url);
       } else {
@@ -44,7 +43,6 @@ class _DetailedNewsState extends State<DetailedNews> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        /*  Text(data), */
                         RichText(
                           text: textContent,
                           maxLines: 3,
@@ -81,9 +79,18 @@ class _DetailedNewsState extends State<DetailedNews> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      HtmlText(
+                      Container(
+                          padding: EdgeInsets.only(left: 12,bottom: 12),
+                          child: RichText(
+                            text: textContent,
+                            // maxLines: 3,
+                            // overflow: TextOverflow.ellipsis,
+                            textHeightBehavior:
+                                TextHeightBehavior.fromEncoded(2),
+                          )),
+                      /*  HtmlText(
                         list: news,
-                      ),
+                      ), */
                       InkResponse(
                         onTap: () {
                           setState(() {

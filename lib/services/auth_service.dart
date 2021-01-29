@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -96,9 +95,6 @@ class AuthService extends UserCredentials {
           ),
         );
       }
-      /* else {
-        throw 'Canceled by User';
-      } */
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
       FirebaseCrashlytics.instance.setCustomKey('log with google', s);
@@ -142,7 +138,7 @@ class AuthService extends UserCredentials {
         ),
       );
     } on SignInWithAppleAuthorizationException {
-      //throw SignInWithAppleCredentialsException(message: 'Remove from user');
+      
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
 

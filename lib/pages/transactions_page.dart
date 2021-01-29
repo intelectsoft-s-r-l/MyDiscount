@@ -1,7 +1,7 @@
-import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/transactions_list_widget.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/transaction_page_widgets/transaction_page__list_widget.dart';
 
 class TransactionsPage extends StatelessWidget {
   const TransactionsPage();
@@ -10,7 +10,7 @@ class TransactionsPage extends StatelessWidget {
     final String pageName = ModalRoute.of(context).settings.arguments;
     return CustomAppBar(
       title: pageName,
-      child: TransactionList(),
+      child: TransactionPageList(),
     );
   }
 }
