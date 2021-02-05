@@ -59,8 +59,6 @@ class NewsService {
     return [];
   }
 
-  
-
   Future<String> _readEldestNewsId() async {
     final listOfKeys = newsBox?.keys;
 
@@ -72,6 +70,7 @@ class NewsService {
         }
     return id.toString();
   }
+
   _saveNewsinDBAsObjects(List _listOfNewsMaps) {
     _listOfNewsMaps
         .map((e) => News.fromJson(e))

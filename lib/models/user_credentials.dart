@@ -134,7 +134,7 @@ class UserCredentials {
     try {
       final String phone = await sPrefs.readPhoneNumber();
       if (phone != null) return phone;
-      return '{}';
+      return '';
     } catch (e) {
       rethrow;
     }

@@ -16,6 +16,7 @@ class TranzactionListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      physics: ClampingScrollPhysics(),
       separatorBuilder: (context, index) => SizedBox(
         height: 3,
       ),
