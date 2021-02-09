@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:MyDiscount/models/company_model.dart';
+import 'package:MyDiscount/domain/entities/company_model.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
@@ -47,7 +47,7 @@ class Formater {
   List checkCompanyLogo(List list) {
     try {
       final List<Map<String, dynamic>> dat =
-          list.map((map) => _returnLogo(map)).toList();
+          list.map((map) => _returnLogo(map as Map)).toList();
       return dat;
     } catch (e) {
       rethrow;
@@ -117,6 +117,6 @@ class CompanyName {
   bool operator ==(Object other) {
     return identical(this, other) || other is CompanyName && name == other.name;
   }
-
+  @override
   int get hashCode => name.hashCode;
 }

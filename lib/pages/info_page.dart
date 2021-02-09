@@ -5,6 +5,7 @@ import '../widgets/custom_app_bar.dart';
 import '../widgets/profile_page_widgets/profile_home_item_widget.dart';
 
 class InformationPage extends StatelessWidget {
+  const InformationPage();
   @override
   Widget build(BuildContext context) {
     final String pageName = ModalRoute.of(context).settings.arguments;

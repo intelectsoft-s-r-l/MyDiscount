@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:MyDiscount/injectable.dart';
 import 'package:MyDiscount/providers/phone_number.dart';
 import 'package:MyDiscount/services/phone_verification.dart';
 import 'package:MyDiscount/widgets/custom_app_bar.dart';
@@ -19,9 +20,9 @@ class PhoneVerificationPage extends StatefulWidget {
 }
 
 class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
-  TextEditingController _codeController = TextEditingController();
-  StreamController<int> _controller = StreamController();
-  FocusNode _focusNode = FocusNode();
+  final TextEditingController _codeController = TextEditingController();
+  final StreamController<int> _controller = StreamController();
+  final FocusNode _focusNode = FocusNode();
   String _currentCode;
   Timer _timer;
   bool isActive = true;
@@ -33,8 +34,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     startTimer();
   }
 
-  startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
+ void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_timer) {
       if (_duration != 0) {
         _duration--;
         _controller.add(_duration);
@@ -112,7 +113,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                         return OutlineButton(
                           onPressed: snapshot.data == 0
                               ? () {
-                                  PhoneVerification()
+                                  getIt<PhoneVerification>()
                                       .getVerificationCodeFromServer(phone);
                                   setState(() {
                                     isActive = true;
@@ -152,7 +153,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                     onPressed: () async {
                       bool coresponde = false;
                       if (_currentCode != '') {
-                        coresponde = await PhoneVerification()
+                        coresponde = await getIt<PhoneVerification>()
                             .smsCodeVerification(
                                 VerificationCode(_currentCode));
                       }

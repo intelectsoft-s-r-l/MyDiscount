@@ -24,9 +24,9 @@ class Company {
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
-        amount: json['Amount'],
-        id: json['ID'],
-        logo: json['Logo'],
-        name: json['Name']);
+        amount: json['Amount'] as String,
+        id: json['ID'] as int,
+        logo: json['Logo'] as Uint8List,
+        name: json['Name'] as String);
   }
 }

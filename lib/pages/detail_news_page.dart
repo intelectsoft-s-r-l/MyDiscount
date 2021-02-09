@@ -1,8 +1,9 @@
+import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../models/news_model.dart';
+
 import '../widgets/custom_app_bar.dart';
 import '../widgets/news_page_widgets/html_text_view_widget.dart';
 
@@ -12,7 +13,7 @@ class DetailNewsPage extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final News news = ModalRoute.of(context).settings.arguments;
+    final News news = ModalRoute.of(context).settings.arguments as News;
     final size = MediaQuery.of(context).size;
     return CustomAppBar(
       title: news.companyName,

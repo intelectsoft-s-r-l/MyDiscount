@@ -24,15 +24,15 @@ class ProfileHomeItemWidget extends StatelessWidget {
                 icon != null ? Icon(icon, size: 35, color: Colors.green) : null,
             title: Text(
               pageName,
-              style: TextStyle(
-                fontSize: 17,
+              style:const TextStyle(
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            trailing: Icon(Icons.arrow_forward_ios),
+            trailing:const Icon(Icons.arrow_forward_ios),
           ),
         ),
-        Divider(),
+       const Divider(),
       ],
     );
   }

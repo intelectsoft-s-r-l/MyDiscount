@@ -28,6 +28,7 @@
 .packages
 .pub-cache/
 .pub/
+.last_build_id
 /build/
 
 # Web related

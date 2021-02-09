@@ -19,13 +19,13 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      firstName: json['firstName'] ?? '',
-      lastName: json['lastName'] ?? '',
-      email: json['email'],
-      phone:json['phone'],
-      photoUrl: json['photoUrl'] ?? '',
-      registerMode: json['registerMode'],
-      pushToken: json['pushToken'],
+      firstName: json['firstName']as String ?? '',
+      lastName: json['lastName']as String ?? '',
+      email: json['email']as String,
+      phone:json['phone']as String,
+      photoUrl: json['photoUrl']as String ?? '',
+      registerMode: json['registerMode']as int,
+      pushToken: json['pushToken']as String,
     );
   }
   Map<String, dynamic> toJson() {

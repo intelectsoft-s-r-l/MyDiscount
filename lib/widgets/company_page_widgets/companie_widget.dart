@@ -1,7 +1,8 @@
+import 'package:MyDiscount/domain/entities/company_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/localization/localizations.dart';
-import '../../models/company_model.dart';
+
 
 class CompanyWidget extends StatelessWidget {
   const CompanyWidget(this.company);
@@ -10,8 +11,8 @@ class CompanyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.only(top: 10, bottom: 10, right: 5, left: 5),
-      leading: Container(
+      contentPadding:const EdgeInsets.only(top: 10, bottom: 10, right: 5, left: 5),
+      leading: SizedBox(
         width: 60,
         height: 60,
         child: Image.memory(
@@ -36,7 +37,7 @@ class CompanyWidget extends StatelessWidget {
           ],
         ),
       ),
-      trailing: Container(
+      trailing: SizedBox(
         width: 80,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -51,7 +52,7 @@ class CompanyWidget extends StatelessWidget {
               fit: BoxFit.contain,
               child: Text(
                 '${double.parse(company.amount).toStringAsFixed(2)} lei',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
           ],

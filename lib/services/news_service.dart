@@ -1,22 +1,27 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
 import '../core/constants/credentials.dart';
 import '../core/formater.dart';
-import '../models/news_model.dart';
+
 import '../services/internet_connection_service.dart';
 import '../services/shared_preferences_service.dart';
 import '../services/remote_config_service.dart';
 
+@injectable
 class NewsService {
-  SharedPref _prefs = SharedPref();
-  Formater formater = Formater();
-  Credentials credentials = Credentials();
-  NetworkConnectionImpl status = NetworkConnectionImpl();
-  Box<News> newsBox = Hive.box<News>('news');
+  final SharedPref _prefs;
+  final Formater formater;
+  final Credentials credentials;
+  final NetworkConnectionImpl status;
+  final Box<News> newsBox = Hive.box<News>('news');
+
+  NewsService(this._prefs, this.formater, this.credentials, this.status);
 
   Future<List<News>> getNews() async {
     try {
@@ -63,11 +68,14 @@ class NewsService {
     final listOfKeys = newsBox?.keys;
 
     int id = 0;
-    if (listOfKeys.isNotEmpty)
-      for (int key in listOfKeys)
+    if (listOfKeys.isNotEmpty) {
+      for (final int key in listOfKeys) {
         if (key > id) {
           id = key;
         }
+      }
+    }
+
     return id.toString();
   }
 

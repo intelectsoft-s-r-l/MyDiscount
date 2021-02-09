@@ -7,13 +7,14 @@ Future<String> getServiceNameFromRemoteConfig() async {
   try {
     final RemoteConfig remoteConfig = await RemoteConfig.instance;
 
+    // ignore: prefer_const_constructors
     await remoteConfig.fetch(expiration: Duration(hours: 12));
     await remoteConfig.activateFetched();
 
     final serviceNameAsMap =
         _decodeRemoteConfigData(remoteConfig.getString('service_name_dev'));
-
-    return serviceNameAsMap['service_name'];
+    final String serviceName = serviceNameAsMap['service_name'] as String;
+    return serviceName;
   } on FetchThrottledException {
     throw FetchThrottledException;
   } on dynamic catch (e, s) {
@@ -22,6 +23,7 @@ Future<String> getServiceNameFromRemoteConfig() async {
   return '';
 }
 
-Map<String, dynamic> _decodeRemoteConfigData(data) {
-  return json.decode(data);
+Map<String, dynamic> _decodeRemoteConfigData(String data) {
+  final decoded = json.decode(data) as Map<String, dynamic>;
+  return decoded;
 }

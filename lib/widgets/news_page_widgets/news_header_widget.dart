@@ -1,6 +1,6 @@
+import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/news_model.dart';
 
 class NewsHeaderWidget extends StatelessWidget {
   const NewsHeaderWidget({
@@ -27,12 +27,12 @@ class NewsHeaderWidget extends StatelessWidget {
           top: 39,
           left: 69,
           child: Container(
-            padding: EdgeInsets.only(
+            padding:const EdgeInsets.only(
               right: 10,
             ),
             child: Text(
               news.dateTime,
-              style: TextStyle(
+              style:const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                   color: Colors.black38),

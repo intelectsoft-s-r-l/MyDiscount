@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/localization/localizations.dart';
 
 class HumanImage extends StatelessWidget {
+  const HumanImage();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -10,7 +11,7 @@ class HumanImage extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       child: Column(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height * 0.3,
             child: Image.asset(
               'assets/icons/om.png',
@@ -21,7 +22,7 @@ class HumanImage extends StatelessWidget {
           Text(
             AppLocalizations.of(context).translate('generateqrtoomanytimes'),
             textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style:const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
             AppLocalizations.of(context).translate('generatenewqr'),

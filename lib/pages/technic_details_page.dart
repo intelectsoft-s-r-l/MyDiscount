@@ -7,6 +7,7 @@ import '../core/localization/localizations.dart';
 import '../services/device_info_service.dart';
 
 class TechnicDetailPage extends StatefulWidget {
+  const TechnicDetailPage();
   @override
   _TechnicDetailPageState createState() => _TechnicDetailPageState();
 }
@@ -31,7 +32,7 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
             builder: (context, snapshot) {
               return snapshot.hasData
                   ? Container(
-                      padding: EdgeInsets.all(10),
+                      padding:const EdgeInsets.all(10),
                       child: Column(
                         children: [
                           if (Platform.isAndroid)

@@ -1,35 +1,39 @@
 import 'dart:convert';
 
+import 'package:MyDiscount/domain/entities/company_model.dart';
+import 'package:MyDiscount/services/user_credentials.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
 import '../core/constants/credentials.dart';
 import '../core/failure.dart';
 import '../core/formater.dart';
-import '../models/company_model.dart';
-import '../models/user_credentials.dart';
+
 import '../services/internet_connection_service.dart';
 import '../services/remote_config_service.dart';
 import '../services/shared_preferences_service.dart';
-
+@injectable
 class CompanyService {
-  SharedPref sPref = SharedPref();
-  Credentials credentials = Credentials();
-  Formater formater = Formater();
-  NetworkConnectionImpl status = NetworkConnectionImpl();
-  Box<Company> companyBox = Hive.box<Company>('company');
+  final SharedPref sPref ;
+  final Credentials credentials ;
+  final Formater formater ;
+  final NetworkConnectionImpl status;
+  final Box<Company> companyBox = Hive.box<Company>('company');
+
+  CompanyService(this.sPref, this.credentials, this.formater, this.status);
 
   //https://api.edi.md/ISMobileDiscountService/json/GetCompany?ID={ID}
   Future<List<Company>> getCompanyList() async {
-    String id = await UserCredentials().getUserIdFromLocalStore();
-    String serviceName = await getServiceNameFromRemoteConfig();
+    final String id = await UserCredentials().getUserIdFromLocalStore();
+    final String serviceName = await getServiceNameFromRemoteConfig();
     if (await status.isConnected) {
       try {
         final url = "$serviceName/json/GetCompany?ID=$id";
         final response = await http
             .get(url, headers: credentials.header)
-            .timeout(Duration(seconds: 3));
+            .timeout(const Duration(seconds: 3));
         if (response.statusCode == 200) {
           final Map<String, dynamic> _responseJsonMap =
               json.decode(response.body);
@@ -62,7 +66,7 @@ class CompanyService {
     }
   }
 
-  _saveCompanyToDB(Company company) {
+  void _saveCompanyToDB(Company company) {
     companyBox.put(company.id, company);
   }
 }

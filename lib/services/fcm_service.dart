@@ -2,17 +2,16 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:injectable/injectable.dart';
 
-import '../services/shared_preferences_service.dart';
 import '../services/local_notification_service.dart';
-  SharedPref _prefs = SharedPref();
-  final _localNotificationsService = LocalNotificationsService();
-Future <dynamic>backgroundMessage(Map<String,dynamic> notification)async{
- _localNotificationsService.showNotification(notification);
-  }
+import '../services/shared_preferences_service.dart';
 
+@injectable
 class FirebaseCloudMessageService with ChangeNotifier {
-  FirebaseMessaging _fcm = FirebaseMessaging();
+  final FirebaseMessaging _fcm;
+  final LocalNotificationsService _localNotificationsService;
+  final SharedPref _prefs;
 
   bool _isActivate = false;
 
@@ -24,7 +23,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
     notifyListeners();
   }
 
-  FirebaseCloudMessageService() {
+  FirebaseCloudMessageService(this._fcm, this._localNotificationsService, this._prefs) {
     getFCMState();
     notifyListeners();
   }
@@ -40,7 +39,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
       //_fcm.setAutoInitEnabled(false);
     } else {
       _fcm.setAutoInitEnabled(true);
-     // _fcm.requestNotificationPermissions();
+      // _fcm.requestNotificationPermissions();
       getfcmToken();
     }
   }
@@ -54,39 +53,40 @@ class FirebaseCloudMessageService with ChangeNotifier {
   }
 
   void fcmConfigure() {
-    _fcm.requestNotificationPermissions(
-        IosNotificationSettings(sound: false, alert: false, badge: false));
+    _fcm.requestNotificationPermissions(IosNotificationSettings(sound: false, alert: false, badge: false));
     _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {});
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
-        if (await _prefs.readFCMState())
+        if (await _prefs.readFCMState()) {
           _localNotificationsService.showNotification(notification);
+        }
       },
       onResume: (Map<String, dynamic> notification) async {
-        if (await _prefs.readFCMState())
+        if (await _prefs.readFCMState()) {
           _localNotificationsService.showNotification(notification);
+        }
       },
       onLaunch: (Map<String, dynamic> notification) async {
-        if (await _prefs.readFCMState())
+        if (await _prefs.readFCMState()) {
           _localNotificationsService.showNotification(notification);
+        }
       },
-      onBackgroundMessage: backgroundMessage
     );
   }
 
- 
-
   Future<String> getfcmToken() async {
     final data = await _prefs.instance;
-    if (data.containsKey('fcmState')) if (await _prefs.readFCMState()) {
-      String token = await _fcm.getToken();
-      _fcm.onTokenRefresh.listen((event) {
-        event = token;
-      });
-      debugPrint(token);
-      return token;
-    } else {
-      return '';
+    if (data.containsKey('fcmState')) {
+      if (await _prefs.readFCMState()) {
+        final String token = await _fcm.getToken();
+        _fcm.onTokenRefresh.listen((event) {
+          event = token;
+        });
+        debugPrint(token);
+        return token;
+      } else {
+        return '';
+      }
     }
     return '';
   }

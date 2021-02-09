@@ -1,8 +1,10 @@
+import 'package:MyDiscount/domain/entities/news_model.dart';
+import 'package:MyDiscount/injectable.dart';
 import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../core/localization/localizations.dart';
-import '../models/news_model.dart';
+
 import '../services/news_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/news_page_widgets/news_item.dart';
@@ -13,8 +15,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  NewsService service = NewsService();
-
+ 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -25,7 +26,7 @@ class _NotificationPageState extends State<NotificationPage> {
           color: Colors.white,
         ),
         child: FutureBuilder<List<News>>(
-          future: service.getNews(),
+          future: getIt<NewsService>().getNews(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.length == 0) {
@@ -43,10 +44,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.width * .75,
-                              child: FittedBox(
-                                  fit: BoxFit.fill,
-                                  child:
-                                      Image.asset('assets/icons/no_news.png')),
+                              child: FittedBox(fit: BoxFit.fill, child: Image.asset('assets/icons/no_news.png')),
                             ),
                           ),
                           Positioned(
@@ -56,10 +54,8 @@ class _NotificationPageState extends State<NotificationPage> {
                               alignment: Alignment.center,
                               width: size.width,
                               child: Text(
-                                AppLocalizations.of(context)
-                                    .translate('nonews'),
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                AppLocalizations.of(context).translate('nonews'),
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),

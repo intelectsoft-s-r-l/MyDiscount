@@ -10,31 +10,24 @@ class ProfileItemWidget extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            child: Text(
-              labelText,
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          SizedBox(
-            height: 9,
-          ),
-          Container(
-              child: Text(
-            text,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 17.0,
-                fontWeight: FontWeight.bold),
-          )),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelText,
+          style:const TextStyle(color: Colors.black),
+        ),
+       const SizedBox(
+          height: 15,
+        ),
+        Text(
+          text,
+          style:const TextStyle(
+          color: Colors.black,
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }

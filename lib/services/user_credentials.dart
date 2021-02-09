@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'user_model.dart';
-import 'profile_model.dart';
+import 'package:MyDiscount/domain/entities/profile_model.dart';
+import 'package:MyDiscount/domain/entities/user_model.dart';
+import 'package:injectable/injectable.dart';
 
 import '../services/shared_preferences_service.dart';
-
+@injectable
 class UserCredentials {
   SharedPref sPrefs = SharedPref();
 
@@ -20,8 +21,9 @@ class UserCredentials {
     try {
       sPrefs.saveProfileData(json.encode(profile.toJson()));
       final prefs = await sPrefs.instance;
-      if (profile.registerMode == 3 && !prefs.containsKey('IOS'))
+      if (profile.registerMode == 3 && !prefs.containsKey('IOS')) {
         sPrefs.saveIOSCredentials(json.encode(profile.toJson()));
+      }
     } catch (e) {
       rethrow;
     }
@@ -29,7 +31,7 @@ class UserCredentials {
 
   Future<Profile> getUserProfileData() async {
     try {
-      Profile profile = await _returnRegistrationProfileDataAsMap();
+      final Profile profile = await _returnRegistrationProfileDataAsMap();
 
       sPrefs.saveProfileData(
         json.encode(
@@ -66,9 +68,9 @@ class UserCredentials {
   Future<String> getRequestBodyData(bool isPhoneVerification) async {
     try {
       final _prefs = await sPrefs.instance;
-      User user = await _getRegistrationUserData();
-      Profile profile = await _returnRegistrationProfileDataAsMap();
-      String phone = await _readFormPhoneNumber();
+      final User user = await _getRegistrationUserData();
+      final Profile profile = await _returnRegistrationProfileDataAsMap();
+      final String phone = await _readFormPhoneNumber();
       if (isPhoneVerification) {
         return json.encode({
           "DisplayName": "${profile.firstName}" + ' ' + "${profile.lastName}",
@@ -106,7 +108,7 @@ class UserCredentials {
     try {
       final _prefs = await sPrefs.instance;
       if (_prefs.containsKey('Tid')) {
-        User user = await _getRegistrationUserData();
+        final User user = await _getRegistrationUserData();
         return user.id;
       } else {
         return '';
@@ -121,8 +123,8 @@ class UserCredentials {
       return Future.value(
         User.fromJson(
           json.decode(
-            await sPrefs.readUser(),
-          ),
+            await sPrefs.readUser() as String,
+          ) as Map<String, dynamic>,
         ),
       );
     } catch (e) {
@@ -132,7 +134,7 @@ class UserCredentials {
 
   Future<String> _readFormPhoneNumber() async {
     try {
-      final String phone = await sPrefs.readPhoneNumber();
+      final String phone = await sPrefs.readPhoneNumber() as String;
       if (phone != null) return phone;
       return '';
     } catch (e) {
@@ -142,10 +144,11 @@ class UserCredentials {
 
   Future<Profile> _returnRegistrationProfileDataAsMap() async {
     try {
-      Map<String, dynamic> profile =
-          json.decode(await sPrefs.readProfileData()) as Map<String, dynamic>;
+      final Map<String, dynamic> profile =
+          json.decode(await sPrefs.readProfileData() as String)
+              as Map<String, dynamic>;
       if (profile['registerMode'] == 3) {
-        Map<String, dynamic> iOSProfile = json
+        final Map<String, dynamic> iOSProfile = json
             .decode(await sPrefs.readIOSCredentials()) as Map<String, dynamic>;
         return Future.value(Profile.fromJson(iOSProfile));
       }

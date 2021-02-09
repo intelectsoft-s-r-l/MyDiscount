@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
 import '../core/constants/credentials.dart';
 import '../core/failure.dart';
@@ -8,9 +9,13 @@ import '../services/shared_preferences_service.dart';
 import '../services/qr_service.dart';
 import '../services/remote_config_service.dart';
 
+@injectable
 class PhoneVerification {
-  SharedPref prefs = SharedPref();
-  QrService _qrService = QrService();
+  final SharedPref prefs;
+  final QrService _qrService;
+
+  PhoneVerification(this.prefs, this._qrService);
+
   Future<void> getVerificationCodeFromServer(String phoneNumber) async {
     /*  try {
       String serviceName = await getServiceNameFromRemoteConfig();
@@ -58,5 +63,6 @@ class VerificationCode {
         other is VerificationCode && code == other.code;
   }
 
+  @override
   int get hashCode => code.hashCode;
 }

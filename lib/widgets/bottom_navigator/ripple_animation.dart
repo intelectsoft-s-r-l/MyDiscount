@@ -56,7 +56,7 @@ class _RipplesAnimationState extends State<RipplesAnimation>
                 curve: const CurveWave(),
               ),
             ),
-            child: Icon(
+            child:const Icon(
               MdiIcons.qrcode,
               size: 30,
               color: Colors.white,

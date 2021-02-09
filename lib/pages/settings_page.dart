@@ -1,3 +1,4 @@
+import 'package:MyDiscount/injectable.dart';
 import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +10,13 @@ import '../services/fcm_service.dart';
 import '../main.dart';
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    _changeLanguage(Language language) async {
-      Locale _locale =
+    void _changeLanguage(Language language) async {
+      final Locale _locale =
           await AppLocalizations.of(context).setLocale(language.languageCode);
       MyApp.setLocale(context, _locale);
     }
@@ -24,7 +26,7 @@ class SettingsPage extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: ChangeNotifierProvider<FirebaseCloudMessageService>.value(
-          value: FirebaseCloudMessageService(),
+          value: getIt<FirebaseCloudMessageService>(),
           child: ChangeNotifierProvider<NewsSettings>.value(
             value: NewsSettings(),
             child: Column(
@@ -42,7 +44,7 @@ class SettingsPage extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 17),
                           ),
                           trailing: FutureProvider.value(
-                            value: FirebaseCloudMessageService().getFCMState(),
+                            value: getIt<FirebaseCloudMessageService>().getFCMState(),
                             child: Switch(
                                 value: provider.isActivate,
                                 onChanged: (newValue) {

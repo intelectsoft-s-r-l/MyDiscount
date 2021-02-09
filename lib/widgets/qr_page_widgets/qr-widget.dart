@@ -1,18 +1,23 @@
 import 'dart:async';
 
+import 'package:MyDiscount/providers/qr_provider.dart';
+import 'package:MyDiscount/services/qr_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../circular_progress_indicator_widget.dart';
 
 class QrImageWidget extends StatelessWidget {
+  
+
   const QrImageWidget({
     Key key,
     @required this.function,
     @required this.size,
     @required StreamController<double> progressController,
-  })  : _progressController = progressController,
+  }) :  _progressController = progressController,
         super(key: key);
   final Future<String> function;
   final Size size;
@@ -20,6 +25,7 @@ class QrImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final provider = Provider.of<QrService>(context, listen: true);
     return Container(
       child: Card(
         color: Colors.transparent,
@@ -44,46 +50,39 @@ class QrImageWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: FutureBuilder(
-                      future: function,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ShaderMask(
-                            blendMode: BlendMode.srcATop,
-                            shaderCallback: (rect) => LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black,
-                                Colors.green,
-                              ],
-                            ).createShader(rect),
-                            child: QrImage(
-                              data: snapshot.data,
-                              size: size.width * .6,
-                            ),
-                          );
-                        }
-
-                        if (snapshot.hasError) {
-                          return CircularProgresIndicatorWidget();
-                        }
-                        return CircularProgresIndicatorWidget();
-                      }),
+                child: FutureBuilder(
+                  builder:(context,snapshot)=>snapshot.hasData? Container(
+                    alignment: Alignment.center,
+                    child: ShaderMask(
+                      blendMode: BlendMode.srcATop,
+                      shaderCallback: (rect) => LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.black,
+                          Colors.green,
+                        ],
+                      ).createShader(rect),
+                      child:QrImage(
+                          data: snapshot.data,
+                          size: size.width * .6,
+                        ),
+                      ),
+                    ):Container(),
                 ),
+              
               ),
-              StreamBuilder<double>(
-                initialData: 1,
-                stream: _progressController.stream,
-                builder: (context, snapshot) {
-                  return LinearProgressIndicator(
-                    value:snapshot.data,
-                    backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(Colors.green),
-                  );
-                },
+               StreamBuilder<double>(
+                  initialData: 1,
+                  stream: _progressController.stream,
+                  builder: (context, snapshot) { 
+                    return
+              LinearProgressIndicator(
+                value: snapshot.data,
+                backgroundColor: Colors.white,
+                valueColor: AlwaysStoppedAnimation(Colors.green),
+                      );
+                  },
               ),
             ],
           ),

@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../services/shared_preferences_service.dart';
 
 class PhoneNumber with ChangeNotifier {
-  SharedPref _sPrefs = SharedPref();
+ final SharedPref _sPrefs = SharedPref();
 
   String _phone = '';
 
@@ -13,7 +15,7 @@ class PhoneNumber with ChangeNotifier {
 
   String get phone => _phone;
 
-  set editing(value) {
+  set editing(bool value) {
     _editing = value;
     notifyListeners();
   }
@@ -29,11 +31,11 @@ class PhoneNumber with ChangeNotifier {
     notifyListeners();
   }
 
-  _savePhone() {
-    _sPrefs.savePhoneNumber(_phone);
+  void _savePhone() {
+    _sPrefs.savePhoneNumber(json.encode(_phone));
   }
 
-  getUserPhone() async {
+  void getUserPhone() async {
     final data = await _sPrefs.instance;
     if (data.containsKey('phone')) {
       _phone = await _sPrefs.readPhoneNumber() as String;

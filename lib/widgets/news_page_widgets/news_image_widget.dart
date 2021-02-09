@@ -1,6 +1,6 @@
+import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/news_model.dart';
 
 class NewsImageWidget extends StatelessWidget {
   final Size size;
@@ -9,7 +9,7 @@ class NewsImageWidget extends StatelessWidget {
   const NewsImageWidget({Key key, this.size, this.news}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: size.width,
      height: size.width,
       child: ClipRRect(

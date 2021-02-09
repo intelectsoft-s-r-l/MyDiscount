@@ -1,6 +1,6 @@
+import 'package:MyDiscount/domain/entities/tranzaction_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/tranzaction_model.dart';
 
 class TranzactionWidget extends StatelessWidget {
   const TranzactionWidget({
@@ -26,7 +26,7 @@ class TranzactionWidget extends StatelessWidget {
                 Expanded(
                   child: Row(
                     children: [
-                      Container(
+                      SizedBox(
                         width: size.width * .11,
                         height: size.width * .11,
                         child: Image.memory(
@@ -36,18 +36,18 @@ class TranzactionWidget extends StatelessWidget {
                           scale: 1,
                         ),
                       ),
-                      SizedBox(
+                     const SizedBox(
                         width: 10,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             width: size.width * .50,
                             child: OverflowBar(
                               children: [
-                                Text('${transaction.company}',
-                                    style: TextStyle(
+                                Text(transaction.company,
+                                    style:const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)),
                               ],
@@ -55,12 +55,12 @@ class TranzactionWidget extends StatelessWidget {
                           ),
                           OverflowBar(
                             children: [
-                              SizedBox(
+                             const SizedBox(
                                 width: 5,
                               ),
                               Text(
-                                '${transaction.dateOfSale}',
-                                style: TextStyle(
+                                transaction.dateOfSale,
+                                style:const TextStyle(
                                   color: Colors.black45,
                                   fontSize: 12,
                                 ),
@@ -82,7 +82,7 @@ class TranzactionWidget extends StatelessWidget {
                         children: [
                           Text(
                             '${transaction.amount} MDL',
-                            style: TextStyle(
+                            style:const TextStyle(
                               color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -95,16 +95,16 @@ class TranzactionWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Divider(
+           const Divider(
               color: Colors.grey,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: size.width * .9,
-                  child: Text(
-                    '${transaction.salesPoint}',
+                  child:const Text(
+                    'Strada Petricani 84, Chișinău 2059',
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
@@ -117,4 +117,4 @@ class TranzactionWidget extends StatelessWidget {
     );
   }
 }
-/*  */
+/* ${transaction.salesPoint} */
