@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:device_info/device_info.dart';
 
 class DeviceInfoService {
-  DeviceInfoPlugin _plugin = DeviceInfoPlugin();
+ final DeviceInfoPlugin _plugin = DeviceInfoPlugin();
 
   Future getDeviceInfo() async {
     if (Platform.isAndroid) {

@@ -1,4 +1,4 @@
-
+import 'package:MyDiscount/injectable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -12,7 +12,8 @@ import '../services/phone_verification.dart';
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({
     Key key,
-    @required this.labelText, this.phoneVerification,
+    @required this.labelText,
+    this.phoneVerification,
   }) : super(key: key);
 
   final String labelText;
@@ -36,8 +37,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     focusNode?.dispose();
     if (mounted) focusNode?.unfocus();
   }
-
-  
 
   String phoneNumber;
   String confirmedNumber = '';
@@ -65,9 +64,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             String internationalizedPhoneNumber,
                             String isoCode,
                           ) {
-                            print(internationalizedPhoneNumber);
+                            debugPrint(internationalizedPhoneNumber);
                             confirmedNumber = internationalizedPhoneNumber;
-                           
                           },
                           errorText:
                               AppLocalizations.of(context).translate('text43'),
@@ -82,23 +80,19 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            child: Text(widget.labelText,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                )),
-                          ),
+                          Text(widget.labelText,
+                              style: const TextStyle(
+                                color: Colors.black,
+                              )),
                           Consumer(
                               builder: (context, PhoneNumber provider1, _) {
                             if (provider1.phone != null) {
-                              return Container(
-                                child: Text(
-                                  provider.phone,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              return Text(
+                                provider.phone,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               );
                             }
@@ -108,36 +102,36 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                       ),
               ],
             ),
-            Divider(),
+            const Divider(),
             Consumer(
               builder: (context, PhoneNumber provider, _) => OutlineButton(
                 splashColor: Colors.green,
-                borderSide: BorderSide(color: Colors.green),
+                borderSide: const BorderSide(color: Colors.green),
                 highlightColor: Colors.green,
                 highlightedBorderColor: Colors.red,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
+                onPressed: () async {
+                  provider.editing = !provider.editing;
+
+                  if (provider.editing) {
+                  } else {
+                    getIt<PhoneVerification>()
+                        .getVerificationCodeFromServer(confirmedNumber);
+                    if (confirmedNumber != '') {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PhoneVerificationPage(
+                              provider: provider, phone: confirmedNumber)));
+                    }
+                  }
+                },
                 child: provider.editing
                     ? Text(AppLocalizations.of(context).translate('text60'))
                     : provider.phone != ''
                         ? Text(AppLocalizations.of(context).translate('text52'))
                         : Text(
                             AppLocalizations.of(context).translate('text53')),
-                onPressed: () async {
-                  provider.editing = !provider.editing;
-
-                  if (provider.editing) {
-                    
-                  } else {
-                    PhoneVerification()
-                        .getVerificationCodeFromServer(confirmedNumber);
-                    if (confirmedNumber != '')
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PhoneVerificationPage(
-                              provider: provider, phone: confirmedNumber)));
-                  }
-                },
               ),
             )
           ],

@@ -19,11 +19,11 @@ class Transaction {
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
-      amount: json['Amount'],
-      company: json['Company'],
-      dateOfSale: json['DateTimeOfSale'],
-      salesPoint: json['SalesPoint'],
-      logo: json['Logo'] ?? Uint8List.fromList([]),
+      amount: json['Amount']as num,
+      company: json['Company']as String,
+      dateOfSale: json['DateTimeOfSale']as String,
+      salesPoint: json['SalesPoint']as String,
+      logo: json['Logo']as Uint8List ?? Uint8List.fromList([]),
     );
   }
 }

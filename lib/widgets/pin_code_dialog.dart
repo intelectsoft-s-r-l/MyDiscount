@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:MyDiscount/injectable.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -18,9 +19,9 @@ class PinCodeDialog extends StatefulWidget {
 }
 
 class _PinCodeDialogState extends State<PinCodeDialog> {
-  TextEditingController _codeController = TextEditingController();
-  StreamController _controller = StreamController();
-  FocusNode _focusNode = FocusNode();
+  final TextEditingController _codeController = TextEditingController();
+  final StreamController _controller = StreamController();
+  final FocusNode _focusNode = FocusNode();
   String _currentCode;
   Timer _timer;
   bool isActive = true;
@@ -32,8 +33,8 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
     startTimer();
   }
 
-  startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
+ void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_timer) {
       if (_duration != 0) {
         _duration--;
         _controller.add(_duration);
@@ -65,10 +66,10 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
     final phone = widget.phone;
 
     return AlertDialog(
-      contentPadding: EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
+      contentPadding:const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
       title: Text(AppLocalizations.of(context).translate('text58'),
-          style: TextStyle(fontSize: 15)),
-      content: Container(
+          style:const TextStyle(fontSize: 15)),
+      content: SizedBox(
         height: 80,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +90,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
                     ? isActive
                         ? Text(
                             '${AppLocalizations.of(context).translate('text55')} ${snapshot.data} ${AppLocalizations.of(context).translate('text59')}',
-                            style: TextStyle(fontSize: 15))
+                            style:const TextStyle(fontSize: 15))
                         : InkResponse(
                             onTap: () {
                              widget.phoneVerification
@@ -103,11 +104,11 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
                             child: Text(
                                 AppLocalizations.of(context)
                                     .translate('text54'),
-                                style: TextStyle(
+                                style:const TextStyle(
                                     fontSize: 15, fontWeight: FontWeight.bold)))
                     : Text(
                         '${AppLocalizations.of(context).translate('text55')} 30 ${AppLocalizations.of(context).translate('text59')}',
-                        style: TextStyle(fontSize: 15))),
+                        style:const TextStyle(fontSize: 15))),
           ],
         ),
       ),
@@ -124,10 +125,10 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
           ),
           child: Text(
             AppLocalizations.of(context).translate('text56'),
-            style: TextStyle(fontSize: 20),
+            style:const TextStyle(fontSize: 20),
           ),
         ),
-        SizedBox(
+       const SizedBox(
           width: 10,
         ),
         MaterialButton(
@@ -150,7 +151,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
                   .show(context);
               _focusNode.unfocus();
             } else {
-              PhoneVerification().getVerificationCodeFromServer(phone);
+              getIt<PhoneVerification>().getVerificationCodeFromServer(phone);
               
               FlushbarHelper.createError(
                       message: AppLocalizations.of(context).translate('text46'))
@@ -159,7 +160,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
           },
           child: Text(
             AppLocalizations.of(context).translate('text47'),
-            style: TextStyle(fontSize: 20),
+            style:const TextStyle(fontSize: 20),
           ),
         )
       ],

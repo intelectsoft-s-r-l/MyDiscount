@@ -1,24 +1,28 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
 import '../core/constants/credentials.dart';
 import '../services/shared_preferences_service.dart';
 import '../services/qr_service.dart';
 import '../services/remote_config_service.dart';
 
+@injectable
 class PhoneVerification {
-  SharedPref prefs = SharedPref();
- final  QrService _qrService =QrService();
+  final SharedPref prefs;
+  final QrService _qrService;
+
+  PhoneVerification(this.prefs, this._qrService);
 
   Future<void> getVerificationCodeFromServer(String phoneNumber) async {
-     try {
-      String serviceName = await getServiceNameFromRemoteConfig();
+    try {
+      final String serviceName = await getServiceNameFromRemoteConfig();
       final url = '$serviceName/json/ValidatePhone?Phone=$phoneNumber';
       final response = await http.get(url, headers: Credentials().header);
       if (response.statusCode == 200) {
         final codeMap = json.decode(response.body);
-        prefs.saveCode(codeMap['CODE']);
+        prefs.saveCode(codeMap['CODE'] as String);
       }
     } catch (e) {
       throw Exception(e);
@@ -28,7 +32,7 @@ class PhoneVerification {
   Future<bool> smsCodeVerification(VerificationCode code) async {
     final codeFromServer = await prefs.readCode();
     if (code == VerificationCode(codeFromServer)) {
-      _qrService.getTID(true);
+      _qrService.getTID(isPhoneVerification: true);
       return true;
     }
     return false;
@@ -47,5 +51,6 @@ class VerificationCode {
         other is VerificationCode && code == other.code;
   }
 
+  @override
   int get hashCode => code.hashCode;
 }

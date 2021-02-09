@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:MyDiscount/injectable.dart';
 import 'package:MyDiscount/providers/phone_number.dart';
 import 'package:MyDiscount/services/phone_verification.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -18,9 +19,9 @@ class PhoneVerificationPage extends StatefulWidget {
 }
 
 class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
-  TextEditingController _codeController = TextEditingController();
-  StreamController<int> _controller = StreamController();
-  FocusNode _focusNode = FocusNode();
+  final TextEditingController _codeController = TextEditingController();
+  final StreamController<int> _controller = StreamController();
+  final FocusNode _focusNode = FocusNode();
   String _currentCode;
   Timer _timer;
   bool isActive = true;
@@ -32,12 +33,11 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     startTimer();
   }
 
-  startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
+ void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_timer) {
       if (_duration != 0) {
         _duration--;
         _controller.add(_duration);
-        
       } else {
         if (mounted) {
           _timer.cancel();
@@ -76,33 +76,33 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
         child: Container(
           color: Colors.green,
           child: Padding(
-            padding: EdgeInsets.only(top: 10),
+            padding:const EdgeInsets.only(top: 10),
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius:const BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
               child: Container(
-                padding: EdgeInsets.only(left: 5, right: 5),
+                padding:const EdgeInsets.only(left: 5, right: 5),
                 color: Colors.white,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
+                   const SizedBox(
                       height: 30,
                     ),
                     Text(AppLocalizations.of(context).translate('text44'),
-                        style: TextStyle(
+                        style:const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold)),
-                    SizedBox(
+                   const SizedBox(
                       height: 5,
                     ),
                     Text(
                       phone,
-                      style: TextStyle(color: Colors.green),
+                      style:const TextStyle(color: Colors.green),
                     ),
-                    Container(
+                    SizedBox(
                       width: size.width * .6,
                       child: PinFieldAutoFill(
                         controller: _codeController,
@@ -114,7 +114,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                         },
                       ),
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 30,
                     ),
                     Row(
@@ -126,7 +126,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                               return OutlineButton(
                                 onPressed: snapshot.data == 0
                                     ? () {
-                                        PhoneVerification()
+                                        getIt<PhoneVerification>()
                                             .getVerificationCodeFromServer(
                                                 phone);
                                         setState(() {
@@ -136,7 +136,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                         startTimer();
                                       }
                                     : null,
-                                borderSide: BorderSide(color: Colors.green),
+                                borderSide:const BorderSide(color: Colors.green),
                                 splashColor: Colors.green,
                                 highlightColor: Colors.green,
                                 shape: RoundedRectangleBorder(
@@ -148,18 +148,18 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                   child: Text(
                                     snapshot.hasData
                                         ? '${AppLocalizations.of(context).translate('text54')}(${snapshot.data})'
-                                        : '${AppLocalizations.of(context).translate('text54')}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                        : AppLocalizations.of(context).translate('text54'),
+                                    style:
+                                       const TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               );
                             }),
-                        SizedBox(
+                      const  SizedBox(
                           width: 10,
                         ),
                         OutlineButton(
-                          borderSide: BorderSide(color: Colors.green),
+                          borderSide:const BorderSide(color: Colors.green),
                           splashColor: Colors.green,
                           highlightColor: Colors.green,
                           shape: RoundedRectangleBorder(
@@ -168,7 +168,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                           onPressed: () async {
                             bool coresponde = false;
                             if (_currentCode != '') {
-                              coresponde = await PhoneVerification()
+                              coresponde = await getIt<PhoneVerification>()
                                   .smsCodeVerification(
                                       VerificationCode(_currentCode));
                             }
@@ -187,7 +187,6 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                             width: size.width * .3,
                             child: Text(
                               AppLocalizations.of(context).translate('text47'),
-                              
                             ),
                           ),
                         )

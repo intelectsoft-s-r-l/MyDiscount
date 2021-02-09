@@ -6,7 +6,7 @@ class TransactionsPage extends StatelessWidget {
   const TransactionsPage();
   @override
   Widget build(BuildContext context) {
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final String pageName = ModalRoute.of(context).settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         title: Text(pageName),

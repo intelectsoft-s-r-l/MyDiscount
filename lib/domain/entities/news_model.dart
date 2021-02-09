@@ -40,15 +40,15 @@ class News {
 
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
-      appType: json['AppType'],
-      companyId: json['CompanyID'],
-      companyName: json['CompanyName'],
-      content: json['Content'],
-      dateTime: json['CreateDate'],
-      header: json['Header'],
-      id: json['ID'],
-      photo: json['Photo'] ?? Uint8List.fromList([]),
-      logo: json['CompanyLogo'] ?? Uint8List.fromList([]),
+      appType: json['AppType']as int,
+      companyId: json['CompanyID']as int,
+      companyName: json['CompanyName']as String,
+      content: json['Content'] as String,
+      dateTime: json['CreateDate']as String,
+      header: json['Header']as String,
+      id: json['ID']as int,
+      photo: json['Photo']as Uint8List ?? Uint8List.fromList([]) ,
+      logo: json['CompanyLogo'] as Uint8List ?? Uint8List.fromList([]),
     );
   }
   News copyWith({

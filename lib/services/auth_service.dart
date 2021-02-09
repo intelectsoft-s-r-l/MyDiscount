@@ -8,32 +8,29 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../core/decode.dart';
-
 import '../services/fcm_service.dart';
 
-StreamController<bool> authController = StreamController.broadcast();
-
+@injectable
 class AuthService extends UserCredentials {
-  Decoder decoder = Decoder();
-  GoogleSignIn googleSignIn = GoogleSignIn(scopes: [
-    'email',
-  ]);
-  FacebookLogin _facebookLogin = FacebookLogin();
+  final GoogleSignIn googleSignIn;
+  final FacebookLogin _facebookLogin;
+  final FirebaseCloudMessageService fcmService;
 
-  FirebaseCloudMessageService fcmService = FirebaseCloudMessageService();
+  final String _expireDate =
+      DateTime.now().add(const Duration(hours: 3)).toString();
 
-  String _expireDate = DateTime.now().add(Duration(hours: 3)).toString();
+  AuthService(this.googleSignIn, this._facebookLogin, this.fcmService);
 
   Future<User> authWithFacebook() async {
     try {
       final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
-          FacebookAccessToken _accessToken = result.accessToken;
+          final FacebookAccessToken _accessToken = result.accessToken;
           final Map<String, dynamic> profile =
               await getFacebookProfile(_accessToken.token);
           final String fcmToken = await fcmService.getfcmToken();
@@ -42,12 +39,12 @@ class AuthService extends UserCredentials {
             accessToken: _accessToken.token,
             expireDate: _expireDate,
           ));
-          final splitedDisplayName = splitTheStrings(profile['name']);
+          final splitedDisplayName = splitTheStrings(profile['name'] as String);
           saveProfileRegistrationDataToMap(Profile(
-            firstName: splitedDisplayName[0]??'',
-            lastName: splitedDisplayName[1]??'',
-            email: profile['email'],
-            photoUrl: profile['picture']['data']['url'],
+            firstName: splitedDisplayName[0] ?? '',
+            lastName: splitedDisplayName[1] ?? '',
+            email: profile['email'] as String,
+            photoUrl: profile['picture']['data']['url'] as String,
             registerMode: 2,
             pushToken: fcmToken,
           ));
@@ -73,7 +70,7 @@ class AuthService extends UserCredentials {
   Future<Map<String, dynamic>> getFacebookProfile(String token) async {
     final _graphResponse = await http.get(
         'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
-    return json.decode(_graphResponse.body);
+    return json.decode(_graphResponse.body) as Map<String, dynamic>;
   }
 
   Future<void> logwithG() async {
@@ -95,8 +92,8 @@ class AuthService extends UserCredentials {
         final splitedDisplayName = splitTheStrings(account.displayName);
         saveProfileRegistrationDataToMap(
           Profile(
-            firstName: splitedDisplayName[0]??'',
-            lastName: splitedDisplayName[1]??'',
+            firstName: splitedDisplayName[0] ?? '',
+            lastName: splitedDisplayName[1] ?? '',
             email: account.email,
             photoUrl: account.photoUrl ?? '',
             registerMode: 1,
@@ -126,7 +123,7 @@ class AuthService extends UserCredentials {
 
   Future<void> signInWithApple() async {
     try {
-      var appleCredentials = await SignInWithApple.getAppleIDCredential(
+      final appleCredentials = await SignInWithApple.getAppleIDCredential(
           scopes: [
             AppleIDAuthorizationScopes.email,
             AppleIDAuthorizationScopes.fullName
@@ -155,7 +152,8 @@ class AuthService extends UserCredentials {
         expireDate: _expireDate,
       );
     } on SignInWithAppleAuthorizationException {
-      throw SignInWithAppleCredentialsException(message: 'Remove from user');
+      throw const SignInWithAppleCredentialsException(
+          message: 'Remove from user');
     } catch (e, s) {
       FirebaseCrashlytics.instance.recordError(e, s);
 

@@ -21,7 +21,7 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: function,
+      onPressed: () => function(),
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       child: Container(
@@ -33,20 +33,20 @@ class LoginButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               width: 30,
             ),
             SvgPicture.asset(
               picture,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

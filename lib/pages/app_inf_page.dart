@@ -4,13 +4,15 @@ import '../core/localization/localizations.dart';
 import '../widgets/app_info_widget.dart';
 
 class AppInfoPage extends StatelessWidget {
+  const AppInfoPage();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).translate('text32'),style: TextStyle(fontSize: 18),
+          AppLocalizations.of(context).translate('text32'),
+          style: const TextStyle(fontSize: 18),
         ),
         backgroundColor: Colors.green,
         elevation: 0,
@@ -20,7 +22,7 @@ class AppInfoPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),

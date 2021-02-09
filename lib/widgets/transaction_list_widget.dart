@@ -17,7 +17,7 @@ class TranzactionListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (context, index) => SizedBox(
+      separatorBuilder: (context, index) => const SizedBox(
         height: 3,
       ),
       shrinkWrap: true,

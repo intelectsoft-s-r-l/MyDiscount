@@ -20,15 +20,15 @@ class NoCompanieList extends StatelessWidget {
           ),
           Text(
             AppLocalizations.of(context).translate('text13'),
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style:const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-          SizedBox(
+         const SizedBox(
             height: 20,
           ),
           Text(
             AppLocalizations.of(context).translate('text14'),
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style:const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
         ],

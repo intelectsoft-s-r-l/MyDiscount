@@ -10,7 +10,7 @@ class NewsImageWidget extends StatelessWidget {
   const NewsImageWidget({Key key, this.size, this.news}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: size.width,
      height: size.width,
       child: ClipRRect(

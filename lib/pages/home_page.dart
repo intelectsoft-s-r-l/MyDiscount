@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
           Expanded(
             child: Container(
               height: size.height * .7,
-              decoration: BoxDecoration(
+              decoration:const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),

@@ -1,4 +1,5 @@
 import 'package:MyDiscount/domain/entities/news_model.dart';
+import 'package:MyDiscount/injectable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html/parser.dart' as htmlparser;
@@ -20,8 +21,6 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  NewsService service = NewsService();
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -40,23 +39,23 @@ class _NotificationPageState extends State<NotificationPage> {
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
               ),
               child: FutureBuilder<List<News>>(
-                future: service.getNews(),
+                future: getIt<NewsService>().getNews(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.length == 0) {
+                    if (snapshot.data.isEmpty) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             width: size.width,
                             height: size.width,
                             child: Stack(
@@ -65,7 +64,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                 Positioned(
                                   top: size.width * .15,
                                   left: 0,
-                                  child: Container(
+                                  child: SizedBox(
                                     width: MediaQuery.of(context).size.width,
                                     height:
                                         MediaQuery.of(context).size.width * .75,
@@ -84,7 +83,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                     child: Text(
                                       AppLocalizations.of(context)
                                           .translate('text65'),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -98,11 +97,11 @@ class _NotificationPageState extends State<NotificationPage> {
                     } else {
                       return ListView.separated(
                         shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         separatorBuilder: (context, index) => Container(
-                          padding: EdgeInsets.only(left: 7, right: 7),
+                          padding: const EdgeInsets.only(left: 7, right: 7),
                           height: 30,
-                          child: Divider(
+                          child: const Divider(
                             //height: 10.0,
                             thickness: 3.0,
                             // color: Colors.red,
@@ -110,7 +109,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         ),
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
-                          News news = snapshot.data[index];
+                          final News news = snapshot.data[index];
                           return NewsItem(
                             news: news,
                             size: size,
@@ -156,26 +155,24 @@ class _NewsItemState extends State<NewsItem> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(19),
-          child: Container(
-            child: Column(
-              children: [
-                NewsHeaderWidget(
-                  size: size,
-                  news: news,
-                ),
-                Html(
-                  data: news.header,
-                ),
-                DetailedNews(
-                  news: news,
-                  size: size,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                NewsImageWidget(news: news, size: size),
-              ],
-            ),
+          child: Column(
+            children: [
+              NewsHeaderWidget(
+                size: size,
+                news: news,
+              ),
+              Html(
+                data: news.header,
+              ),
+              DetailedNews(
+                news: news,
+                size: size,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              NewsImageWidget(news: news, size: size),
+            ],
           ),
         ),
       ),
@@ -201,85 +198,81 @@ class _DetailedNewsState extends State<DetailedNews> {
     final string = htmlparser.parse(news.content);
     final str = string.body.text;
     final list = str.padLeft(1, ' ');
-    return Container(
-      child: Column(
-        children: [
-          InkResponse(
-            autofocus: true,
-            onTap: () {
-              setState(() {
-                showText = !showText;
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                !showText
-                    ? Container(
-                       
-                        padding: EdgeInsets.only(left: 5),
-                        width: size.width * .95,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              list,
-                              maxLines: 3,
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.ellipsis,
+    return Column(
+      children: [
+        InkResponse(
+          autofocus: true,
+          onTap: () {
+            setState(() {
+              showText = !showText;
+            });
+          },
+          child: Row(
+            children: [
+              !showText
+                  ? Container(
+                      padding: const EdgeInsets.only(left: 5),
+                      width: size.width * .95,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            list,
+                            maxLines: 3,
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            AppLocalizations.of(context).translate('text64'),
+                            style: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
                             ),
-                            Text(
-                              AppLocalizations.of(context).translate('text64'),
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
-              ],
-            ),
-          ),
-          Container(
-            child: showText
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      HtmlText(
-                        list: news,
+                          ),
+                        ],
                       ),
-                      InkResponse(
-                        onTap: () {
-                          setState(() {
-                            showText = !showText;
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 12,
-                            ),
-                            Text(
-                              AppLocalizations.of(context).translate('text63'),
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                : Container(),
+                    )
+                  : Container(),
+            ],
           ),
-        ],
-      ),
+        ),
+        Container(
+          child: showText
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    HtmlText(
+                      list: news,
+                    ),
+                    InkResponse(
+                      onTap: () {
+                        setState(() {
+                          showText = !showText;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Text(
+                            AppLocalizations.of(context).translate('text63'),
+                            style: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              : Container(),
+        ),
+      ],
     );
   }
 }

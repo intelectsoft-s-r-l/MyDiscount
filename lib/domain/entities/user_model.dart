@@ -10,9 +10,9 @@ class User {
   });
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['ID'],
-      accessToken: json['access_token'],
-      expireDate: json['expireDate'],
+      id: json['ID']as String,
+      accessToken: json['access_token']as String,
+      expireDate: json['expireDate']as String,
     );
   }
   Map<String, dynamic> toJson() {

@@ -4,10 +4,11 @@ import '../core/localization/localizations.dart';
 import '../widgets/profile_home_item_widget.dart';
 
 class InformationPage extends StatelessWidget {
+  const InformationPage();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final String pageName = ModalRoute.of(context).settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         title: Text(pageName),
@@ -18,10 +19,10 @@ class InformationPage extends StatelessWidget {
         color: Colors.green,
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
-          child: Container(
+          child: SizedBox(
             width: size.width,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),

@@ -18,6 +18,8 @@ class ReceivedNotification {
   });
   factory ReceivedNotification.fromMap(dynamic map) {
     return ReceivedNotification(
-        id: map['id'], title: map['title'], body: map['body']);
+        id: map['id'] as int,
+        title: map['title'] as String,
+        body: map['body'] as String);
   }
 }

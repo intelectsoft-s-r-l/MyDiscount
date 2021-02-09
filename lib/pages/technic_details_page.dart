@@ -6,6 +6,7 @@ import '../core/localization/localizations.dart';
 import '../services/device_info_service.dart';
 
 class TechnicDetailPage extends StatefulWidget {
+  const TechnicDetailPage();
   @override
   _TechnicDetailPageState createState() => _TechnicDetailPageState();
 }
@@ -20,10 +21,10 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final String pageName = ModalRoute.of(context).settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
-        title: Text(pageName, style: TextStyle(fontSize: 18)),
+        title: Text(pageName, style: const TextStyle(fontSize: 18)),
         backgroundColor: Colors.green,
         elevation: 0,
       ),
@@ -32,7 +33,7 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
@@ -44,7 +45,7 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
                 builder: (context, snapshot) {
                   return snapshot.hasData
                       ? Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             children: [
                               if (Platform.isAndroid)

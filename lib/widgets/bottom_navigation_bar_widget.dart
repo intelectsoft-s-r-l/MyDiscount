@@ -19,15 +19,13 @@ class BottomNavigationBarWidget extends StatefulWidget {
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
     with WidgetsBindingObserver {
   int selectedIndex = 1;
-  StreamController _indexController = StreamController();
+  final StreamController _indexController = StreamController();
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
 
     super.initState();
   }
-
-  
 
   @override
   void dispose() {
@@ -77,7 +75,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                       _indexController.add(0);
                     });
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * .33,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +108,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                     child: Container(
                       alignment: Alignment.topCenter,
                       color: Colors.white,
-                      child: RipplesAnimation(),
+                      child: const RipplesAnimation(),
                     ),
                   ),
                 ),
@@ -121,7 +119,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
                       _indexController.add(2);
                     });
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width * .33,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

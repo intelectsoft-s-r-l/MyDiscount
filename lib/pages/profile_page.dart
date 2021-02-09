@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AuthorizationProvider>(context, listen: false);
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final String pageName = ModalRoute.of(context).settings.arguments as String;
     final appBar = AppBar(
       title: Text(pageName),
       backgroundColor: Colors.green,
@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: (MediaQuery.of(context).size.height -
                             appBar.preferredSize.height) -
                         30,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         (MediaQuery.of(context).size.height -
                                                 appBar.preferredSize.height) *
                                             .77,
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         left: 10, right: 10, top: 10),
                                     child: Column(
                                       crossAxisAlignment:
@@ -81,28 +81,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 AppLocalizations.of(context)
                                                     .translate('text26'),
                                             text: snapshot.data.firstName),
-                                        Divider(),
+                                        const Divider(),
                                         ProfileItemWidget(
                                             labelText:
                                                 AppLocalizations.of(context)
                                                     .translate('text27'),
                                             text: snapshot.data.lastName),
-                                        Divider(),
+                                        const Divider(),
                                         ProfileItemWidget(
                                             labelText: 'E-mail',
                                             text: snapshot.data.email ?? ''),
-                                        Divider(),
+                                        const Divider(),
                                         ProfileFieldWidget(
                                           labelText:
                                               AppLocalizations.of(context)
                                                   .translate('text37'),
                                         ),
-                                        Divider(),
+                                        const Divider(),
                                       ],
                                     ),
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: (MediaQuery.of(context).size.height -
                                           appBar.preferredSize.height) *
                                       .15,
@@ -120,16 +120,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                               //service.signOut(context);
                                             },
                                             splashColor: Colors.green,
-                                            borderSide:
-                                                BorderSide(color: Colors.green),
+                                            borderSide: const BorderSide(
+                                                color: Colors.green),
                                             highlightColor: Colors.green,
                                             highlightedBorderColor: Colors.red,
-                                            child: Text(
-                                                AppLocalizations.of(context)
-                                                    .translate('text31')),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(20)),
+                                            child: Text(
+                                                AppLocalizations.of(context)
+                                                    .translate('text31')),
                                           ),
                                         ],
                                       ),

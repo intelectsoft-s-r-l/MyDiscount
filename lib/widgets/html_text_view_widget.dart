@@ -16,7 +16,7 @@ class HtmlText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.only(left: 5, right: 5,top: 5,bottom: 5),
+      padding:const EdgeInsets.only(left: 5, right: 5,top: 5,bottom: 5),
       child: Html(
         data: list.content,
       ),

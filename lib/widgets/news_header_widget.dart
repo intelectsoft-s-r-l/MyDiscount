@@ -27,12 +27,12 @@ class NewsHeaderWidget extends StatelessWidget {
           top: 30,
           left: 65,
           child: Container(
-            padding: EdgeInsets.only(
+            padding:const EdgeInsets.only(
               right: 10,
             ),
             child: Text(
               news.dateTime,
-              style: TextStyle(
+              style:const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                   color: Colors.black38),
