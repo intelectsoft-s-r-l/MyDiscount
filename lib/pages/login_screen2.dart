@@ -7,77 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../core/localization/localizations.dart';
-// import 'package:flushbar/flushbar_helper.dart';
-// import '../main.dart';
-// import '../services/shared_preferences_service.dart';
-// import '../services/auth_service.dart';
-// import '../services/internet_connection_service.dart';
 import '../widgets/login_button_widget.dart';
 
-class LoginScreen2 extends StatefulWidget {
-  @override
-  _LoginScreen2State createState() => _LoginScreen2State();
-}
-
-class _LoginScreen2State extends State<LoginScreen2> {
-  /*  final NetworkConnectionImpl internet = NetworkConnectionImpl();
-  final AuthService data = AuthService();
-  SharedPref _pref = SharedPref();
-  @override
-  void initState() {
-    getAuthState();
-    super.initState();
-  } */
-
+class LoginScreen2 extends StatelessWidget {
+  const LoginScreen2();
   @override
   Widget build(BuildContext context) {
-  final provider =  Provider.of<AuthorizationProvider>(context,listen: false);
-    var size = MediaQuery.of(context).size;
-    /*   void _authorize(future, context) async {
-      future.whenComplete(() async {
-        final prefs = await _pref.instance;
-        if (prefs.containsKey('user') && prefs.containsKey('profile')) {
-          Navigator.of(context).pushReplacementNamed('/app');
-        }
-      });
-    }
-
-    void getAuthorizationApple() async {
-      if (await internet.isConnected) {
-        _authorize(data.signInWithApple(), context);
-      } else {
-        FlushbarHelper.createError(
-                message: AppLocalizations.of(context).translate('text6'))
-            .show(context); 
-      }
-    }
-
-    void getAuthorizationGoogle() async {
-      if (await internet.isConnected) {
-        _authorize(data.logwithG(), context);
-      } else {
-        FlushbarHelper.createError(
-                message: AppLocalizations.of(context).translate('text6'))
-            .show(context);
-      }
-    }
-
-    void getAuthorizationFB() async {
-      if (await internet.isConnected) {
-        _authorize(data.authWithFacebook(), context);
-      } else {
-        FlushbarHelper.createError(
-                message: AppLocalizations.of(context).translate('text6'))
-            .show(context); 
-      }
-    } */
-
+    final provider = Provider.of<AuthorizationProvider>(context, listen: false);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
           Stack(
             children: [
-              Container(
+              SizedBox(
                   height: size.height * .45,
                   width: size.width,
                   child: Image.asset(
@@ -92,7 +35,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     width: size.width,
                     child: Text(
                       AppLocalizations.of(context).translate('text18'),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                       textScaleFactor: 1.5,
@@ -101,7 +44,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
               ),
             ],
           ),
-          Container(
+          SizedBox(
             height: size.height * .5,
             child: Column(
               children: [
@@ -118,7 +61,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                   ),
                   child: Text(
                     AppLocalizations.of(context).translate('text12'),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.bold,
                     ),
@@ -130,20 +73,20 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 ),
                 LoginButton(
                   size: size,
-                  function:provider.getAuthorizationGoogle ,// getAuthorizationGoogle,
+                  function: provider.getAuthorizationGoogle, // getAuthorizationGoogle,
                   picture: 'assets/icons/icon_google.svg',
                   text: AppLocalizations.of(context).translate('text15'),
-                  color: Color(0xFF406BFB),
+                  color: const Color(0xFF406BFB),
                 ),
                 SizedBox(
                   height: size.height * .01,
                 ),
                 LoginButton(
                   size: size,
-                  function:provider.getAuthorizationFB, //getAuthorizationFB,
+                  function: provider.getAuthorizationFB, //getAuthorizationFB,
                   picture: 'assets/icons/icon_facebook.svg',
                   text: AppLocalizations.of(context).translate('text16'),
-                  color: Color(0xFF2D4CB3),
+                  color: const Color(0xFF2D4CB3),
                 ),
                 SizedBox(
                   height: size.height * .01,
