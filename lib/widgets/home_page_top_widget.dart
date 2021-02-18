@@ -1,8 +1,16 @@
-import 'package:MyDiscount/injectable.dart';
-import 'package:MyDiscount/services/user_credentials.dart';
-import 'package:flutter/material.dart';
+//import 'dart:convert';
 
-import '../core/localization/localizations.dart';
+import 'package:MyDiscount/domain/entities/profile_model.dart';
+
+import 'package:MyDiscount/infrastructure/local_repository_impl.dart';
+
+import 'package:flutter/material.dart';
+//import 'package:provider/provider.dart';
+
+//import '../core/localization/localizations.dart';
+
+import '../injectable.dart';
+//import '../providers/image_picker.dart';
 
 class HomePageTopWidget extends StatelessWidget {
   HomePageTopWidget({
@@ -17,9 +25,10 @@ class HomePageTopWidget extends StatelessWidget {
     return SizedBox(
       height: size.height * .253,
       width: size.width,
-      child: FutureBuilder(
-        future: getIt<UserCredentials>().getUserProfileData(),
+      child: FutureBuilder<Profile>(
+        future: getIt<LocalRepositoryImpl>().getLocalClientInfo(),
         builder: (context, snapshot) {
+          final profile = snapshot.data;
           return snapshot.hasData
               ? Stack(
                   children: [
@@ -34,15 +43,13 @@ class HomePageTopWidget extends StatelessWidget {
                               radius: 35,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(40),
-                                child: snapshot.data.photoUrl != ''
-                                    ? Image.network(
-                                        '${snapshot.data.photoUrl}',
+                                child: profile.photo.isNotEmpty
+                                    ? Image.memory(
+                                        profile.photo,
                                         fit: BoxFit.fill,
                                         scale: 0.7,
-                                        filterQuality: FilterQuality.high,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return Image.asset('assets/icons/profile.png');
-                                        },
+                                        width: 110,
+                                        height: 110,
                                       )
                                     : Image.asset('assets/icons/profile.png'),
                               ),
@@ -51,8 +58,8 @@ class HomePageTopWidget extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  '${snapshot.data.firstName}',
-                                  style: const TextStyle(
+                                  '${profile.firstName}',
+                                  style: TextStyle(
                                     color: Colors.white,
                                   ),
                                   textScaleFactor: 1.3,
@@ -61,8 +68,8 @@ class HomePageTopWidget extends StatelessWidget {
                                   width: 5,
                                 ),
                                 Text(
-                                  '${snapshot.data.lastName}',
-                                  style: const TextStyle(
+                                  '${profile.lastName}',
+                                  style: TextStyle(
                                     color: Colors.white,
                                   ),
                                   textScaleFactor: 1.3,
@@ -72,7 +79,7 @@ class HomePageTopWidget extends StatelessWidget {
                             const SizedBox(
                               height: 5,
                             ),
-                            if (snapshot.data.registerMode == 1)
+                            /* if (profile.registerMode == 1)
                               Text(
                                 AppLocalizations.of(context).translate('signinG'),
                                 style: TextStyle(
@@ -80,18 +87,22 @@ class HomePageTopWidget extends StatelessWidget {
                                 ),
                                 textScaleFactor: 1,
                               ),
-                            if (snapshot.data.registerMode == 2)
-                              Text(AppLocalizations.of(context).translate('signinF'),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  )),
-                            Text(
-                              AppLocalizations.of(context).translate('signinA'),
-                              style: TextStyle(
-                                color: Colors.white,
+                            if (profile.registerMode == 2)
+                              Text(
+                                AppLocalizations.of(context).translate('signinF'),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                textScaleFactor: 1,
                               ),
-                              textScaleFactor: 1,
-                            ),
+                            if (profile.registerMode == 3)
+                              Text(
+                                AppLocalizations.of(context).translate('signinA'),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                textScaleFactor: 1,
+                              ), */
                           ],
                         ),
                       ),

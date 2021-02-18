@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:MyDiscount/domain/repositories/is_service_repository.dart';
+import 'package:MyDiscount/infrastructure/local_repository_impl.dart';
 import 'package:MyDiscount/injectable.dart';
 import 'package:MyDiscount/providers/phone_number.dart';
-import 'package:MyDiscount/services/phone_verification.dart';
+
 import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -113,8 +115,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                         return OutlineButton(
                           onPressed: snapshot.data == 0
                               ? () {
-                                  getIt<PhoneVerification>()
-                                      .getVerificationCodeFromServer(phone);
+                                  getIt<IsService>()
+                                      .validatePhone(phone: phone);
                                   setState(() {
                                     isActive = true;
                                     _duration = 60;
@@ -153,7 +155,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                     onPressed: () async {
                       bool coresponde = false;
                       if (_currentCode != '') {
-                        coresponde = await getIt<PhoneVerification>()
+                        coresponde = await getIt<LocalRepositoryImpl>()
                             .smsCodeVerification(
                                 VerificationCode(_currentCode));
                       }

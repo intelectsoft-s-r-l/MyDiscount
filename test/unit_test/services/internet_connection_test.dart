@@ -10,16 +10,13 @@ void main() {
   MockDataConnectionChecker mockDataConnectionChecker;
   setUp(() {
     mockDataConnectionChecker = MockDataConnectionChecker();
-    //networkConnectionImpl =
-      //  NetworkConnectionImpl(connectionChecker: mockDataConnectionChecker);
+    networkConnectionImpl = NetworkConnectionImpl(connectionChecker: mockDataConnectionChecker);
   });
 
   group('check internet connection', () {
-    test('should forward the call DataConnectionChecker.hasConnection',
-        () async {
+    test('should forward the call DataConnectionChecker.hasConnection', () async {
       final hasConnection = Future.value(true);
-      when(mockDataConnectionChecker.hasConnection)
-          .thenAnswer((_) => hasConnection);
+      when(mockDataConnectionChecker.hasConnection).thenAnswer((_) => hasConnection);
       final result = networkConnectionImpl.isConnected;
       verify(mockDataConnectionChecker.hasConnection);
       expect(result, hasConnection);

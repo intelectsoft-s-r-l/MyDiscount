@@ -1,42 +1,53 @@
+import 'dart:typed_data';
+
+import 'package:hive/hive.dart';
+
+part 'profile_model.g.dart';
+
+@HiveType(typeId: 0)
 class Profile {
+  @HiveField(0)
   final String firstName;
+  @HiveField(1)
   final String lastName;
+  @HiveField(2)
   final String email;
+  @HiveField(3)
   final String phone;
-  final String photoUrl;
+  @HiveField(4)
+  final Uint8List photo;
+  @HiveField(5)
   final String pushToken;
-  final int registerMode;
 
   Profile({
     this.firstName,
     this.lastName,
     this.email,
     this.phone,
-    this.photoUrl = '',
-    this.registerMode,
+    this.photo,
     this.pushToken,
-  }) : assert(photoUrl != null);
+  }) : assert(photo != null);
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      firstName: json['firstName']as String ?? '',
-      lastName: json['lastName']as String ?? '',
-      email: json['email']as String,
-      phone:json['phone']as String,
-      photoUrl: json['photoUrl']as String ?? '',
-      registerMode: json['registerMode']as int,
-      pushToken: json['pushToken']as String,
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      email: json['Email'],
+      phone: json['phone'],
+      photo: json['Photo'] ?? Uint8List.fromList([]),
+      pushToken: json['PushToken'],
     );
   }
   Map<String, dynamic> toJson() {
     return {
       "firstName": firstName,
       "lastName": lastName,
-      "email": email,
-      "phone":phone,
-      "photoUrl": photoUrl,
-      "registerMode": registerMode,
-      "pushToken": pushToken,
+      "Email": email,
+      "phone": phone,
+      "Photo": photo,
+      "PushToken": pushToken,
     };
   }
+
+  
 }

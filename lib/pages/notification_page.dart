@@ -1,11 +1,11 @@
 import 'package:MyDiscount/domain/entities/news_model.dart';
+import 'package:MyDiscount/infrastructure/is_service_impl.dart';
 import 'package:MyDiscount/injectable.dart';
 import 'package:MyDiscount/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../core/localization/localizations.dart';
 
-import '../services/news_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/news_page_widgets/news_item.dart';
 
@@ -26,10 +26,10 @@ class _NotificationPageState extends State<NotificationPage> {
           color: Colors.white,
         ),
         child: FutureBuilder<List<News>>(
-          future: getIt<NewsService>().getNews(),
+          future: getIt<IsServiceImpl>().getAppNews(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data.length == 0) {
+              if (snapshot.data?.length == 0) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -88,6 +88,43 @@ class _NotificationPageState extends State<NotificationPage> {
                 );
               }
             }
+            if (snapshot.hasError) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: size.width,
+                    height: size.width,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: size.width * .15,
+                          left: 0,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.width * .75,
+                            child: FittedBox(fit: BoxFit.fill, child: Image.asset('assets/icons/no_news.png')),
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          top: size.width * .75,
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: size.width,
+                            child: Text(
+                              AppLocalizations.of(context).translate('nonews'),
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+
             return CircularProgresIndicatorWidget();
           },
         ),

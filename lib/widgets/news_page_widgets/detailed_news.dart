@@ -1,5 +1,6 @@
 import 'package:MyDiscount/core/localization/localizations.dart';
-import 'package:MyDiscount/models/news_model.dart';
+import 'package:MyDiscount/domain/entities/news_model.dart';
+import 'package:MyDiscount/widgets/news_page_widgets/html_text_view_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:simple_html_css/simple_html_css.dart';
@@ -22,9 +23,10 @@ class _DetailedNewsState extends State<DetailedNews> {
     final size = widget.size;
     //print(news.content);
     final textContent = HTML.toTextSpan(context, news.content,
-        defaultTextStyle: TextStyle(
+        /* defaultTextStyle: TextStyle(
           fontSize: 14,
-        ), linksCallback: (url) async {
+        ), */
+        linksCallback: (url) async {
       if (await canLaunch(url)) {
         launch(url);
       } else {
@@ -38,14 +40,14 @@ class _DetailedNewsState extends State<DetailedNews> {
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             !showText
                 ? Container(
-                    padding: EdgeInsets.only(left: 12),
+                    padding: EdgeInsets.only(left: 7),
                     width: size.width * .95,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         RichText(
                           text: textContent,
-                          maxLines: 3,
+                          maxLines: 20,
                           overflow: TextOverflow.ellipsis,
                           textHeightBehavior: TextHeightBehavior.fromEncoded(2),
                         ),
@@ -80,17 +82,17 @@ class _DetailedNewsState extends State<DetailedNews> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                          padding: EdgeInsets.only(left: 12,bottom: 12),
+                          padding: EdgeInsets.only(/* left: 12, */ bottom: 12),
                           child: RichText(
                             text: textContent,
                             // maxLines: 3,
                             // overflow: TextOverflow.ellipsis,
-                            textHeightBehavior:
-                                TextHeightBehavior.fromEncoded(2),
-                          )),
-                      /*  HtmlText(
-                        list: news,
-                      ), */
+                            textHeightBehavior: TextHeightBehavior.fromEncoded(2),
+                          )
+                          /* HtmlText(
+                          list: news,
+                        ), */
+                          ),
                       InkResponse(
                         onTap: () {
                           setState(() {

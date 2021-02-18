@@ -5,6 +5,7 @@ import '../core/localization/localizations.dart';
 import '../widgets/app_info_widget.dart';
 
 class AppInfoPage extends StatelessWidget {
+  const AppInfoPage();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

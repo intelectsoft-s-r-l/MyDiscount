@@ -13,11 +13,11 @@ class NoInternetWidget extends StatelessWidget {
           Image.asset('assets/icons/no internet.png'),
           const SizedBox(height: 20.0),
           Text(
-            AppLocalizations.of(context).translate('text6'),
+            AppLocalizations.of(context).translate('nothaveinet'),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            AppLocalizations.of(context).translate('text7'),
+            AppLocalizations.of(context).translate('serviceunavailable'),
             style: const TextStyle(fontWeight: FontWeight.bold),
           )
         ],

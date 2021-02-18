@@ -1,14 +1,16 @@
 import 'dart:async';
 
+import 'package:MyDiscount/pages/qr_page.dart';
+import 'package:MyDiscount/widgets/bottom_navigator/ripple_animation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../core/localization/localizations.dart';
-import '../new_button/ripple_animation.dart';
+
 import '../pages/home_page.dart';
 import '../pages/notification_page.dart';
-import '../pages/qr-page.dart';
+
 
 class BottomNavigationBarWidget extends StatefulWidget {
   @override

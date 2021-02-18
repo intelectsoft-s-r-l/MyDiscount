@@ -1,17 +1,16 @@
+import 'package:MyDiscount/domain/entities/tranzaction_model.dart';
+import 'package:MyDiscount/infrastructure/is_service_impl.dart';
+import 'package:MyDiscount/injectable.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/failure.dart';
 import '../../core/localization/localizations.dart';
-import '../../models/tranzaction_model.dart';
-import '../../services/transactions_service.dart';
 import '../../widgets/circular_progress_indicator_widget.dart';
 import '../../widgets/nointernet_widget.dart';
 import '../transaction_page_widgets/transaction_list_widget.dart';
 
 class TransactionPageList extends StatelessWidget {
-  final TransactionService service = TransactionService();
-
-  TransactionPageList({
+  const TransactionPageList({
     Key key,
   }) : super(key: key);
   @override
@@ -20,7 +19,7 @@ class TransactionPageList extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: FutureBuilder<List<Transaction>>(
-        future: service.getTransactions(),
+        future: getIt<IsServiceImpl>().getTransactionList(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return TranzactionListWidget(
@@ -56,12 +55,8 @@ class TransactionPageList extends StatelessWidget {
                         top: size.width * .65,
                         child: Container(
                           width: size.width,
-                          child: Text(
-                              AppLocalizations.of(context)
-                                  .translate('notransactions'),
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center),
+                          child: Text(AppLocalizations.of(context).translate('notransactions'),
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                         ),
                       ),
                     ],

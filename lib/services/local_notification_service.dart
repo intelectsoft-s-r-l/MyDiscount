@@ -13,21 +13,18 @@ class LocalNotificationsService {
 
   LocalNotificationsService(this.flutterLocalNotificationsPlugin);
 
-  StreamController didReceiveLocalNotificationSubject =
-      StreamController.broadcast();
+  StreamController didReceiveLocalNotificationSubject = StreamController.broadcast();
 
   StreamController selectNotificationSubject = StreamController.broadcast();
 
   void getFlutterLocalNotificationPlugin() async {
-    const initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_stat_qq3');
+    const initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_stat_qq3');
 
     final initializationSettingsIOS = IOSInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: true,
         requestSoundPermission: false,
-        onDidReceiveLocalNotification:
-            (int id, String title, String body, String payload) async {
+        onDidReceiveLocalNotification: (int id, String title, String body, String payload) async {
           didReceiveLocalNotificationSubject.add(ReceivedNotification(
             body: body,
             title: title,
@@ -35,8 +32,7 @@ class LocalNotificationsService {
           ));
         });
 
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
+    final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
@@ -74,19 +70,11 @@ class LocalNotificationsService {
       presentBadge: true,
       presentAlert: true,
     );
-    final platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
+    final platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-      Platform.isIOS
-          ? int.parse(notification['id'] as String)
-          : int.parse(notification['data']['id'] as String),
-      Platform.isIOS
-          ? '${notification['title']}'
-          : '${notification['notification']['title']}',
-      Platform.isIOS
-          ? '${notification['body']}'
-          : '${notification['notification']['body']}',
+      Platform.isIOS ? int.parse(notification['id'] as String) : int.parse(notification['data']['id'] as String),
+      Platform.isIOS ? '${notification['title']}' : '${notification['notification']['title']}',
+      Platform.isIOS ? '${notification['body']}' : '${notification['notification']['body']}',
       platformChannelSpecifics,
     );
     debugPrint('is shownotification:$notification');

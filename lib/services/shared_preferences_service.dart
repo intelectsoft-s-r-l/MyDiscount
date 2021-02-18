@@ -28,7 +28,7 @@ class SharedPref {
     return authData.getString('user');
   }
 
-  saveProfileData(String profile) async {
+  void saveProfileData(String profile) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('profile', profile);
   }

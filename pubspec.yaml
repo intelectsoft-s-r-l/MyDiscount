@@ -13,16 +13,20 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  IsService:
+    git: https://github.com/CristeaIon/is_service.git
   cupertino_icons: ^1.0.0
   data_connection_checker: ^0.3.4
   date_time_picker: ^1.1.0
   device_info: ^1.0.0
+  equatable: ^1.2.6
   firebase_analytics: ^6.3.0
   firebase_core: ^0.5.3
   firebase_crashlytics: ^0.2.4
   firebase_messaging: ^7.0.3
   firebase_remote_config: ^0.4.3
   flushbar: ^1.10.4
+  flutter_bloc: ^6.1.2
   flutter_facebook_login: ^3.0.0
   flutter_html: ^1.1.1
   flutter_local_notifications: ^3.0.2
@@ -33,10 +37,9 @@ dependencies:
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
   http: ^0.12.2
-  injectable: ^1.0.7
+  image_picker: ^0.6.7+22
   international_phone_input: ^1.0.4
   intl: ^0.16.1
-  url_launcher: ^5.7.10
   material_design_icons_flutter: ^4.0.5755
   package_info: ^0.4.3+2
   path_provider: ^1.6.24
@@ -46,6 +49,7 @@ dependencies:
   sign_in_with_apple: ^2.5.4
   simple_html_css: ^2.0.0+3
   sms_autofill: ^1.2.7
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:

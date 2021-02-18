@@ -5,6 +5,7 @@ import 'package:package_info/package_info.dart';
 import '../core/localization/localizations.dart';
 
 class AboutAppPage extends StatefulWidget {
+  const AboutAppPage();
   @override
   _AboutAppPageState createState() => _AboutAppPageState();
 }
@@ -24,7 +25,9 @@ class _AboutAppPageState extends State<AboutAppPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final obj = ModalRoute.of(context).settings.arguments;
+    final list = obj is Set ? obj.toList() : [];
+    final String pageName = list[0];
     return CustomAppBar(
       title: pageName,
       child: Container(

@@ -1,14 +1,15 @@
 import 'package:MyDiscount/domain/entities/tranzaction_model.dart';
+import 'package:MyDiscount/domain/repositories/is_service_repository.dart';
 import 'package:MyDiscount/injectable.dart';
+import 'package:MyDiscount/widgets/transaction_page_widgets/transaction_list_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../core/failure.dart';
 import '../core/localization/localizations.dart';
 
-import '../services/transactions_service.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/nointernet_widget.dart';
-import '../widgets/transaction_list_widget.dart';
+
 
 class TransactionList extends StatelessWidget {
   @override
@@ -25,7 +26,7 @@ class TransactionList extends StatelessWidget {
           child: Container(
             color: Colors.white,
             child: FutureBuilder<List<Transaction>>(
-              future: getIt<TransactionService>().getTransactions(),
+              future: getIt<IsService>().getTransactionList(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return TranzactionListWidget(

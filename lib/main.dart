@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:MyDiscount/aplication/auth/sign_in/sign_form_bloc.dart';
 import 'package:MyDiscount/injectable.dart';
 import 'package:MyDiscount/widgets/circular_progress_indicator_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,15 +10,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
+
+import 'aplication/auth/auth_bloc.dart';
 
 import 'core/localization/localizations.dart';
 import 'domain/entities/company_model.dart';
 import 'domain/entities/news_model.dart';
+import 'domain/entities/profile_model.dart';
+import 'domain/entities/user_model.dart';
 import 'pages/detail_news_page.dart';
 import 'pages/about_app_page.dart';
 import 'pages/app_info_page.dart';
@@ -28,9 +34,9 @@ import 'pages/profile_page.dart';
 import 'pages/technic_details_page.dart';
 import 'pages/transactions_page.dart';
 import 'pages/settings_page.dart';
-import 'providers/auth_provider.dart';
-import 'services/local_notification_service.dart';
-import 'services/fcm_service.dart';
+/*import 'providers/auth_provider.dart';
+ import 'services/local_notification_service.dart';
+import 'services/fcm_service.dart'; */
 import 'services/remote_config_service.dart';
 import 'widgets/bottom_navigator/bottom_navigation_bar_widget.dart';
 
@@ -46,8 +52,12 @@ void main() async {
 
     Hive.registerAdapter<News>(NewsAdapter());
     Hive.registerAdapter<Company>(CompanyAdapter());
+    Hive.registerAdapter<User>(UserAdapter());
+    Hive.registerAdapter<Profile>(ProfileAdapter());
 
     await Hive.openBox<News>('news');
+    await Hive.openBox<User>('user');
+    await Hive.openBox<Profile>('profile');
     await Hive.openBox<Company>('company');
   } catch (e) {
     rethrow;
@@ -58,9 +68,9 @@ void main() async {
   FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
+/* 
   getIt<FirebaseCloudMessageService>().fcmConfigure();
-  getIt<LocalNotificationsService>().getFlutterLocalNotificationPlugin();
+  getIt<LocalNotificationsService>().getFlutterLocalNotificationPlugin(); */
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -69,8 +79,7 @@ void main() async {
       statusBarBrightness: Brightness.dark,
     ),
   );
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runZoned(
       () {
         runApp(MyApp());
@@ -78,7 +87,7 @@ void main() async {
       onError: FirebaseCrashlytics.instance.recordError,
     );
 
-    getIt<FirebaseCloudMessageService>().getfcmToken();
+    /*  getIt<FirebaseCloudMessageService>().getfcmToken(); */
   });
 }
 
@@ -124,8 +133,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => getIt<AuthBloc>()..add(AuthCheckRequested()),
+        ),
+        BlocProvider<SignFormBloc>(
+          create: (context) => getIt<SignFormBloc>(),
+        )
+        /* ChangeNotifierProvider.value(
       value: getIt<AuthorizationProvider>(),
+      child: */
+      ],
       child: MaterialApp(
         locale: _locale,
         debugShowCheckedModeBanner: false,
@@ -135,14 +154,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           Locale('md', 'MD'),
           Locale('ro', 'RO'),
         ],
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate
-        ],
-        localeResolutionCallback:
-            (Locale locale, Iterable<Locale> supportedLocales) {
+        localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
+        localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
           final retLocale = supportedLocales?.first;
 
           if (locale == null) {
@@ -151,8 +164,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           }
           try {
             for (Locale supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode &&
-                  locale.languageCode != null) {
+              if (supportedLocale.languageCode == locale.languageCode && locale.languageCode != null) {
                 return supportedLocale;
               }
             }
@@ -163,6 +175,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           return retLocale;
         },
         routes: {
+          '/': (context) => SplashScreen(),
+          '/first': (context) => BottomNavigationBarWidget(),
+          '/login': (context) => LoginScreen2(),
           '/detailpage': (context) => const DetailNewsPage(),
           '/profilepage': (context) => const ProfilePage(),
           '/companypage': (context) => const CompanyListPage(),
@@ -173,17 +188,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           '/about': (context) => const AboutAppPage(),
           '/settings': (context) => const SettingsPage(),
         },
-        home: Consumer(
+
+        /*  Consumer(
           builder: (context, AuthorizationProvider auth, _) => auth.isAuth
               ? BottomNavigationBarWidget()
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
-                  builder: (context, snapshot) =>
-                      snapshot.connectionState == ConnectionState.waiting
-                          ? SplashScreen()
-                          : LoginScreen2(),
+                  builder: (context, snapshot) => snapshot.connectionState == ConnectionState.waiting ? SplashScreen() : LoginScreen2(),
                 ),
         ),
+      ), */
       ),
     );
   }
@@ -193,7 +207,17 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CircularProgresIndicatorWidget(),
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthInitial) {}
+          if (state is AuthAuthorized) {
+            Navigator.pushReplacementNamed(context, '/first');
+          } else {
+            Navigator.pushReplacementNamed(context, '/login');
+          }
+        },
+        child: CircularProgresIndicatorWidget(),
+      ),
     );
   }
 }

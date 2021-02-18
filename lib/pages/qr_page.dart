@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:MyDiscount/infrastructure/is_service_impl.dart';
+import 'package:MyDiscount/injectable.dart';
 import 'package:flutter/material.dart';
 
-import '../core/failure.dart';
+
 import '../core/localization/localizations.dart';
 import '../services/internet_connection_service.dart';
-import '../services/qr_service.dart';
-import '../services/shared_preferences_service.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/nointernet_widget.dart';
 import '../widgets/qr_page_widgets/human_image_widget.dart';
@@ -25,8 +24,6 @@ class QrPage extends StatefulWidget {
 class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   StreamController<bool> _imageController = StreamController.broadcast();
   StreamController<double> _progressController = StreamController.broadcast();
-  final QrService qrService = QrService();
-  final NetworkConnectionImpl internetConnection = NetworkConnectionImpl();
 
   int countTID = 0;
   bool serviceConection;
@@ -36,13 +33,15 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    getIt<IsServiceImpl>().getClientInfo();
+    if (mounted) _getAuthorization();
+
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (mounted) _getAuthorization();
   }
 
   @override
@@ -117,28 +116,28 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   }
 
   _getAuthorization() async {
-    bool netConnection = await internetConnection.isConnected;
+    bool netConnection = await getIt<NetworkConnectionImpl>().isConnected;
     if (netConnection) {
-      final response = await qrService.getTID(false);
-      if (response['ErrorCode'] == 0 || response.isNotEmpty) {
-        if (mounted)
-          setState(() {
-            serviceConection = netConnection;
-          });
-        if (countTID == 3) {
-          _changeImages();
-          if (_timer.isActive) _timer?.cancel();
-        } else {
-          _startTimer();
-        }
+      // final String response = await getIt<IsServiceImpl>().getTempId();
+      /* if (/* response['ErrorCode'] == 0  ||*/ response.isNotEmpty) { */
+      if (mounted)
+        setState(() {
+          serviceConection = netConnection;
+        });
+      if (countTID == 3) {
+        _changeImages();
+        if (_timer.isActive) _timer?.cancel();
       } else {
+        _startTimer();
+      }
+      /* } else {
         if (mounted) {
           _changeImages();
           setState(() {
             serviceConection = false;
           });
         }
-      }
+      } */
     } else {
       if (mounted) {
         _changeImages();
@@ -161,11 +160,11 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final SharedPref sPref = SharedPref();
+    // final SharedPref sPref = SharedPref();
 
     Future<String> _loadSharedPref() async {
-      final jsonMap = await sPref.readTID();
-      if (jsonMap != null) {
+      /*  final jsonMap = await sPref.readTID();
+    /*   if (jsonMap != null) { */
         final Map<String, dynamic> map = json.decode(jsonMap);
         if (map['ErrorCode'] == 0) {
           final String id = map['TID'];
@@ -173,10 +172,10 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
           return Future<String>.value(id);
         } else {
           throw NoInternetConection();
-        }
-      } else {
-        return null;
-      }
+        } */
+      /* } else {
+        throw NoInternetConection();
+      } */
     }
 
     return CustomAppBar(
@@ -193,17 +192,12 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                   initialData: true,
                   builder: (context, snapshot) {
                     return snapshot.data
-                        ? QrImageWidget(
-                            function: _loadSharedPref(),
-                            size: size,
-                            progressController: _progressController)
+                        ? QrImageWidget(function: _loadSharedPref(), size: size, progressController: _progressController)
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              serviceConection
-                                  ? HumanImage()
-                                  : NoInternetWidget(),
+                              serviceConection ? HumanImage() : NoInternetWidget(),
                               const SizedBox(height: 10.0),
                               RaisedButton(
                                 onPressed: () {
@@ -214,16 +208,14 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                 },
                                 child: serviceConection
                                     ? Text(
-                                        AppLocalizations.of(context)
-                                            .translate('generate'),
+                                        AppLocalizations.of(context).translate('generate'),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )
                                     : Text(
-                                        AppLocalizations.of(context)
-                                            .translate('retry'),
+                                        AppLocalizations.of(context).translate('retry'),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,

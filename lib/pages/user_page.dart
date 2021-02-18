@@ -1,13 +1,15 @@
 import 'package:MyDiscount/domain/entities/company_model.dart';
+import 'package:MyDiscount/infrastructure/is_service_impl.dart';
 import 'package:MyDiscount/injectable.dart';
+import 'package:MyDiscount/widgets/company_page_widgets/companies_list_widget.dart';
+import 'package:MyDiscount/widgets/company_page_widgets/noCompani_list_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../core/failure.dart';
 
-import '../services/company_service.dart';
+
 import '../widgets/circular_progress_indicator_widget.dart';
-import '../widgets/companies_list_widget.dart';
-import '../widgets/noCompani_list_widget.dart';
+
 import '../widgets/nointernet_widget.dart';
 
 class CompanyListPage extends StatelessWidget {
@@ -41,16 +43,13 @@ class CompanyListPage extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: FutureBuilder<List<Company>>(
-                    future: getIt<CompanyService>().getCompanyList(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<dynamic> snapshot) {
+                    future: getIt<IsServiceImpl>().getCompanyList(),
+                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.hasData) {
                         return CompaniesList(snapshot.data as List<Company>);
                       }
                       if (snapshot.hasError) {
-                        return snapshot.error is EmptyList
-                            ? const NoCompanieList()
-                            : const NoInternetWidget();
+                        return snapshot.error is EmptyList ? const NoCompanieList() : const NoInternetWidget();
                       }
                       return CircularProgresIndicatorWidget();
                     },

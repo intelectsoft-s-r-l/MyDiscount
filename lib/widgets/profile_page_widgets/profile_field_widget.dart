@@ -1,3 +1,4 @@
+import 'package:MyDiscount/domain/repositories/is_service_repository.dart';
 import 'package:MyDiscount/injectable.dart';
 import 'package:MyDiscount/pages/phone_validation_page.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +8,17 @@ import 'package:international_phone_input/international_phone_input.dart';
 
 import '../../core/localization/localizations.dart';
 import '../../providers/phone_number.dart';
-import '../../services/phone_verification.dart';
+//import '../../services/phone_verification.dart';
 
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({
     Key key,
     @required this.labelText,
-    this.phoneVerification,
+    //this.phoneVerification,
   }) : super(key: key);
 
   final String labelText;
-  final PhoneVerification phoneVerification;
+  //final PhoneVerification phoneVerification;
   @override
   _ProfileFieldWidgetState createState() => _ProfileFieldWidgetState();
 }
@@ -135,7 +136,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
 
                   if (provider.editing) {
                   } else {
-                    getIt<PhoneVerification>().getVerificationCodeFromServer(confirmedNumber);
+                    getIt<IsService>().validatePhone(phone: phoneNumber);
                     if (confirmedNumber != '') {
                       Navigator.of(context).push(
                         MaterialPageRoute(

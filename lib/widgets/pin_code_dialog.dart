@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:MyDiscount/domain/repositories/is_service_repository.dart';
+import 'package:MyDiscount/infrastructure/local_repository_impl.dart';
 import 'package:MyDiscount/injectable.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +9,15 @@ import 'package:sms_autofill/sms_autofill.dart';
 
 import '../core/localization/localizations.dart';
 import '../providers/phone_number.dart';
-import '../services/phone_verification.dart';
 
 class PinCodeDialog extends StatefulWidget {
-  const PinCodeDialog({this.provider, this.phone,this.phoneVerification});
+  const PinCodeDialog({
+    this.provider,
+    this.phone,
+  });
   final PhoneNumber provider;
   final String phone;
-  final PhoneVerification phoneVerification;
+  //final PhoneVerification phoneVerification;
   @override
   _PinCodeDialogState createState() => _PinCodeDialogState();
 }
@@ -33,7 +37,7 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
     startTimer();
   }
 
- void startTimer() {
+  void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (_timer) {
       if (_duration != 0) {
         _duration--;
@@ -66,9 +70,8 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
     final phone = widget.phone;
 
     return AlertDialog(
-      contentPadding:const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
-      title: Text(AppLocalizations.of(context).translate('text58'),
-          style:const TextStyle(fontSize: 15)),
+      contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
+      title: Text(AppLocalizations.of(context).translate('text58'), style: const TextStyle(fontSize: 15)),
       content: SizedBox(
         height: 80,
         child: Column(
@@ -88,27 +91,19 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
                 stream: _controller.stream,
                 builder: (context, snapshot) => snapshot.hasData
                     ? isActive
-                        ? Text(
-                            '${AppLocalizations.of(context).translate('text55')} ${snapshot.data} ${AppLocalizations.of(context).translate('text59')}',
-                            style:const TextStyle(fontSize: 15))
+                        ? Text('${AppLocalizations.of(context).translate('text55')} ${snapshot.data} ${AppLocalizations.of(context).translate('text59')}',
+                            style: const TextStyle(fontSize: 15))
                         : InkResponse(
                             onTap: () {
-                             widget.phoneVerification
-                                  .getVerificationCodeFromServer(phone);
+                              getIt<IsService>().validatePhone(phone: phone);
                               setState(() {
                                 isActive = true;
                                 _duration = 30;
                               });
                               startTimer();
                             },
-                            child: Text(
-                                AppLocalizations.of(context)
-                                    .translate('text54'),
-                                style:const TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold)))
-                    : Text(
-                        '${AppLocalizations.of(context).translate('text55')} 30 ${AppLocalizations.of(context).translate('text59')}',
-                        style:const TextStyle(fontSize: 15))),
+                            child: Text(AppLocalizations.of(context).translate('text54'), style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)))
+                    : Text('${AppLocalizations.of(context).translate('text55')} 30 ${AppLocalizations.of(context).translate('text59')}', style: const TextStyle(fontSize: 15))),
           ],
         ),
       ),
@@ -125,10 +120,10 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
           ),
           child: Text(
             AppLocalizations.of(context).translate('text56'),
-            style:const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
         ),
-       const SizedBox(
+        const SizedBox(
           width: 10,
         ),
         MaterialButton(
@@ -140,27 +135,22 @@ class _PinCodeDialogState extends State<PinCodeDialog> {
           onPressed: () async {
             bool coresponde = false;
             if (_currentCode != '') {
-              coresponde = await widget.phoneVerification
-                  .smsCodeVerification(VerificationCode(_currentCode));
+              coresponde = await getIt<LocalRepositoryImpl>().smsCodeVerification(VerificationCode(_currentCode));
             }
             if (coresponde) {
               provider.phone = phone;
               Navigator.pop(context);
-              FlushbarHelper.createSuccess(
-                      message: AppLocalizations.of(context).translate('text45'))
-                  .show(context);
+              FlushbarHelper.createSuccess(message: AppLocalizations.of(context).translate('text45')).show(context);
               _focusNode.unfocus();
             } else {
-              getIt<PhoneVerification>().getVerificationCodeFromServer(phone);
-              
-              FlushbarHelper.createError(
-                      message: AppLocalizations.of(context).translate('text46'))
-                  .show(context);
+              getIt<IsService>().validatePhone(phone: phone);
+
+              FlushbarHelper.createError(message: AppLocalizations.of(context).translate('text46')).show(context);
             }
           },
           child: Text(
             AppLocalizations.of(context).translate('text47'),
-            style:const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
         )
       ],

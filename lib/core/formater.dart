@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:MyDiscount/domain/entities/company_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
@@ -13,7 +14,7 @@ class Formater {
     String index,
   ) {
     try {
-      final _listOfBytes = list.map((dynamicMap) {
+      final _listOfMaps = list.map((dynamicMap) {
         final Map<String, dynamic> map = dynamicMap;
         if (map.isNotEmpty && map.containsKey(index)) {
           final String base64String = _deleteImageFormat(map[index]);
@@ -22,7 +23,7 @@ class Formater {
           return map;
         }
       }).toList();
-      return _listOfBytes;
+      return _listOfMaps;
     } catch (e) {
       rethrow;
     }
@@ -44,21 +45,48 @@ class Formater {
     }
   }
 
+  Future<Map<String, dynamic>> splitDisplayName(Map map) async {
+    final displayName = map['Name'];
+    try {
+      List listStrings = [];
+      if (displayName.contains(' ')) {
+        listStrings = displayName.split(" ").map((e) => e.toString()).toList();
+      } else {
+        final _list = displayName.split(" ").map((e) => e.toString()).toList();
+        _list.add('');
+        listStrings = _list;
+      }
+      final Uint8List image = await _downloadImageFromLink(map['PhotoUrl']);
+      map.putIfAbsent('Photo', () => image);
+      map.putIfAbsent('firstName', () => listStrings[0]);
+      map.putIfAbsent('lastName', () => listStrings[1]);
+      map.remove('PhotoUrl');
+      map.remove('Name');
+      return map;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Uint8List> _downloadImageFromLink(url) async {
+    try {
+      final response = await http.get(url);
+      return response.bodyBytes;
+    } catch (e) {
+      return Uint8List.fromList([]);
+    }
+  }
+
   List checkCompanyLogo(List list) {
     try {
-      final List<Map<String, dynamic>> dat =
-          list.map((map) => _returnLogo(map as Map)).toList();
+      final List<Map<String, dynamic>> dat = list.map((map) => _returnLogo(map as Map)).toList();
       return dat;
     } catch (e) {
       rethrow;
     }
   }
 
-  String _deleteImageFormat(String _base64) {
-    return _base64
-        .toString()
-        .replaceRange(0, _base64.toString().indexOf(',') + 1, '');
-  }
+  //TODO:trebue de adaugat pentru fiecare operatie tip de eroare ca sa fie clar ce sa intimplat
 
   Uint8List _readBase64String(String _base64) {
     if (_base64.isNotEmpty) {
@@ -68,17 +96,24 @@ class Formater {
     }
   }
 
-  int _parseMillisecondsToInt(String _datetime) {
-    return int.tryParse(_datetime
-        .replaceAll('/Date(', '')
-        .replaceAll('+0300)/', '')
-        .replaceAll('+0200)/', ''));
-  }
-
   String _formatDateTimeFromMiliseconds(int miliseconds) {
     return DateFormat('d MMM yyyy').format(
       DateTime.fromMillisecondsSinceEpoch(miliseconds),
     );
+  }
+
+  String _deleteImageFormat(String _base64) {
+    return _base64.toString().replaceRange(0, _base64.toString().indexOf(',') + 1, '');
+  }
+
+/* map[index].replaceAll('/Date(', '').replaceAll('+0300)/', '').replaceAll('+0200)/', '') */
+  int _parseMillisecondsToInt(String dateTime) {
+    final f = dateTime.replaceRange(0, dateTime.indexOf('(') + 1, "");
+    String patern = '';
+    if (f.contains('-')) patern = '-';
+    if (f.contains('+')) patern = '+';
+    final d = f.replaceRange(f.indexOf(patern), f.indexOf('/') + 1, '');
+    return int.parse(d);
   }
 
   Map<String, dynamic> _returnLogo(Map map) {
@@ -104,8 +139,7 @@ class Formater {
   _addLogoToMap(dynamic keys, Box<Company> companyBox, Map map) {
     for (dynamic key in keys) {
       final company = companyBox.get(key);
-      if (CompanyName(company.name) == CompanyName(map['Company']))
-        map.putIfAbsent('Logo', () => company.logo);
+      if (CompanyName(company.name) == CompanyName(map['Company'])) map.putIfAbsent('Logo', () => company.logo);
     }
   }
 }
@@ -117,6 +151,7 @@ class CompanyName {
   bool operator ==(Object other) {
     return identical(this, other) || other is CompanyName && name == other.name;
   }
+
   @override
   int get hashCode => name.hashCode;
 }

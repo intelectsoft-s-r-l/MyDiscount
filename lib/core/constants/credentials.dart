@@ -12,5 +12,5 @@ class Credentials {
     'Authorization': 'Basic ' + encoded,
   };
   
-  Map<String, String> get header => _headers;
+  /* Map<String, String> */ get header => encoded/* _headers */;
 }
