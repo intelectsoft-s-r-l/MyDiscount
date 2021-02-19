@@ -1,9 +1,6 @@
-import 'package:MyDiscount/aplication/auth/auth_bloc.dart';
-import 'package:MyDiscount/aplication/auth/sign_in/sign_form_bloc.dart';
-import 'package:MyDiscount/providers/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+import '../aplication/auth/auth_bloc.dart';
 
 import '../core/localization/localizations.dart';
 import '../widgets/home_page_top_widget.dart';

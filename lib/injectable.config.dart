@@ -19,6 +19,7 @@ import 'aplication/auth/auth_bloc.dart';
 import 'infrastructure/auth_repository_impl.dart';
 import 'domain/entities/company_model.dart';
 import 'core/constants/credentials.dart';
+import 'services/device_info_service.dart';
 import 'services/fcm_service.dart';
 import 'core/formater.dart';
 import 'infrastructure/is_service_impl.dart';
@@ -26,7 +27,9 @@ import 'services/local_notification_service.dart';
 import 'infrastructure/local_repository_impl.dart';
 import 'services/internet_connection_service.dart';
 import 'domain/entities/news_model.dart';
+import 'aplication/phone_validation_bloc/phone_validation_bloc.dart';
 import 'domain/entities/profile_model.dart';
+import 'aplication/profile_bloc/profile_form_bloc.dart';
 import 'infrastructure/core/services_injectable.dart';
 import 'services/shared_preferences_service.dart';
 import 'aplication/auth/sign_in/sign_form_bloc.dart';
@@ -43,25 +46,20 @@ GetIt $initGetIt(
   final gh = GetItHelper(get, environment, environmentFilter);
   final serviceInjectableModule = _$ServiceInjectableModule();
   gh.lazySingleton<hive1.Box<User>>(() => serviceInjectableModule.userBox);
-  gh.lazySingleton<hive1.Box<Profile>>(
-      () => serviceInjectableModule.profileBox);
+  gh.lazySingleton<hive1.Box<Profile>>(() => serviceInjectableModule.profileBox);
   gh.lazySingleton<hive1.Box<News>>(() => serviceInjectableModule.newsBox);
-  gh.lazySingleton<hive1.Box<Company>>(
-      () => serviceInjectableModule.companyBox);
+  gh.lazySingleton<hive1.Box<Company>>(() => serviceInjectableModule.companyBox);
   gh.lazySingleton<Credentials>(() => serviceInjectableModule.credentials);
-  gh.lazySingleton<DataConnectionChecker>(
-      () => serviceInjectableModule.connectionChecker);
+  gh.lazySingleton<DataConnectionChecker>(() => serviceInjectableModule.connectionChecker);
   gh.lazySingleton<DeviceInfoPlugin>(() => serviceInjectableModule.deviceinfo);
+  gh.factory<DeviceInfoService>(() => DeviceInfoService(get<DeviceInfoPlugin>()));
   gh.lazySingleton<FacebookLogin>(() => serviceInjectableModule.facebookLogin);
   gh.lazySingleton<FirebaseMessaging>(() => serviceInjectableModule.fcm);
-  gh.lazySingleton<FlutterLocalNotificationsPlugin>(
-      () => serviceInjectableModule.flutterLocalNotification);
+  gh.lazySingleton<FlutterLocalNotificationsPlugin>(() => serviceInjectableModule.flutterLocalNotification);
   gh.lazySingleton<Formater>(() => serviceInjectableModule.formater);
   gh.lazySingleton<GoogleSignIn>(() => serviceInjectableModule.googleSignIn);
-  gh.factory<LocalNotificationsService>(
-      () => LocalNotificationsService(get<FlutterLocalNotificationsPlugin>()));
-  gh.factory<NetworkConnectionImpl>(() =>
-      NetworkConnectionImpl(connectionChecker: get<DataConnectionChecker>()));
+  gh.factory<LocalNotificationsService>(() => LocalNotificationsService(get<FlutterLocalNotificationsPlugin>()));
+  gh.factory<NetworkConnectionImpl>(() => NetworkConnectionImpl(connectionChecker: get<DataConnectionChecker>()));
   gh.lazySingleton<ServiceClient>(() => serviceInjectableModule.client);
   gh.lazySingleton<SharedPref>(() => serviceInjectableModule.network);
   gh.factory<FirebaseCloudMessageService>(() => FirebaseCloudMessageService(
@@ -76,6 +74,7 @@ GetIt $initGetIt(
         get<hive1.Box<Company>>(),
         get<SharedPref>(),
       ));
+  gh.factory<ProfileFormBloc>(() => ProfileFormBloc(get<LocalRepositoryImpl>()));
   gh.factory<AuthBloc>(() => AuthBloc(get<LocalRepositoryImpl>()));
   gh.factory<IsServiceImpl>(() => IsServiceImpl(
         get<ServiceClient>(),
@@ -83,6 +82,7 @@ GetIt $initGetIt(
         get<LocalRepositoryImpl>(),
         get<Formater>(),
       ));
+  gh.factory<PhoneValidationBloc>(() => PhoneValidationBloc(get<IsServiceImpl>(), get<LocalRepositoryImpl>()));
   gh.factory<AuthRepositoryImpl>(() => AuthRepositoryImpl(
         get<GoogleSignIn>(),
         get<FacebookLogin>(),

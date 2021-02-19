@@ -1,18 +1,15 @@
 import 'dart:async';
 
-import 'package:MyDiscount/aplication/auth/auth_bloc.dart';
-import 'package:MyDiscount/aplication/auth/sign_in/sign_form_bloc.dart';
-import 'package:MyDiscount/providers/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 
 import '../../core/localization/localizations.dart';
 import '../../pages/home_page.dart';
 import '../../pages/notification_page.dart';
 import '../../pages/qr_page.dart';
+
 import '../../widgets/bottom_navigator/ripple_animation.dart';
 
 class BottomNavigationBarWidget extends StatefulWidget {
@@ -32,6 +29,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
 
   @override
   void dispose() {
+  
     _indexController.close();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -39,9 +37,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => LocalImagePicker(),
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         body: [
           HomePage(),
@@ -149,7 +145,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
             ),
           ),
         ),
-      ),
+      
     );
   }
 }

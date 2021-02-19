@@ -21,7 +21,7 @@ class LocalRepositoryImpl implements LocalRepository {
 
   LocalRepositoryImpl(this.userBox, this.profileBox, this.newsBox, this.companyBox, this._prefs);
   @override
-  Future<Profile> getLocalClientInfo() async {
+  Profile getLocalClientInfo() {
     return profileBox?.get(1);
   }
 
@@ -46,8 +46,9 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  void saveLocalClientInfo(Profile profile) {
+  Profile saveLocalClientInfo(Profile profile) {
     profileBox?.put(1, profile);
+    return profile;
   }
 
   @override
@@ -104,11 +105,9 @@ class LocalRepositoryImpl implements LocalRepository {
     profileBox.delete(1);
   }
 
-  Future<bool> smsCodeVerification(VerificationCode code) async {
+  bool smsCodeVerification(String serverCode, String userCode) {
     try {
-      final codeFromServer = await _prefs.readCode();
-      if (code == VerificationCode(codeFromServer)) {
-        _prefs.remove('code');
+      if (VerificationCode(serverCode) == VerificationCode(userCode)) {
         return true;
       }
       return false;

@@ -20,7 +20,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<User> authenticateWithApple() async {
     final appleCredentials = await SignInWithApple.getAppleIDCredential(scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName]);
     User localUser = await _isService.updateClientInfo(json: {
-      "DisplayName": '${appleCredentials.givenName} + " " + ${appleCredentials.familyName}',
+      "DisplayName": '${appleCredentials.givenName}' + " " + '${appleCredentials.familyName}',
       "Email": appleCredentials.email,
       "ID": appleCredentials.userIdentifier,
       "PhotoUrl": '',

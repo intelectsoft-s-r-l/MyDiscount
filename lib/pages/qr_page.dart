@@ -118,8 +118,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   _getAuthorization() async {
     bool netConnection = await getIt<NetworkConnectionImpl>().isConnected;
     if (netConnection) {
-      // final String response = await getIt<IsServiceImpl>().getTempId();
-      /* if (/* response['ErrorCode'] == 0  ||*/ response.isNotEmpty) { */
       if (mounted)
         setState(() {
           serviceConection = netConnection;
@@ -130,14 +128,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
       } else {
         _startTimer();
       }
-      /* } else {
-        if (mounted) {
-          _changeImages();
-          setState(() {
-            serviceConection = false;
-          });
-        }
-      } */
     } else {
       if (mounted) {
         _changeImages();
@@ -160,23 +150,6 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // final SharedPref sPref = SharedPref();
-
-    Future<String> _loadSharedPref() async {
-      /*  final jsonMap = await sPref.readTID();
-    /*   if (jsonMap != null) { */
-        final Map<String, dynamic> map = json.decode(jsonMap);
-        if (map['ErrorCode'] == 0) {
-          final String id = map['TID'];
-          print('id is:$id');
-          return Future<String>.value(id);
-        } else {
-          throw NoInternetConection();
-        } */
-      /* } else {
-        throw NoInternetConection();
-      } */
-    }
 
     return CustomAppBar(
       title: AppLocalizations.of(context).translate('qr'),
@@ -192,7 +165,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                   initialData: true,
                   builder: (context, snapshot) {
                     return snapshot.data
-                        ? QrImageWidget(function: _loadSharedPref(), size: size, progressController: _progressController)
+                        ? QrImageWidget( size: size, progressController: _progressController)
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,

@@ -8,35 +8,35 @@ class SharedPref {
     if (authData.containsKey(key)) authData.remove(key);
   }
 
-  saveTID(String id) async {
+  /* saveTID(String id) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
-  }
+  } */
 
-  readTID() async {
+  /* readTID() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('Tid');
-  }
+  } */
 
-  saveUser(String data) async {
+  /* saveUser(String data) async {
     final authData = await SharedPreferences.getInstance();
     authData.setString('user', data);
-  }
+  } */
 
-  readUser() async {
+  /* readUser() async {
     final authData = await SharedPreferences.getInstance();
     return authData.getString('user');
-  }
+  } */
 
-  void saveProfileData(String profile) async {
+  /* void saveProfileData(String profile) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('profile', profile);
-  }
+  } */
 
-  readProfileData() async {
+  /* readProfileData() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('profile');
-  }
+  } */
 
   savePhoneNumber(String profile) async {
     final prefs = await SharedPreferences.getInstance();
@@ -89,7 +89,7 @@ class SharedPref {
     return true;
   }
 
-  saveIOSCredentials(String value) async {
+ /*  saveIOSCredentials(String value) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.setString('IOS', value);
   }
@@ -97,5 +97,5 @@ class SharedPref {
   Future<String> readIOSCredentials() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('IOS');
-  }
+  } */
 }

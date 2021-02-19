@@ -19,6 +19,8 @@ import 'package:injectable/injectable.dart';
 
 import 'aplication/auth/auth_bloc.dart';
 
+import 'aplication/phone_validation_bloc/phone_validation_bloc.dart';
+import 'aplication/profile_bloc/profile_form_bloc.dart';
 import 'core/localization/localizations.dart';
 import 'domain/entities/company_model.dart';
 import 'domain/entities/news_model.dart';
@@ -140,14 +142,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
         BlocProvider<SignFormBloc>(
           create: (context) => getIt<SignFormBloc>(),
-        )
-        /* ChangeNotifierProvider.value(
-      value: getIt<AuthorizationProvider>(),
-      child: */
+        ),
       ],
       child: MaterialApp(
-        locale: _locale,
         debugShowCheckedModeBanner: false,
+        locale: _locale,
         supportedLocales: const [
           Locale('en', 'US'),
           Locale('ru', 'RU'),
@@ -176,28 +175,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         },
         routes: {
           '/': (context) => SplashScreen(),
-          '/first': (context) => BottomNavigationBarWidget(),
           '/login': (context) => LoginScreen2(),
-          '/detailpage': (context) => const DetailNewsPage(),
-          '/profilepage': (context) => const ProfilePage(),
-          '/companypage': (context) => const CompanyListPage(),
-          '/transactionlist': (context) => const TransactionsPage(),
-          '/infopage': (context) => const InformationPage(),
-          '/politicaconf': (context) => const AppInfoPage(),
-          '/technicdetail': (context) => const TechnicDetailPage(),
-          '/about': (context) => const AboutAppPage(),
-          '/settings': (context) => const SettingsPage(),
+          '/first': (context) => InitApp(),
         },
-
-        /*  Consumer(
-          builder: (context, AuthorizationProvider auth, _) => auth.isAuth
-              ? BottomNavigationBarWidget()
-              : FutureBuilder(
-                  future: auth.tryAutoLogin(),
-                  builder: (context, snapshot) => snapshot.connectionState == ConnectionState.waiting ? SplashScreen() : LoginScreen2(),
-                ),
-        ),
-      ), */
       ),
     );
   }
@@ -217,6 +197,105 @@ class SplashScreen extends StatelessWidget {
           }
         },
         child: CircularProgresIndicatorWidget(),
+      ),
+    );
+  }
+}
+
+class InitApp extends StatefulWidget {
+  static void setLocale(BuildContext context, Locale newLocale) {
+    final _InitAppState state = context.findAncestorStateOfType<_InitAppState>();
+    state.setLocale(newLocale);
+  }
+
+  @override
+  _InitAppState createState() => _InitAppState();
+}
+
+class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
+  Locale _locale;
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    AppLocalizations(_locale).getLocale().then((locale) {
+      setState(() {
+        this._locale = locale;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<ProfileFormBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<PhoneValidationBloc>(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        locale: _locale,
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('ru', 'RU'),
+          Locale('md', 'MD'),
+          Locale('ro', 'RO'),
+        ],
+        localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
+        localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
+          final retLocale = supportedLocales?.first;
+
+          if (locale == null) {
+            debugPrint("*language locale is null!!!");
+            return supportedLocales.first;
+          }
+          try {
+            for (Locale supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode && locale.languageCode != null) {
+                return supportedLocale;
+              }
+            }
+          } catch (e, s) {
+            FirebaseCrashlytics.instance.recordError(e, s);
+          }
+
+          return retLocale;
+        },
+        routes: {
+          '/first': (context) => InitApp(),
+          '/login': (context) => LoginScreen2(),
+          '/detailpage': (context) => const DetailNewsPage(),
+          '/profilepage': (context) => const ProfilePage(),
+          '/companypage': (context) => const CompanyListPage(),
+          '/transactionlist': (context) => const TransactionsPage(),
+          '/infopage': (context) => const InformationPage(),
+          '/politicaconf': (context) => const AppInfoPage(),
+          '/technicdetail': (context) => const TechnicDetailPage(),
+          '/about': (context) => const AboutAppPage(),
+          '/settings': (context) => const SettingsPage(),
+        },
+        home: BottomNavigationBarWidget(),
       ),
     );
   }

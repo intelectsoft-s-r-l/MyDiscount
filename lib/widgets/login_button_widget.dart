@@ -1,6 +1,5 @@
 import 'package:MyDiscount/aplication/auth/sign_in/sign_form_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +24,7 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: close_sinks
     final ctx = Provider.of<SignFormBloc>(context);
-    //ctx.close();
+   
     return FlatButton(
       onPressed: () => ctx.add(event),
       highlightColor: Colors.transparent,
@@ -39,7 +38,7 @@ class LoginButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
-          // mainAxisAlignment: MainAxisAlignment.start,
+          
           children: [
             SizedBox(
               width: 20,

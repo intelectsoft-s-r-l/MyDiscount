@@ -8,18 +8,18 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QrImageWidget extends StatelessWidget {
   const QrImageWidget({
     Key key,
-    @required this.function,
+    
     @required this.size,
     @required StreamController<double> progressController,
   })  : _progressController = progressController,
         super(key: key);
-  final Future<String> function;
+  
   final Size size;
   final StreamController<double> _progressController;
 
   @override
   Widget build(BuildContext context) {
-    //final provider = Provider.of<QrService>(context, listen: true);
+    
     return Container(
       child: Card(
         color: Colors.transparent,

@@ -108,6 +108,7 @@ class IsServiceImpl implements IsService {
 
   @override
   Future<User> updateClientInfo({Map<String, dynamic> json}) async {
+    print(json);
     try {
       final _url = 'https://dev.edi.md/ISMobileDiscountService/json/UpdateClientInfo';
       if (await _network.isConnected) {
@@ -116,7 +117,7 @@ class IsServiceImpl implements IsService {
         final userMap = _localRepository.returnUserMapToSave(json);
 
         if (response.statusCode == 0) {
-         final user = _localRepository.saveLocalUser(User.fromJson(userMap));
+          final user = _localRepository.saveLocalUser(User.fromJson(userMap));
           return user;
         } else {
           throw ServerError();
@@ -149,3 +150,6 @@ class IsServiceImpl implements IsService {
     }
   }
 }
+/* {DisplayName: null null, Email: null, ID: 001179.71c0864b494945a8a3801eb289447bd3.0905, PhotoUrl: , PushToken: , RegisterMode: 3, access_token: eyJraWQiOiJZdXlYb1kiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLmludGVsZWN0c29mdC5kaXNjb3VudCIsImV4cCI6MTYxMzczNDA2OSwiaWF0IjoxNjEzNjQ3NjY5LCJzdWIiOiIwMDExNzkuNzFjMDg2NGI0OTQ5NDVhOGEzODAxZWIyODk0NDdiZDMuMDkwNSIsImNfaGFzaCI6Ikd2T1FNMmJfRXJoOEVhdXF4NTZmOUEiLCJlbWFpbCI6ImNyaXN0ZWFpb24zNkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6InRydWUiLCJhdXRoX3RpbWUiOjE2MTM2NDc2NjksIm5vbmNlX3N1cHBvcnRlZCI6dHJ1ZX0.sDQLQCR7oGU0pe8rEzb5fViPkC5lwDT8iry_jsIjtY_9ApfY7-jKRyww3aJpLRmGZLBrgSx0gpjpObyz3q0fggWezzivA-B2ETbWJq9uvlDVZsKzO3EHkjFFU6qV2TRdFkUQrT2hGnfrOtUStmONDH-eMpY6k1ChDe7jbYqGilR4hc0wF99t6bWpjxMhYfeMsH08YWy6GSnvofwU8PiI2RVR-QkMZGzTgNjgs8b2OEumOTdWLAE-gd-NYKnCAOP95ULTQgK7lvWBB-Zhk0c-mDWcEI25zg_o_dyE0IPRKxhPOXp_hrI7lsKLTPOQ5j5tIlfrqxVh1SH-vdEk96-odA} */
+/* https://dev.edi.md/ISMobileDiscountService/json/GetTempID?ID=001179.71c0864b494945a8a3801eb289447bd3.0905&RegisterMode=3 */
+/* https://dev.edi.md/ISMobileDiscountService/json/GetTempID?ID=001179.71c0864b494945a8a3801eb289447bd3.0905&RegisterMode=3 */

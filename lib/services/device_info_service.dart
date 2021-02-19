@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class DeviceInfoService {
- final DeviceInfoPlugin _plugin = DeviceInfoPlugin();
+  final DeviceInfoPlugin _plugin;
+
+  DeviceInfoService(this._plugin);
 
   Future getDeviceInfo() async {
     if (Platform.isAndroid) {

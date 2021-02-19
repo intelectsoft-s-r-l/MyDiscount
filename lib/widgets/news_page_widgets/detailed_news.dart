@@ -1,6 +1,5 @@
 import 'package:MyDiscount/core/localization/localizations.dart';
 import 'package:MyDiscount/domain/entities/news_model.dart';
-import 'package:MyDiscount/widgets/news_page_widgets/html_text_view_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:simple_html_css/simple_html_css.dart';

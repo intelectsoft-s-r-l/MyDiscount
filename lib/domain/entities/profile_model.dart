@@ -49,5 +49,13 @@ class Profile {
     };
   }
 
-  
+  Profile copyWith({String firstName, String lastName, String email, String phone, Uint8List photo}) {
+    return Profile(
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      photo: photo ?? this.photo,
+    );
+  }
 }

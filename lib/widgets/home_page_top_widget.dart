@@ -1,16 +1,9 @@
-//import 'dart:convert';
-
-import 'package:MyDiscount/domain/entities/profile_model.dart';
-
-import 'package:MyDiscount/infrastructure/local_repository_impl.dart';
-
 import 'package:flutter/material.dart';
-//import 'package:provider/provider.dart';
 
-//import '../core/localization/localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../injectable.dart';
-//import '../providers/image_picker.dart';
+import '../aplication/profile_bloc/profile_form_bloc.dart';
+import '../domain/entities/profile_model.dart';
 
 class HomePageTopWidget extends StatelessWidget {
   HomePageTopWidget({
@@ -25,61 +18,62 @@ class HomePageTopWidget extends StatelessWidget {
     return SizedBox(
       height: size.height * .253,
       width: size.width,
-      child: FutureBuilder<Profile>(
-        future: getIt<LocalRepositoryImpl>().getLocalClientInfo(),
-        builder: (context, snapshot) {
-          final profile = snapshot.data;
-          return snapshot.hasData
-              ? Stack(
-                  children: [
-                    Positioned(
-                      top: (size.height * .253) / 4,
-                      left: size.width * .2,
-                      child: SizedBox(
-                        width: size.width * .6,
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 35,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: profile.photo.isNotEmpty
-                                    ? Image.memory(
-                                        profile.photo,
-                                        fit: BoxFit.fill,
-                                        scale: 0.7,
-                                        width: 110,
-                                        height: 110,
-                                      )
-                                    : Image.asset('assets/icons/profile.png'),
-                              ),
+      child: BlocConsumer<ProfileFormBloc, ProfileFormState>(
+        listener: (context, state) {
+         
+        },
+        builder: (context, state) {
+          final Profile profile = state.profile;
+          return Stack(
+            children: [
+              Positioned(
+                top: (size.height * .253) / 4,
+                left: size.width * .2,
+                child: SizedBox(
+                  width: size.width * .6,
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 35,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: profile.photo.isNotEmpty
+                              ? Image.memory(
+                                  profile.photo,
+                                  fit: BoxFit.fill,
+                                  scale: 0.7,
+                                  width: 110,
+                                  height: 110,
+                                )
+                              : Image.asset('assets/icons/profile.png'),
+                        ),
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '${profile.firstName}',
+                            style: TextStyle(
+                              color: Colors.white,
                             ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  '${profile.firstName}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                  textScaleFactor: 1.3,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '${profile.lastName}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                  textScaleFactor: 1.3,
-                                ),
-                              ],
+                            textScaleFactor: 1.3,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '${profile.lastName}',
+                            style: TextStyle(
+                              color: Colors.white,
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            /* if (profile.registerMode == 1)
+                            textScaleFactor: 1.3,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      /* if (profile.registerMode == 1)
                               Text(
                                 AppLocalizations.of(context).translate('signinG'),
                                 style: TextStyle(
@@ -103,13 +97,12 @@ class HomePageTopWidget extends StatelessWidget {
                                 ),
                                 textScaleFactor: 1,
                               ), */
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Container();
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
