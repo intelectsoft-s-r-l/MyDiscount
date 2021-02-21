@@ -163,12 +163,15 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                     if (_currentCode != '') {
                       phoneBloc.add(UserInputCode(_currentCode, phoneBloc.state.serverCode));
                     }
-                    if (phoneBloc.state is ValidCode) {
-                      bloc.add(PhoneChanged(phone, true));
-                      Navigator.of(context).pop();
-                    } else {
-                      FlushbarHelper.createError(message: AppLocalizations.of(context).translate('incorectcode')).show(context);
-                    }
+
+                    phoneBloc.listen((state) {
+                      if ( state is ValidCode) {
+                        bloc.add(PhoneChanged(phone, true));
+                        Navigator.of(context).pop();
+                      } else {
+                        FlushbarHelper.createError(message: AppLocalizations.of(context).translate('incorectcode')).show(context);
+                      }
+                    });
                   },
                   child: Container(
                     alignment: Alignment.center,
