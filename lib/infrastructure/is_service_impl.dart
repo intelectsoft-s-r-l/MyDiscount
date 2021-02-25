@@ -46,7 +46,7 @@ class IsServiceImpl implements IsService {
     try {
       final User localUser = _localRepository.getLocalUser();
       final _urlFragment = '/json/GetClientInfo?ID=${localUser.id}&RegisterMode=${localUser.registerMode}';
-      final Map profileMap = await  _getResponse(_urlFragment);
+      final Map profileMap = await _getResponse(_urlFragment);
       _formater.splitDisplayName(profileMap);
       await _formater.downloadProfileImageOrDecodeString(profileMap);
       _formater.addToProfileMapSignMethod(profileMap, localUser);

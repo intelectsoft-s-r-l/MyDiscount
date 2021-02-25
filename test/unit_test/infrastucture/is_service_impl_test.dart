@@ -1,44 +1,29 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:IsService/service_client.dart';
-import 'package:MyDiscount/core/formater.dart';
 import 'package:MyDiscount/core/internet_connection_service.dart';
+import 'package:MyDiscount/domain/entities/company_model.dart';
 import 'package:MyDiscount/domain/entities/news_model.dart';
-import 'package:MyDiscount/infrastructure/is_service_impl.dart';
-import 'package:MyDiscount/infrastructure/local_repository_impl.dart';
-
-
+import 'package:MyDiscount/domain/entities/profile_model.dart';
+import 'package:MyDiscount/domain/repositories/is_service_repository.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockInternetConnection extends Mock implements NetworkConnectionImpl {}
+import '../fixtures/fixtures_redear.dart';
 
-class MockServiceClient extends Mock implements ServiceClient {}
+class MockIsService extends Mock implements IsService {}
 
-class MockFormater extends Mock implements Formater {}
+class MockInternetConnection extends Mock implements NetworkConnection {}
 
-class MockLocalRepository extends Mock implements LocalRepositoryImpl {}
-
-void main1() {
+void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  IsServiceImpl _service;
+  MockIsService _service;
   MockInternetConnection _inet;
-  MockServiceClient _client;
-  MockFormater _formater;
-  MockLocalRepository _localRepository;
 
   setUp(() {
+    _service = MockIsService();
     _inet = MockInternetConnection();
-    _client = MockServiceClient();
-    _formater = MockFormater();
-    _localRepository = MockLocalRepository();
-    _service = IsServiceImpl(
-      _client,
-      _inet,
-      _localRepository,
-      _formater,
-    );
   });
 
   void runTestsOnline(Function body) {
@@ -50,36 +35,68 @@ void main1() {
     });
   }
 
-  group('getAppNews', () {
-    test('check if device is online', () {
-      when(_inet.isConnected).thenAnswer((_) async => true);
-
-      _service.getAppNews();
-
-      verify(_inet.isConnected);
-    });
-  });
-
   runTestsOnline(() {
-    test('check if function return a list of news', () async {
-      final newsList = [
-        News(
-          companyId: 0,
-          content: 'test Content',
-          logo: Uint8List.fromList([]),
-          companyName: "TestCompany",
-          appType: null,
-          dateTime: '21 Jan 2021',
-          header: 'null',
-          id: 1,
-          photo: Uint8List.fromList([]),
-        ),
-      ];
-      when(_service.getAppNews()).thenAnswer((_) async => newsList);
+    group('getAppNews', () {
+      test('check if function return a list of news', () async {
+        final tNewsList = [
+          News(
+            companyId: 0,
+            content: 'test Content',
+            logo: Uint8List.fromList([]),
+            companyName: "TestCompany",
+            appType: null,
+            dateTime: '21 Jan 2021',
+            header: 'null',
+            id: 1,
+            photo: Uint8List.fromList([]),
+          ),
+        ];
+        when(_service.getAppNews()).thenAnswer((_) async => tNewsList);
 
-      final response = await _service.getAppNews();
+        final response = await _service.getAppNews();
 
-      expect(response, newsList);
+        expect(response, tNewsList);
+        verify(_service.getAppNews());
+      });
+    });
+
+    group('getClientInfo()', () {
+      test('check if function return a profile object', () async {
+        final tClientInfo = json.decode(fixture('auth_providers_credentials.json'));
+        final tProfile = Profile.fromJson(tClientInfo);
+        when(_service.getClientInfo()).thenAnswer((_) async => tProfile);
+
+        final response = await _service.getClientInfo();
+
+        expect(response, tProfile);
+        verify(_service.getClientInfo());
+      });
+    });
+    group('getCompanyList()', () {
+      test('check if function return a List of Company Objects', () async {
+        final tcompanyList = [
+          {"Amount": "String content", "ID": 2147483647, "Logo": Uint8List.fromList([]), "Name": "String content"}
+        ];
+        final tList = tcompanyList.map((map) => Company.fromJson(map)).toList();
+        when(_service.getCompanyList()).thenAnswer((_) async => tList);
+
+        final response = await _service.getCompanyList();
+
+        expect(response, tList);
+
+        verify(_service.getCompanyList());
+      });
+    });
+    group('getTempId()', () {
+      test('chech if the function return a String temporary Id', () async {
+        final tTempId = '';
+        when(_service.getTempId()).thenAnswer((_) async => tTempId);
+
+        final response = await _service.getTempId();
+
+        expect(response, tTempId);
+        verify(_service.getTempId());
+      });
     });
   });
 }
