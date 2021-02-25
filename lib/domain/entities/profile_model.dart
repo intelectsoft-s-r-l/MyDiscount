@@ -18,6 +18,8 @@ class Profile {
   final Uint8List photo;
   @HiveField(5)
   final String pushToken;
+  @HiveField(6)
+  final int registerMode;
 
   Profile({
     this.firstName,
@@ -26,6 +28,7 @@ class Profile {
     this.phone,
     this.photo,
     this.pushToken,
+    this.registerMode
   }) : assert(photo != null);
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -36,6 +39,7 @@ class Profile {
       phone: json['phone'],
       photo: json['Photo'] ?? Uint8List.fromList([]),
       pushToken: json['PushToken'],
+      registerMode: json['mode'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -46,7 +50,19 @@ class Profile {
       "phone": phone,
       "Photo": photo,
       "PushToken": pushToken,
+      'mode':registerMode,
     };
+  }
+  
+  factory Profile.empty(){
+    return Profile(
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        photo: Uint8List.fromList([]),
+        pushToken: '',
+      );
   }
 
   Profile copyWith({String firstName, String lastName, String email, String phone, Uint8List photo}) {

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:MyDiscount/domain/entities/company_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:MyDiscount/domain/entities/user_model.dart';
 import 'package:hive/hive.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+
+import '../domain/entities/company_model.dart';
 
 class Formater {
   static const String _placeholder =
@@ -45,7 +47,7 @@ class Formater {
     }
   }
 
-  Future<Map<String, dynamic>> splitDisplayName(Map map) async {
+  Map<String, dynamic> splitDisplayName(Map map) {
     final displayName = map['Name'];
     try {
       List listStrings = [];
@@ -56,12 +58,37 @@ class Formater {
         _list.add('');
         listStrings = _list;
       }
-      final Uint8List image = await _downloadImageFromLink(map['PhotoUrl']);
-      map.putIfAbsent('Photo', () => image);
+
       map.putIfAbsent('firstName', () => listStrings[0]);
       map.putIfAbsent('lastName', () => listStrings[1]);
-      map.remove('PhotoUrl');
       map.remove('Name');
+
+      return map;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> downloadProfileImageOrDecodeString(Map<String, dynamic> map) async {
+    try {
+      if (map['PhotoUrl'].toString().startsWith('http')) {
+        final Uint8List image = await _downloadImageFromLink(map['PhotoUrl']);
+
+        map.putIfAbsent('Photo', () => image);
+      } else {
+        final bytes = Uint8List.fromList(base64Decode(map['PhotoUrl']));
+        map.putIfAbsent('Photo', () => bytes);
+      }
+      map.remove('PhotoUrl');
+      return map;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Map<String, dynamic> addToProfileMapSignMethod(Map<String, dynamic> map, User user) {
+    try {
+      map.putIfAbsent('mode', () => user.registerMode);
       return map;
     } catch (e) {
       rethrow;

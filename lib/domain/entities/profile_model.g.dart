@@ -23,13 +23,14 @@ class ProfileAdapter extends TypeAdapter<Profile> {
       phone: fields[3] as String,
       photo: fields[4] as Uint8List,
       pushToken: fields[5] as String,
+      registerMode: fields[6] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Profile obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.firstName)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class ProfileAdapter extends TypeAdapter<Profile> {
       ..writeByte(4)
       ..write(obj.photo)
       ..writeByte(5)
-      ..write(obj.pushToken);
+      ..write(obj.pushToken)
+      ..writeByte(6)
+      ..write(obj.registerMode);
   }
 
   @override

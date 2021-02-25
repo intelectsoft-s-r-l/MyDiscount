@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:MyDiscount/infrastructure/is_service_impl.dart';
-import 'package:MyDiscount/infrastructure/local_repository_impl.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../domain/repositories/is_service_repository.dart';
+import '../../domain/repositories/local_repository.dart';
 
 part 'phone_validation_event.dart';
 part 'phone_validation_state.dart';
@@ -12,14 +13,15 @@ part 'phone_validation_state.dart';
 @injectable
 class PhoneValidationBloc extends Bloc<PhoneValidationEvent, PhoneValidationState> {
   PhoneValidationBloc(this._isServiceImpl, this._localRepositoryImpl) : super(PhoneValidationInitial(null));
-  final IsServiceImpl _isServiceImpl;
-  final LocalRepositoryImpl _localRepositoryImpl;
+  final IsService _isServiceImpl;
+  final LocalRepository _localRepositoryImpl;
+  String code = '';
   @override
   Stream<PhoneValidationState> mapEventToState(
     PhoneValidationEvent event,
   ) async* {
     if (event is GetValidationCode) {
-      final String code = await _isServiceImpl.validatePhone(phone: event.phone);
+       code = await _isServiceImpl.validatePhone(phone: event.phone);
       print(code);
       yield WaitingUserInput(code);
     }
@@ -28,7 +30,7 @@ class PhoneValidationBloc extends Bloc<PhoneValidationEvent, PhoneValidationStat
       if (isValid) {
         yield ValidCode(event.userCode);
       } else {
-        yield InvalidCode(event.userCode);
+        yield InvalidCode(code);
       }
     }
   }

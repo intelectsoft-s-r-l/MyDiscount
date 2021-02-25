@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:MyDiscount/aplication/auth/sign_in/sign_form_bloc.dart';
-import 'package:MyDiscount/injectable.dart';
-import 'package:MyDiscount/widgets/circular_progress_indicator_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,32 +12,29 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-//import 'package:provider/provider.dart';
 
 import 'aplication/auth/auth_bloc.dart';
-
-import 'aplication/phone_validation_bloc/phone_validation_bloc.dart';
+import 'aplication/auth/sign_in/sign_form_bloc.dart';
 import 'aplication/profile_bloc/profile_form_bloc.dart';
 import 'core/localization/localizations.dart';
 import 'domain/entities/company_model.dart';
 import 'domain/entities/news_model.dart';
 import 'domain/entities/profile_model.dart';
 import 'domain/entities/user_model.dart';
-import 'pages/detail_news_page.dart';
-import 'pages/about_app_page.dart';
-import 'pages/app_info_page.dart';
-import 'pages/company_list_page.dart';
-import 'pages/login_page.dart';
-import 'pages/info_page.dart';
-import 'pages/profile_page.dart';
-import 'pages/technic_details_page.dart';
-import 'pages/transactions_page.dart';
-import 'pages/settings_page.dart';
-/*import 'providers/auth_provider.dart';
- import 'services/local_notification_service.dart';
-import 'services/fcm_service.dart'; */
+import 'injectable.dart';
+import 'presentation/pages/about_app_page.dart';
+import 'presentation/pages/app_inf_page.dart';
+import 'presentation/pages/company_list_page.dart';
+import 'presentation/pages/detail_news_page.dart';
+import 'presentation/pages/info_page.dart';
+import 'presentation/pages/login_page.dart';
+import 'presentation/pages/profile_page.dart';
+import 'presentation/pages/settings_page.dart';
+import 'presentation/pages/technic_details_page.dart';
+import 'presentation/pages/transactions_page.dart';
+import 'presentation/widgets/bottom_navigator/bottom_navigation_bar_widget.dart';
+import 'presentation/widgets/circular_progress_indicator_widget.dart';
 import 'services/remote_config_service.dart';
-import 'widgets/bottom_navigator/bottom_navigation_bar_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,20 +45,18 @@ void main() async {
 
   try {
     await Hive.initFlutter();
-
-    Hive.registerAdapter<News>(NewsAdapter());
-    Hive.registerAdapter<Company>(CompanyAdapter());
     Hive.registerAdapter<User>(UserAdapter());
     Hive.registerAdapter<Profile>(ProfileAdapter());
+    Hive.registerAdapter<News>(NewsAdapter());
+    Hive.registerAdapter<Company>(CompanyAdapter());
 
-    await Hive.openBox<News>('news');
     await Hive.openBox<User>('user');
     await Hive.openBox<Profile>('profile');
+    await Hive.openBox<News>('news');
     await Hive.openBox<Company>('company');
   } catch (e) {
     rethrow;
   }
-  getServiceNameFromRemoteConfig();
 
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   FirebaseCrashlytics.instance.deleteUnsentReports();
@@ -113,9 +105,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    initializeHiveDB();
+    getServiceNameFromRemoteConfig();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
+
+  void initializeHiveDB() async {}
 
   @override
   void didChangeDependencies() {
@@ -153,8 +149,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           Locale('md', 'MD'),
           Locale('ro', 'RO'),
         ],
-        localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
-        localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        /* localeResolutionCallback: (
+          Locale locale,
+          Iterable<Locale> supportedLocales,
+        ) {
           final retLocale = supportedLocales?.first;
 
           if (locale == null) {
@@ -172,7 +176,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           }
 
           return retLocale;
-        },
+        }, */
         routes: {
           '/': (context) => SplashScreen(),
           '/login': (context) => LoginScreen2(),
@@ -249,9 +253,9 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
         BlocProvider(
           create: (context) => getIt<ProfileFormBloc>(),
         ),
-        BlocProvider(
+        /* BlocProvider(
           create: (context) => getIt<PhoneValidationBloc>(),
-        )
+        ) */
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -262,8 +266,13 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
           Locale('md', 'MD'),
           Locale('ro', 'RO'),
         ],
-        localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
-        localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        /* localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
           final retLocale = supportedLocales?.first;
 
           if (locale == null) {
@@ -281,7 +290,7 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
           }
 
           return retLocale;
-        },
+        }, */
         routes: {
           '/first': (context) => InitApp(),
           '/login': (context) => LoginScreen2(),

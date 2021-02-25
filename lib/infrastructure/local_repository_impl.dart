@@ -1,28 +1,35 @@
 import 'dart:convert';
 
-import 'package:MyDiscount/domain/entities/company_model.dart';
-import 'package:MyDiscount/services/shared_preferences_service.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
+import '../domain/entities/company_model.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/entities/profile_model.dart';
 import '../domain/entities/news_model.dart';
 import '../domain/repositories/local_repository.dart';
 
-@injectable
+@LazySingleton(as: LocalRepository)
 class LocalRepositoryImpl implements LocalRepository {
   final Box<User> userBox;
   final Box<Profile> profileBox;
   final Box<News> newsBox;
   final Box<Company> companyBox;
-  final SharedPref _prefs;
 
-  LocalRepositoryImpl(this.userBox, this.profileBox, this.newsBox, this.companyBox, this._prefs);
+  LocalRepositoryImpl(
+    this.userBox,
+    this.profileBox,
+    this.newsBox,
+    this.companyBox,
+  );
   @override
   Profile getLocalClientInfo() {
-    return profileBox?.get(1);
+    if (profileBox.isNotEmpty) {
+      return profileBox?.get(1);
+    } else {
+      return Profile.empty();
+    }
   }
 
   @override
@@ -79,11 +86,11 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  void saveLocalCompanyList(List list) {
-    list.map((company) => Company.fromJson(company)).toList().forEach((company) => companyBox.put(company.id, company));
+  void saveLocalCompanyList(List<Company> list) {
+    list.forEach((company) => companyBox.put(company.id, company));
   }
 
-  returnUserMapToSave(Map<String, dynamic> json) {
+  Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json) {
     final Map<String, dynamic> userMap = {};
     final keys = json.keys;
     for (String key in keys) {
@@ -114,6 +121,20 @@ class LocalRepositoryImpl implements LocalRepository {
     } catch (e) {
       return false;
     }
+  }
+
+  returnProfileMapDataAsMap(Profile profile) {
+    final user = userBox.get(1);
+    return {
+      "DisplayName": profile.firstName + " " + profile.lastName,
+      "Email": profile.email,
+      "ID": user.id,
+      "phone": profile.phone,
+      "PhotoUrl": base64Encode(profile.photo.toList()),
+      "PushToken": '',
+      "RegisterMode": 1,
+      "access_token": user.accessToken,
+    };
   }
 }
 

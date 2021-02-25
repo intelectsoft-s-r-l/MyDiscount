@@ -88,14 +88,4 @@ class SharedPref {
     if (prefs.containsKey('newsState')) return prefs.getBool('newsState');
     return true;
   }
-
- /*  saveIOSCredentials(String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.setString('IOS', value);
-  }
-
-  Future<String> readIOSCredentials() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('IOS');
-  } */
 }

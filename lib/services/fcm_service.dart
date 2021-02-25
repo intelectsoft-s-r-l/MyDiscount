@@ -12,6 +12,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
   final FirebaseMessaging _fcm;
   final LocalNotificationsService _localNotificationsService;
   final SharedPref _prefs;
+  
 
   bool _isActivate = false;
 
@@ -43,8 +44,6 @@ class FirebaseCloudMessageService with ChangeNotifier {
       getfcmToken();
     }
   }
-
-  checkIfContainKey() async {}
 
   getFCMState() async {
     final data = await _prefs.instance;

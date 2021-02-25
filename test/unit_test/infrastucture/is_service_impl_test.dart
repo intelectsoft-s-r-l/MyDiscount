@@ -2,10 +2,13 @@ import 'dart:typed_data';
 
 import 'package:IsService/service_client.dart';
 import 'package:MyDiscount/core/formater.dart';
+import 'package:MyDiscount/core/internet_connection_service.dart';
 import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:MyDiscount/infrastructure/is_service_impl.dart';
 import 'package:MyDiscount/infrastructure/local_repository_impl.dart';
-import 'package:MyDiscount/services/internet_connection_service.dart';
+
+
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

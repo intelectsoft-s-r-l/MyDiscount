@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:MyDiscount/infrastructure/local_repository_impl.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../domain/repositories/local_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -11,7 +12,7 @@ part 'auth_state.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._localRepositoryImpl) : super(AuthInitial());
-  final LocalRepositoryImpl _localRepositoryImpl;
+  final LocalRepository _localRepositoryImpl;
 
   @override
   Stream<AuthState> mapEventToState(

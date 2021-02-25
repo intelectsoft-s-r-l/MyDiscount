@@ -9,31 +9,46 @@ abstract class ProfileFormEvent extends Equatable {
 
 class FirstNameChanged extends ProfileFormEvent {
   final String firstName;
-  final bool isSubmitted;
 
-  FirstNameChanged(this.firstName, this.isSubmitted);
+  FirstNameChanged(
+    this.firstName,
+  );
 }
 
 class LastNameChanged extends ProfileFormEvent {
   final String lastName;
-  final bool isSubmitted;
-  LastNameChanged(this.lastName, this.isSubmitted);
+
+  LastNameChanged(
+    this.lastName,
+  );
 }
 
 class EmailChanged extends ProfileFormEvent {
   final String email;
-  final bool isSubmitted;
-  EmailChanged(this.email, this.isSubmitted);
+
+  EmailChanged(
+    this.email,
+  );
 }
 
 class PhoneChanged extends ProfileFormEvent {
   final String phone;
-  final bool isSubmitted;
-  PhoneChanged(this.phone, this.isSubmitted);
+
+  PhoneChanged(
+    this.phone,
+  );
 }
 
 class ImageChanged extends ProfileFormEvent {
   final Uint8List bytes;
-  final bool isSubmitted;
-  ImageChanged(this.bytes, this.isSubmitted);
+
+  ImageChanged(
+    this.bytes,
+  );
+}
+
+class SaveProfileData extends ProfileFormEvent {
+ final Profile profile;
+
+  SaveProfileData(this.profile);
 }

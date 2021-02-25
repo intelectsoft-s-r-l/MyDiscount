@@ -1,4 +1,4 @@
-import 'package:MyDiscount/domain/entities/user_model.dart';
+import '../entities/user_model.dart';
 
 abstract class AuthRepository {
   Future<User> authenticateWithGoogle();

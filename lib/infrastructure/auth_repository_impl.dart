@@ -1,27 +1,32 @@
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/auth_repository.dart';
-import '../infrastructure/is_service_impl.dart';
-import '../infrastructure/local_repository_impl.dart';
+import '../domain/repositories/is_service_repository.dart';
+import '../domain/repositories/local_repository.dart';
 
-@injectable
+@LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   final GoogleSignIn _googleSignIn;
   final FacebookLogin _facebookLogin;
-  final IsServiceImpl _isService;
-  final LocalRepositoryImpl _localRepositoryImpl;
+  final IsService _isService;
+  final LocalRepository _localRepositoryImpl;
 
-  AuthRepositoryImpl(this._googleSignIn, this._facebookLogin, this._isService, this._localRepositoryImpl);
+  AuthRepositoryImpl(
+    this._googleSignIn,
+    this._facebookLogin,
+    this._isService,
+    this._localRepositoryImpl,
+  );
   @override
   Future<User> authenticateWithApple() async {
     final appleCredentials = await SignInWithApple.getAppleIDCredential(scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName]);
     User localUser = await _isService.updateClientInfo(json: {
-      "DisplayName": '${appleCredentials.givenName}' + " " + '${appleCredentials.familyName}',
-      "Email": appleCredentials.email,
+      "DisplayName": '${appleCredentials.givenName ?? ''}' + " " + '${appleCredentials.familyName ?? ''}',
+      "Email": appleCredentials.email ?? '',
       "ID": appleCredentials.userIdentifier,
       "PhotoUrl": '',
       "PushToken": '',
