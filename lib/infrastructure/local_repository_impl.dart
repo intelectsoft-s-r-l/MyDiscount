@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
@@ -49,7 +51,8 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   User getLocalUser() {
-    return userBox?.get(1);
+    final _user = userBox?.get(1);
+    return _user ?? null;
   }
 
   @override
@@ -123,18 +126,32 @@ class LocalRepositoryImpl implements LocalRepository {
     }
   }
 
-  returnProfileMapDataAsMap(Profile profile) {
+ Future<Map<String,dynamic>> returnProfileMapDataAsMap(Profile profile) async {
     final user = userBox.get(1);
+    final result = await testComporessList(profile.photo);
+    print(result);
     return {
       "DisplayName": profile.firstName + " " + profile.lastName,
       "Email": profile.email,
       "ID": user.id,
       "phone": profile.phone,
-      "PhotoUrl": base64Encode(profile.photo.toList()),
+      "PhotoUrl": base64Encode(result.toList()),
       "PushToken": '',
-      "RegisterMode": 1,
+      "RegisterMode": user.registerMode,
       "access_token": user.accessToken,
     };
+  }
+
+  Future<Uint8List> testComporessList(Uint8List list) async {
+    final result = await FlutterImageCompress.compressWithList(
+      list,
+      minHeight: 200,
+      minWidth: 200,
+      quality: 80,
+      rotate: 0,
+      format: CompressFormat.webp,
+    );
+    return result;
   }
 }
 

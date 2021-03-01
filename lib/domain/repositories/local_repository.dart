@@ -15,7 +15,7 @@ abstract class LocalRepository {
   List<News> getLocalNews();
   String readEldestNewsId();
   bool smsCodeVerification(String serverCode, String userCode);
-  Map<String, dynamic> returnProfileMapDataAsMap(Profile profile);
+  Future<Map<String, dynamic>> returnProfileMapDataAsMap(Profile profile);
   Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json);
   Future<Map<String, dynamic>> getFacebookProfile(String token);
 }

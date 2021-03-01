@@ -1,3 +1,4 @@
+import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -47,5 +48,6 @@ abstract class ServiceInjectableModule {
   Box<News> get newsBox  => Hive.box<News>('news');
   @lazySingleton
   Box<Company> get companyBox  => Hive.box<Company>('company');
-  
+  @lazySingleton
+  RemoteConfigService get remoteConfig => RemoteConfigService();
 }

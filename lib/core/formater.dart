@@ -86,9 +86,9 @@ class Formater {
     }
   }
 
-  Map<String, dynamic> addToProfileMapSignMethod(Map<String, dynamic> map, User user) {
+  Map<String, dynamic> addToProfileMapSignMethod(Map<String, dynamic> map, int registerMode) {
     try {
-      map.putIfAbsent('mode', () => user.registerMode);
+      map.putIfAbsent('mode', () => registerMode);
       return map;
     } catch (e) {
       rethrow;

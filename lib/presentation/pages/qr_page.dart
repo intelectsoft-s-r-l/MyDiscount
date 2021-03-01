@@ -33,7 +33,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    getIt<IsService>().getClientInfo();
+   // getIt<IsService>().getClientInfo();
     if (mounted) _getAuthorization();
 
     WidgetsBinding.instance.addObserver(this);

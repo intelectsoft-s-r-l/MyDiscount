@@ -106,7 +106,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     initializeHiveDB();
-    getServiceNameFromRemoteConfig();
+    getIt<RemoteConfigService>().getServiceNameFromRemoteConfig();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
@@ -197,6 +197,7 @@ class SplashScreen extends StatelessWidget {
           if (state is AuthAuthorized) {
             Navigator.pushReplacementNamed(context, '/first');
           } else {
+            //Navigator.pop(context);
             Navigator.pushReplacementNamed(context, '/login');
           }
         },

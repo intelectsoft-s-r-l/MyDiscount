@@ -20,21 +20,22 @@ class IsServiceImpl implements IsService {
   final NetworkConnection _network;
   final Formater _formater;
   final LocalRepository _localRepository;
-  NewsSettings settings = NewsSettings();
+  final RemoteConfigService _remoteConfigService;
+  //NewsSettings settings = NewsSettings();
 
-  IsServiceImpl(this._client, this._network, this._localRepository, this._formater);
+  IsServiceImpl(this._client, this._network, this._localRepository, this._formater, this._remoteConfigService);
   @override
   Future<List<News>> getAppNews() async {
     try {
-      if (await settings.getNewsState()) {
-        final String eldestLocalNewsId = _localRepository.readEldestNewsId();
-        final String _urlFragment = '/json/GetAppNews?ID=$eldestLocalNewsId';
-        final List _listNewsMaps = await _getResponse(_urlFragment);
-        _formater.parseDateTime(_listNewsMaps, 'CreateDate');
-        _formater.checkImageFormatAndDecode(_listNewsMaps, 'CompanyLogo');
-        _formater.checkImageFormatAndDecode(_listNewsMaps, 'Photo');
-        _localRepository.saveLocalNews(_listNewsMaps);
-      }
+      /* if (await settings.getNewsState()) { */
+      final String eldestLocalNewsId = _localRepository.readEldestNewsId();
+      final String _urlFragment = '/json/GetAppNews?ID=$eldestLocalNewsId';
+      final List _listNewsMaps = await _getResponse(_urlFragment);
+      _formater.parseDateTime(_listNewsMaps, 'CreateDate');
+      _formater.checkImageFormatAndDecode(_listNewsMaps, 'CompanyLogo');
+      _formater.checkImageFormatAndDecode(_listNewsMaps, 'Photo');
+      _localRepository.saveLocalNews(_listNewsMaps);
+      /*   } */
       return _localRepository.getLocalNews();
     } catch (e) {
       rethrow;
@@ -42,19 +43,21 @@ class IsServiceImpl implements IsService {
   }
 
   @override
-  Future<Profile> getClientInfo() async {
+  Future<Profile> getClientInfo({String id, int registerMode}) async {
     try {
       final User localUser = _localRepository.getLocalUser();
-      final _urlFragment = '/json/GetClientInfo?ID=${localUser.id}&RegisterMode=${localUser.registerMode}';
+      final _id = id ?? localUser?.id;
+      final _registerMode = registerMode ?? localUser?.registerMode;
+      final _urlFragment = '/json/GetClientInfo?ID=$_id&RegisterMode=$_registerMode';
       final Map profileMap = await _getResponse(_urlFragment);
       _formater.splitDisplayName(profileMap);
       await _formater.downloadProfileImageOrDecodeString(profileMap);
-      _formater.addToProfileMapSignMethod(profileMap, localUser);
+      _formater.addToProfileMapSignMethod(profileMap, _registerMode);
       Profile profile = Profile.fromJson(profileMap);
       _localRepository.saveLocalClientInfo(profile);
       return profile;
     } catch (e) {
-      rethrow;
+      return null;
     }
   }
 
@@ -146,7 +149,7 @@ flutter run
   }
 
   Future _getResponse(String urlFragment) async {
-    final serviceName = await getServiceNameFromRemoteConfig();
+    final serviceName = await _remoteConfigService.getServiceNameFromRemoteConfig();
     final _baseUrl = '$serviceName$urlFragment';
     try {
       if (await _network.isConnected) {

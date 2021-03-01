@@ -6,7 +6,7 @@ import '../../domain/entities/tranzaction_model.dart';
 
 abstract class IsService {
   Future<List<News>> getAppNews();
-  Future<Profile> getClientInfo();
+  Future<Profile> getClientInfo({String id,int registerMode});
   Future<List<Company>> getCompanyList();
   Future<String> getTempId();
   Future<List<Transaction>> getTransactionList();

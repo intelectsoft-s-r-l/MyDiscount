@@ -45,21 +45,24 @@ class _ProfilePageState extends State<ProfilePage> {
             backgroundColor: Colors.green,
             elevation: 0,
             actions: [
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  setState(() {
-                    isReadOnly = !isReadOnly;
-                  });
-                  if (isReadOnly) {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      _formKey.currentState.context.read<ProfileFormBloc>().add(SaveProfileData(profile));
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 3000),
+                child: IconButton(
+                  icon: Icon(isReadOnly ? Icons.edit : Icons.save),
+                  onPressed: () {
+                    setState(() {
+                      isReadOnly = !isReadOnly;
+                    });
+                    if (isReadOnly) {
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
+                        _formKey.currentState.context.read<ProfileFormBloc>().add(SaveProfileData(profile));
+                      }
+                    } else {
+                      _node.requestFocus();
                     }
-                  } else {
-                    _node.requestFocus();
-                  }
-                },
+                  },
+                ),
               )
             ],
           ),
@@ -197,6 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: [
                                       OutlineButton(
                                         onPressed: () {
+                                          Navigator.pop(context);
                                           context.read<SignFormBloc>().add(SignOutEvent());
                                           context.read<AuthBloc>().add(SignOut());
                                         },

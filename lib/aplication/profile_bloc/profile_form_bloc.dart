@@ -51,13 +51,13 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
       final Profile profile = _localRepositoryImpl.getLocalClientInfo();
 
       final pr = _localRepositoryImpl.saveLocalClientInfo(profile.copyWith(photo: event.bytes));
-      final map = _localRepositoryImpl.returnProfileMapDataAsMap(pr);
+      final map = await _localRepositoryImpl.returnProfileMapDataAsMap(pr);
       _localRepositoryImpl.saveLocalClientInfo(pr);
       _isServiceImpl.updateClientInfo(json: map);
       yield ProfileFormDone(pr, false);
     }
     if (event is SaveProfileData) {
-      final map = _localRepositoryImpl.returnProfileMapDataAsMap(event.profile);
+      final map = await _localRepositoryImpl.returnProfileMapDataAsMap(event.profile);
       _localRepositoryImpl.saveLocalClientInfo(event.profile);
       _isServiceImpl.updateClientInfo(json: map);
       yield ProfileFormDone(event.profile, true);
