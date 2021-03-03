@@ -1,5 +1,4 @@
 import 'package:MyDiscount/domain/repositories/local_repository.dart';
-import 'package:MyDiscount/providers/news_settings.dart';
 import 'package:injectable/injectable.dart';
 import 'package:IsService/service_client.dart';
 
@@ -23,20 +22,22 @@ class IsServiceImpl implements IsService {
   final RemoteConfigService _remoteConfigService;
   //NewsSettings settings = NewsSettings();
 
-  IsServiceImpl(this._client, this._network, this._localRepository, this._formater, this._remoteConfigService);
+  IsServiceImpl(this._client, this._network, this._localRepository,
+      this._formater, this._remoteConfigService);
   @override
   Future<List<News>> getAppNews() async {
     try {
       /* if (await settings.getNewsState()) { */
-      final String eldestLocalNewsId = _localRepository.readEldestNewsId();
-      final String _urlFragment = '/json/GetAppNews?ID=$eldestLocalNewsId';
-      final List _listNewsMaps = await _getResponse(_urlFragment);
-      _formater.parseDateTime(_listNewsMaps, 'CreateDate');
-      _formater.checkImageFormatAndDecode(_listNewsMaps, 'CompanyLogo');
-      _formater.checkImageFormatAndDecode(_listNewsMaps, 'Photo');
-      _localRepository.saveLocalNews(_listNewsMaps);
-      /*   } */
-      return _localRepository.getLocalNews();
+        final String eldestLocalNewsId = _localRepository?.readEldestNewsId();
+        final String _urlFragment = '/json/GetAppNews?ID=$eldestLocalNewsId';
+        final List _listNewsMaps = await getResponse(_urlFragment);
+        _formater.parseDateTime(_listNewsMaps, 'CreateDate');
+        _formater.checkImageFormatAndDecode(_listNewsMaps, 'CompanyLogo');
+        _formater.checkImageFormatAndDecode(_listNewsMaps, 'Photo');
+        _localRepository.saveLocalNews(_listNewsMaps);
+        return _localRepository.getLocalNews();
+     /*  }
+      return []; */
     } catch (e) {
       rethrow;
     }
@@ -48,8 +49,9 @@ class IsServiceImpl implements IsService {
       final User localUser = _localRepository.getLocalUser();
       final _id = id ?? localUser?.id;
       final _registerMode = registerMode ?? localUser?.registerMode;
-      final _urlFragment = '/json/GetClientInfo?ID=$_id&RegisterMode=$_registerMode';
-      final Map profileMap = await _getResponse(_urlFragment);
+      final _urlFragment =
+          '/json/GetClientInfo?ID=$_id&RegisterMode=$_registerMode';
+      final Map profileMap = await getResponse(_urlFragment);
       _formater.splitDisplayName(profileMap);
       await _formater.downloadProfileImageOrDecodeString(profileMap);
       _formater.addToProfileMapSignMethod(profileMap, _registerMode);
@@ -74,9 +76,11 @@ flutter run
     try {
       final User user = _localRepository.getLocalUser();
       final _urlFragment = '/json/GetCompany?ID=${user.id}';
-      List listCompaniesMaps = await _getResponse(_urlFragment);
+      List listCompaniesMaps = await getResponse(_urlFragment);
       _formater.checkImageFormatAndDecode(listCompaniesMaps, 'Logo');
-      List<Company> listCompanies = listCompaniesMaps.map((company) => Company.fromJson(company)).toList();
+      List<Company> listCompanies = listCompaniesMaps
+          .map((company) => Company.fromJson(company))
+          .toList();
       _localRepository.saveLocalCompanyList(listCompanies);
       if (listCompanies.isEmpty) {
         throw EmptyList();
@@ -92,8 +96,9 @@ flutter run
     try {
       // throw Error();
       final User user = _localRepository.getLocalUser();
-      final _urlFragment = '/json/GetTempID?ID=${user.id}&RegisterMode=${user.registerMode}';
-      String id = await _getResponse(_urlFragment) as String;
+      final _urlFragment =
+          '/json/GetTempID?ID=${user.id}&RegisterMode=${user.registerMode}';
+      String id = await getResponse(_urlFragment) as String;
       return Future.value(id);
     } catch (e) {
       rethrow;
@@ -104,9 +109,12 @@ flutter run
   Future<List<Transaction>> getTransactionList() async {
     try {
       final User user = _localRepository.getLocalUser();
-      final _urlFragment = '/json/GetTransactionList?ID=${user.id}&RegisterMode=${user.registerMode}';
-      List listTransactionsMaps = await _getResponse(_urlFragment);
-      List<Transaction> listTransactions = listTransactionsMaps.map((transaction) => Transaction.fromJson(transaction)).toList();
+      final _urlFragment =
+          '/json/GetTransactionList?ID=${user.id}&RegisterMode=${user.registerMode}';
+      List listTransactionsMaps = await getResponse(_urlFragment);
+      List<Transaction> listTransactions = listTransactionsMaps
+          .map((transaction) => Transaction.fromJson(transaction))
+          .toList();
       if (listTransactions.length == 0) {
         throw EmptyList();
       }
@@ -120,7 +128,7 @@ flutter run
   Future<String> validatePhone({String phone}) async {
     try {
       final _urlFragment = '/json/ValidatePhone?Phone=$phone';
-      return await _getResponse(_urlFragment);
+      return await getResponse(_urlFragment);
     } catch (e) {
       rethrow;
     }
@@ -131,7 +139,8 @@ flutter run
     print(json);
     try {
       //throw Error();
-      final _url = 'https://dev.edi.md/ISMobileDiscountService/json/UpdateClientInfo';
+      final _url =
+          'https://dev.edi.md/ISMobileDiscountService/json/UpdateClientInfo';
 
       final response = await _client.post(_url, json);
 
@@ -148,11 +157,12 @@ flutter run
     }
   }
 
-  Future _getResponse(String urlFragment) async {
-    final serviceName = await _remoteConfigService.getServiceNameFromRemoteConfig();
+  Future getResponse(String urlFragment) async {
+    final serviceName =
+        await _remoteConfigService?.getServiceNameFromRemoteConfig();
     final _baseUrl = '$serviceName$urlFragment';
     try {
-      if (await _network.isConnected) {
+      if (await _network?.isConnected) {
         final response = await _client.get(_baseUrl);
 
         if (response.statusCode == 0) {

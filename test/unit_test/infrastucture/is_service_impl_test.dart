@@ -1,8 +1,19 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:MyDiscount/domain/entities/user_model.dart';
+import 'package:MyDiscount/domain/repositories/is_service_repository.dart';
+import 'package:MyDiscount/infrastructure/is_service_impl.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
+
 import 'package:IsService/service_client.dart';
 import 'package:IsService/service_client_response.dart';
+
+import '../fixtures/fixtures_redear.dart';
+
 import 'package:MyDiscount/core/constants/credentials.dart';
 import 'package:MyDiscount/core/formater.dart';
 import 'package:MyDiscount/core/internet_connection_service.dart';
@@ -10,14 +21,8 @@ import 'package:MyDiscount/domain/entities/company_model.dart';
 import 'package:MyDiscount/domain/entities/news_model.dart';
 import 'package:MyDiscount/domain/entities/profile_model.dart';
 import 'package:MyDiscount/domain/repositories/local_repository.dart';
-import 'package:MyDiscount/infrastructure/is_service_impl.dart';
+//import 'package:MyDiscount/infrastructure/is_service_impl.dart';
 import 'package:MyDiscount/services/remote_config_service.dart';
-
-import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:mockito/mockito.dart';
-
-import '../fixtures/fixtures_redear.dart';
 
 class MockFormater extends Mock implements Formater {}
 
@@ -27,22 +32,24 @@ class MockCredentials extends Mock implements Credentials {}
 
 class MockHttpClient extends Mock implements http.Client {}
 
-class MockLocalRepositoryImpl extends Mock implements LocalRepository {}
+class MockLocalRepository extends Mock implements LocalRepository {}
 
 class MockRemoteConfig extends Mock implements RemoteConfigService {}
 
+class MockIsServiceImpl extends Mock implements IsService {}
+
 class MockServiceClient extends Mock implements ServiceClient {
   // ignore: unused_field
-  http.Client _client = MockHttpClient();
-  final String _credential;
+  // http.Client _client = MockHttpClient();
+  /* final String _credential;
 
-  MockServiceClient(this._credential);
+  MockServiceClient(this._credential); */
 }
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  MockLocalRepositoryImpl _repo;
   IsServiceImpl _service;
+  MockLocalRepository _repo;
   MockInternetConnection _inet;
   MockServiceClient _client;
   MockFormater _formater;
@@ -50,27 +57,30 @@ void main() {
 
   setUp(() {
     _service = IsServiceImpl(
-      _client,
+        _client,
       _inet,
       _repo,
       _formater,
       _remoteConf,
-    );
-    _repo = MockLocalRepositoryImpl();
-    _remoteConf = MockRemoteConfig();
+        );
+    _repo = MockLocalRepository();
+     _remoteConf = MockRemoteConfig();
     _inet = MockInternetConnection();
     _formater = MockFormater();
-    String cr = Credentials().header;
-    _client = MockServiceClient(cr);
+    // String cr = Credentials().header;
+     _client = MockServiceClient(/* cr */);
   });
 
   void runTestsOnline(Function body) {
-    group('device is online', () {
-      setUp(() {
-        when(_inet.isConnected).thenAnswer((_) async => true);
-      });
-      body();
-    });
+    group(
+      'device is online',
+      () {
+        setUp(() {
+          when(_inet.isConnected).thenAnswer((_) async => true);
+        });
+        body();
+      },
+    );
   }
 
   runTestsOnline(() {
@@ -98,7 +108,8 @@ void main() {
       });
 
       test("should return qr when the response code is 200", () async {
-        final url = 'https://dev.edi.md/ISMobileDiscountService/json/GetAppNews?ID=0';
+        final url =
+            'https://dev.edi.md/ISMobileDiscountService/json/GetAppNews?ID=0';
         final tresp = json.decode(fixture('list_of_news.json'));
         when(_client.get(url)).thenAnswer(
           (_) async => IsResponse(0, '', tresp),
@@ -106,13 +117,14 @@ void main() {
 
         final result = await _service.getAppNews();
 
-        expect(result, equals(tNewsList));
+        expect(result, equals(tresp));
       });
     });
 
     group('getClientInfo()', () {
       test('check if function return a profile object', () async {
-        final tClientInfo = json.decode(fixture('auth_providers_credentials.json'));
+        final tClientInfo =
+            json.decode(fixture('auth_providers_credentials.json'));
         final tProfile = Profile.fromJson(tClientInfo);
         when(_service.getClientInfo()).thenAnswer((_) async => tProfile);
 
@@ -141,10 +153,17 @@ void main() {
     group('getCompanyList()', () {
       test('check if function return a List of Company Objects', () async {
         final tcompanyList = [
-          {"Amount": "String content", "ID": 2147483647, "Logo": Uint8List.fromList([]), "Name": "String content"}
+          {
+            "Amount": "String content",
+            "ID": 2147483647,
+            "Logo": Uint8List.fromList([]),
+            "Name": "String content"
+          }
         ];
+        final User user = _repo.getLocalUser();
+        final urlFragment = '/json/GetCompany?ID=${user.id}';
         final tList = tcompanyList.map((map) => Company.fromJson(map)).toList();
-        when(_service.getCompanyList()).thenAnswer((_) async => tList);
+        when(_service.getResponse(urlFragment)).thenAnswer((_) async => tList);
 
         final response = await _service.getCompanyList();
 

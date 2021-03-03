@@ -51,8 +51,8 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   User getLocalUser() {
-    final _user = userBox?.get(1);
-    return _user ?? null;
+    final User _user = userBox?.get(1);
+    return _user;
   }
 
   @override
@@ -63,7 +63,10 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   void saveLocalNews(List newsList) {
-    newsList.map((e) => News.fromJson(e)).toList().forEach((news) => newsBox?.put(news.id, news));
+    newsList
+        .map((e) => News.fromJson(e))
+        .toList()
+        .forEach((news) => newsBox?.put(news.id, news));
   }
 
   @override
@@ -105,7 +108,8 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   Future<Map<String, dynamic>> getFacebookProfile(String token) async {
-    final _graphResponse = await http.get('https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
+    final _graphResponse = await http.get(
+        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
     return json.decode(_graphResponse.body) as Map<String, dynamic>;
   }
 
@@ -126,7 +130,8 @@ class LocalRepositoryImpl implements LocalRepository {
     }
   }
 
- Future<Map<String,dynamic>> returnProfileMapDataAsMap(Profile profile) async {
+  Future<Map<String, dynamic>> returnProfileMapDataAsMap(
+      Profile profile) async {
     final user = userBox.get(1);
     final result = await testComporessList(profile.photo);
     print(result);
@@ -145,11 +150,11 @@ class LocalRepositoryImpl implements LocalRepository {
   Future<Uint8List> testComporessList(Uint8List list) async {
     final result = await FlutterImageCompress.compressWithList(
       list,
-      minHeight: 200,
-      minWidth: 200,
+      minHeight: 110,
+      minWidth: 110,
       quality: 80,
       rotate: 0,
-      format: CompressFormat.webp,
+      format: CompressFormat.jpeg,
     );
     return result;
   }
@@ -163,7 +168,8 @@ class VerificationCode {
   int get lenght => code.length;
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || other is VerificationCode && code == other.code;
+    return identical(this, other) ||
+        other is VerificationCode && code == other.code;
   }
 
   @override
