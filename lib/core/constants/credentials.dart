@@ -7,10 +7,10 @@ class Credentials {
   
   static String encoded = stringToBase64.encode(credentials);
   
- final  Map<String, String> _headers = {
+ /* final  Map<String, String> _headers = {
     'Content-type': 'application/json; charset=utf-8',
     'Authorization': 'Basic ' + encoded,
-  };
+  }; */
   
-  Map<String, String> get header => _headers;
+  /* Map<String, String> */ get header => encoded/* _headers */;
 }

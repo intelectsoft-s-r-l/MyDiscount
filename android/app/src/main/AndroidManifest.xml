@@ -8,10 +8,11 @@
     <application
         android:name=".Application"
         android:label="MyDiscount"
-        android:icon="@mipmap/ic_launcher">  
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true">  
         <meta-data                      
             android:name="com.google.firebase.messaging.default_notification_icon"             
-            android:resource="@mipmap/ic_stat_qq3" />
+            android:resource="@mipmap/ic_notifications_icon" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />

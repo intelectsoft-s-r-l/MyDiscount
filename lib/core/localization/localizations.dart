@@ -8,7 +8,7 @@ import '../../services/shared_preferences_service.dart';
 class AppLocalizations {
   final Locale locale;
   AppLocalizations(this.locale);
-  SharedPref _prefs = SharedPref();
+ final SharedPref _prefs = SharedPref();
 
   static AppLocalizations of(BuildContext context) {
     return Localizations.of(context, AppLocalizations);
@@ -19,9 +19,9 @@ class AppLocalizations {
   Map<String, dynamic> _localizedStrings;
 
   Future<bool> load() async {
-    String jsonString =
+   final String jsonString =
         await rootBundle.loadString('lang/${locale.languageCode}.json');
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
+   final Map<String, dynamic> jsonMap = json.decode(jsonString) as Map<String,dynamic>;
 
     _localizedStrings = jsonMap.map(
       (key, value) {
@@ -37,7 +37,7 @@ class AppLocalizations {
   }
 
   Future<Locale> getLocale() async {
-    String languageCode = await _prefs.readLocale() ?? "en";
+   final String languageCode = await _prefs.readLocale() ?? "en";
     return _locale(languageCode);
   }
 
@@ -58,24 +58,24 @@ class AppLocalizations {
   Locale _locale(String languageCode) {
     switch (languageCode) {
       case 'en':
-        return Locale('en', 'US');
+        return const Locale('en', 'US');
       case 'ro':
-        return Locale('ro', "RO");
+        return const Locale('ro', "RO");
       case 'ru':
-        return Locale('ru', "RU");
+        return const Locale('ru', "RU");
 
       default:
-        return Locale('en', 'US');
+        return const Locale('en', 'US');
     }
   }
 
   Future<Language> getLanguage() async {
-    String languageCode = await _prefs.readLocale() ?? "en";
+  final  String languageCode = await _prefs.readLocale() ?? "en";
     return _language(languageCode);
   }
 
   String translate(String key) {
-    return _localizedStrings[key];
+    return _localizedStrings[key] as String;
   }
 }
 
@@ -90,7 +90,7 @@ class _AppLocalizationsDelegate
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
-    AppLocalizations localizations = new AppLocalizations(locale);
+  final AppLocalizations localizations =  AppLocalizations(locale);
     await localizations.load();
     return localizations;
   }

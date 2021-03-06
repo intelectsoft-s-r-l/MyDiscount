@@ -3,35 +3,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPref {
   Future<SharedPreferences> get instance => SharedPreferences.getInstance();
 
-  saveTID(String id) async {
+  void remove() async {
+    final authData = await SharedPreferences.getInstance();
+     authData.clear();
+  }
+
+  /* saveTID(String id) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('Tid', id);
-  }
+  } */
 
-  readTID() async {
+  /* readTID() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('Tid');
-  }
+  } */
 
-  saveUser(String data) async {
+  /* saveUser(String data) async {
     final authData = await SharedPreferences.getInstance();
     authData.setString('user', data);
-  }
+  } */
 
-  readUser() async {
+  /* readUser() async {
     final authData = await SharedPreferences.getInstance();
     return authData.getString('user');
-  }
+  } */
 
-  saveProfileData(String profile) async {
+  /* void saveProfileData(String profile) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('profile', profile);
-  }
+  } */
 
-  readProfileData() async {
+  /* readProfileData() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('profile');
-  }
+  } */
 
   savePhoneNumber(String profile) async {
     final prefs = await SharedPreferences.getInstance();
@@ -82,15 +87,5 @@ class SharedPref {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('newsState')) return prefs.getBool('newsState');
     return true;
-  }
-
-  saveIOSCredentials(String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.setString('IOS', value);
-  }
-
-  Future<String> readIOSCredentials() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('IOS');
   }
 }

@@ -1,4 +1,8 @@
 {
     "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
-	"git.ignoreLimitWarning": true,
+    "git.ignoreLimitWarning": true,
+    "files.autoSave": "afterDelay",
+    "editor.linkedEditing": true,
+    "editor.trimAutoWhitespace": false,
+    
 }
