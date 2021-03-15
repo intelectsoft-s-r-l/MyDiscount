@@ -198,18 +198,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      OutlineButton(
+                                      OutlinedButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                           context.read<SignFormBloc>().add(SignOutEvent());
                                           context.read<AuthBloc>().add(SignOut());
                                         },
-                                        splashColor: Colors.green,
-                                        borderSide: BorderSide(color: Colors.green),
-                                        highlightColor: Colors.green,
-                                        highlightedBorderColor: Colors.red,
+                                        style: OutlinedButton.styleFrom(
+                                        side: BorderSide(color: Colors.green),
+                                         primary: Colors.green,
+                                        /*highlightColor: Colors.green,
+                                        highlightedBorderColor: Colors.red, */
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                                         child: Text(AppLocalizations.of(context).translate('logout')),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                                       ),
                                     ],
                                   ),

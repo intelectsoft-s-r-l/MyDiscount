@@ -4,5 +4,6 @@
     "files.autoSave": "afterDelay",
     "editor.linkedEditing": true,
     "editor.trimAutoWhitespace": false,
+    "jupyter.jupyterServerType": "local",
     
 }

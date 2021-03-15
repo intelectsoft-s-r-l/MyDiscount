@@ -73,13 +73,13 @@ void main() async {
       statusBarBrightness: Brightness.dark,
     ),
   );
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runZoned(
-      () {
-        runApp(MyApp());
-      },
-      onError: FirebaseCrashlytics.instance.recordError,
-    );
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+    runZonedGuarded(() {
+      runApp(MyApp());
+    }, (obj, stack) {
+      FirebaseCrashlytics.instance.recordError(obj, stack);
+    });
 
     /*  getIt<FirebaseCloudMessageService>().getfcmToken(); */
   });
@@ -209,7 +209,8 @@ class SplashScreen extends StatelessWidget {
 
 class InitApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    final _InitAppState state = context.findAncestorStateOfType<_InitAppState>();
+    final _InitAppState state =
+        context.findAncestorStateOfType<_InitAppState>();
     state.setLocale(newLocale);
   }
 

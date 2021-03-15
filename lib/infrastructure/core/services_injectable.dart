@@ -1,4 +1,3 @@
-import 'package:MyDiscount/services/remote_config_service.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,6 +14,7 @@ import '../../domain/entities/company_model.dart';
 import '../../domain/entities/news_model.dart';
 import '../../domain/entities/profile_model.dart';
 import '../../domain/entities/user_model.dart';
+import '../../services/remote_config_service.dart';
 import '../../services/shared_preferences_service.dart';
 
 

@@ -102,14 +102,15 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             ),
                           ),
                           const Divider(),
-                          OutlineButton(
-                            splashColor: Colors.green,
-                            borderSide: const BorderSide(color: Colors.green),
-                            highlightColor: Colors.green,
-                            highlightedBorderColor: Colors.red,
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.green),
+                             primary: Colors.green,
+                           /* highlightColor: Colors.green,
+                            highlightedBorderColor: Colors.red, */
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
-                            ),
+                            ),),
                             child: isState ? Text(AppLocalizations.of(context).translate('sendcode')) : Text(AppLocalizations.of(context).translate('changephone')),
 
                             /*  isEdit

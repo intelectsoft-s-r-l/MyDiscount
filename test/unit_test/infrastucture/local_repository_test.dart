@@ -1,4 +1,4 @@
-import 'package:MyDiscount/domain/repositories/local_repository.dart';
+import 'package:my_discount/domain/repositories/local_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

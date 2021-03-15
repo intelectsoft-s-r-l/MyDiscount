@@ -33,7 +33,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-   // getIt<IsService>().getClientInfo();
+    // getIt<IsService>().getClientInfo();
     if (mounted) _getAuthorization();
 
     WidgetsBinding.instance.addObserver(this);
@@ -188,9 +188,11 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              serviceConection ? HumanImage() : NoInternetWidget(),
+                              serviceConection
+                                  ? HumanImage()
+                                  : NoInternetWidget(),
                               const SizedBox(height: 10.0),
-                              RaisedButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   _imageController.add(true);
                                   _getAuthorization();
@@ -199,20 +201,23 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                 },
                                 child: serviceConection
                                     ? Text(
-                                        AppLocalizations.of(context).translate('generate'),
+                                        AppLocalizations.of(context)
+                                            .translate('generate'),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )
                                     : Text(
-                                        AppLocalizations.of(context).translate('retry'),
+                                        AppLocalizations.of(context)
+                                            .translate('retry'),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                color: Colors.green,
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.green),
                               ),
                             ],
                           );
