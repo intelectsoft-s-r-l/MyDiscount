@@ -1,4 +1,4 @@
-name: MyDiscount
+name: my_discount
 description: A new Flutter project.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -17,7 +17,6 @@ dependencies:
     git: https://github.com/CristeaIon/is_service.git
   cupertino_icons: ^1.0.0
   data_connection_checker: ^0.3.4
-  #~date_time_picker: ^1.1.0
   device_info: ^1.0.0
   equatable: ^1.2.6
   firebase_analytics: ^6.3.0

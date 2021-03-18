@@ -130,7 +130,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                       StreamBuilder<int>(
                           stream: _controller.stream,
                           builder: (context, snapshot) {
-                            return OutlineButton(
+                            return OutlinedButton(
                               onPressed: snapshot.data == 0
                                   ? () {
                                       if (_currentCode != '') {
@@ -143,12 +143,13 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                       startTimer();
                                     }
                                   : null,
-                              borderSide: BorderSide(color: Colors.green),
-                              splashColor: Colors.green,
-                              highlightColor: Colors.green,
+                                  style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: Colors.green),
+                               primary: Colors.green,
+                             /* highlightColor: Colors.green, */
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
-                              ),
+                              ),),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: size.width * .3,
@@ -162,13 +163,14 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                       SizedBox(
                         width: 10,
                       ),
-                      OutlineButton(
-                        borderSide: BorderSide(color: Colors.green),
-                        splashColor: Colors.green,
-                        highlightColor: Colors.green,
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: Colors.green),
+                         primary: Colors.green,
+                       /* highlightColor: Colors.green, */
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
-                        ),
+                        ),),
                         onPressed: () async {
                           if (_currentCode != '') {
                             context.read<PhoneValidationBloc>().add(UserInputCode(_currentCode, state.serverCode));

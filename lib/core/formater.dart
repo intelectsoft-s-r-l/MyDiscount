@@ -112,7 +112,7 @@ class Formater {
     }
   }
 
-  //TODO:trebue de adaugat pentru fiecare operatie tip de eroare ca sa fie clar ce sa intimplat
+  //:trebue de adaugat pentru fiecare operatie tip de eroare ca sa fie clar ce sa intimplat
 
   Uint8List _readBase64String(String _base64) {
     if (_base64.isNotEmpty) {

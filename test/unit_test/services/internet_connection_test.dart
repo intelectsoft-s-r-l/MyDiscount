@@ -1,4 +1,4 @@
-import 'package:MyDiscount/core/internet_connection_service.dart';
+import 'package:my_discount/core/internet_connection_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

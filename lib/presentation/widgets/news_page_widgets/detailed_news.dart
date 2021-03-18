@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/localization/localizations.dart';
 import '../../../domain/entities/news_model.dart';
+import 'html_text_view_widget.dart';
 
 class DetailedNews extends StatefulWidget {
   final News news;
@@ -47,7 +48,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                       children: [
                         RichText(
                           text: textContent,
-                          maxLines: 20,
+                          maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           textHeightBehavior: TextHeightBehavior.fromEncoded(2),
                         ),
@@ -81,18 +82,18 @@ class _DetailedNewsState extends State<DetailedNews> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                          padding: EdgeInsets.only(/* left: 12, */ bottom: 12),
+                    /*   Container(
+                          padding: EdgeInsets.only(left: 7, bottom: 12),
                           child: RichText(
                             text: textContent,
-                            // maxLines: 3,
-                            // overflow: TextOverflow.ellipsis,
+                           /*  maxLines: 3,
+                            overflow: TextOverflow.ellipsis, */
                             textHeightBehavior: TextHeightBehavior.fromEncoded(2),
-                          )
-                          /* HtmlText(
+                          ) */
+                          HtmlText(
                           list: news,
-                        ), */
-                          ),
+                        ),
+                         /*  ), */
                       InkResponse(
                         onTap: () {
                           setState(() {
@@ -102,7 +103,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                         child: Row(
                           children: [
                             SizedBox(
-                              width: 12,
+                              width: 7,
                             ),
                             Text(
                               AppLocalizations.of(context).translate('less'),
