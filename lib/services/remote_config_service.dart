@@ -5,26 +5,26 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 class RemoteConfigService {
   Future<String> getServiceNameFromRemoteConfig() async {
-    Duration _duration;
     try {
-      final RemoteConfig remoteConfig = await RemoteConfig.instance;
+      final  remoteConfig = await RemoteConfig.instance;
 
       if (remoteConfig.lastFetchStatus == LastFetchStatus.success) {
-        _duration = Duration(hours: 12);
+        await remoteConfig.fetch(expiration:const Duration(hours: 12));
       } else if (remoteConfig.lastFetchStatus == LastFetchStatus.noFetchYet) {
-        _duration = Duration(seconds: 1);
+        await remoteConfig.fetch(expiration:const Duration(seconds: 1));
+      } else if (remoteConfig.lastFetchStatus == LastFetchStatus.failure) {
+        await remoteConfig.fetch(expiration:const Duration(seconds: 1));
       }
-
-      await remoteConfig.fetch(expiration: _duration);
       await remoteConfig.activateFetched();
 
-      final serviceNameAsMap = _decodeRemoteConfigData(remoteConfig.getString('service_name_dev'));
+      final serviceNameAsMap =
+          _decodeRemoteConfigData(remoteConfig.getString('service_name_dev'));
 
       return serviceNameAsMap['service_name'];
     } on FetchThrottledException {
-      throw FetchThrottledException;
+      throw Exception();
     } on dynamic catch (e, s) {
-      FirebaseCrashlytics.instance.recordError(e, s);
+     await FirebaseCrashlytics.instance.recordError(e, s);
       rethrow;
     }
   }

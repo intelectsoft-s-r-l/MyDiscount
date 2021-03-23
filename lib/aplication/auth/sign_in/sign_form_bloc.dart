@@ -34,7 +34,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
             yield const SignInError();
           }
         } else {
-          yield SignInNetError();
+          yield const SignInNetError();
         }
       }
       if (event is SignInWithFacebook) {
@@ -43,10 +43,10 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
           if (user != null) {
             yield SignFormDone(user);
           } else {
-            yield SignInError();
+            yield const SignInError();
           }
         } else {
-          yield SignInNetError();
+          yield const SignInNetError();
         }
       }
       if (event is SignInWithApple) {
@@ -55,12 +55,8 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
           if (user != null) {
             yield SignFormDone(user);
           }
-          /*else {
-            yield SignInError();
-          } */
-
         } else {
-          yield SignInNetError();
+          yield const SignInNetError();
         }
       }
       if (event is SignOutEvent) {
@@ -68,7 +64,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
         yield SignFormInitial();
       }
     } catch (e) {
-      yield SignInError();
+      yield const SignInError();
     }
   }
 }

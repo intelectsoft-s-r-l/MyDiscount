@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:simple_html_css/simple_html_css.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,9 +28,9 @@ class _DetailedNewsState extends State<DetailedNews> {
         ), */
         linksCallback: (url) async {
       if (await canLaunch(url)) {
-        launch(url);
+        await launch(url);
       } else {
-        throw "Can't Launch Url ";
+        throw Exception(); //"Can't Launch Url ";
       }
     });
 
@@ -41,7 +40,7 @@ class _DetailedNewsState extends State<DetailedNews> {
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             !showText
                 ? Container(
-                    padding: EdgeInsets.only(left: 7),
+                    padding:const EdgeInsets.only(left: 7),
                     width: size.width * .95,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,9 +49,9 @@ class _DetailedNewsState extends State<DetailedNews> {
                           text: textContent,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          textHeightBehavior: TextHeightBehavior.fromEncoded(2),
+                          textHeightBehavior:const TextHeightBehavior.fromEncoded(2),
                         ),
-                        SizedBox(
+                       const SizedBox(
                           height: 10,
                         ),
                         InkResponse(
@@ -64,7 +63,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                           },
                           child: Text(
                             AppLocalizations.of(context).translate('more'),
-                            style: TextStyle(
+                            style:const TextStyle(
                               fontSize: 15,
                               color: Colors.blue,
                               decoration: TextDecoration.underline,
@@ -82,7 +81,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                    /*   Container(
+                      /*   Container(
                           padding: EdgeInsets.only(left: 7, bottom: 12),
                           child: RichText(
                             text: textContent,
@@ -90,10 +89,10 @@ class _DetailedNewsState extends State<DetailedNews> {
                             overflow: TextOverflow.ellipsis, */
                             textHeightBehavior: TextHeightBehavior.fromEncoded(2),
                           ) */
-                          HtmlText(
-                          list: news,
-                        ),
-                         /*  ), */
+                      HtmlText(
+                        list: news,
+                      ),
+                      /*  ), */
                       InkResponse(
                         onTap: () {
                           setState(() {
@@ -102,12 +101,12 @@ class _DetailedNewsState extends State<DetailedNews> {
                         },
                         child: Row(
                           children: [
-                            SizedBox(
+                         const   SizedBox(
                               width: 7,
                             ),
                             Text(
                               AppLocalizations.of(context).translate('less'),
-                              style: TextStyle(
+                              style:const TextStyle(
                                 fontSize: 15,
                                 color: Colors.blue,
                                 decoration: TextDecoration.underline,

@@ -29,10 +29,10 @@ class User {
   }
   Map<String, dynamic> toJson() {
     return {
-      "ID": id,
-      "access_token": accessToken,
-      "expireDate": expireDate,
-      "RegisterMode":registerMode,
+      'ID': id,
+      'access_token': accessToken,
+      'expireDate': expireDate,
+      'RegisterMode':registerMode,
     };
   }
 }

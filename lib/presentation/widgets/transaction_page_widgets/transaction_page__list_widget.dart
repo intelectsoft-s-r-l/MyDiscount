@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../transaction_page_widgets/transaction_list_widget.dart';
-
-import '../../widgets/circular_progress_indicator_widget.dart';
-import '../../widgets/nointernet_widget.dart';
-
 import '../../../core/failure.dart';
 import '../../../core/localization/localizations.dart';
 import '../../../domain/entities/tranzaction_model.dart';
 import '../../../domain/repositories/is_service_repository.dart';
 import '../../../injectable.dart';
+import '../../widgets/circular_progress_indicator_widget.dart';
+import '../../widgets/nointernet_widget.dart';
+import '../transaction_page_widgets/transaction_list_widget.dart';
 
 class TransactionPageList extends StatelessWidget {
   const TransactionPageList({
@@ -58,7 +56,7 @@ class TransactionPageList extends StatelessWidget {
                         child: Container(
                           width: size.width,
                           child: Text(AppLocalizations.of(context).translate('notransactions'),
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                              style:const TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                         ),
                       ),
                     ],
@@ -66,7 +64,7 @@ class TransactionPageList extends StatelessWidget {
                 ),
               );
             } else {
-              return NoInternetWidget();
+              return const NoInternetWidget();
             }
           }
           return CircularProgresIndicatorWidget();

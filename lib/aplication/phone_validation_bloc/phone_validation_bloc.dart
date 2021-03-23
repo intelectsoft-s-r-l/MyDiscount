@@ -26,7 +26,7 @@ class PhoneValidationBloc extends Bloc<PhoneValidationEvent, PhoneValidationStat
       yield WaitingUserInput(code);
     }
     if (event is UserInputCode) {
-      final bool isValid = _localRepositoryImpl.smsCodeVerification(event.serverCode, event.userCode);
+      final isValid = _localRepositoryImpl.smsCodeVerification(event.serverCode, event.userCode);
       if (isValid) {
         yield ValidCode(event.userCode);
       } else {

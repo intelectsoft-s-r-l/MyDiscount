@@ -26,8 +26,8 @@ void main() {
     when(mockRemoteConfig.activateFetched()).thenAnswer((_) async => true);
     when(mockRemoteConfig.getString(any))
         .thenAnswer((_) => json.encode(tfechMap));
-    mockRemoteConfig.fetch();
-    bool activated = await mockRemoteConfig.activateFetched();
+    await  mockRemoteConfig.fetch();
+    final activated = await mockRemoteConfig.activateFetched();
 
     final response = mockRemoteConfig.getString('service_name');
     final status = mockRemoteConfig.lastFetchStatus;

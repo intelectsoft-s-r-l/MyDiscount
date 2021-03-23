@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../widgets/custom_app_bar.dart';
-import '../widgets/nointernet_widget.dart';
-import '../widgets/qr_page_widgets/human_image_widget.dart';
-import '../widgets/qr_page_widgets/qr-widget.dart';
-
 import '../../core/internet_connection_service.dart';
 import '../../core/localization/localizations.dart';
 import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/nointernet_widget.dart';
+import '../widgets/qr_page_widgets/human_image_widget.dart';
+import '../widgets/qr_page_widgets/qr-widget.dart';
 
 class QrPage extends StatefulWidget {
   QrPage({
@@ -22,8 +21,9 @@ class QrPage extends StatefulWidget {
 }
 
 class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
-  StreamController<bool> _imageController = StreamController.broadcast();
-  StreamController<double> _progressController = StreamController.broadcast();
+  final StreamController<bool> _imageController = StreamController.broadcast();
+  final StreamController<double> _progressController =
+      StreamController.broadcast();
 
   int countTID = 0;
   bool serviceConection;
@@ -33,7 +33,8 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    // getIt<IsService>().getClientInfo();
+    getIt<IsService>().getClientInfo();
+    getIt<IsService>().getCompanyList();
     if (mounted) _getAuthorization();
 
     WidgetsBinding.instance.addObserver(this);
@@ -74,7 +75,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     }
   }
 
-  _changeImages() {
+  void _changeImages() {
     _imageController.sink?.add(false);
   }
 
@@ -82,11 +83,11 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
 
   void _startTimer() {
     if (mounted) {
-      double _counter = 11;
+      var _counter = 11;
 
       countTID++;
 
-      _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (_timer) {
         if (_counter > 0) {
           _counter--;
           _showProgress();
@@ -109,22 +110,23 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     debugPrint('Count:$countTID');
   }
 
-  _showProgress() {
+  void _showProgress() {
     _progress -= .1;
     print('progress: ${_progress.toStringAsFixed(2)}');
     if (mounted) _progressController.sink?.add(_progress);
   }
 
-  _getAuthorization() async {
+  void _getAuthorization() async {
     try {
-      bool netConnection = await getIt<NetworkConnection>().isConnected;
+      final netConnection = await getIt<NetworkConnection>().isConnected;
       if (netConnection) {
         try {
           tempId = await getIt<IsService>().getTempId();
-          if (mounted)
+          if (mounted) {
             setState(() {
               serviceConection = netConnection;
             });
+          }
           if (countTID == 3) {
             _changeImages();
             if (_timer.isActive) _timer?.cancel();
@@ -179,18 +181,38 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                   initialData: true,
                   builder: (context, snapshot) {
                     return snapshot.data
-                        ? QrImageWidget(
-                            size: size,
-                            progressController: _progressController,
-                            future: Future.value(tempId),
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  AppLocalizations.of(context)
+                                      .translate('showqr'),
+                                  style:const TextStyle(
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              Text(
+                                  AppLocalizations.of(context)
+                                      .translate('qrtime'),
+                                  style:const TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              SizedBox(
+                                height: size.height * .06,
+                              ),
+                              QrImageWidget(
+                                size: size,
+                                progressController: _progressController,
+                                future: Future.value(tempId),
+                              ),
+                            ],
                           )
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               serviceConection
-                                  ? HumanImage()
-                                  : NoInternetWidget(),
+                                  ?const HumanImage()
+                                  :const NoInternetWidget(),
                               const SizedBox(height: 10.0),
                               ElevatedButton(
                                 onPressed: () {
@@ -203,21 +225,19 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                     ? Text(
                                         AppLocalizations.of(context)
                                             .translate('generate'),
-                                        style: TextStyle(
-                                          color: Colors.white,
+                                        style:const TextStyle(
+                                          // color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )
                                     : Text(
                                         AppLocalizations.of(context)
                                             .translate('retry'),
-                                        style: TextStyle(
-                                          color: Colors.white,
+                                        style:const TextStyle(
+                                          //color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.green),
                               ),
                             ],
                           );

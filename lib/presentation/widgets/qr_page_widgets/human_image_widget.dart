@@ -26,7 +26,7 @@ class HumanImage extends StatelessWidget {
           ),
           Text(
             AppLocalizations.of(context).translate('generatenewqr'),
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style:const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),

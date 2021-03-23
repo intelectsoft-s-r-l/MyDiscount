@@ -12,7 +12,6 @@ class FirebaseCloudMessageService with ChangeNotifier {
   final FirebaseMessaging _fcm;
   final LocalNotificationsService _localNotificationsService;
   final SharedPref _prefs;
-  
 
   bool _isActivate = false;
 
@@ -24,50 +23,50 @@ class FirebaseCloudMessageService with ChangeNotifier {
     notifyListeners();
   }
 
-  FirebaseCloudMessageService(this._fcm, this._localNotificationsService, this._prefs) {
+  FirebaseCloudMessageService(
+      this._fcm, this._localNotificationsService, this._prefs) {
     getFCMState();
     notifyListeners();
   }
-  _saveFCMState() async {
+  void _saveFCMState() async {
     _deactivateNotification();
     _prefs.saveFCMState(_isActivate);
   }
 
-  _deactivateNotification() async {
+  void _deactivateNotification() async {
     if (!_isActivate) {
       final deletedInstanceId = await _fcm.deleteInstanceID();
       print('deletedInstanceId: $deletedInstanceId');
       //_fcm.setAutoInitEnabled(false);
     } else {
-      _fcm.setAutoInitEnabled(true);
+      await _fcm.setAutoInitEnabled(true);
       // _fcm.requestNotificationPermissions();
-      getfcmToken();
+      await getfcmToken();
     }
   }
 
-  getFCMState() async {
+  Future<bool> getFCMState() async {
     final data = await _prefs.instance;
     if (data.containsKey('fcmState')) _isActivate = await _prefs.readFCMState();
     notifyListeners();
+    return _isActivate;
   }
 
   void fcmConfigure() {
-    _fcm.requestNotificationPermissions(IosNotificationSettings(sound: false, alert: false, badge: false));
-    _fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {});
     _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
         if (await _prefs.readFCMState()) {
-          _localNotificationsService.showNotification(notification);
+          await _localNotificationsService.showNotification(notification);
         }
       },
       onResume: (Map<String, dynamic> notification) async {
         if (await _prefs.readFCMState()) {
-          _localNotificationsService.showNotification(notification);
+          await _localNotificationsService.showNotification(notification);
         }
       },
       onLaunch: (Map<String, dynamic> notification) async {
         if (await _prefs.readFCMState()) {
-          _localNotificationsService.showNotification(notification);
+          await _localNotificationsService.showNotification(notification);
         }
       },
     );
@@ -77,7 +76,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
     final data = await _prefs.instance;
     if (data.containsKey('fcmState')) {
       if (await _prefs.readFCMState()) {
-        final String token = await _fcm.getToken();
+        final token = await _fcm.getToken();
         _fcm.onTokenRefresh.listen((event) {
           event = token;
         });

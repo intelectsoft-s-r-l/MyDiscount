@@ -46,7 +46,7 @@ class NewsHeaderWidget extends StatelessWidget {
           child: Container(
             child: Text(
               news.companyName.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

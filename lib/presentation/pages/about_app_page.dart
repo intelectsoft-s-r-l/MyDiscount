@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:package_info/package_info.dart';
 
-import '../widgets/custom_app_bar.dart';
-
 import '../../core/localization/localizations.dart';
+import '../widgets/custom_app_bar.dart';
 
 class AboutAppPage extends StatefulWidget {
   const AboutAppPage();
@@ -32,14 +30,14 @@ class _AboutAppPageState extends State<AboutAppPage> {
     return CustomAppBar(
       title: pageName,
       child: Container(
-        padding: EdgeInsets.only(left: 5, right: 5),
+        padding:const EdgeInsets.only(left: 5, right: 5),
         color: Colors.white,
         child: SingleChildScrollView(
           child: Column(
             children: [
               Text(
                 AppLocalizations.of(context).translate('welcome'),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style:const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Container(
                   height: size.height * .45,
@@ -50,28 +48,28 @@ class _AboutAppPageState extends State<AboutAppPage> {
                   )),
               Text(
                 '${AppLocalizations.of(context).translate('appversion')} $appversion',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+             const SizedBox(
                 height: 10,
               ),
               Text(
                 AppLocalizations.of(context).translate('aboutpar.1'),
-                style: TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15),
               ),
               Text(
                 AppLocalizations.of(context).translate('aboutpar.2'),
-                style: TextStyle(fontSize: 15),
+                style:const TextStyle(fontSize: 15),
               ),
               Text(
                 AppLocalizations.of(context).translate('aboutpar.3'),
-                style: TextStyle(fontSize: 15),
+                style:const TextStyle(fontSize: 15),
               ),
               Text(
                 AppLocalizations.of(context).translate('aboutpar.4'),
-                style: TextStyle(fontSize: 15),
+                style:const TextStyle(fontSize: 15),
               ),
-              SizedBox(
+            const  SizedBox(
                 height: 20,
               ),
               Image.asset(

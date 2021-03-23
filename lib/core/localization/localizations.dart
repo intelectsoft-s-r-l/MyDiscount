@@ -19,9 +19,9 @@ class AppLocalizations {
   Map<String, dynamic> _localizedStrings;
 
   Future<bool> load() async {
-   final String jsonString =
+   final  jsonString =
         await rootBundle.loadString('lang/${locale.languageCode}.json');
-   final Map<String, dynamic> jsonMap = json.decode(jsonString) as Map<String,dynamic>;
+   final  jsonMap = json.decode(jsonString) as Map<String,dynamic>;
 
     _localizedStrings = jsonMap.map(
       (key, value) {
@@ -32,12 +32,12 @@ class AppLocalizations {
   }
 
   Future<Locale> setLocale(String languageCode) async {
-    await _prefs.saveLocale(languageCode);
+     _prefs.saveLocale(languageCode);
     return _locale(languageCode);
   }
 
   Future<Locale> getLocale() async {
-   final String languageCode = await _prefs.readLocale() ?? "en";
+   final languageCode = await _prefs.readLocale() ?? 'en';
     return _locale(languageCode);
   }
 
@@ -60,9 +60,9 @@ class AppLocalizations {
       case 'en':
         return const Locale('en', 'US');
       case 'ro':
-        return const Locale('ro', "RO");
+        return const Locale('ro', 'RO');
       case 'ru':
-        return const Locale('ru', "RU");
+        return const Locale('ru', 'RU');
 
       default:
         return const Locale('en', 'US');
@@ -70,7 +70,7 @@ class AppLocalizations {
   }
 
   Future<Language> getLanguage() async {
-  final  String languageCode = await _prefs.readLocale() ?? "en";
+  final  languageCode = await _prefs.readLocale() ?? 'en';
     return _language(languageCode);
   }
 
@@ -90,14 +90,16 @@ class _AppLocalizationsDelegate
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
-  final AppLocalizations localizations =  AppLocalizations(locale);
+  final  localizations =  AppLocalizations(locale);
     await localizations.load();
     return localizations;
   }
 
   @override
+
   // ignore: non_constant_identifier_names
-  bool shouldReload(_AppLocalizationsDelegate) => false;
+  
+  bool shouldReload(LocalizationsDelegate<AppLocalizations> _) => false;
 }
 
 class Language {

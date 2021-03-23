@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 import '../domain/entities/company_model.dart';
-import '../domain/entities/user_model.dart';
-import '../domain/entities/profile_model.dart';
 import '../domain/entities/news_model.dart';
+import '../domain/entities/profile_model.dart';
+import '../domain/entities/user_model.dart';
 import '../domain/repositories/local_repository.dart';
 
 @LazySingleton(as: LocalRepository)
@@ -37,7 +37,7 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   List<News> getLocalNews() {
     try {
-      List<News> newsList = [];
+      final newsList = <News>[];
       final keys = newsBox?.keys;
       for (int key in keys) {
         final news = newsBox?.get(key);
@@ -51,7 +51,7 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   User getLocalUser() {
-    final User _user = userBox?.get(1);
+    final _user = userBox?.get(1);
     return _user;
   }
 
@@ -79,7 +79,7 @@ class LocalRepositoryImpl implements LocalRepository {
   String readEldestNewsId() {
     final listOfKeys = newsBox?.keys;
 
-    int id = 0;
+    var id = 0;
     if (listOfKeys.isNotEmpty) {
       for (final int key in listOfKeys) {
         if (key > id) {
@@ -93,20 +93,21 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   void saveLocalCompanyList(List<Company> list) {
-    list.forEach((company) => companyBox.put(company.id, company));
+    list.map((company) => companyBox.put(company.id, company));
   }
-
+  
+  @override
   Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json) {
-    final Map<String, dynamic> userMap = {};
+    final  userMap = {};
     final keys = json.keys;
-    for (String key in keys) {
+    for (final key in keys) {
       if (key == 'ID' || key == 'RegisterMode' || key == 'access_token') {
         userMap.putIfAbsent(key, () => json[key]);
       }
     }
     return userMap;
   }
-
+  @override
   Future<Map<String, dynamic>> getFacebookProfile(String token) async {
     final _graphResponse = await http.get(
         'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
@@ -118,7 +119,7 @@ class LocalRepositoryImpl implements LocalRepository {
     userBox.delete(1);
     profileBox.delete(1);
   }
-
+  @override
   bool smsCodeVerification(String serverCode, String userCode) {
     try {
       if (VerificationCode(serverCode) == VerificationCode(userCode)) {
@@ -129,21 +130,36 @@ class LocalRepositoryImpl implements LocalRepository {
       return false;
     }
   }
-
+ @override
+  Future<List<Company>> getCachedCompany() async {
+    try {
+      final keys = companyBox.keys;
+      final list = <Company>[];
+      if (companyBox.isNotEmpty) {
+        for (int key in keys) {
+          list.add(companyBox.get(key));
+        }
+      }
+      return list;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  @override
   Future<Map<String, dynamic>> returnProfileMapDataAsMap(
       Profile profile) async {
     final user = userBox.get(1);
     final result = await testComporessList(profile.photo);
     print(result);
     return {
-      "DisplayName": profile.firstName + " " + profile.lastName,
-      "Email": profile.email,
-      "ID": user.id,
-      "phone": profile.phone,
-      "PhotoUrl": base64Encode(result.toList()),
-      "PushToken": '',
-      "RegisterMode": user.registerMode,
-      "access_token": user.accessToken,
+      'DisplayName': '${profile.firstName} ${profile.lastName}',
+      'Email': profile.email,
+      'ID': user.id,
+      'phone': profile.phone,
+      'PhotoUrl': base64Encode(result.toList()),
+      'PushToken': '',
+      'RegisterMode': user.registerMode,
+      'access_token': user.accessToken,
     };
   }
 

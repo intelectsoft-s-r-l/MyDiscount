@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../transaction_page_widgets/tranzaction_widget.dart';
-
 import '../../../domain/entities/tranzaction_model.dart';
+import '../transaction_page_widgets/tranzaction_widget.dart';
 
 class TranzactionListWidget extends StatelessWidget {
   const TranzactionListWidget({
@@ -17,8 +16,8 @@ class TranzactionListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      physics: ClampingScrollPhysics(),
-      separatorBuilder: (context, index) => SizedBox(
+      physics:const ClampingScrollPhysics(),
+      separatorBuilder: (context, index) => const SizedBox(
         height: 3,
       ),
       shrinkWrap: true,

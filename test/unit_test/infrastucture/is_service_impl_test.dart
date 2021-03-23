@@ -1,26 +1,24 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:my_discount/domain/data_source/remote_datasource.dart';
-import 'package:my_discount/domain/entities/user_model.dart';
-import 'package:my_discount/infrastructure/is_service_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:IsService/service_client_response.dart';
 
-import '../fixtures/fixtures_redear.dart';
-
 import 'package:my_discount/core/constants/credentials.dart';
 import 'package:my_discount/core/formater.dart';
 import 'package:my_discount/core/internet_connection_service.dart';
+import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/domain/entities/company_model.dart';
 import 'package:my_discount/domain/entities/news_model.dart';
 import 'package:my_discount/domain/entities/profile_model.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
-
+import 'package:my_discount/infrastructure/is_service_impl.dart';
 import 'package:my_discount/services/remote_config_service.dart';
+
+import '../fixtures/fixtures_redear.dart';
 
 class MockFormater extends Mock implements Formater {}
 
@@ -72,7 +70,7 @@ void main() {
           companyId: 0,
           content: 'test Content',
           logo: Uint8List.fromList([]),
-          companyName: "TestCompany",
+          companyName: 'TestCompany',
           appType: null,
           dateTime: '21 Jan 2021',
           header: 'null',
@@ -136,13 +134,13 @@ void main() {
       test('check if function return a List of Company Objects', () async {
         final tcompanyList = [
           {
-            "Amount": "String content",
-            "ID": 2147483647,
-            "Logo": Uint8List.fromList([]),
-            "Name": "String content"
+            'Amoun': 'String content',
+            'ID': 2147483647,
+            'Logo': Uint8List.fromList([]),
+            'Name': 'String content'
           }
         ];
-        final User user = _repo.getLocalUser();
+        final  user = _repo.getLocalUser();
         final urlFragment = '/json/GetCompany?ID=${user.id}';
         final tList = tcompanyList.map((map) => Company.fromJson(map)).toList();
         final resp = IsResponse(0, 'errorMessage', tcompanyList);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +41,7 @@ class LoginButton extends StatelessWidget {
         child: Row(
           
           children: [
-            SizedBox(
+          const  SizedBox(
               width: 20,
             ),
             SvgPicture.asset(

@@ -5,52 +5,22 @@ class SharedPref {
 
   void remove() async {
     final authData = await SharedPreferences.getInstance();
-     authData.clear();
+    await authData.clear();
   }
 
-  /* saveTID(String id) async {
+  void savePhoneNumber(String profile) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('Tid', id);
-  } */
-
-  /* readTID() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('Tid');
-  } */
-
-  /* saveUser(String data) async {
-    final authData = await SharedPreferences.getInstance();
-    authData.setString('user', data);
-  } */
-
-  /* readUser() async {
-    final authData = await SharedPreferences.getInstance();
-    return authData.getString('user');
-  } */
-
-  /* void saveProfileData(String profile) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('profile', profile);
-  } */
-
-  /* readProfileData() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('profile');
-  } */
-
-  savePhoneNumber(String profile) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('phone', profile);
+   await prefs.setString('phone', profile);
   }
 
-  readPhoneNumber() async {
+  Future<String> readPhoneNumber() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('phone');
   }
 
-  saveLocale(String locale) async {
+  void saveLocale(String locale) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('locale', locale);
+    await prefs.setString('locale', locale);
   }
 
   Future<String> readLocale() async {
@@ -58,9 +28,9 @@ class SharedPref {
     return prefs.getString('locale');
   }
 
-  saveCode(String code) async {
+ void saveCode(String code) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.setString('code', code);
+   await prefs.setString('code', code);
   }
 
   Future<String> readCode() async {
@@ -68,9 +38,9 @@ class SharedPref {
     return prefs.getString('code');
   }
 
-  saveFCMState(bool value) async {
+  void saveFCMState(bool value) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.setBool('fcmState', value);
+    await prefs.setBool('fcmState', value);
   }
 
   Future<bool> readFCMState() async {
@@ -78,9 +48,9 @@ class SharedPref {
     return prefs.getBool('fcmState');
   }
 
-  saveNewsState(bool value) async {
+ void saveNewsState(bool value) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.setBool('newsState', value);
+    await prefs.setBool('newsState', value);
   }
 
   Future<bool> readNewsState() async {

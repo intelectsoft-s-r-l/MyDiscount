@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:international_phone_input/international_phone_input.dart';
 
-import '../../pages/phone_validation_page.dart';
-
 import '../../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../../core/localization/localizations.dart';
+import '../../pages/phone_validation_page.dart';
 
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({
@@ -34,10 +32,9 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   }
 
   @override
-  void didUpdateWidget (ProfileFieldWidget oldWidget) {
+  void didUpdateWidget(ProfileFieldWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.isEdit!=oldWidget.isEdit)
-    requestCode=true;
+    if (widget.isEdit != oldWidget.isEdit) requestCode = true;
   }
 
   @override
@@ -53,10 +50,9 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    bool isEdit = widget.isEdit;
+    final isEdit = widget.isEdit;
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
       listener: (context, state) {},
-      //buildWhen: (p, c) => p!= c,
       builder: (context, state) {
         final profile = state.profile;
         if (profile.phone == null) {
@@ -79,7 +75,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             autovalidateMode: AutovalidateMode.always,
                             child: InternationalPhoneInput(
                               hintText: 'xxxxxxxx',
-                              decoration: InputDecoration(
+                              decoration:const InputDecoration(
                                 enabled: true,
                               ),
                               onPhoneNumberChange: (
@@ -93,7 +89,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                   phoneIsoCode = isoCode;
                                 });
                               },
-                              errorText: AppLocalizations.of(context).translate('inputerror'),
+                              errorText: AppLocalizations.of(context)
+                                  .translate('inputerror'),
                               //initialPhoneNumber: profile?.phone?.characters?.skip(4).toString() ?? "",
                               initialSelection: phoneIsoCode,
                               enabledCountries: [
@@ -102,31 +99,18 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             ),
                           ),
                           const Divider(),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.green),
-                             primary: Colors.green,
-                           /* highlightColor: Colors.green,
-                            highlightedBorderColor: Colors.red, */
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),),
-                            child: isState ? Text(AppLocalizations.of(context).translate('sendcode')) : Text(AppLocalizations.of(context).translate('changephone')),
-
-                            /*  isEdit
-                                ? Text(AppLocalizations.of(context).translate('sendcode'))
-                                : profile.phone != ''
-                                    ? Text(AppLocalizations.of(context).translate('changephone'))
-                                    : Text(AppLocalizations.of(context).translate('addphone')), */
+                          ElevatedButton(
+                            
                             onPressed: requestCode
                                 ? () async {
                                     if (confirmedNumber != '') {
                                       setState(() {
                                         requestCode = false;
                                       });
-                                      Navigator.of(context).push(
+                                     await Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) => PhoneVerificationPage(
+                                          builder: (context) =>
+                                              PhoneVerificationPage(
                                             //bloc: bloc,
                                             phone: confirmedNumber,
                                           ),
@@ -135,7 +119,11 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                       /*  } */
                                     }
                                   }
-                                : null,
+                                : null,child: isState
+                                ? Text(AppLocalizations.of(context)
+                                    .translate('sendcode'))
+                                : Text(AppLocalizations.of(context)
+                                    .translate('changephone')),
                           ),
                         ],
                       ))
@@ -147,17 +135,17 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           children: [
                             Container(
                               child: Text(widget.labelText,
-                                  style: TextStyle(
+                                  style:const TextStyle(
                                     color: Colors.black,
                                   )),
                             ),
-                            SizedBox(
+                           const SizedBox(
                               height: 9,
                             ),
                             Container(
                               child: Text(
                                 profile.phone ?? '',
-                                style: TextStyle(
+                                style:const TextStyle(
                                   color: Colors.black,
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.bold,

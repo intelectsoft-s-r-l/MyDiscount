@@ -29,7 +29,7 @@ class Profile {
     this.photo,
     this.pushToken,
     this.registerMode
-  }) : assert(photo != null);
+  });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
@@ -37,19 +37,19 @@ class Profile {
       lastName: json['lastName'] ?? '',
       email: json['Email'],
       phone: json['phone'],
-      photo: json['Photo'] ?? Uint8List.fromList([]),
+      photo: json['Photo'], /* ?? Uint8List.fromList([]), */
       pushToken: json['PushToken'],
       registerMode: json['mode'],
     );
   }
   Map<String, dynamic> toJson() {
     return {
-      "firstName": firstName,
-      "lastName": lastName,
-      "Email": email,
-      "phone": phone,
-      "Photo": photo,
-      "PushToken": pushToken,
+      'firstName': firstName,
+      'lastName': lastName,
+      'Email': email,
+      'phone': phone,
+      'Photo': photo,
+      'PushToken': pushToken,
       'mode':registerMode,
     };
   }

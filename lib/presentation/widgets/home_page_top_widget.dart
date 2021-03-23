@@ -1,11 +1,9 @@
 
-import 'package:my_discount/core/localization/localizations.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
-import '../../domain/entities/profile_model.dart';
+import '../../core/localization/localizations.dart';
 
 class HomePageTopWidget extends StatelessWidget {
   HomePageTopWidget({
@@ -23,7 +21,7 @@ class HomePageTopWidget extends StatelessWidget {
       child: BlocConsumer<ProfileFormBloc, ProfileFormState>(
         listener: (context, state) {},
         builder: (context, state) {
-          final Profile profile = state.profile;
+          final  profile = state.profile;
           return Stack(
             children: [
               Positioned(
@@ -53,7 +51,7 @@ class HomePageTopWidget extends StatelessWidget {
                         children: [
                           Text(
                             '${profile.firstName}',
-                            style: TextStyle(
+                            style:const TextStyle(
                               color: Colors.white,
                             ),
                             textScaleFactor: 1.3,
@@ -63,7 +61,7 @@ class HomePageTopWidget extends StatelessWidget {
                           ),
                           Text(
                             '${profile.lastName}',
-                            style: TextStyle(
+                            style:const TextStyle(
                               color: Colors.white,
                             ),
                             textScaleFactor: 1.3,
@@ -76,7 +74,7 @@ class HomePageTopWidget extends StatelessWidget {
                       if (profile.registerMode == 1)
                         Text(
                           AppLocalizations.of(context).translate('signinG'),
-                          style: TextStyle(
+                          style:const TextStyle(
                             color: Colors.white,
                           ),
                           textScaleFactor: 1,
@@ -84,7 +82,7 @@ class HomePageTopWidget extends StatelessWidget {
                       if (profile.registerMode == 2)
                         Text(
                           AppLocalizations.of(context).translate('signinF'),
-                          style: TextStyle(
+                          style:const TextStyle(
                             color: Colors.white,
                           ),
                           textScaleFactor: 1,
@@ -92,7 +90,7 @@ class HomePageTopWidget extends StatelessWidget {
                       if (profile.registerMode == 3)
                         Text(
                           AppLocalizations.of(context).translate('signinA'),
-                          style: TextStyle(
+                          style:const TextStyle(
                             color: Colors.white,
                           ),
                           textScaleFactor: 1,

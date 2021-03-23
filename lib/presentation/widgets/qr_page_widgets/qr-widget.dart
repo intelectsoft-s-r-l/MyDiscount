@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrImageWidget extends StatelessWidget {
@@ -23,7 +22,7 @@ class QrImageWidget extends StatelessWidget {
       child: Card(
         color: Colors.transparent,
         elevation: 8,
-        shape: RoundedRectangleBorder(
+        shape:const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -32,7 +31,7 @@ class QrImageWidget extends StatelessWidget {
         child: Container(
           width: size.width * .8,
           height: size.width * .8,
-          decoration: BoxDecoration(
+          decoration:const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
@@ -50,7 +49,7 @@ class QrImageWidget extends StatelessWidget {
                           alignment: Alignment.center,
                           child: ShaderMask(
                             blendMode: BlendMode.srcATop,
-                            shaderCallback: (rect) => LinearGradient(
+                            shaderCallback: (rect) =>const LinearGradient(
                               begin: Alignment.bottomCenter,
                               end: Alignment.topCenter,
                               colors: [
@@ -74,7 +73,7 @@ class QrImageWidget extends StatelessWidget {
                   return LinearProgressIndicator(
                     value: snapshot.data,
                     backgroundColor: Colors.white,
-                    valueColor: AlwaysStoppedAnimation(Colors.green),
+                    valueColor:const AlwaysStoppedAnimation(Colors.green),
                   );
                 },
               ),

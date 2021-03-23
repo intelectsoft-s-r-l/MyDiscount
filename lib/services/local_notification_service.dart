@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../domain/entities/received_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+
+import '../domain/entities/received_notification.dart';
 
 @injectable
 class LocalNotificationsService {
@@ -32,7 +33,7 @@ class LocalNotificationsService {
           ));
         });
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    final  initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );

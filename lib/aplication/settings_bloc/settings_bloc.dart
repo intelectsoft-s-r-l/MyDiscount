@@ -23,7 +23,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       yield state.copyWith(isNewsActivated: event.value);
     }
     if (event is ChangeLocale) {
-      AppLocalizations(state.currentLocale)
+     await AppLocalizations(state.currentLocale)
           .setLocale(event.locale.languageCode);
       yield state.copyWith(currentLocale: event.locale);
     }

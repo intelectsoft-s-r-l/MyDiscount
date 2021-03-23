@@ -1,17 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-
 import 'package:flushbar/flushbar_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
-import '../widgets/custom_app_bar.dart';
 
 import '../../aplication/phone_validation_bloc/phone_validation_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../core/localization/localizations.dart';
 import '../../injectable.dart';
+import '../widgets/custom_app_bar.dart';
 
 class PhoneVerificationPage extends StatefulWidget {
   const PhoneVerificationPage({this.phone, this.phoneBloc});
@@ -98,16 +96,16 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
+                 const SizedBox(
                     height: 30,
                   ),
-                  Text(AppLocalizations.of(context).translate('entercode'), style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                  SizedBox(
+               Text(AppLocalizations.of(context).translate('entercode'), style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                 const SizedBox(
                     height: 5,
                   ),
                   Text(
                     phone,
-                    style: TextStyle(color: Colors.green),
+                    style:const TextStyle(color: Colors.green),
                   ),
                   Container(
                     width: size.width * .6,
@@ -121,7 +119,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                       },
                     ),
                   ),
-                  SizedBox(
+                 const SizedBox(
                     height: 30,
                   ),
                   Row(
@@ -144,7 +142,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                     }
                                   : null,
                                   style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: Colors.green),
+                              side:const BorderSide(color: Colors.green),
                                primary: Colors.green,
                              /* highlightColor: Colors.green, */
                               shape: RoundedRectangleBorder(
@@ -155,17 +153,17 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                 width: size.width * .3,
                                 child: Text(
                                   snapshot.hasData ? '${AppLocalizations.of(context).translate('send')}(${snapshot.data})' : '${AppLocalizations.of(context).translate('send')}',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style:const TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ),
                             );
                           }),
-                      SizedBox(
+                     const SizedBox(
                         width: 10,
                       ),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: Colors.green),
+                        side:const BorderSide(color: Colors.green),
                          primary: Colors.green,
                        /* highlightColor: Colors.green, */
                         shape: RoundedRectangleBorder(

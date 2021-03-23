@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../widgets/profile_page_widgets/profile_field_widget.dart';
-import '../widgets/profile_page_widgets/profile_item_widget.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../core/localization/localizations.dart';
-import '../../domain/entities/profile_model.dart';
+import '../widgets/profile_page_widgets/profile_field_widget.dart';
+import '../widgets/profile_page_widgets/profile_item_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage();
@@ -19,7 +16,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool isReadOnly = true;
-  FocusNode _node = FocusNode();
+  final FocusNode _node = FocusNode();
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -33,20 +30,20 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
       listener: (context, state) {},
       builder: (context, state) {
-        final Profile profile = state.profile;
+        final profile = state.profile;
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             centerTitle: true,
             title: Text(
               pageName,
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
             backgroundColor: Colors.green,
             elevation: 0,
             actions: [
               AnimatedSwitcher(
-                duration: Duration(milliseconds: 3000),
+                duration: const Duration(milliseconds: 3000),
                 child: IconButton(
                   icon: Icon(isReadOnly ? Icons.edit : Icons.save),
                   onPressed: () {
@@ -56,7 +53,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     if (isReadOnly) {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
-                        _formKey.currentState.context.read<ProfileFormBloc>().add(SaveProfileData(profile));
+                        _formKey.currentState.context
+                            .read<ProfileFormBloc>()
+                            .add(SaveProfileData(profile));
                       }
                     } else {
                       _node.requestFocus();
@@ -71,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                 ),
@@ -82,75 +81,123 @@ class _ProfilePageState extends State<ProfilePage> {
                       Container(
                         child: ListView(
                           shrinkWrap: true,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           children: [
                             Container(
                               height: MediaQuery.of(context).size.height * .858,
-                              padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 10, bottom: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      NewWidget(profile: profile, isEdit: !isReadOnly),
-                                      SizedBox(
+                                      NewWidget(
+                                          profile: profile,
+                                          isEdit: !isReadOnly),
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Expanded(
                                         child: Container(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Container(
                                                 child: Form(
                                                   key: _formKey,
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
-                                                        AppLocalizations.of(context).translate('firstname'),
-                                                        style: const TextStyle(color: Colors.black),
+                                                        AppLocalizations.of(
+                                                                context)
+                                                            .translate(
+                                                                'firstname'),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.black),
                                                       ),
                                                       Container(
                                                         child: TextFormField(
-                                                          keyboardType: TextInputType.name,
-                                                          initialValue: profile.firstName,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .name,
+                                                          initialValue:
+                                                              profile.firstName,
                                                           focusNode: _node,
-                                                          decoration: InputDecoration(
-                                                            border: InputBorder.none,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
                                                           ),
                                                           onChanged: (val) {
-                                                            context.read<ProfileFormBloc>().add(FirstNameChanged(val));
+                                                            context
+                                                                .read<
+                                                                    ProfileFormBloc>()
+                                                                .add(
+                                                                    FirstNameChanged(
+                                                                        val));
                                                           },
                                                           readOnly: isReadOnly,
-                                                          style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 20.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                               ),
-                                              Divider(),
+                                              const Divider(),
                                               Container(
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      AppLocalizations.of(context).translate('lastname'),
-                                                      style: const TextStyle(color: Colors.black),
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .translate(
+                                                              'lastname'),
+                                                      style: const TextStyle(
+                                                          color: Colors.black),
                                                     ),
                                                     Container(
                                                       child: TextFormField(
-                                                        keyboardType: TextInputType.name,
-                                                        initialValue: profile.lastName,
-                                                        decoration: InputDecoration(border: InputBorder.none),
+                                                        keyboardType:
+                                                            TextInputType.name,
+                                                        initialValue:
+                                                            profile.lastName,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                                border:
+                                                                    InputBorder
+                                                                        .none),
                                                         onChanged: (val) {
-                                                          context.read<ProfileFormBloc>().add(LastNameChanged(val));
+                                                          context
+                                                              .read<
+                                                                  ProfileFormBloc>()
+                                                              .add(
+                                                                  LastNameChanged(
+                                                                      val));
                                                         },
                                                         readOnly: isReadOnly,
-                                                        style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
+                                                        style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 20.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
                                                     ),
                                                   ],
@@ -162,55 +209,64 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ],
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   Container(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        const Text(
                                           'Email',
-                                          style: const TextStyle(color: Colors.black),
+                                          style: TextStyle(color: Colors.black),
                                         ),
                                         Container(
                                           child: TextFormField(
-                                            keyboardType: TextInputType.emailAddress,
+                                            keyboardType:
+                                                TextInputType.emailAddress,
                                             initialValue: profile.email,
-                                            decoration: InputDecoration(border: InputBorder.none, focusColor: Colors.red),
+                                            decoration: const InputDecoration(
+                                                border: InputBorder.none,
+                                                focusColor: Colors.red),
                                             onChanged: (val) {
-                                              context.read<ProfileFormBloc>().add(EmailChanged(val));
+                                              context
+                                                  .read<ProfileFormBloc>()
+                                                  .add(EmailChanged(val));
                                             },
                                             readOnly: isReadOnly,
-                                            style: const TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   ProfileFieldWidget(
-                                    labelText: AppLocalizations.of(context).translate('phone'),
+                                    labelText: AppLocalizations.of(context)
+                                        .translate('phone'),
                                     isEdit: !isReadOnly,
                                   ),
-                                  Divider(),
-                                  Expanded(
+                                  const Divider(),
+                                  const Expanded(
                                     child: SizedBox(),
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      OutlinedButton(
+                                      ElevatedButton(
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          context.read<SignFormBloc>().add(SignOutEvent());
-                                          context.read<AuthBloc>().add(SignOut());
+                                          context
+                                              .read<SignFormBloc>()
+                                              .add(SignOutEvent());
+                                          context
+                                              .read<AuthBloc>()
+                                              .add(SignOut());
                                         },
-                                        style: OutlinedButton.styleFrom(
-                                        side: BorderSide(color: Colors.green),
-                                         primary: Colors.green,
-                                        /*highlightColor: Colors.green,
-                                        highlightedBorderColor: Colors.red, */
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-                                        child: Text(AppLocalizations.of(context).translate('logout')),
+                                        child: Text(AppLocalizations.of(context)
+                                            .translate('logout')),
                                       ),
                                     ],
                                   ),

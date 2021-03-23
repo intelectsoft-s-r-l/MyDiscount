@@ -45,13 +45,13 @@ void main() {
     test('verify splitDisplayName()', () async {
       final map = {
         'firstName': 'Ion',
-        "lastName": "Cristea",
-        "Email": "",
-        "ID": "",
-        "PhotoUrl": "",
-        "PushToken": "",
-        "RegisterMode": 1,
-        "access_token": "",
+        'lastName': 'Cristea',
+        'Email': '',
+        'ID': '',
+        'PhotoUrl': '',
+        'PushToken': '',
+        'RegisterMode': 1,
+        'access_token': '',
       };
       final responseMap = await json.decode(fixture('auth_providers_credentials.json'));
       final result = _formater.splitDisplayName(responseMap);

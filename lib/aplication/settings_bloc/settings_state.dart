@@ -11,7 +11,7 @@ class SettingsState extends Equatable {
   final Locale currentLocale;
 
   factory SettingsState.initial() {
-    return SettingsState._(
+    return const SettingsState._(
         isPushActivated: false,
         isNewsActivated: false,
         currentLocale: Locale('ru'));

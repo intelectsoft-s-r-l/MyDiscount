@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../core/localization/localizations.dart';
 import '../widgets/app_info_widget.dart';
 import '../widgets/custom_app_bar.dart';
-
-import '../../core/localization/localizations.dart';
 
 class AppInfoPage extends StatelessWidget {
   const AppInfoPage();

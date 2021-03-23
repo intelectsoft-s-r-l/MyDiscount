@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/circular_progress_indicator_widget.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/news_page_widgets/news_item.dart';
-
 import '../../core/localization/localizations.dart';
 import '../../domain/entities/news_model.dart';
 import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
+import '../widgets/circular_progress_indicator_widget.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/news_page_widgets/news_item.dart';
 
 class NotificationPage extends StatefulWidget {
   @override
@@ -21,14 +20,14 @@ class _NotificationPageState extends State<NotificationPage> {
     return CustomAppBar(
       title: AppLocalizations.of(context).translate('news'),
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         child: FutureBuilder<List<News>>(
           future: getIt<IsService>().getAppNews(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data?.length == 0) {
+              if (snapshot.data.isEmpty) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -54,7 +53,7 @@ class _NotificationPageState extends State<NotificationPage> {
                               width: size.width,
                               child: Text(
                                 AppLocalizations.of(context).translate('nonews'),
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                style:const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -66,11 +65,11 @@ class _NotificationPageState extends State<NotificationPage> {
               } else {
                 return ListView.separated(
                   shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
+                  physics:const BouncingScrollPhysics(),
                   separatorBuilder: (context, index) => Container(
-                    padding: EdgeInsets.only(left: 7, right: 7),
+                    padding:const EdgeInsets.only(left: 7, right: 7),
                     height: 30,
-                    child: Divider(
+                    child:const Divider(
                       //height: 10.0,
                       thickness: 3.0,
                       // color: Colors.red,
@@ -78,7 +77,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   ),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    News news = snapshot.data[index];
+                    final news = snapshot.data[index];
                     return NewsListItem(
                       news: news,
                       size: size,
@@ -113,7 +112,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             width: size.width,
                             child: Text(
                               AppLocalizations.of(context).translate('nonews'),
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style:const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),

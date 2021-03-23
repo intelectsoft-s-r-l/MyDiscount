@@ -13,9 +13,8 @@ class CustomAppBar extends StatelessWidget {
         centerTitle: true,
         title: Text(
           title,
-          style: TextStyle(fontSize: 18),
+          style:const TextStyle(fontSize: 18),
         ),
-        backgroundColor: Colors.green,
         elevation: 0,
       ),
       body: Container(
@@ -23,7 +22,7 @@ class CustomAppBar extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),
           child: ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius:const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),

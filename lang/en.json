@@ -68,5 +68,20 @@
     "ig1": "\n\n     Informații generale\n\n",
     "par7": "     MyDiscount este o aplicație mobilă pe care o puteți instala gratuit atât pentru telefoanele care utilizeaza sistemul de operare Android, accesând Magazinul Google Play, cât și pe telefoanele cu iOS accesând App Store.\n\n\n",
     "qr": "QR-code",
-    "phoneverification": "Phone Verification"
+    "phoneverification": "Phone Verification",
+    
+    "mycards":"My Cards",
+    "addedcard":"Added Cards",
+    "card":"Card ",
+    "statusaccepted":"Accepted",
+    "statuswaiting":"Waiting",
+    "statusdenied":"Declined",
+    "addcard":"Add Card",
+    "connectcard":"New Card",
+    "company":"Company: ",
+    "selectcompany":"Select a Company",
+    "inputcardnumber":"Input Card Number: ",
+    "showqr": "Present this code to the cashier",
+    "qrtime": "The code changes every 10 sec."
+   
 }

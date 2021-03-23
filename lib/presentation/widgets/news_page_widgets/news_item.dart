@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_html/flutter_html.dart';
 
+import '../../../domain/entities/news_model.dart';
 import '../news_page_widgets/detailed_news.dart';
 import '../news_page_widgets/news_header_widget.dart';
 import '../news_page_widgets/news_image_widget.dart';
-
-import '../../../domain/entities/news_model.dart';
 
 class NewsListItem extends StatelessWidget {
   final News news;
@@ -44,7 +42,7 @@ class NewsListItem extends StatelessWidget {
                   news: news,
                   size: size,
                 ),
-                SizedBox(
+               const SizedBox(
                   height: 10,
                 ),
                 NewsImageWidget(news: news, size: size),

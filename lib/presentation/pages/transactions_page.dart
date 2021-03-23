@@ -11,7 +11,7 @@ class TransactionsPage extends StatelessWidget {
 
     return CustomAppBar(
       title: pageName,
-      child: TransactionPageList(),
+      child:const TransactionPageList(),
     );
   }
 }

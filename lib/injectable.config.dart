@@ -50,23 +50,23 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
     {String environment, _i2.EnvironmentFilter environmentFilter}) {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final serviceInjectableModule = _$ServiceInjectableModule();
-  gh.factory<_i3.Box<_i4.User>>(() => serviceInjectableModule.userBox);
-  gh.factory<_i3.Box<_i5.Profile>>(() => serviceInjectableModule.profileBox);
-  gh.factory<_i3.Box<_i6.News>>(() => serviceInjectableModule.newsBox);
-  gh.factory<_i3.Box<_i7.Company>>(() => serviceInjectableModule.companyBox);
-  gh.factory<_i8.Credentials>(() => serviceInjectableModule.credentials);
-  gh.factory<_i9.DataConnectionChecker>(
+  gh.lazySingleton<_i3.Box<_i4.User>>(() => serviceInjectableModule.userBox);
+  gh.lazySingleton<_i3.Box<_i5.Profile>>(() => serviceInjectableModule.profileBox);
+  gh.lazySingleton<_i3.Box<_i6.News>>(() => serviceInjectableModule.newsBox);
+  gh.lazySingleton<_i3.Box<_i7.Company>>(() => serviceInjectableModule.companyBox);
+  gh.lazySingleton<_i8.Credentials>(() => serviceInjectableModule.credentials);
+  gh.lazySingleton<_i9.DataConnectionChecker>(
       () => serviceInjectableModule.connectionChecker);
-  gh.factory<_i10.DeviceInfoPlugin>(() => serviceInjectableModule.deviceinfo);
-  gh.factory<_i11.DeviceInfoService>(
+  gh.lazySingleton<_i10.DeviceInfoPlugin>(() => serviceInjectableModule.deviceinfo);
+  gh.lazySingleton<_i11.DeviceInfoService>(
       () => _i11.DeviceInfoService(get<_i10.DeviceInfoPlugin>()));
-  gh.factory<_i12.FacebookLogin>(() => serviceInjectableModule.facebookLogin);
-  gh.factory<_i13.FirebaseMessaging>(() => serviceInjectableModule.fcm);
-  gh.factory<_i14.FlutterLocalNotificationsPlugin>(
+  gh.lazySingleton<_i12.FacebookLogin>(() => serviceInjectableModule.facebookLogin);
+  gh.lazySingleton<_i13.FirebaseMessaging>(() => serviceInjectableModule.fcm);
+  gh.lazySingleton<_i14.FlutterLocalNotificationsPlugin>(
       () => serviceInjectableModule.flutterLocalNotification);
-  gh.factory<_i15.Formater>(() => serviceInjectableModule.formater);
-  gh.factory<_i16.GoogleSignIn>(() => serviceInjectableModule.googleSignIn);
-  gh.factory<_i17.LocalNotificationsService>(() =>
+  gh.lazySingleton<_i15.Formater>(() => serviceInjectableModule.formater);
+  gh.lazySingleton<_i16.GoogleSignIn>(() => serviceInjectableModule.googleSignIn);
+  gh.lazySingleton<_i17.LocalNotificationsService>(() =>
       _i17.LocalNotificationsService(
           get<_i14.FlutterLocalNotificationsPlugin>()));
   gh.lazySingleton<_i18.LocalRepository>(() => _i19.LocalRepositoryImpl(
@@ -78,10 +78,10 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       connectionChecker: get<_i9.DataConnectionChecker>()));
   gh.factory<_i21.RemoteConfigService>(
       () => serviceInjectableModule.remoteConfig);
-  gh.factory<_i22.ServiceClient>(() => serviceInjectableModule.client);
-  gh.factory<_i23.SharedPref>(() => serviceInjectableModule.network);
+  gh.lazySingleton<_i22.ServiceClient>(() => serviceInjectableModule.client);
+  gh.lazySingleton<_i23.SharedPref>(() => serviceInjectableModule.network);
   gh.factory<_i24.AuthBloc>(() => _i24.AuthBloc(get<_i18.LocalRepository>()));
-  gh.factory<_i25.FirebaseCloudMessageService>(() =>
+  gh.lazySingleton<_i25.FirebaseCloudMessageService>(() =>
       _i25.FirebaseCloudMessageService(get<_i13.FirebaseMessaging>(),
           get<_i17.LocalNotificationsService>(), get<_i23.SharedPref>()));
   gh.lazySingleton<_i26.RemoteDataSource>(() => _i27.RemoteDataSourceImpl(

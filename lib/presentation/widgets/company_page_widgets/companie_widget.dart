@@ -1,11 +1,7 @@
-import 'dart:typed_data';
-
-
 import 'package:flutter/material.dart';
 
 import '../../../core/localization/localizations.dart';
 import '../../../domain/entities/company_model.dart';
-import '../custom_app_bar.dart';
 
 class CompanyWidget extends StatelessWidget {
   const CompanyWidget(this.company);
@@ -47,25 +43,9 @@ class CompanyWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            InkResponse(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AddCardPage(
-                              logo: company.logo,
-                              name: company.name,
-                            )));
-              },
-              child: Text(
-                'Add Card',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-              ),
-            ),
             Text(
               AppLocalizations.of(context).translate('amount'),
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style:const TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
             ),
             FittedBox(
@@ -75,88 +55,6 @@ class CompanyWidget extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AddCardPage extends StatelessWidget {
-  const AddCardPage({Key key, this.logo, @required this.name})
-      : assert(logo != null),
-        assert(name != null),
-        super(key: key);
-  final Uint8List logo;
-  final String name;
-  @override
-  Widget build(BuildContext context) {
-    return CustomAppBar(
-      title: 'Uneste card',
-      child: Container(
-        color: Colors.white,
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * .05,
-                ),
-                Text(
-                  'Compania:',
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * .05,
-                ),
-                Expanded(
-                                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(
-                    right: MediaQuery.of(context).size.width * .05,
-                  ),
-                  width: 80,
-                  height: 80,
-                  child: Image.memory(logo),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * .05,
-                ),
-                Text(
-                  'Introduceti numarul cardului:',
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * .9,
-              child: TextFormField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(onPressed: () {}, child: Text('Add Card'))
           ],
         ),
       ),

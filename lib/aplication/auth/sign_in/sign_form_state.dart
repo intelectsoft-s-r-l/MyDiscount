@@ -22,5 +22,6 @@ class SignInNetError extends SignFormState {
 }
 
 class SignInError extends SignFormState {
- const SignInError();
+  //final String message;
+ const SignInError(/* this.message */);
 }
