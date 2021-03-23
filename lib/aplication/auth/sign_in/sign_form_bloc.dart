@@ -55,10 +55,6 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
           if (user != null) {
             yield SignFormDone(user);
           }
-          /*else {
-            yield SignInError();
-          } */
-
         } else {
           yield SignInNetError();
         }

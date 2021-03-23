@@ -6,5 +6,4 @@ abstract class AuthRepository {
   Future<User> authenticateWithApple();
   User getAuthUser();
   void logOut();
-  //Future<User> authenticateWithPhoneNumber();
 }

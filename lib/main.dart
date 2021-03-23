@@ -24,6 +24,7 @@ import 'domain/entities/user_model.dart';
 import 'injectable.dart';
 import 'presentation/pages/about_app_page.dart';
 import 'presentation/pages/app_inf_page.dart';
+import 'presentation/pages/card_list_page.dart';
 import 'presentation/pages/company_list_page.dart';
 import 'presentation/pages/detail_news_page.dart';
 import 'presentation/pages/info_page.dart';
@@ -146,7 +147,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         supportedLocales: const [
           Locale('en', 'US'),
           Locale('ru', 'RU'),
-          Locale('md', 'MD'),
           Locale('ro', 'RO'),
         ],
         localizationsDelegates: const [
@@ -155,28 +155,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        /* localeResolutionCallback: (
-          Locale locale,
-          Iterable<Locale> supportedLocales,
-        ) {
-          final retLocale = supportedLocales?.first;
-
-          if (locale == null) {
-            debugPrint("*language locale is null!!!");
-            return supportedLocales.first;
-          }
-          try {
-            for (Locale supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode && locale.languageCode != null) {
-                return supportedLocale;
-              }
-            }
-          } catch (e, s) {
-            FirebaseCrashlytics.instance.recordError(e, s);
-          }
-
-          return retLocale;
-        }, */
         routes: {
           '/': (context) => SplashScreen(),
           '/login': (context) => LoginScreen2(),
@@ -197,7 +175,6 @@ class SplashScreen extends StatelessWidget {
           if (state is AuthAuthorized) {
             Navigator.pushReplacementNamed(context, '/first');
           } else {
-            //Navigator.pop(context);
             Navigator.pushReplacementNamed(context, '/login');
           }
         },
@@ -255,9 +232,6 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
         BlocProvider(
           create: (context) => getIt<ProfileFormBloc>(),
         ),
-        /* BlocProvider(
-          create: (context) => getIt<PhoneValidationBloc>(),
-        ) */
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -265,7 +239,6 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
         supportedLocales: const [
           Locale('en', 'US'),
           Locale('ru', 'RU'),
-          Locale('md', 'MD'),
           Locale('ro', 'RO'),
         ],
         localizationsDelegates: const [
@@ -274,25 +247,6 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        /* localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales) {
-          final retLocale = supportedLocales?.first;
-
-          if (locale == null) {
-            debugPrint("*language locale is null!!!");
-            return supportedLocales.first;
-          }
-          try {
-            for (Locale supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode && locale.languageCode != null) {
-                return supportedLocale;
-              }
-            }
-          } catch (e, s) {
-            FirebaseCrashlytics.instance.recordError(e, s);
-          }
-
-          return retLocale;
-        }, */
         routes: {
           '/first': (context) => InitApp(),
           '/login': (context) => LoginScreen2(),
@@ -305,7 +259,21 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
           '/technicdetail': (context) => const TechnicDetailPage(),
           '/about': (context) => const AboutAppPage(),
           '/settings': (context) => const SettingsPage(),
+          '/cardlist': (context) => const CardListPage(),
         },
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primarySwatch: Colors.green,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+                textStyle: TextStyle(color: Colors.green),
+                side: BorderSide(color: Colors.green),
+                primary: Colors.white,
+                onPrimary: Colors.green,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20))),
+          ),
+        ),
         home: BottomNavigationBarWidget(),
       ),
     );

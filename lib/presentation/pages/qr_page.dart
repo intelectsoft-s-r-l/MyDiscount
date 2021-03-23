@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../widgets/custom_app_bar.dart';
-import '../widgets/nointernet_widget.dart';
-import '../widgets/qr_page_widgets/human_image_widget.dart';
-import '../widgets/qr_page_widgets/qr-widget.dart';
-
 import '../../core/internet_connection_service.dart';
 import '../../core/localization/localizations.dart';
 import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/nointernet_widget.dart';
+import '../widgets/qr_page_widgets/human_image_widget.dart';
+import '../widgets/qr_page_widgets/qr-widget.dart';
 
 class QrPage extends StatefulWidget {
   QrPage({
@@ -33,7 +32,8 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    // getIt<IsService>().getClientInfo();
+    getIt<IsService>().getClientInfo();
+    getIt<IsService>().getCompanyList();
     if (mounted) _getAuthorization();
 
     WidgetsBinding.instance.addObserver(this);
@@ -179,10 +179,30 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                   initialData: true,
                   builder: (context, snapshot) {
                     return snapshot.data
-                        ? QrImageWidget(
-                            size: size,
-                            progressController: _progressController,
-                            future: Future.value(tempId),
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  AppLocalizations.of(context)
+                                      .translate('showqr'),
+                                  style: TextStyle(
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              Text(
+                                  AppLocalizations.of(context)
+                                      .translate('qrtime'),
+                                  style: TextStyle(
+                                     // fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              SizedBox(
+                                height: size.height * .06,
+                              ),
+                              QrImageWidget(
+                                size: size,
+                                progressController: _progressController,
+                                future: Future.value(tempId),
+                              ),
+                            ],
                           )
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +224,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                         AppLocalizations.of(context)
                                             .translate('generate'),
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          // color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )
@@ -212,12 +232,10 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                         AppLocalizations.of(context)
                                             .translate('retry'),
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          //color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.green),
                               ),
                             ],
                           );

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/circular_progress_indicator_widget.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/news_page_widgets/news_item.dart';
-
 import '../../core/localization/localizations.dart';
 import '../../domain/entities/news_model.dart';
 import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
+import '../widgets/circular_progress_indicator_widget.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/news_page_widgets/news_item.dart';
 
 class NotificationPage extends StatefulWidget {
   @override

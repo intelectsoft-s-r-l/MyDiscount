@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../widgets/profile_page_widgets/profile_field_widget.dart';
-import '../widgets/profile_page_widgets/profile_item_widget.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../core/localization/localizations.dart';
 import '../../domain/entities/profile_model.dart';
+import '../widgets/profile_page_widgets/profile_field_widget.dart';
+import '../widgets/profile_page_widgets/profile_item_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage();
@@ -198,18 +196,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      OutlinedButton(
+                                      ElevatedButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                           context.read<SignFormBloc>().add(SignOutEvent());
                                           context.read<AuthBloc>().add(SignOut());
                                         },
-                                        style: OutlinedButton.styleFrom(
-                                        side: BorderSide(color: Colors.green),
-                                         primary: Colors.green,
-                                        /*highlightColor: Colors.green,
-                                        highlightedBorderColor: Colors.red, */
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                                         child: Text(AppLocalizations.of(context).translate('logout')),
                                       ),
                                     ],

@@ -1,15 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../../core/localization/localizations.dart';
 import '../../pages/home_page.dart';
 import '../../pages/notification_page.dart';
 import '../../pages/qr_page.dart';
 import '../../widgets/bottom_navigator/ripple_animation.dart';
-
-import '../../../core/localization/localizations.dart';
 
 class BottomNavigationBarWidget extends StatefulWidget {
   @override

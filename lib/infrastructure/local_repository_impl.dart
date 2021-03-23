@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 import '../domain/entities/company_model.dart';
-import '../domain/entities/user_model.dart';
-import '../domain/entities/profile_model.dart';
 import '../domain/entities/news_model.dart';
+import '../domain/entities/profile_model.dart';
+import '../domain/entities/user_model.dart';
 import '../domain/repositories/local_repository.dart';
 
 @LazySingleton(as: LocalRepository)
@@ -127,6 +127,21 @@ class LocalRepositoryImpl implements LocalRepository {
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<List<Company>> getCachedCompany() async {
+    try {
+      final keys = companyBox.keys;
+      final list = <Company>[];
+      if (companyBox.isNotEmpty) {
+        for (int key in keys) {
+          list.add(companyBox.get(key));
+        }
+      }
+      return list;
+    } catch (e) {
+      rethrow;
     }
   }
 

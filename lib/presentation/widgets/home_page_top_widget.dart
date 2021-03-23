@@ -1,10 +1,9 @@
 
-import 'package:my_discount/core/localization/localizations.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
+import '../../core/localization/localizations.dart';
 import '../../domain/entities/profile_model.dart';
 
 class HomePageTopWidget extends StatelessWidget {

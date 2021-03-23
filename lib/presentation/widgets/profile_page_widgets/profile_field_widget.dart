@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:international_phone_input/international_phone_input.dart';
 
-import '../../pages/phone_validation_page.dart';
-
 import '../../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../../core/localization/localizations.dart';
+import '../../pages/phone_validation_page.dart';
 
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({
@@ -34,10 +32,9 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   }
 
   @override
-  void didUpdateWidget (ProfileFieldWidget oldWidget) {
+  void didUpdateWidget(ProfileFieldWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.isEdit!=oldWidget.isEdit)
-    requestCode=true;
+    if (widget.isEdit != oldWidget.isEdit) requestCode = true;
   }
 
   @override
@@ -56,7 +53,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     bool isEdit = widget.isEdit;
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
       listener: (context, state) {},
-      //buildWhen: (p, c) => p!= c,
       builder: (context, state) {
         final profile = state.profile;
         if (profile.phone == null) {
@@ -93,7 +89,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                   phoneIsoCode = isoCode;
                                 });
                               },
-                              errorText: AppLocalizations.of(context).translate('inputerror'),
+                              errorText: AppLocalizations.of(context)
+                                  .translate('inputerror'),
                               //initialPhoneNumber: profile?.phone?.characters?.skip(4).toString() ?? "",
                               initialSelection: phoneIsoCode,
                               enabledCountries: [
@@ -102,22 +99,12 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             ),
                           ),
                           const Divider(),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.green),
-                             primary: Colors.green,
-                           /* highlightColor: Colors.green,
-                            highlightedBorderColor: Colors.red, */
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),),
-                            child: isState ? Text(AppLocalizations.of(context).translate('sendcode')) : Text(AppLocalizations.of(context).translate('changephone')),
-
-                            /*  isEdit
-                                ? Text(AppLocalizations.of(context).translate('sendcode'))
-                                : profile.phone != ''
-                                    ? Text(AppLocalizations.of(context).translate('changephone'))
-                                    : Text(AppLocalizations.of(context).translate('addphone')), */
+                          ElevatedButton(
+                            child: isState
+                                ? Text(AppLocalizations.of(context)
+                                    .translate('sendcode'))
+                                : Text(AppLocalizations.of(context)
+                                    .translate('changephone')),
                             onPressed: requestCode
                                 ? () async {
                                     if (confirmedNumber != '') {
@@ -126,7 +113,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                       });
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) => PhoneVerificationPage(
+                                          builder: (context) =>
+                                              PhoneVerificationPage(
                                             //bloc: bloc,
                                             phone: confirmedNumber,
                                           ),

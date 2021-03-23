@@ -1,18 +1,17 @@
-import '../domain/data_source/remote_datasource.dart';
-import '../domain/repositories/local_repository.dart';
+import 'package:IsService/service_client_response.dart';
 import 'package:injectable/injectable.dart';
-//import 'package:IsService/service_client.dart';
+import 'package:my_discount/core/formater.dart';
 
 import '../core/failure.dart';
-import '../core/formater.dart';
-//import '../core/internet_connection_service.dart';
+import '../domain/data_source/remote_datasource.dart';
+import '../domain/entities/card.dart';
+import '../domain/entities/company_model.dart';
+import '../domain/entities/news_model.dart';
 import '../domain/entities/profile_model.dart';
 import '../domain/entities/tranzaction_model.dart';
-import '../domain/entities/news_model.dart';
-import '../domain/entities/company_model.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/is_service_repository.dart';
-//import '../services/remote_config_service.dart';
+import '../domain/repositories/local_repository.dart';
 
 @LazySingleton(as: IsService)
 class IsServiceImpl implements IsService {
@@ -156,6 +155,7 @@ flutter run
       final _urlFragment = '/json/ValidatePhone?Phone=$phone';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       if (response.statusCode == 0) {
+        print(response.body);
         return response.body;
       } else {
         throw ServerError();
@@ -170,10 +170,10 @@ flutter run
     print(json);
     try {
       //throw Error();
-      /*  final _url =
-          'https://dev.edi.md/ISMobileDiscountService/json/UpdateClientInfo'; */
+      final _urlFragment = '/json/UpdateClientInfo';
 
-      final response = await remoteDataSourceImpl.postRequest(json);
+      final response = await remoteDataSourceImpl.postRequest(
+          json: json, urlFragment: _urlFragment);
 
       final userMap = _localRepository.returnUserMapToSave(json);
 
@@ -188,24 +188,35 @@ flutter run
     }
   }
 
-  /* Future getResponse(String urlFragment) async {
-    final serviceName =
-        await _remoteConfigService?.getServiceNameFromRemoteConfig();
-    final _baseUrl = '$serviceName$urlFragment';
+  @override
+  Future<List<DiscountCard>> getRequestActivationCards(
+      {String id, int registerMode}) async {
     try {
-      if (await _network?.isConnected) {
-        final response = await _client.get(_baseUrl);
-
-        if (response.statusCode == 0) {
-          return response.body;
-        } else {
-          throw ServerError();
-        }
+      final User localUser = _localRepository.getLocalUser();
+      final _id = id ?? localUser?.id;
+      final _registerMode = registerMode ?? localUser?.registerMode;
+      final _urlFragment =
+          '/json/GetRequestActivationCards?ID=$_id&RegisterMode=$_registerMode';
+      final response = await remoteDataSourceImpl.getRequest(_urlFragment);
+      final List listofCardsMaps = response.body as List;
+      _formater.checkCompanyLogo(listofCardsMaps);
+      final List<DiscountCard> listOfCards =
+          listofCardsMaps.map((card) => DiscountCard.fromJson(card)).toList();
+      if (listOfCards.isNotEmpty) {
+        return listOfCards;
       } else {
-        throw NoInternetConection();
+        throw EmptyList();
       }
     } catch (e) {
       rethrow;
     }
-  } */
+  }
+
+  @override
+  Future<IsResponse> requestActivationCard({Map<String, dynamic> json}) async {
+    final _urlFragment = '/json/RequestActivationCard';
+    final response = await remoteDataSourceImpl.postRequest(
+        json: json, urlFragment: _urlFragment);
+    return response;
+  }
 }

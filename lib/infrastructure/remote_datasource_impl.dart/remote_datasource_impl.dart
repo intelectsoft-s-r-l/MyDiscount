@@ -1,10 +1,11 @@
 import 'package:IsService/service_client.dart';
 import 'package:IsService/service_client_response.dart';
+import 'package:injectable/injectable.dart';
+
 import '../../core/failure.dart';
 import '../../core/internet_connection_service.dart';
 import '../../domain/data_source/remote_datasource.dart';
 import '../../services/remote_config_service.dart';
-import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: RemoteDataSource)
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -26,12 +27,12 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<IsResponse> postRequest(Map<String, dynamic> json) async {
+  Future<IsResponse> postRequest({Map<String, dynamic> json,String urlFragment}) async {
     try {
       if (await _network?.isConnected) {
         final serviceName =
             await _remoteConfigService?.getServiceNameFromRemoteConfig();
-        final _url = '$serviceName/json/UpdateClientInfo';
+        final _url = '$serviceName$urlFragment';
         return _client.post(_url, json);
       } else {
         throw NoInternetConection();

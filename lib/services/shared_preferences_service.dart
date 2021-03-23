@@ -8,36 +8,6 @@ class SharedPref {
      authData.clear();
   }
 
-  /* saveTID(String id) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('Tid', id);
-  } */
-
-  /* readTID() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('Tid');
-  } */
-
-  /* saveUser(String data) async {
-    final authData = await SharedPreferences.getInstance();
-    authData.setString('user', data);
-  } */
-
-  /* readUser() async {
-    final authData = await SharedPreferences.getInstance();
-    return authData.getString('user');
-  } */
-
-  /* void saveProfileData(String profile) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('profile', profile);
-  } */
-
-  /* readProfileData() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('profile');
-  } */
-
   savePhoneNumber(String profile) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('phone', profile);

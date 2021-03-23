@@ -16,6 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final FacebookLogin _facebookLogin;
   final IsService _isService;
   final LocalRepository _localRepositoryImpl;
+  List<MapEntry> mapEntryList = [];
 
   AuthRepositoryImpl(
     this._googleSignIn,
@@ -23,61 +24,73 @@ class AuthRepositoryImpl implements AuthRepository {
     this._isService,
     this._localRepositoryImpl,
   );
+
   @override
   Future<User> authenticateWithApple() async {
-    final appleCredentials = await SignInWithApple.getAppleIDCredential(scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName]);
-    final profile = await _isService.getClientInfo(id: appleCredentials.userIdentifier, registerMode: 3);
-    User localUser = await _isService.updateClientInfo(
-        json: profile == null
-            ? {
-                "DisplayName": '${appleCredentials.givenName ?? ''}' + " " + '${appleCredentials.familyName ?? ''}',
-                "Email": appleCredentials.email ?? '',
-                "ID": appleCredentials.userIdentifier,
-                "PhotoUrl": '',
-                "PushToken": '',
-                "RegisterMode": 3,
-                "access_token": appleCredentials.identityToken,
-              }
-            : {
-                "DisplayName": '${profile.firstName}' + ' ' + '${profile.lastName}',
-                "Email": profile.email,
-                "ID": appleCredentials.userIdentifier,
-                "PhotoUrl": base64Encode(profile.photo),
-                "PushToken": '',
-                "RegisterMode": 3,
-                "access_token": appleCredentials.identityToken,
-              });
+    final AuthorizationCredentialAppleID appleCredentials =
+        await SignInWithApple.getAppleIDCredential(scopes: [
+      AppleIDAuthorizationScopes.email,
+      AppleIDAuthorizationScopes.fullName
+    ]);
+    final profile = await _isService.getClientInfo(
+        id: appleCredentials.userIdentifier, registerMode: 3);
+
+    final displayName = profile == null
+        ? '${appleCredentials.givenName ?? ''}' +
+            " " +
+            '${appleCredentials.familyName ?? ''}'
+        : '${profile.firstName}' + ' ' + '${profile.lastName}';
+    final photo = profile == null ? '' : base64Encode(profile.photo);
+    final phone = profile == null ? '' : profile.phone;
+    final email = profile == null ? appleCredentials.email : profile.email;
+
+    mapEntryList.add(MapEntry("DisplayName", displayName));
+    mapEntryList.add(MapEntry("Email", email));
+    mapEntryList.add(MapEntry("ID", appleCredentials.userIdentifier));
+    mapEntryList.add(MapEntry("PhotoUrl", photo));
+    mapEntryList.add(MapEntry("PushToken", ''));
+    mapEntryList.add(MapEntry("RegisterMode", 3));
+    mapEntryList.add(MapEntry("access_token", appleCredentials.identityToken));
+    mapEntryList.add(MapEntry("phone", phone));
+
+    final map = addCredentialstoMap(list: mapEntryList);
+
+    User localUser = await _isService.updateClientInfo(json: map);
     return localUser;
   }
-/* Request Entity Too Large, status code 413, vine raspuns la UpdateClientInfo() daca schimb imaginea de profil si o transmit codificata in base64 */
+
   @override
   Future<User> authenticateWithFacebook() async {
     FacebookLoginResult _result = await _facebookLogin.logIn(['email']);
     switch (_result.status) {
       case FacebookLoginStatus.loggedIn:
         FacebookAccessToken _token = _result.accessToken;
-        final _fbProfile = await _localRepositoryImpl.getFacebookProfile(_token.token);
-        final profile = await _isService.getClientInfo(id: _token.userId, registerMode: 2);
-        User localUser = await _isService.updateClientInfo(
-            json: profile == null
-                ? {
-                    "DisplayName": _fbProfile['name'],
-                    "Email": _fbProfile['email'],
-                    "ID": _token.userId,
-                    "PhotoUrl": _fbProfile['picture']['data']['url'],
-                    "PushToken": '',
-                    "RegisterMode": 2,
-                    "access_token": _token.token,
-                  }
-                : {
-                    "DisplayName": '${profile.firstName}' + ' ' + '${profile.lastName}',
-                    "Email": profile.email,
-                    "ID": _token.userId,
-                    "PhotoUrl": base64Encode(profile.photo),
-                    "PushToken": '',
-                    "RegisterMode": 2,
-                    "access_token": _token.token,
-                  });
+        final _fbProfile =
+            await _localRepositoryImpl.getFacebookProfile(_token.token);
+        final profile =
+            await _isService.getClientInfo(id: _token.userId, registerMode: 2);
+
+        final displayName = profile == null
+            ? _fbProfile['name']
+            : '${profile.firstName}' + ' ' + '${profile.lastName}';
+        final photo = profile == null
+            ? _fbProfile['picture']['data']['url']
+            : base64Encode(profile.photo);
+        final phone = profile == null ? '' : profile.phone;
+        final email = profile == null ? _fbProfile['email'] : profile.email;
+
+        mapEntryList.add(MapEntry("DisplayName", displayName));
+        mapEntryList.add(MapEntry("Email", email));
+        mapEntryList.add(MapEntry("ID", _token.userId));
+        mapEntryList.add(MapEntry("PhotoUrl", photo));
+        mapEntryList.add(MapEntry("PushToken", ''));
+        mapEntryList.add(MapEntry("RegisterMode", 2));
+        mapEntryList.add(MapEntry("access_token", _token.token));
+        mapEntryList.add(MapEntry("phone", phone));
+        
+        final map = addCredentialstoMap(list: mapEntryList);
+        
+        User localUser = await _isService.updateClientInfo(json: map);
 
         return localUser;
         break;
@@ -94,27 +107,27 @@ class AuthRepositoryImpl implements AuthRepository {
     final _account = await _googleSignIn.signIn();
     if (_account != null) {
       final user = await _account.authentication;
-      final profile = await _isService.getClientInfo(id: _account.id, registerMode: 1);
-      User localUser = await _isService.updateClientInfo(
-          json: profile == null
-              ? {
-                  "DisplayName": _account.displayName,
-                  "Email": _account.email,
-                  "ID": _account.id,
-                  "PhotoUrl": _account.photoUrl,
-                  "PushToken": '',
-                  "RegisterMode": 1,
-                  "access_token": user.idToken,
-                }
-              : {
-                  "DisplayName": '${profile.firstName}' + ' ' + '${profile.lastName}',
-                  "Email": profile.email,
-                  "ID": _account.id,
-                  "PhotoUrl": base64Encode(profile.photo),
-                  "PushToken": '',
-                  "RegisterMode": 1,
-                  "access_token": user.idToken,
-                });
+      final profile =
+          await _isService.getClientInfo(id: _account.id, registerMode: 1);
+
+      final displayName = profile == null
+          ? _account.displayName
+          : '${profile.firstName}' + ' ' + '${profile.lastName}';
+      final photo =
+          profile == null ? _account.photoUrl : base64Encode(profile.photo);
+      final phone = profile == null ? '' : profile.phone;
+      final email = profile == null ? _account.email : profile.email;
+      mapEntryList.add(MapEntry("DisplayName", displayName));
+      mapEntryList.add(MapEntry("Email", email));
+      mapEntryList.add(MapEntry("ID", _account.id));
+      mapEntryList.add(MapEntry("PhotoUrl", photo));
+      mapEntryList.add(MapEntry("PushToken", ''));
+      mapEntryList.add(MapEntry("RegisterMode", 1));
+      mapEntryList.add(MapEntry("access_token", user.idToken));
+      mapEntryList.add(MapEntry("phone", phone));
+      final map = addCredentialstoMap(list: mapEntryList);
+
+      User localUser = await _isService.updateClientInfo(json: map);
       return localUser;
     }
     return null;
@@ -132,4 +145,12 @@ class AuthRepositoryImpl implements AuthRepository {
     final User user = _localRepositoryImpl.getLocalUser();
     return user;
   }
+}
+
+Map<String, dynamic> addCredentialstoMap({List<MapEntry> list}) {
+  final Map<String, dynamic> credentialsMap = {};
+  list.forEach((element) {
+    credentialsMap.putIfAbsent(element.key, () => element.value);
+  });
+  return credentialsMap;
 }

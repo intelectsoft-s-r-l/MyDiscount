@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../widgets/custom_app_bar.dart';
-
 import '../../core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../../services/device_info_service.dart';
+import '../widgets/custom_app_bar.dart';
 
 class TechnicDetailPage extends StatefulWidget {
   const TechnicDetailPage();

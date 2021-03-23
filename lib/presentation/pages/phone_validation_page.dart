@@ -1,17 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-
 import 'package:flushbar/flushbar_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
-import '../widgets/custom_app_bar.dart';
 
 import '../../aplication/phone_validation_bloc/phone_validation_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../core/localization/localizations.dart';
 import '../../injectable.dart';
+import '../widgets/custom_app_bar.dart';
 
 class PhoneVerificationPage extends StatefulWidget {
   const PhoneVerificationPage({this.phone, this.phoneBloc});

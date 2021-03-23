@@ -2,20 +2,17 @@ import 'dart:io';
 
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../widgets/login_button_widget.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../core/localization/localizations.dart';
+import '../widgets/login_button_widget.dart';
 
 class LoginScreen2 extends StatelessWidget {
   const LoginScreen2();
   @override
   Widget build(BuildContext context) {
-    //final provider = Provider.of<AuthorizationProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: BlocConsumer<SignFormBloc, SignFormState>(
@@ -26,11 +23,14 @@ class LoginScreen2 extends StatelessWidget {
             context.read<AuthBloc>().add(AuthCheckRequested());
           }
           if (state is SignInNetError) {
-            FlushbarHelper.createError(message: AppLocalizations.of(context).translate('nothaveinet')).show(context);
+            FlushbarHelper.createError(
+                    message:
+                        AppLocalizations.of(context).translate('nothaveinet'))
+                .show(context);
             context.read<SignFormBloc>().add(SignOutEvent());
           }
           if (state is SignInError) {
-            FlushbarHelper.createError(message: 'Error').show(context);
+            FlushbarHelper.createError(message: "Error").show(context);
             context.read<SignFormBloc>().add(SignOutEvent());
           }
         },
@@ -91,7 +91,7 @@ class LoginScreen2 extends StatelessWidget {
                   ),
                   LoginButton(
                     size: size,
-                    event: SignInWithGoogle() /* provider.getAuthorizationGoogle */, // getAuthorizationGoogle,
+                    event: SignInWithGoogle(),
                     picture: 'assets/icons/icon_google.svg',
                     text: AppLocalizations.of(context).translate('google'),
                     color: const Color(0xFF406BFB),
@@ -101,7 +101,7 @@ class LoginScreen2 extends StatelessWidget {
                   ),
                   LoginButton(
                     size: size,
-                    event: SignInWithFacebook() /* provider.getAuthorizationFB */, //getAuthorizationFB,
+                    event: SignInWithFacebook(),
                     picture: 'assets/icons/icon_facebook.svg',
                     text: AppLocalizations.of(context).translate('facebook'),
                     color: const Color(0xFF2D4CB3),
@@ -112,7 +112,7 @@ class LoginScreen2 extends StatelessWidget {
                   Platform.isIOS
                       ? LoginButton(
                           size: size,
-                          event: SignInWithApple() /* provider.getAuthorizationApple */,
+                          event: SignInWithApple(),
                           picture: 'assets/icons/icon_apple.svg',
                           text: AppLocalizations.of(context).translate('apple'),
                           color: Colors.black,

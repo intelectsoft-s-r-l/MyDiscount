@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../domain/entities/news_model.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/news_page_widgets/html_text_view_widget.dart';
-
-import '../../domain/entities/news_model.dart';
 
 class DetailNewsPage extends StatelessWidget {
   const DetailNewsPage({
