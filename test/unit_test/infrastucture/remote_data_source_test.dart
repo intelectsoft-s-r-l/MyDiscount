@@ -1,5 +1,5 @@
-import 'package:IsService/service_client.dart';
-import 'package:IsService/service_client_response.dart';
+import 'package:is_service/service_client.dart';
+import 'package:is_service/service_client_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_discount/core/internet_connection_service.dart';

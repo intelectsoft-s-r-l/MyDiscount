@@ -95,10 +95,9 @@ class LocalRepositoryImpl implements LocalRepository {
   void saveLocalCompanyList(List<Company> list) {
     list.map((company) => companyBox.put(company.id, company));
   }
-  
   @override
   Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json) {
-    final  userMap = {};
+    final  userMap =<String,dynamic> {};
     final keys = json.keys;
     for (final key in keys) {
       if (key == 'ID' || key == 'RegisterMode' || key == 'access_token') {
@@ -109,8 +108,8 @@ class LocalRepositoryImpl implements LocalRepository {
   }
   @override
   Future<Map<String, dynamic>> getFacebookProfile(String token) async {
-    final _graphResponse = await http.get(
-        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
+    final _graphResponse = await http.get(Uri.parse(
+        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token'));
     return json.decode(_graphResponse.body) as Map<String, dynamic>;
   }
 
@@ -130,7 +129,7 @@ class LocalRepositoryImpl implements LocalRepository {
       return false;
     }
   }
- @override
+  @override
   Future<List<Company>> getCachedCompany() async {
     try {
       final keys = companyBox.keys;
@@ -168,7 +167,7 @@ class LocalRepositoryImpl implements LocalRepository {
       list,
       minHeight: 110,
       minWidth: 110,
-      quality: 80,
+      quality: 100,
       rotate: 0,
       format: CompressFormat.jpeg,
     );

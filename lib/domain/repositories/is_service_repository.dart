@@ -1,4 +1,4 @@
-import 'package:IsService/service_client_response.dart';
+import 'package:is_service/service_client_response.dart';
 
 import '../../domain/entities/company_model.dart';
 import '../../domain/entities/news_model.dart';

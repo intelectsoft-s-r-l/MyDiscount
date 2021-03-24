@@ -1,4 +1,4 @@
-import 'package:IsService/service_client_response.dart';
+import 'package:is_service/service_client_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_discount/core/formater.dart';
 
@@ -192,7 +192,7 @@ flutter run
   Future<List<DiscountCard>> getRequestActivationCards(
       {String id, int registerMode}) async {
     try {
-      final localUser = _localRepository.getLocalUser();
+      final  localUser = _localRepository.getLocalUser();
       final _id = id ?? localUser?.id;
       final _registerMode = registerMode ?? localUser?.registerMode;
       final _urlFragment =

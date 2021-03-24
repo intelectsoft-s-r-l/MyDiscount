@@ -18,8 +18,8 @@ class Formater {
       final _listOfMaps = list.map((dynamicMap) {
         final Map<String, dynamic> map = dynamicMap;
         if (map.isNotEmpty && map.containsKey(index)) {
-          final  base64String = _deleteImageFormat(map[index]);
-          final  _bytes = _readBase64String(base64String);
+          final base64String = _deleteImageFormat(map[index]);
+          final _bytes = _readBase64String(base64String);
           map[index] = _bytes;
           return map;
         }
@@ -34,8 +34,8 @@ class Formater {
     try {
       final _formatedDate = list.map((map) {
         if (map is Map<String, dynamic> && map.containsKey(index)) {
-          final  milliseconds = _parseMillisecondsToInt(map[index]);
-          final  _dateTime = _formatDateTimeFromMiliseconds(milliseconds);
+          final milliseconds = _parseMillisecondsToInt(map[index]);
+          final _dateTime = _formatDateTimeFromMiliseconds(milliseconds);
           map[index] = _dateTime;
         }
         return map;
@@ -68,24 +68,30 @@ class Formater {
     }
   }
 
-  Future<Map<String, dynamic>> downloadProfileImageOrDecodeString(Map<String, dynamic> map) async {
+  Future<Map<String, dynamic>> downloadProfileImageOrDecodeString(
+      Map<String, dynamic> map) async {
     try {
-      if (map['PhotoUrl'].toString().startsWith('http')) {
-        final image = await _downloadImageFromLink(map['PhotoUrl']);
+      if (map['PhotoUrl'] != null) {
+        if (map['PhotoUrl'].toString().startsWith('http')) {
+          final image = await _downloadImageFromLink(map['PhotoUrl']);
 
-        map.putIfAbsent('Photo', () => image);
+          map.putIfAbsent('Photo', () => image);
+        } else {
+          final bytes = Uint8List.fromList(base64Decode(map['PhotoUrl']));
+          map.putIfAbsent('Photo', () => bytes);
+        }
+        map.remove('PhotoUrl');
+        return map;
       } else {
-        final bytes = Uint8List.fromList(base64Decode(map['PhotoUrl']));
-        map.putIfAbsent('Photo', () => bytes);
+        return map;
       }
-      map.remove('PhotoUrl');
-      return map;
     } catch (e) {
       rethrow;
     }
   }
 
-  Map<String, dynamic> addToProfileMapSignMethod(Map<String, dynamic> map, int registerMode) {
+  Map<String, dynamic> addToProfileMapSignMethod(
+      Map<String, dynamic> map, int registerMode) {
     try {
       map.putIfAbsent('mode', () => registerMode);
       return map;
@@ -129,7 +135,9 @@ class Formater {
   }
 
   String _deleteImageFormat(String _base64) {
-    return _base64.toString().replaceRange(0, _base64.toString().indexOf(',') + 1, '');
+    return _base64
+        .toString()
+        .replaceRange(0, _base64.toString().indexOf(',') + 1, '');
   }
 
 /* map[index].replaceAll('/Date(', '').replaceAll('+0300)/', '').replaceAll('+0200)/', '') */
@@ -150,7 +158,7 @@ class Formater {
         _addLogoToMap(keys, companyBox, map);
         return map;
       } else {
-        map.putIfAbsent('Logo', ()=>_returnPlaceholderAsBytes);
+        map.putIfAbsent('Logo', () => _returnPlaceholderAsBytes);
         return map;
       }
     } catch (e) {
@@ -165,7 +173,9 @@ class Formater {
   void _addLogoToMap(dynamic keys, Box<Company> companyBox, Map map) {
     for (dynamic key in keys) {
       final company = companyBox.get(key);
-      if (CompanyName(company.name) == CompanyName(map['Company'])) map.putIfAbsent('Logo', () => company.logo);
+      if (CompanyName(company.name) == CompanyName(map['Company'])) {
+        map.putIfAbsent('Logo', () => company.logo);
+      }
     }
   }
 }

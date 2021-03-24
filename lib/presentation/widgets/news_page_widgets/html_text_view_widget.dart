@@ -20,7 +20,7 @@ class HtmlText extends StatelessWidget {
           /* left: 5, */ right: 5, /* top: 5, */ bottom: 5),
       child: Html(
         data: list.content,
-        onLinkTap: (url) async {
+        onLinkTap: (url,_,__,___) async {
           if (await canLaunch(url)) {
             await launch(url);
           } else {

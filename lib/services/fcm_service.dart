@@ -35,8 +35,8 @@ class FirebaseCloudMessageService with ChangeNotifier {
 
   void _deactivateNotification() async {
     if (!_isActivate) {
-      final deletedInstanceId = await _fcm.deleteInstanceID();
-      print('deletedInstanceId: $deletedInstanceId');
+     // final deletedInstanceId = await _fcm.deleteInstanceID();
+     // print('deletedInstanceId: $deletedInstanceId');
       //_fcm.setAutoInitEnabled(false);
     } else {
       await _fcm.setAutoInitEnabled(true);
@@ -53,7 +53,10 @@ class FirebaseCloudMessageService with ChangeNotifier {
   }
 
   void fcmConfigure() {
-    _fcm.configure(
+   /*  _fcm.requestNotificationPermissions(
+        IosNotificationSettings(sound: false, alert: false, badge: false)); */
+    //_fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {});
+    /* _fcm.configure(
       onMessage: (Map<String, dynamic> notification) async {
         if (await _prefs.readFCMState()) {
           await _localNotificationsService.showNotification(notification);
@@ -69,7 +72,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
           await _localNotificationsService.showNotification(notification);
         }
       },
-    );
+    ); */
   }
 
   Future<String> getfcmToken() async {

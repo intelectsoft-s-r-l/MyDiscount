@@ -23,7 +23,7 @@ class DetailNewsPage extends StatelessWidget {
           children: [
             Html(
               data: news.header,
-              onLinkTap: (url) async {
+              onLinkTap: (url,_,__,___) async {
                 if (await canLaunch(url)) {
                 await  launch(url);
                 } else {
