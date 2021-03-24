@@ -27,7 +27,7 @@ import 'domain/data_source/remote_datasource.dart' as _i26;
 import 'domain/entities/company_model.dart' as _i7;
 import 'domain/entities/news_model.dart' as _i6;
 import 'domain/entities/profile_model.dart' as _i5;
-import 'domain/entities/user_model.dart' as _i4;
+import 'domain/auth/user_model.dart' as _i4;
 import 'domain/repositories/auth_repository.dart' as _i32;
 import 'domain/repositories/is_service_repository.dart' as _i28;
 import 'domain/repositories/local_repository.dart' as _i18;

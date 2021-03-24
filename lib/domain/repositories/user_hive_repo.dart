@@ -1,4 +1,4 @@
-import '../entities/user_model.dart';
+import '../auth/user_model.dart';
 
 abstract class HiveUserRepository {
   Future<User> saveLocalUser(User user);
