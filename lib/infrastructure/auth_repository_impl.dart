@@ -80,24 +80,28 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> authenticateWithGoogle() async {
-    final _account = await _googleSignIn.signIn();
-    if (_account != null) {
-      
-      final user = await _account.authentication;
-      
-      final profile =
-          await _isService.getClientInfo(id: _account.id, registerMode: 1);
-      final googleCredentials = _account.toMap(user.idToken);
-      
-      final localCredentialsMap = profile?.toCreateUser();
+    try {
+      final _account = await _googleSignIn.signIn();
+      if (_account != null) {
+        final user = await _account.authentication;
 
-      final map = profile == null ? googleCredentials : localCredentialsMap
-        ..update('ID', (_) => user.idToken)
-        ..update('access_token', (_) => user.accessToken);
+        final profile =
+            await _isService.getClientInfo(id: _account.id, registerMode: 1);
+        final googleCredentials = _account.toMap(user.idToken);
 
-      final localUser = await _isService.updateClientInfo(json: map);
-      
-      return localUser;
+        final localCredentialsMap = profile?.toCreateUser();
+
+        final map = profile == null ? googleCredentials : localCredentialsMap
+          ..update('ID', (_) => _account.id)
+          ..update('access_token', (_) => user.accessToken);
+
+        final localUser = await _isService.updateClientInfo(json: map);
+
+        return localUser;
+      }
+      return null;
+    } catch (e) {
+      return null;
     }
   }
 

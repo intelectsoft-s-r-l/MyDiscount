@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -76,7 +76,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     return CustomAppBar(
       title: AppLocalizations.of(context).translate('phoneverification'),
       child: BlocProvider(
-        create: (context) => getIt<PhoneValidationBloc>()..add(GetValidationCode(phone)),
+        create: (context) =>
+            getIt<PhoneValidationBloc>()..add(GetValidationCode(phone)),
         child: Container(
           color: Colors.white,
           child: BlocConsumer<PhoneValidationBloc, PhoneValidationState>(
@@ -86,7 +87,11 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
 
                 Navigator.pop(context);
               } else if (state is InvalidCode) {
-                FlushbarHelper.createError(message: AppLocalizations.of(context).translate('incorectcode')).show(context);
+                Flushbar(
+                  message:
+                      AppLocalizations.of(context).translate('incorectcode'),
+                  duration: const Duration(seconds: 3),
+                ).show(context);
                 context.read<PhoneValidationBloc>();
               }
             },
@@ -96,16 +101,18 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                 const SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-               Text(AppLocalizations.of(context).translate('entercode'), style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                 const SizedBox(
+                  Text(AppLocalizations.of(context).translate('entercode'),
+                      style: const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
+                  const SizedBox(
                     height: 5,
                   ),
                   Text(
                     phone,
-                    style:const TextStyle(color: Colors.green),
+                    style: const TextStyle(color: Colors.green),
                   ),
                   Container(
                     width: size.width * .6,
@@ -119,7 +126,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                       },
                     ),
                   ),
-                 const SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Row(
@@ -132,7 +139,9 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                               onPressed: snapshot.data == 0
                                   ? () {
                                       if (_currentCode != '') {
-                                        context.read<PhoneValidationBloc>().add(GetValidationCode(phone));
+                                        context
+                                            .read<PhoneValidationBloc>()
+                                            .add(GetValidationCode(phone));
                                       }
                                       setState(() {
                                         isActive = true;
@@ -141,37 +150,43 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                       startTimer();
                                     }
                                   : null,
-                                  style: OutlinedButton.styleFrom(
-                              side:const BorderSide(color: Colors.green),
-                               primary: Colors.green,
-                             /* highlightColor: Colors.green, */
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),),
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: Colors.green),
+                                primary: Colors.green,
+                                /* highlightColor: Colors.green, */
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: size.width * .3,
                                 child: Text(
-                                  snapshot.hasData ? '${AppLocalizations.of(context).translate('send')}(${snapshot.data})' : '${AppLocalizations.of(context).translate('send')}',
-                                  style:const TextStyle(fontWeight: FontWeight.bold),
+                                  snapshot.hasData
+                                      ? '${AppLocalizations.of(context).translate('send')}(${snapshot.data})'
+                                      : '${AppLocalizations.of(context).translate('send')}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             );
                           }),
-                     const SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                        side:const BorderSide(color: Colors.green),
-                         primary: Colors.green,
-                       /* highlightColor: Colors.green, */
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),),
+                          side: const BorderSide(color: Colors.green),
+                          primary: Colors.green,
+                          /* highlightColor: Colors.green, */
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
                         onPressed: () async {
                           if (_currentCode != '') {
-                            context.read<PhoneValidationBloc>().add(UserInputCode(_currentCode, state.serverCode));
+                            context.read<PhoneValidationBloc>().add(
+                                UserInputCode(_currentCode, state.serverCode));
                           }
                         },
                         child: Container(

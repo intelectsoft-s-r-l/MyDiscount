@@ -1,4 +1,4 @@
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/localization/localizations.dart';
@@ -16,7 +16,7 @@ class AddCardPage extends StatefulWidget {
 class _AddCardPageState extends State<AddCardPage> {
   List<Company> companylist;
   Company selectedCompany;
- final  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   @override
@@ -64,7 +64,7 @@ class _AddCardPageState extends State<AddCardPage> {
                                                         )
                                                       : null,
                                             ),
-                                           const SizedBox(width: 10),
+                                            const SizedBox(width: 10),
                                             Text(selectedCompany?.name ?? ''),
                                           ],
                                         ),
@@ -82,7 +82,7 @@ class _AddCardPageState extends State<AddCardPage> {
                                                         height: 30,
                                                         child: Image.memory(
                                                             company?.logo)),
-                                                   const SizedBox(
+                                                    const SizedBox(
                                                       width: 5,
                                                     ),
                                                     Text(company?.name ?? '')
@@ -118,7 +118,7 @@ class _AddCardPageState extends State<AddCardPage> {
                 ),
               ],
             ),
-           const SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -150,7 +150,7 @@ class _AddCardPageState extends State<AddCardPage> {
                 ),
               ),
             ),
-           const SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(
@@ -171,8 +171,10 @@ class _AddCardPageState extends State<AddCardPage> {
                     if (resp.statusCode == 0) {
                       Navigator.pop(context);
                     } else {
-                    await  FlushbarHelper.createError(message: resp.errorMessage)
-                          .show(context);
+                      await Flushbar(
+                        message: resp.errorMessage,
+                        duration: const Duration(seconds: 3),
+                      ).show(context);
                     }
                   }
                 },

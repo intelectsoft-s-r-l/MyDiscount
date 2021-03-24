@@ -58,9 +58,10 @@ class Formater {
         listStrings = _list;
       }
 
-      map.putIfAbsent('firstName', () => listStrings[0]);
-      map.putIfAbsent('lastName', () => listStrings[1]);
-      map.remove('Name');
+      map
+        ..putIfAbsent('firstName', () => listStrings[0])
+        ..putIfAbsent('lastName', () => listStrings[1])
+        ..remove('Name');
 
       return map;
     } catch (e) {

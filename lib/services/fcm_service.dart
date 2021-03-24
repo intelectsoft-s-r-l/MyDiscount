@@ -16,6 +16,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
   bool _isActivate = false;
 
   bool get isActivate => _isActivate;
+  
 
   set isActivate(bool value) {
     _isActivate = value;
@@ -44,6 +45,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
       await getfcmToken();
     }
   }
+ 
 
   Future<bool> getFCMState() async {
     final data = await _prefs.instance;
