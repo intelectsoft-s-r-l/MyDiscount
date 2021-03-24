@@ -59,8 +59,8 @@ void main() async {
     rethrow;
   }
 
- await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
- await FirebaseCrashlytics.instance.deleteUnsentReports();
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  await FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 /* 
@@ -88,8 +88,10 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    final  state = context.findAncestorStateOfType<_MyAppState>();
-    state.setLocale(newLocale);
+    /*  final  state = */ context
+        .findAncestorStateOfType<_MyAppState>()
+        .setLocale(newLocale);
+    //state.setLocale(newLocale);
   }
 
   @override
@@ -157,7 +159,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ],
         routes: {
           '/': (context) => SplashScreen(),
-          '/login': (context) =>const LoginScreen2(),
+          '/login': (context) => const LoginScreen2(),
           '/first': (context) => InitApp(),
         },
       ),
@@ -186,9 +188,7 @@ class SplashScreen extends StatelessWidget {
 
 class InitApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    final  state =
-        context.findAncestorStateOfType<_InitAppState>();
-    state.setLocale(newLocale);
+    context.findAncestorStateOfType<_InitAppState>().setLocale(newLocale);
   }
 
   @override
@@ -266,8 +266,8 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
           primarySwatch: Colors.green,
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-                textStyle:const TextStyle(color: Colors.green),
-                side:const BorderSide(color: Colors.green),
+                textStyle: const TextStyle(color: Colors.green),
+                side: const BorderSide(color: Colors.green),
                 primary: Colors.white,
                 onPrimary: Colors.green,
                 shape: RoundedRectangleBorder(

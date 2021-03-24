@@ -1,12 +1,14 @@
 import 'dart:io';
 
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../core/localization/localizations.dart';
+
 import '../widgets/login_button_widget.dart';
 
 class LoginScreen2 extends StatelessWidget {
@@ -23,14 +25,19 @@ class LoginScreen2 extends StatelessWidget {
             context.read<AuthBloc>().add(AuthCheckRequested());
           }
           if (state is SignInNetError) {
-            FlushbarHelper.createError(
-                    message:
-                        AppLocalizations.of(context).translate('nothaveinet'))
-                .show(context);
+            Flushbar(
+              message: AppLocalizations.of(context).translate('nothaveinet'),
+              duration: const Duration(seconds: 3),
+              //backgroundColor: Colors.red,
+            ).show(context);
             context.read<SignFormBloc>().add(SignOutEvent());
           }
           if (state is SignInError) {
-            FlushbarHelper.createError(message: 'Error"').show(context);
+            Flushbar(
+              message: 'Error',
+              duration: const Duration(seconds: 3),
+             // backgroundColor: Colors.red,
+            ).show(context);
             context.read<SignFormBloc>().add(SignOutEvent());
           }
         },

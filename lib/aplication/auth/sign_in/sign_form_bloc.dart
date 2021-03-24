@@ -54,6 +54,8 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
           final user = await _authRepositoryImpl.authenticateWithApple();
           if (user != null) {
             yield SignFormDone(user);
+          } else {
+            throw Exception();
           }
         } else {
           yield const SignInNetError();

@@ -75,7 +75,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             autovalidateMode: AutovalidateMode.always,
                             child: InternationalPhoneInput(
                               hintText: 'xxxxxxxx',
-                              decoration:const InputDecoration(
+                              decoration: const InputDecoration(
                                 enabled: true,
                               ),
                               onPhoneNumberChange: (
@@ -100,14 +100,13 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           ),
                           const Divider(),
                           ElevatedButton(
-                            
                             onPressed: requestCode
                                 ? () async {
                                     if (confirmedNumber != '') {
                                       setState(() {
                                         requestCode = false;
                                       });
-                                     await Navigator.of(context).push(
+                                      await Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               PhoneVerificationPage(
@@ -119,7 +118,8 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                       /*  } */
                                     }
                                   }
-                                : null,child: isState
+                                : null,
+                            child: isState
                                 ? Text(AppLocalizations.of(context)
                                     .translate('sendcode'))
                                 : Text(AppLocalizations.of(context)
@@ -135,17 +135,17 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           children: [
                             Container(
                               child: Text(widget.labelText,
-                                  style:const TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.black,
                                   )),
                             ),
-                           const SizedBox(
+                            const SizedBox(
                               height: 9,
                             ),
                             Container(
                               child: Text(
                                 profile.phone ?? '',
-                                style:const TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.bold,
