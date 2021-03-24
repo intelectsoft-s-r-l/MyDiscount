@@ -57,7 +57,7 @@ class CompanyWidget extends StatelessWidget {
                               name: company.name,
                             )));
               },
-              child: Text(
+              child:const Text(
                 'Add Card',
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
@@ -103,7 +103,7 @@ class AddCardPage extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * .05,
                 ),
-                Text(
+                const Text(
                   'Compania:',
                   textAlign: TextAlign.center,
                 ),
@@ -116,7 +116,7 @@ class AddCardPage extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style:const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -137,12 +137,12 @@ class AddCardPage extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * .05,
                 ),
                 Text(
-                  'Introduceti numarul cardului:',
+                  AppLocalizations.of(context).translate('inputcardnumber'),
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
-            SizedBox(
+          const  SizedBox(
               height: 10,
             ),
             Container(
@@ -153,10 +153,10 @@ class AddCardPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10))),
               ),
             ),
-            SizedBox(
+           const SizedBox(
               height: 10,
             ),
-            ElevatedButton(onPressed: () {}, child: Text('Add Card'))
+            ElevatedButton(onPressed: () {}, child: Text(AppLocalizations.of(context).translate('addcard')))
           ],
         ),
       ),
