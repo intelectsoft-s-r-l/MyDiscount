@@ -7,14 +7,14 @@
 import 'package:data_connection_checker/data_connection_checker.dart' as _i9;
 import 'package:device_info/device_info.dart' as _i10;
 import 'package:firebase_messaging/firebase_messaging.dart' as _i13;
-import 'package:flutter_facebook_login/flutter_facebook_login.dart' as _i12;
+//import 'package:flutter_login_facebook/flutter_login_facebook.dart' as _i12;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i14;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:google_sign_in/google_sign_in.dart' as _i16;
 import 'package:hive/hive.dart' as _i3;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:IsService/service_client.dart' as _i22;
+import 'package:is_service/service_client.dart' as _i22;
 
 import 'aplication/auth/auth_bloc.dart' as _i24;
 import 'aplication/auth/sign_in/sign_form_bloc.dart' as _i34;
@@ -60,7 +60,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.lazySingleton<_i10.DeviceInfoPlugin>(() => serviceInjectableModule.deviceinfo);
   gh.lazySingleton<_i11.DeviceInfoService>(
       () => _i11.DeviceInfoService(get<_i10.DeviceInfoPlugin>()));
-  gh.lazySingleton<_i12.FacebookLogin>(() => serviceInjectableModule.facebookLogin);
+  //gh.lazySingleton<_i12.FacebookLogin>(() => serviceInjectableModule.facebookLogin);
   gh.lazySingleton<_i13.FirebaseMessaging>(() => serviceInjectableModule.fcm);
   gh.lazySingleton<_i14.FlutterLocalNotificationsPlugin>(
       () => serviceInjectableModule.flutterLocalNotification);
@@ -98,7 +98,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       _i31.ProfileFormBloc(get<_i18.LocalRepository>(), get<_i28.IsService>()));
   gh.lazySingleton<_i32.AuthRepository>(() => _i33.AuthRepositoryImpl(
       get<_i16.GoogleSignIn>(),
-      get<_i12.FacebookLogin>(),
+      
       get<_i28.IsService>(),
       get<_i18.LocalRepository>()));
   gh.factory<_i34.SignFormBloc>(() => _i34.SignFormBloc(

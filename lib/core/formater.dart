@@ -68,24 +68,30 @@ class Formater {
     }
   }
 
-  Future<Map<String, dynamic>> downloadProfileImageOrDecodeString(Map<String, dynamic> map) async {
+  Future<Map<String, dynamic>> downloadProfileImageOrDecodeString(
+      Map<String, dynamic> map) async {
     try {
-      if (map['PhotoUrl'].toString().startsWith('http')) {
-        final Uint8List image = await _downloadImageFromLink(map['PhotoUrl']);
+      if (map['PhotoUrl'] != null) {
+        if (map['PhotoUrl'].toString().startsWith('http')) {
+          final  image = await _downloadImageFromLink(map['PhotoUrl']);
 
-        map.putIfAbsent('Photo', () => image);
+          map.putIfAbsent('Photo', () => image);
+        } else {
+          final bytes = Uint8List.fromList(base64Decode(map['PhotoUrl']));
+          map.putIfAbsent('Photo', () => bytes);
+        }
+        map.remove('PhotoUrl');
+        return map;
       } else {
-        final bytes = Uint8List.fromList(base64Decode(map['PhotoUrl']));
-        map.putIfAbsent('Photo', () => bytes);
+        return map;
       }
-      map.remove('PhotoUrl');
-      return map;
     } catch (e) {
       rethrow;
     }
   }
 
-  Map<String, dynamic> addToProfileMapSignMethod(Map<String, dynamic> map, int registerMode) {
+  Map<String, dynamic> addToProfileMapSignMethod(
+      Map<String, dynamic> map, int registerMode) {
     try {
       map.putIfAbsent('mode', () => registerMode);
       return map;
@@ -105,7 +111,8 @@ class Formater {
 
   List checkCompanyLogo(List list) {
     try {
-      final List<Map<String, dynamic>> dat = list.map((map) => _returnLogo(map as Map)).toList();
+      final List<Map<String, dynamic>> dat =
+          list.map((map) => _returnLogo(map as Map)).toList();
       return dat;
     } catch (e) {
       rethrow;
@@ -129,7 +136,9 @@ class Formater {
   }
 
   String _deleteImageFormat(String _base64) {
-    return _base64.toString().replaceRange(0, _base64.toString().indexOf(',') + 1, '');
+    return _base64
+        .toString()
+        .replaceRange(0, _base64.toString().indexOf(',') + 1, '');
   }
 
 /* map[index].replaceAll('/Date(', '').replaceAll('+0300)/', '').replaceAll('+0200)/', '') */
@@ -165,7 +174,8 @@ class Formater {
   _addLogoToMap(dynamic keys, Box<Company> companyBox, Map map) {
     for (dynamic key in keys) {
       final company = companyBox.get(key);
-      if (CompanyName(company.name) == CompanyName(map['Company'])) map.putIfAbsent('Logo', () => company.logo);
+      if (CompanyName(company.name) == CompanyName(map['Company']))
+        map.putIfAbsent('Logo', () => company.logo);
     }
   }
 }

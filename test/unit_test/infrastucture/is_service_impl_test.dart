@@ -8,9 +8,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
-import 'package:IsService/service_client_response.dart';
+import 'package:is_service/service_client_response.dart';
 
-import '../fixtures/fixtures_redear.dart';
 
 import 'package:my_discount/core/constants/credentials.dart';
 import 'package:my_discount/core/formater.dart';
@@ -22,6 +21,7 @@ import 'package:my_discount/domain/repositories/local_repository.dart';
 
 import 'package:my_discount/services/remote_config_service.dart';
 
+import '../fixtures/fixtures_redear.dart';
 class MockFormater extends Mock implements Formater {}
 
 class MockRemoteDataSource extends Mock implements RemoteDataSource {}

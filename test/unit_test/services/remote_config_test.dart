@@ -21,21 +21,6 @@ void main() {
         'service_name': 'https://dev.edi.md/ISMobileDiscountService'
       }
     };
-    when(mockRemoteConfig.lastFetchStatus)
-        .thenAnswer((_) => LastFetchStatus.success);
-    when(mockRemoteConfig.activateFetched()).thenAnswer((_) async => true);
-    when(mockRemoteConfig.getString(any))
-        .thenAnswer((_) => json.encode(tfechMap));
-    mockRemoteConfig.fetch();
-    bool activated = await mockRemoteConfig.activateFetched();
-
-    final response = mockRemoteConfig.getString('service_name');
-    final status = mockRemoteConfig.lastFetchStatus;
-    expect(status, LastFetchStatus.success);
-    mapEquals(json.decode(response) as Map<String, dynamic>, tfechMap);
-    expect(activated, true);
-    verify(mockRemoteConfig.lastFetchStatus);
-    verify(mockRemoteConfig.fetch());
-    verify(mockRemoteConfig.activateFetched());
+   
   });
 }

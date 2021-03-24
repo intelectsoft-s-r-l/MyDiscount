@@ -59,8 +59,8 @@ void main() async {
     rethrow;
   }
 
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  FirebaseCrashlytics.instance.deleteUnsentReports();
+ await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+ await FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 /* 

@@ -93,23 +93,23 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   void saveLocalCompanyList(List<Company> list) {
-    list.forEach((company) => companyBox.put(company.id, company));
+    list.map((company) => companyBox.put(company.id, company));
   }
-
+  @override
   Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json) {
-    final Map<String, dynamic> userMap = {};
+    final  userMap =<String,dynamic> {};
     final keys = json.keys;
-    for (String key in keys) {
+    for (final key in keys) {
       if (key == 'ID' || key == 'RegisterMode' || key == 'access_token') {
         userMap.putIfAbsent(key, () => json[key]);
       }
     }
     return userMap;
   }
-
+  @override
   Future<Map<String, dynamic>> getFacebookProfile(String token) async {
-    final _graphResponse = await http.get(
-        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token');
+    final _graphResponse = await http.get(Uri.parse(
+        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token'));
     return json.decode(_graphResponse.body) as Map<String, dynamic>;
   }
 
@@ -118,7 +118,7 @@ class LocalRepositoryImpl implements LocalRepository {
     userBox.delete(1);
     profileBox.delete(1);
   }
-
+  @override
   bool smsCodeVerification(String serverCode, String userCode) {
     try {
       if (VerificationCode(serverCode) == VerificationCode(userCode)) {
@@ -129,7 +129,7 @@ class LocalRepositoryImpl implements LocalRepository {
       return false;
     }
   }
-
+  @override
   Future<List<Company>> getCachedCompany() async {
     try {
       final keys = companyBox.keys;
@@ -144,21 +144,21 @@ class LocalRepositoryImpl implements LocalRepository {
       rethrow;
     }
   }
-
+  @override
   Future<Map<String, dynamic>> returnProfileMapDataAsMap(
       Profile profile) async {
     final user = userBox.get(1);
     final result = await testComporessList(profile.photo);
     print(result);
     return {
-      "DisplayName": profile.firstName + " " + profile.lastName,
-      "Email": profile.email,
-      "ID": user.id,
-      "phone": profile.phone,
-      "PhotoUrl": base64Encode(result.toList()),
-      "PushToken": '',
-      "RegisterMode": user.registerMode,
-      "access_token": user.accessToken,
+      'DisplayName': '${profile.firstName} ${profile.lastName}',
+      'Email': profile.email,
+      'ID': user.id,
+      'phone': profile.phone,
+      'PhotoUrl': base64Encode(result.toList()),
+      'PushToken': '',
+      'RegisterMode': user.registerMode,
+      'access_token': user.accessToken,
     };
   }
 
@@ -167,7 +167,7 @@ class LocalRepositoryImpl implements LocalRepository {
       list,
       minHeight: 110,
       minWidth: 110,
-      quality: 80,
+      quality: 100,
       rotate: 0,
       format: CompressFormat.jpeg,
     );

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
@@ -28,8 +29,8 @@ class Profile {
     this.phone,
     this.photo,
     this.pushToken,
-    this.registerMode
-  }) : assert(photo != null);
+    this.registerMode,
+  });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
@@ -44,28 +45,47 @@ class Profile {
   }
   Map<String, dynamic> toJson() {
     return {
-      "firstName": firstName,
-      "lastName": lastName,
-      "Email": email,
-      "phone": phone,
-      "Photo": photo,
-      "PushToken": pushToken,
-      'mode':registerMode,
+      'firstName': firstName,
+      'lastName': lastName,
+      'Email': email,
+      'phone': phone,
+      'Photo': photo,
+      'PushToken': pushToken,
+      'mode': registerMode,
     };
   }
-  
-  factory Profile.empty(){
-    return Profile(
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        photo: Uint8List.fromList([]),
-        pushToken: '',
-      );
+
+  Map<String, dynamic> toCreateUser() {
+    return {
+      'DisplayName': '$firstName $lastName',
+      'Email': email,
+      'ID':null,
+      'phone': phone,
+      'PhotoUrl': base64Encode(photo.toList()),
+      'PushToken': pushToken,
+      'RegisterMode': registerMode,
+      'access_token':null,
+    };
   }
 
-  Profile copyWith({String firstName, String lastName, String email, String phone, Uint8List photo}) {
+  factory Profile.empty() {
+    return Profile(
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      photo: Uint8List.fromList([]),
+      pushToken: '',
+    );
+  }
+
+  Profile copyWith({
+    String firstName,
+    String lastName,
+    String email,
+    String phone,
+    Uint8List photo,
+  }) {
     return Profile(
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,

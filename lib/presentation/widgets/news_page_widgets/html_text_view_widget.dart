@@ -19,7 +19,7 @@ class HtmlText extends StatelessWidget {
       padding: const EdgeInsets.only(/* left: 5, */ right: 5, /* top: 5, */ bottom: 5),
       child: Html(
         data: list.content,
-        onLinkTap: (url) async {
+        onLinkTap: (url,_,__,___) async {
           if (await canLaunch(url)) {
             launch(url);
           } else {
