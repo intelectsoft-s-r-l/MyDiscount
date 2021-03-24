@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:my_discount/domain/data_source/remote_datasource.dart';
-import 'package:my_discount/domain/entities/user_model.dart';
+import 'package:my_discount/domain/auth/user_model.dart';
 import 'package:my_discount/infrastructure/is_service_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 

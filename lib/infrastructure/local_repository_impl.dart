@@ -6,10 +6,10 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
+import '../domain/auth/user_model.dart';
 import '../domain/entities/company_model.dart';
 import '../domain/entities/news_model.dart';
 import '../domain/entities/profile_model.dart';
-import '../domain/entities/user_model.dart';
 import '../domain/repositories/local_repository.dart';
 
 @LazySingleton(as: LocalRepository)
@@ -33,7 +33,6 @@ class LocalRepositoryImpl implements LocalRepository {
       return Profile.empty();
     }
   }
-
   @override
   List<News> getLocalNews() {
     try {

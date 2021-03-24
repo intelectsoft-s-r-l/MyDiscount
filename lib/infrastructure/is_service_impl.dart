@@ -9,7 +9,7 @@ import '../domain/entities/company_model.dart';
 import '../domain/entities/news_model.dart';
 import '../domain/entities/profile_model.dart';
 import '../domain/entities/tranzaction_model.dart';
-import '../domain/entities/user_model.dart';
+import '../domain/auth/user_model.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
 

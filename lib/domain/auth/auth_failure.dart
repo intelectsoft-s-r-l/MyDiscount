@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 
 @immutable
-abstract class AuthFailure {
- const AuthFailure.canceledByUser();
- const AuthFailure.serverError();
+class AuthFailure {
+  const AuthFailure.canceledByUser();
+  const AuthFailure.serverError();
+  const AuthFailure.noInternet();
 }

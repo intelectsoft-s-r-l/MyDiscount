@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import '../domain/entities/user_model.dart';
+import '../domain/auth/user_model.dart';
 import '../domain/repositories/user_hive_repo.dart';
 
 class HiveUserRepoImpl implements HiveUserRepository {

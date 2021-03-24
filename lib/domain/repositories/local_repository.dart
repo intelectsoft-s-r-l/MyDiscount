@@ -1,7 +1,7 @@
 import '../../domain/entities/company_model.dart';
 import '../../domain/entities/news_model.dart';
 import '../../domain/entities/profile_model.dart';
-import '../../domain/entities/user_model.dart';
+import '../auth/user_model.dart';
 
 abstract class LocalRepository {
   void saveLocalNews(List newsList);

@@ -17,10 +17,10 @@ import 'aplication/auth/auth_bloc.dart';
 import 'aplication/auth/sign_in/sign_form_bloc.dart';
 import 'aplication/profile_bloc/profile_form_bloc.dart';
 import 'core/localization/localizations.dart';
+import 'domain/auth/user_model.dart';
 import 'domain/entities/company_model.dart';
 import 'domain/entities/news_model.dart';
 import 'domain/entities/profile_model.dart';
-import 'domain/entities/user_model.dart';
 import 'injectable.dart';
 import 'presentation/pages/about_app_page.dart';
 import 'presentation/pages/app_inf_page.dart';
@@ -74,7 +74,7 @@ void main() async {
       statusBarBrightness: Brightness.dark,
     ),
   );
-  SystemChrome.setPreferredOrientations(
+ await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runZonedGuarded(() {
       runApp(MyApp());
