@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-
 import 'package:flutter/material.dart';
+import 'package:my_discount/presentation/widgets/add_card_page.dart';
 
 import '../../../core/localization/localizations.dart';
 import '../../../domain/entities/company_model.dart';
@@ -47,7 +47,7 @@ class CompanyWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            InkResponse(
+           /*  InkResponse(
               onTap: () {
                 Navigator.push(
                     context,
@@ -57,15 +57,15 @@ class CompanyWidget extends StatelessWidget {
                               name: company.name,
                             )));
               },
-              child:const Text(
+              child: const Text(
                 'Add Card',
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
               ),
-            ),
+            ), */
             Text(
               AppLocalizations.of(context).translate('amount'),
-              style:const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
             ),
             FittedBox(
@@ -82,8 +82,8 @@ class CompanyWidget extends StatelessWidget {
   }
 }
 
-class AddCardPage extends StatelessWidget {
-  const AddCardPage({Key key, this.logo, @required this.name})
+/* class AddCardPage extends StatelessWidget {
+  const AddCardPage({Key key, @required this.logo, @required this.name})
       : assert(logo != null),
         assert(name != null),
         super(key: key);
@@ -92,7 +92,7 @@ class AddCardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
-      title: 'Uneste card',
+      title: AppLocalizations.of(context).translate('addedcard'),
       child: Container(
         color: Colors.white,
         child: Column(
@@ -103,20 +103,20 @@ class AddCardPage extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * .05,
                 ),
-                const Text(
-                  'Compania:',
+                 Text(
+                  AppLocalizations.of(context).translate('company'),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * .05,
                 ),
                 Expanded(
-                                  child: Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         name,
-                        style:const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -142,7 +142,7 @@ class AddCardPage extends StatelessWidget {
                 ),
               ],
             ),
-          const  SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -153,13 +153,18 @@ class AddCardPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10))),
               ),
             ),
-           const SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            ElevatedButton(onPressed: () {}, child: Text(AppLocalizations.of(context).translate('addcard')))
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/cardlist');
+                },
+                child: Text(AppLocalizations.of(context).translate('addcard')))
           ],
         ),
       ),
     );
   }
 }
+ */

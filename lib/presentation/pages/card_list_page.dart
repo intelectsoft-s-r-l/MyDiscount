@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_discount/core/failure.dart';
 import 'package:my_discount/presentation/widgets/circular_progress_indicator_widget.dart';
+import 'package:my_discount/presentation/widgets/nointernet_widget.dart';
 
 import '../../core/localization/localizations.dart';
 import '../../domain/entities/card.dart';
@@ -25,10 +26,11 @@ class CardListPage extends StatelessWidget {
                 child: FutureBuilder<List<DiscountCard>>(
                   future: getIt<IsService>().getRequestActivationCards(),
                   builder: (context, snapshot) {
-                    final  list = snapshot.data ;
+                    final list = snapshot.data;
                     if (snapshot.hasData) {
                       return ListView.separated(
-                        padding:const EdgeInsets.only(top: 15, left: 10, right: 10),
+                        padding:
+                            const EdgeInsets.only(top: 15, left: 10, right: 10),
                         separatorBuilder: (context, index) => Container(
                           height: 10,
                         ),
@@ -42,6 +44,8 @@ class CardListPage extends StatelessWidget {
                     if (snapshot.hasError) {
                       if (snapshot.error is EmptyList) {
                         return const NoCardsWidget();
+                      } else {
+                        return const NoInternetWidget();
                       }
                     }
                     return CircularProgresIndicatorWidget();
@@ -103,10 +107,10 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border:const Border(
+        border: const Border(
           top: BorderSide(width: 2, color: Colors.grey),
           left: BorderSide(width: 2, color: Colors.grey),
           right: BorderSide(width: 2, color: Colors.grey),
@@ -120,7 +124,7 @@ class CardWidget extends StatelessWidget {
           Row(
             children: [
               Container(
-                  padding:const EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(3),
                   width: 30,
                   height: 30,
                   child: card.companyLogo != []
@@ -131,7 +135,7 @@ class CardWidget extends StatelessWidget {
           ),
           Row(
             children: [
-             const SizedBox(
+              const SizedBox(
                 width: 30,
               ),
               Row(
@@ -141,11 +145,11 @@ class CardWidget extends StatelessWidget {
                   ),
                   Text(
                     '${card.code}',
-                    style:const TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-             const Spacer(),
+              const Spacer(),
               CheckStatusWidget(status: card.status)
             ],
           ),

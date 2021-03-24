@@ -153,7 +153,8 @@ class Formater {
 
   Map<String, dynamic> _returnLogo(Map map) {
     try {
-      final companyBox = Hive.box('company');
+      // ignore: omit_local_variable_types
+      final Box<Company> companyBox = Hive.box('company') ;
       if (companyBox.isNotEmpty) {
         final keys = companyBox.keys;
         _addLogoToMap(keys, companyBox, map);
