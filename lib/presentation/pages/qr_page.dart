@@ -12,9 +12,7 @@ import '../widgets/qr_page_widgets/human_image_widget.dart';
 import '../widgets/qr_page_widgets/qr-widget.dart';
 
 class QrPage extends StatefulWidget {
-  QrPage({
-    Key key,
-  }) : super(key: key);
+ const QrPage({Key key}) : super(key: key);
 
   @override
   _QrPageState createState() => _QrPageState();
@@ -187,13 +185,13 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                               Text(
                                   AppLocalizations.of(context)
                                       .translate('showqr'),
-                                  style:const TextStyle(
+                                  style: const TextStyle(
                                       //fontWeight: FontWeight.bold,
                                       fontSize: 20)),
                               Text(
                                   AppLocalizations.of(context)
                                       .translate('qrtime'),
-                                  style:const TextStyle(
+                                  style: const TextStyle(
                                       // fontWeight: FontWeight.bold,
                                       fontSize: 20)),
                               SizedBox(
@@ -211,8 +209,8 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               serviceConection
-                                  ?const HumanImage()
-                                  :const NoInternetWidget(),
+                                  ? const HumanImage()
+                                  : const NoInternetWidget(),
                               const SizedBox(height: 10.0),
                               ElevatedButton(
                                 onPressed: () {
@@ -225,7 +223,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                     ? Text(
                                         AppLocalizations.of(context)
                                             .translate('generate'),
-                                        style:const TextStyle(
+                                        style: const TextStyle(
                                           // color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -233,7 +231,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                     : Text(
                                         AppLocalizations.of(context)
                                             .translate('retry'),
-                                        style:const TextStyle(
+                                        style: const TextStyle(
                                           //color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),

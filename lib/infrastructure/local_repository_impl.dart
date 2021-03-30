@@ -5,11 +5,12 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
+import 'package:my_discount/core/failure.dart';
 
-import '../domain/auth/user_model.dart';
 import '../domain/entities/company_model.dart';
 import '../domain/entities/news_model.dart';
 import '../domain/entities/profile_model.dart';
+import '../domain/entities/user_model.dart';
 import '../domain/repositories/local_repository.dart';
 
 @LazySingleton(as: LocalRepository)
@@ -27,12 +28,17 @@ class LocalRepositoryImpl implements LocalRepository {
   );
   @override
   Profile getLocalClientInfo() {
-    if (profileBox.isNotEmpty) {
-      return profileBox?.get(1);
-    } else {
-      return Profile.empty();
+    try {
+      if (profileBox.isNotEmpty) {
+        return profileBox?.get(1);
+      } else {
+        return Profile.empty();
+      }
+    } catch (e) {
+      throw LocalCacheError();
     }
   }
+
   @override
   List<News> getLocalNews() {
     try {
@@ -44,79 +50,123 @@ class LocalRepositoryImpl implements LocalRepository {
       }
       return newsList.reversed?.toList();
     } catch (e) {
-      rethrow;
+      throw LocalCacheError();
     }
   }
 
   @override
   User getLocalUser() {
-    final _user = userBox?.get(1);
-    return _user;
+    try {
+      final _user = userBox?.get(1);
+      return _user;
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
 
   @override
   Profile saveLocalClientInfo(Profile profile) {
-    profileBox?.put(1, profile);
-    return profile;
+    try {
+      profileBox?.put(1, profile);
+      return profile;
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
 
   @override
   void saveLocalNews(List newsList) {
-    newsList
-        .map((e) => News.fromJson(e))
-        .toList()
-        .forEach((news) => newsBox?.put(news.id, news));
+    try {
+      newsList
+          .map((e) => News.fromJson(e))
+          .toList()
+          .forEach((news) => newsBox?.put(news.id, news));
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
 
   @override
   User saveLocalUser(User user) {
-    userBox?.put(1, user);
-    return user;
+    try {
+      userBox?.put(1, user);
+      return user;
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
 
   @override
   String readEldestNewsId() {
-    final listOfKeys = newsBox?.keys;
+    try {
+      final listOfKeys = newsBox?.keys;
 
-    var id = 0;
-    if (listOfKeys.isNotEmpty) {
-      for (final int key in listOfKeys) {
-        if (key > id) {
-          id = key;
+      var id = 0;
+      if (listOfKeys.isNotEmpty) {
+        for (final int key in listOfKeys) {
+          if (key > id) {
+            id = key;
+          }
         }
       }
-    }
 
-    return id.toString();
+      return id.toString();
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
 
   @override
   void saveLocalCompanyList(List<Company> list) {
-    list.map((company) => companyBox.put(company.id, company));
+    try {
+      // ignore: avoid_function_literals_in_foreach_calls
+      list.forEach((company) {
+        companyBox.put(company.id, company);
+      });
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
+
   @override
   Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json) {
-    final  userMap =<String,dynamic> {};
-    final keys = json.keys;
-    for (final key in keys) {
-      if (key == 'ID' || key == 'RegisterMode' || key == 'access_token') {
-        userMap.putIfAbsent(key, () => json[key]);
+    try {
+      final userMap = <String, dynamic>{};
+      final keys = json.keys;
+      for (final key in keys) {
+        if (key == 'ID' || key == 'RegisterMode' || key == 'access_token') {
+          userMap.putIfAbsent(key, () => json[key]);
+        }
       }
+      userMap.putIfAbsent('expireDate',
+          () => DateTime.now().add(const Duration(minutes: 1)).toString());
+      return userMap;
+    } catch (e) {
+      throw LocalCacheError();
     }
-    return userMap;
   }
+
   @override
   Future<Map<String, dynamic>> getFacebookProfile(String token) async {
-    final _graphResponse = await http.get(Uri.parse(
-        'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token'));
-    return json.decode(_graphResponse.body) as Map<String, dynamic>;
+    try {
+      final _graphResponse = await http.get(Uri.parse(
+          'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token'));
+      return json.decode(_graphResponse.body) as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   void deleteLocalUser() {
-    userBox.delete(1);
-    profileBox.delete(1);
+    try {
+      userBox.delete(1);
+      profileBox.delete(1);
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
+
   @override
   bool smsCodeVerification(String serverCode, String userCode) {
     try {
@@ -128,49 +178,84 @@ class LocalRepositoryImpl implements LocalRepository {
       return false;
     }
   }
+
   @override
-  Future<List<Company>> getCachedCompany() async {
+  Future<List<Company>> getCachedCompany(String pattern) async {
     try {
       final keys = companyBox.keys;
       final list = <Company>[];
       if (companyBox.isNotEmpty) {
         for (int key in keys) {
-          list.add(companyBox.get(key));
+          if (pattern.isNotEmpty) {
+            final company = companyBox.get(key);
+            if (company.name.contains(pattern)) {
+              list.add(company);
+            }
+          } else {
+            final company = companyBox.get(key);
+            if (company.name.contains(pattern)) {
+              list.add(company);
+            }
+          }
         }
+        return list;
+      } else {
+        throw EmptyList();
       }
-      return list;
     } catch (e) {
-      rethrow;
+      throw LocalCacheError();
     }
   }
+
   @override
   Future<Map<String, dynamic>> returnProfileMapDataAsMap(
       Profile profile) async {
-    final user = userBox.get(1);
-    final result = await testComporessList(profile.photo);
-    print(result);
-    return {
-      'DisplayName': '${profile.firstName} ${profile.lastName}',
-      'Email': profile.email,
-      'ID': user.id,
-      'phone': profile.phone,
-      'PhotoUrl': base64Encode(result.toList()),
-      'PushToken': '',
-      'RegisterMode': user.registerMode,
-      'access_token': user.accessToken,
-    };
+    try {
+      final user = userBox.get(1);
+      final result = await testComporessList(profile.photo);
+      print(result);
+      return {
+        'DisplayName': '${profile.firstName} ${profile.lastName}',
+        'Email': profile.email,
+        'ID': user.id,
+        'phone': profile.phone,
+        'PhotoUrl': base64Encode(result.toList()),
+        'PushToken': '',
+        'RegisterMode': user.registerMode,
+        'access_token': user.accessToken,
+      };
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
 
   Future<Uint8List> testComporessList(Uint8List list) async {
-    final result = await FlutterImageCompress.compressWithList(
-      list,
-      minHeight: 110,
-      minWidth: 110,
-      quality: 100,
-      rotate: 0,
-      format: CompressFormat.jpeg,
-    );
-    return result;
+    try {
+      final result = await FlutterImageCompress.compressWithList(
+        list,
+        minHeight: 110,
+        minWidth: 110,
+        quality: 100,
+        rotate: 0,
+        format: CompressFormat.jpeg,
+      );
+      return result;
+    } catch (e) {
+      throw LocalCacheError();
+    }
+  }
+
+  @override
+  List<News> deleteNews() {
+    try {
+      final keys = newsBox.keys;
+      for (var key in keys) {
+        newsBox.delete(key);
+      }
+      return [];
+    } catch (e) {
+      throw LocalCacheError();
+    }
   }
 }
 

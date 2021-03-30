@@ -1,7 +1,7 @@
 include: package:pedantic/analysis_options.yaml
 analyzer:
   #strong-mode:
-  #  implicit-casts: false
+    #implicit-casts: false
 linter:
   rules:
     - always_declare_return_types
@@ -34,7 +34,7 @@ linter:
     - empty_catches
     - empty_constructor_bodies
     - empty_statements
-    - file_names
+    #- file_names
     - hash_and_equals
     - implementation_imports
     - invariant_booleans

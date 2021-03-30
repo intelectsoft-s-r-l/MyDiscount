@@ -22,11 +22,17 @@ class DiscountCard {
       status: json['State'],
     );
   }
- /*  Map<String, dynamic> toJson() {
-    return {
-      'Code': code,
-      'Company': companyName,
-      'Status': status,
-    };
-  } */
+  DiscountCard copyWith({
+    String code,
+    String companyName,
+    int status,
+    Uint8List companyLogo,
+  }) {
+    return DiscountCard(
+      code: code ?? this.code,
+      companyName: companyName ?? this.companyName,
+      status: status ?? this.status,
+      companyLogo: companyLogo ?? this.companyLogo,
+    );
+  }
 }

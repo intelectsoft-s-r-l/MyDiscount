@@ -1,7 +1,0 @@
-import '../auth/user_model.dart';
-
-abstract class HiveUserRepository {
-  Future<User> saveLocalUser(User user);
-  Future<User> getLocalUser();
-  void deleteLocalUser();
-}

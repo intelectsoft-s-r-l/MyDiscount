@@ -1,5 +1,5 @@
 import 'package:is_service/service_client.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:flutter_login_facebook/flutter_login_facebook.dart';
@@ -13,7 +13,7 @@ import '../../core/constants/credentials.dart';
 import '../../domain/entities/company_model.dart';
 import '../../domain/entities/news_model.dart';
 import '../../domain/entities/profile_model.dart';
-import '../../domain/auth/user_model.dart';
+import '../../domain/entities/user_model.dart';
 import '../../services/remote_config_service.dart';
 import '../../services/shared_preferences_service.dart';
 
@@ -22,8 +22,6 @@ import '../../services/shared_preferences_service.dart';
 abstract class ServiceInjectableModule {
   @lazySingleton
   GoogleSignIn get googleSignIn => GoogleSignIn();
-  /* @lazySingleton
-  FacebookLogin get facebookLogin => FacebookLogin(); */
   @lazySingleton
   FirebaseMessaging get fcm => FirebaseMessaging.instance;
   @lazySingleton
@@ -31,7 +29,7 @@ abstract class ServiceInjectableModule {
   @lazySingleton
   ServiceClient get client => ServiceClient(credentials.header);
   @lazySingleton
-  DataConnectionChecker get connectionChecker => DataConnectionChecker();
+  InternetConnectionChecker get connectionChecker => InternetConnectionChecker();
   @lazySingleton
   DeviceInfoPlugin get deviceinfo => DeviceInfoPlugin();
   @lazySingleton

@@ -73,9 +73,9 @@ class LocalNotificationsService {
     );
     final platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-      Platform.isIOS ? int.parse(notification['id'] as String) : int.parse(notification['data']['id'] as String),
-      Platform.isIOS ? '${notification['title']}' : '${notification['notification']['title']}',
-      Platform.isIOS ? '${notification['body']}' : '${notification['notification']['body']}',
+      /* Platform.isIOS ?  */int.parse(notification['id'] as String) /* : int.parse(notification['data']['id'] as String) */,
+      /* Platform.isIOS ? */ '${notification['title']}' /* : '${notification['notification']['title']} '*/,
+     /*  Platform.isIOS ? */ '${notification['body']}'/*  : '${notification['notification']['body']} '*/,
       platformChannelSpecifics,
     );
     debugPrint('is shownotification:$notification');

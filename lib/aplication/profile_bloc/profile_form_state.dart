@@ -18,3 +18,6 @@ class ProfileFormInitial extends ProfileFormState {
 class ProfileFormDone extends ProfileFormState {
   ProfileFormDone(Profile profile,bool isSaved) : super(profile,isSaved);
 }
+class ProfileFormError extends ProfileFormState{
+  ProfileFormError(Profile profile, bool isSaved) : super(profile, isSaved);
+}

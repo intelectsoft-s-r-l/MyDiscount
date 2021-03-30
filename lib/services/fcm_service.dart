@@ -11,12 +11,12 @@ import '../services/shared_preferences_service.dart';
 class FirebaseCloudMessageService with ChangeNotifier {
   final FirebaseMessaging _fcm;
   final LocalNotificationsService _localNotificationsService;
+
   final SharedPref _prefs;
 
   bool _isActivate = false;
 
   bool get isActivate => _isActivate;
-  
 
   set isActivate(bool value) {
     _isActivate = value;
@@ -36,16 +36,16 @@ class FirebaseCloudMessageService with ChangeNotifier {
 
   void _deactivateNotification() async {
     if (!_isActivate) {
-     // final deletedInstanceId = await _fcm.deleteInstanceID();
-     // print('deletedInstanceId: $deletedInstanceId');
+      // final deletedInstanceId = await _fcm.deleteInstanceID();
+      // print('deletedInstanceId: $deletedInstanceId');
       //_fcm.setAutoInitEnabled(false);
     } else {
+      
       await _fcm.setAutoInitEnabled(true);
       // _fcm.requestNotificationPermissions();
       await getfcmToken();
     }
   }
- 
 
   Future<bool> getFCMState() async {
     final data = await _prefs.instance;
@@ -55,7 +55,14 @@ class FirebaseCloudMessageService with ChangeNotifier {
   }
 
   void fcmConfigure() {
-   /*  _fcm.requestNotificationPermissions(
+    _fcm.requestPermission();
+    FirebaseMessaging.onMessage.listen((event) {
+      print(event.data);
+      _localNotificationsService.showNotification(event.data);
+    });
+    
+ 
+    /*  _fcm.requestNotificationPermissions(
         IosNotificationSettings(sound: false, alert: false, badge: false)); */
     //_fcm.onIosSettingsRegistered.listen((IosNotificationSettings settings) {});
     /* _fcm.configure(

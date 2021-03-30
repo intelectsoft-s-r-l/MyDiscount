@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../domain/core/extension.dart';
-import '../domain/auth/user_model.dart';
+import '../domain/entities/user_model.dart';
 import '../domain/repositories/auth_repository.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
@@ -119,10 +119,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 }
 
-Map<String, dynamic> addCredentialstoMap({List<MapEntry> list}) {
+/* Map<String, dynamic> addCredentialstoMap({List<MapEntry> list}) {
   final credentialsMap = {};
   list.map((element) {
     credentialsMap.putIfAbsent(element.key, () => element.value);
   });
   return credentialsMap;
-}
+} */

@@ -10,6 +10,10 @@ import '../widgets/company_page_widgets/noCompani_list_widget.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/nointernet_widget.dart';
 
+/* class CompanyL extends ValueNotifier<Future<List<Company>>>{
+  CompanyL():super(getIt<LocalRepository>().getCachedCompany(''));
+} */
+
 class CompanyListPage extends StatelessWidget {
   const CompanyListPage({
     Key key,
@@ -24,7 +28,7 @@ class CompanyListPage extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: FutureBuilder<List<Company>>(
-          future: getIt<LocalRepository>().getCachedCompany(),
+          future: getIt<LocalRepository>().getCachedCompany(''),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               return CompaniesList(snapshot.data);

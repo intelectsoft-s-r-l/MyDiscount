@@ -7,6 +7,7 @@ import '../widgets/home_page_top_widget.dart';
 import '../widgets/profile_page_widgets/profile_home_item_widget.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage();
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -44,37 +45,37 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     ProfileHomeItemWidget(
                       icon: Icons.account_circle_outlined,
-                      pageName: AppLocalizations.of(context).translate('profile'),
+                      pageName:
+                          AppLocalizations.of(context).translate('profile'),
                       routeName: '/profilepage',
-                     
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.apartment_outlined,
-                      pageName: AppLocalizations.of(context).translate('companies'),
+                      pageName:
+                          AppLocalizations.of(context).translate('companies'),
                       routeName: '/companypage',
-                      
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.card_giftcard_outlined,
-                      pageName:AppLocalizations.of(context).translate('mycards'),
+                      pageName:
+                          AppLocalizations.of(context).translate('mycards'),
                       routeName: '/cardlist',
-                     
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.transfer_within_a_station_outlined,
-                      pageName: AppLocalizations.of(context).translate('transactions'),
+                      pageName: AppLocalizations.of(context)
+                          .translate('transactions'),
                       routeName: '/transactionlist',
-                      
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.info_outline,
                       pageName: AppLocalizations.of(context).translate('Info'),
                       routeName: '/infopage',
-                      
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.settings,
-                      pageName: AppLocalizations.of(context).translate('settings'),
+                      pageName:
+                          AppLocalizations.of(context).translate('settings'),
                       routeName: '/settings',
                     ),
                   ],

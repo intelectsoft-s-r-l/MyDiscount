@@ -12,12 +12,14 @@ part 'auth_state.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._localRepositoryImpl) : super(AuthInitial());
-  final LocalRepository _localRepositoryImpl;
-
+  final LocalRepository _localRepositoryImpl; 
+ 
   @override
   Stream<AuthState> mapEventToState(
     AuthEvent event,
   ) async* {
+   
+   
     if (event is AuthCheckRequested) {
       final user = _localRepositoryImpl.getLocalUser();
       if (user != null) {

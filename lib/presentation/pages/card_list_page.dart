@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_discount/aplication/card_bloc/add_card_page_bloc.dart';
 import 'package:my_discount/core/failure.dart';
 import 'package:my_discount/presentation/widgets/circular_progress_indicator_widget.dart';
 import 'package:my_discount/presentation/widgets/nointernet_widget.dart';
@@ -7,8 +9,8 @@ import '../../core/localization/localizations.dart';
 import '../../domain/entities/card.dart';
 import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
-import '../widgets/add_card_page.dart';
 import '../widgets/custom_app_bar.dart';
+import 'add_card_page.dart';
 
 class CardListPage extends StatelessWidget {
   const CardListPage();
@@ -54,11 +56,11 @@ class CardListPage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => AddCardPage(),
-                    ),
+                    '/addcardcompanylist',
+                    arguments:
+                        AppLocalizations.of(context).translate('companies'),
                   );
                 },
                 child: Container(
@@ -89,6 +91,7 @@ class NoCardsWidget extends StatelessWidget {
         fit: BoxFit.fill,
         child: Image.asset(
           'assets/icons/no_transaction.png',
+          height: MediaQuery.of(context).size.width,
           width: MediaQuery.of(context).size.width,
         ),
       ),

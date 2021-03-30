@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +29,20 @@ class _ProfilePageState extends State<ProfilePage> {
     final String pageName = ModalRoute.of(context).settings.arguments;
 
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
-      listener: (context, state) {},
+      listenWhen: (p, c) => p.props != c.props,
+      listener: (context, state) {
+        if (state is ProfileFormError) {
+          _node.unfocus();
+          Flushbar(
+           // flushbarPosition: FlushbarPosition.TOP,
+            duration: const Duration(seconds: 3),
+            message: 'Service Error',
+          ).show(context);
+          context
+              .read<ProfileFormBloc>()
+              .add(FirstNameChanged(state.profile.firstName));
+        }
+      },
       builder: (context, state) {
         final profile = state.profile;
         return Scaffold(

@@ -9,6 +9,7 @@ import '../widgets/custom_app_bar.dart';
 import '../widgets/news_page_widgets/news_item.dart';
 
 class NotificationPage extends StatefulWidget {
+  const NotificationPage();
   @override
   _NotificationPageState createState() => _NotificationPageState();
 }
@@ -42,7 +43,10 @@ class _NotificationPageState extends State<NotificationPage> {
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.width * .75,
-                              child: FittedBox(fit: BoxFit.fill, child: Image.asset('assets/icons/no_news.png')),
+                              child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child:
+                                      Image.asset('assets/icons/no_news.png')),
                             ),
                           ),
                           Positioned(
@@ -52,8 +56,10 @@ class _NotificationPageState extends State<NotificationPage> {
                               alignment: Alignment.center,
                               width: size.width,
                               child: Text(
-                                AppLocalizations.of(context).translate('nonews'),
-                                style:const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                AppLocalizations.of(context)
+                                    .translate('nonews'),
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -65,11 +71,11 @@ class _NotificationPageState extends State<NotificationPage> {
               } else {
                 return ListView.separated(
                   shrinkWrap: true,
-                  physics:const BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   separatorBuilder: (context, index) => Container(
-                    padding:const EdgeInsets.only(left: 7, right: 7),
+                    padding: const EdgeInsets.only(left: 7, right: 7),
                     height: 30,
-                    child:const Divider(
+                    child: const Divider(
                       //height: 10.0,
                       thickness: 3.0,
                       // color: Colors.red,
@@ -101,7 +107,9 @@ class _NotificationPageState extends State<NotificationPage> {
                           child: Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.width * .75,
-                            child: FittedBox(fit: BoxFit.fill, child: Image.asset('assets/icons/no_news.png')),
+                            child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.asset('assets/icons/no_news.png')),
                           ),
                         ),
                         Positioned(
@@ -112,7 +120,8 @@ class _NotificationPageState extends State<NotificationPage> {
                             width: size.width,
                             child: Text(
                               AppLocalizations.of(context).translate('nonews'),
-                              style:const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),

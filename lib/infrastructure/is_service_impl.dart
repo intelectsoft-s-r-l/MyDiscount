@@ -1,6 +1,7 @@
 import 'package:is_service/service_client_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_discount/core/formater.dart';
+import 'package:my_discount/providers/news_settings.dart';
 
 import '../core/failure.dart';
 import '../domain/data_source/remote_datasource.dart';
@@ -9,7 +10,7 @@ import '../domain/entities/company_model.dart';
 import '../domain/entities/news_model.dart';
 import '../domain/entities/profile_model.dart';
 import '../domain/entities/tranzaction_model.dart';
-import '../domain/auth/user_model.dart';
+import '../domain/entities/user_model.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
 
@@ -18,7 +19,7 @@ class IsServiceImpl implements IsService {
   final RemoteDataSource remoteDataSourceImpl;
   final Formater _formater;
   final LocalRepository _localRepository;
-
+  NewsSettings settings = NewsSettings();
   IsServiceImpl(
     this._localRepository,
     this._formater,
@@ -27,26 +28,28 @@ class IsServiceImpl implements IsService {
   @override
   Future<List<News>> getAppNews() async {
     try {
-      /* if (await settings.getNewsState()) { */
-      final eldestLocalNewsId = _localRepository?.readEldestNewsId();
-      final _urlFragment = '/json/GetAppNews?ID=$eldestLocalNewsId';
-      final response = await remoteDataSourceImpl.getRequest(_urlFragment);
-      if (response.statusCode == 0) {
-        final _listNewsMaps = response.body as List;
-        _formater
-          ..parseDateTime(_listNewsMaps, 'CreateDate')
-          ..checkImageFormatAndDecode(_listNewsMaps, 'CompanyLogo')
-          ..checkImageFormatAndDecode(_listNewsMaps, 'Photo');
+      if (await settings.getNewsState()) {
+        final eldestLocalNewsId = _localRepository?.readEldestNewsId();
+        final _urlFragment = '/json/GetAppNews?ID=$eldestLocalNewsId';
+        final response = await remoteDataSourceImpl.getRequest(_urlFragment);
+        if (response.statusCode == 0) {
+          final _listNewsMaps = response.body as List;
+          _formater
+            ..parseDateTime(_listNewsMaps, 'CreateDate')
+            ..checkImageFormatAndDecode(_listNewsMaps, 'CompanyLogo')
+            ..checkImageFormatAndDecode(_listNewsMaps, 'Photo');
 
-        _localRepository.saveLocalNews(_listNewsMaps);
-        return _localRepository.getLocalNews();
+          _localRepository.saveLocalNews(_listNewsMaps);
+          return _localRepository.getLocalNews();
+        } else {
+          throw ServerError();
+        }
       } else {
-        throw ServerError();
+        _localRepository.deleteNews();
       }
-      /*  }
-      return []; */
+      throw EmptyList();
     } catch (e) {
-      rethrow;
+      throw ServerError();
     }
   }
 
@@ -68,10 +71,10 @@ class IsServiceImpl implements IsService {
         _localRepository.saveLocalClientInfo(profile);
         return profile;
       } else {
-        throw ServerError();
+        return null;
       }
     } catch (e) {
-      return null;
+      throw ServerError();
     }
   }
 
@@ -104,7 +107,7 @@ flutter run
         throw ServerError();
       }
     } catch (e) {
-      rethrow;
+      throw ServerError();
     }
   }
 
@@ -216,9 +219,13 @@ flutter run
 
   @override
   Future<IsResponse> requestActivationCard({Map<String, dynamic> json}) async {
-    final _urlFragment = '/json/RequestActivationCard';
-    final response = await remoteDataSourceImpl.postRequest(
-        json: json, urlFragment: _urlFragment);
-    return response;
+    try {
+      final _urlFragment = '/json/RequestActivationCard';
+      final response = await remoteDataSourceImpl.postRequest(
+          json: json, urlFragment: _urlFragment);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

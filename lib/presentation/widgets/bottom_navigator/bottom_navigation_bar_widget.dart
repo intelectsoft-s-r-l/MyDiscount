@@ -36,9 +36,9 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
     return Scaffold(
       backgroundColor: Colors.white,
       body: [
-        HomePage(),
-        QrPage(),
-        NotificationPage(),
+       const HomePage(),
+       const QrPage(),
+       const NotificationPage(),
       ].elementAt(selectedIndex),
       bottomNavigationBar: StreamBuilder(
         stream: _indexController.stream,

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:my_discount/core/failure.dart';
 
 import '../domain/entities/company_model.dart';
 
@@ -26,7 +27,7 @@ class Formater {
       }).toList();
       return _listOfMaps;
     } catch (e) {
-      rethrow;
+      throw ImageDecoderError();
     }
   }
 
@@ -42,7 +43,7 @@ class Formater {
       }).toList();
       return _formatedDate;
     } catch (e) {
-      rethrow;
+      throw DateParserError();
     }
   }
 
@@ -65,7 +66,7 @@ class Formater {
 
       return map;
     } catch (e) {
-      rethrow;
+      throw NameParserError();
     }
   }
 
@@ -87,7 +88,7 @@ class Formater {
         return map;
       }
     } catch (e) {
-      rethrow;
+      throw ImageDownloaderError();
     }
   }
 

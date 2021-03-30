@@ -14,7 +14,9 @@ part 'profile_form_state.dart';
 
 @injectable
 class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
-  ProfileFormBloc(this._localRepositoryImpl, this._isServiceImpl) : super(ProfileFormInitial(_localRepositoryImpl.getLocalClientInfo(), false));
+  ProfileFormBloc(this._localRepositoryImpl, this._isServiceImpl)
+      : super(ProfileFormInitial(
+            _localRepositoryImpl.getLocalClientInfo(), false));
   final LocalRepository _localRepositoryImpl;
   final IsService _isServiceImpl;
   @override
@@ -22,45 +24,54 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
     ProfileFormEvent event,
   ) async* {
     if (event is FirstNameChanged) {
-      final  profile = _localRepositoryImpl.getLocalClientInfo();
+      final profile = _localRepositoryImpl.getLocalClientInfo();
       final newProfile = profile.copyWith(firstName: event.firstName);
       _localRepositoryImpl.saveLocalClientInfo(newProfile);
       yield ProfileFormDone(newProfile, false);
     }
     if (event is LastNameChanged) {
-      final  profile = _localRepositoryImpl.getLocalClientInfo();
+      final profile = _localRepositoryImpl.getLocalClientInfo();
 
-      final pr = _localRepositoryImpl.saveLocalClientInfo(profile.copyWith(lastName: event.lastName));
+      final pr = _localRepositoryImpl
+          .saveLocalClientInfo(profile.copyWith(lastName: event.lastName));
       yield ProfileFormDone(pr, false);
     }
     if (event is EmailChanged) {
-      final  profile = _localRepositoryImpl.getLocalClientInfo();
+      final profile = _localRepositoryImpl.getLocalClientInfo();
 
-      final pr = _localRepositoryImpl.saveLocalClientInfo(profile.copyWith(email: event.email));
+      final pr = _localRepositoryImpl
+          .saveLocalClientInfo(profile.copyWith(email: event.email));
 
       yield ProfileFormDone(pr, false);
     }
     if (event is PhoneChanged) {
-      final  profile = _localRepositoryImpl.getLocalClientInfo();
+      final profile = _localRepositoryImpl.getLocalClientInfo();
 
-      final pr = _localRepositoryImpl.saveLocalClientInfo(profile.copyWith(phone: event.phone));
+      final pr = _localRepositoryImpl
+          .saveLocalClientInfo(profile.copyWith(phone: event.phone));
 
       yield ProfileFormDone(pr, false);
     }
     if (event is ImageChanged) {
-      final  profile = _localRepositoryImpl.getLocalClientInfo();
+      final profile = _localRepositoryImpl.getLocalClientInfo();
 
-      final pr = _localRepositoryImpl.saveLocalClientInfo(profile.copyWith(photo: event.bytes));
-      final map = await _localRepositoryImpl.returnProfileMapDataAsMap(pr);
+      final pr = _localRepositoryImpl
+          .saveLocalClientInfo(profile.copyWith(photo: event.bytes));
+      //final map = await _localRepositoryImpl.returnProfileMapDataAsMap(pr);
       _localRepositoryImpl.saveLocalClientInfo(pr);
-     await _isServiceImpl.updateClientInfo(json: map);
+      //await _isServiceImpl.updateClientInfo(json: map);
       yield ProfileFormDone(pr, false);
     }
     if (event is SaveProfileData) {
-      final map = await _localRepositoryImpl.returnProfileMapDataAsMap(event.profile);
-      _localRepositoryImpl.saveLocalClientInfo(event.profile);
-     await _isServiceImpl.updateClientInfo(json: map);
-      yield ProfileFormDone(event.profile, true);
+      try {
+        final map =
+            await _localRepositoryImpl.returnProfileMapDataAsMap(event.profile);
+        _localRepositoryImpl.saveLocalClientInfo(event.profile);
+        await _isServiceImpl.updateClientInfo(json: map);
+        yield ProfileFormDone(event.profile, true);
+      } catch (e) {
+        yield ProfileFormError(event.profile, false);
+      }
     }
   }
 }

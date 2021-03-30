@@ -87,6 +87,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
 
                 Navigator.pop(context);
               } else if (state is InvalidCode) {
+                _focusNode.unfocus();
                 Flushbar(
                   message:
                       AppLocalizations.of(context).translate('incorectcode'),

@@ -82,6 +82,6 @@
     "selectcompany":"Select a Company",
     "inputcardnumber":"Input Card Number: ",
     "showqr": "Present this code to the cashier",
-    "qrtime": "The code changes every 10 sec."
-   
+    "qrtime": "The code changes every 10 sec.",
+    "addcardnum": "Add card number"
 }

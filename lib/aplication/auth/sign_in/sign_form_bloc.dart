@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/internet_connection_service.dart';
-import '../../../domain/auth/user_model.dart';
+import '../../../domain/entities/user_model.dart';
 import '../../../domain/repositories/auth_repository.dart';
 
 part 'sign_form_event.dart';
