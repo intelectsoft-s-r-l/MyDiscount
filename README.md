@@ -1,4 +1,4 @@
-# guid_gen
+# MyDiscount
 
 A new Flutter project.
 
