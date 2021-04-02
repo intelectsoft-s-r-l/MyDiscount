@@ -46,68 +46,82 @@ import 'services/shared_preferences_service.dart'
     as _i22; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
+// ignore: comment_references
 /// initializes the registration of provided dependencies inside of [GetIt]
 _i1.GetIt $initGetIt(_i1.GetIt get,
     {String environment, _i2.EnvironmentFilter environmentFilter}) {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final serviceInjectableModule = _$ServiceInjectableModule();
-  gh.lazySingleton<_i3.Box<_i4.User>>(() => serviceInjectableModule.userBox);
-  gh.lazySingleton<_i3.Box<_i5.Profile>>(
-      () => serviceInjectableModule.profileBox);
-  gh.lazySingleton<_i3.Box<_i6.News>>(() => serviceInjectableModule.newsBox);
-  gh.lazySingleton<_i3.Box<_i7.Company>>(
-      () => serviceInjectableModule.companyBox);
-  gh.lazySingleton<_i8.Credentials>(() => serviceInjectableModule.credentials);
-  gh.lazySingleton<_i9.DeviceInfoPlugin>(
-      () => serviceInjectableModule.deviceinfo);
-  gh.factory<_i10.DeviceInfoService>(
-      () => _i10.DeviceInfoService(get<_i9.DeviceInfoPlugin>()));
-  gh.lazySingleton<_i11.FirebaseMessaging>(() => serviceInjectableModule.fcm);
-  gh.lazySingleton<_i12.FlutterLocalNotificationsPlugin>(
-      () => serviceInjectableModule.flutterLocalNotification);
-  gh.lazySingleton<_i13.Formater>(() => serviceInjectableModule.formater);
-  gh.lazySingleton<_i14.GoogleSignIn>(
-      () => serviceInjectableModule.googleSignIn);
-  gh.lazySingleton<_i15.InternetConnectionChecker>(
-      () => serviceInjectableModule.connectionChecker);
-  gh.factory<_i16.LocalNotificationsService>(() =>
-      _i16.LocalNotificationsService(
-          get<_i12.FlutterLocalNotificationsPlugin>()));
-  gh.lazySingleton<_i17.LocalRepository>(() => _i18.LocalRepositoryImpl(
-      get<_i3.Box<_i4.User>>(),
-      get<_i3.Box<_i5.Profile>>(),
-      get<_i3.Box<_i6.News>>(),
-      get<_i3.Box<_i7.Company>>()));
-  gh.lazySingleton<_i19.NetworkConnection>(() => _i19.NetworkConnectionImpl(
-      connectionChecker: get<_i15.InternetConnectionChecker>()));
-  gh.lazySingleton<_i20.RemoteConfigService>(
-      () => serviceInjectableModule.remoteConfig);
-  gh.lazySingleton<_i21.ServiceClient>(() => serviceInjectableModule.client);
-  gh.lazySingleton<_i22.SharedPref>(() => serviceInjectableModule.network);
-  gh.factory<_i23.AuthBloc>(() => _i23.AuthBloc(get<_i17.LocalRepository>()));
-  gh.factory<_i24.FirebaseCloudMessageService>(() =>
-      _i24.FirebaseCloudMessageService(get<_i11.FirebaseMessaging>(),
-          get<_i16.LocalNotificationsService>(), get<_i22.SharedPref>()));
-  gh.lazySingleton<_i25.RemoteDataSource>(() => _i26.RemoteDataSourceImpl(
-      get<_i21.ServiceClient>(),
-      get<_i20.RemoteConfigService>(),
-      get<_i19.NetworkConnection>()));
-  gh.lazySingleton<_i27.IsService>(() => _i28.IsServiceImpl(
-      get<_i17.LocalRepository>(),
-      get<_i13.Formater>(),
-      get<_i25.RemoteDataSource>()));
-  gh.factory<_i29.PhoneValidationBloc>(() => _i29.PhoneValidationBloc(
-      get<_i27.IsService>(), get<_i17.LocalRepository>()));
-  gh.factory<_i30.ProfileFormBloc>(() =>
-      _i30.ProfileFormBloc(get<_i17.LocalRepository>(), get<_i27.IsService>()));
-  gh.factory<_i31.AddCardPageBloc>(() =>
-      _i31.AddCardPageBloc(get<_i27.IsService>(), get<_i17.LocalRepository>()));
-  gh.lazySingleton<_i32.AuthRepository>(() => _i33.AuthRepositoryImpl(
-      get<_i14.GoogleSignIn>(),
-      get<_i27.IsService>(),
-      get<_i17.LocalRepository>()));
-  gh.factory<_i34.SignFormBloc>(() => _i34.SignFormBloc(
-      get<_i32.AuthRepository>(), get<_i19.NetworkConnection>()));
+  gh
+    ..lazySingleton<_i3.Box<_i4.User>>(() => serviceInjectableModule.userBox)
+    ..lazySingleton<_i3.Box<_i5.Profile>>(
+        () => serviceInjectableModule.profileBox)
+    ..lazySingleton<_i3.Box<_i6.News>>(() => serviceInjectableModule.newsBox)
+    ..lazySingleton<_i3.Box<_i7.Company>>(
+        () => serviceInjectableModule.companyBox)
+    ..lazySingleton<_i8.Credentials>(() => serviceInjectableModule.credentials)
+    ..lazySingleton<_i9.DeviceInfoPlugin>(
+        () => serviceInjectableModule.deviceinfo)
+    ..factory<_i10.DeviceInfoService>(
+        () => _i10.DeviceInfoService(get<_i9.DeviceInfoPlugin>()))
+    ..lazySingleton<_i11.FirebaseMessaging>(() => serviceInjectableModule.fcm)
+    ..lazySingleton<_i12.FlutterLocalNotificationsPlugin>(
+        () => serviceInjectableModule.flutterLocalNotification)
+    ..lazySingleton<_i13.Formater>(() => serviceInjectableModule.formater)
+    ..lazySingleton<_i14.GoogleSignIn>(
+        () => serviceInjectableModule.googleSignIn)
+    ..lazySingleton<_i15.InternetConnectionChecker>(
+        () => serviceInjectableModule.connectionChecker)
+    ..factory<_i16.LocalNotificationsService>(() =>
+        _i16.LocalNotificationsService(
+            get<_i12.FlutterLocalNotificationsPlugin>()))
+    ..lazySingleton<_i17.LocalRepository>(() => _i18.LocalRepositoryImpl(
+        get<_i3.Box<_i4.User>>(),
+        get<_i3.Box<_i5.Profile>>(),
+        get<_i3.Box<_i6.News>>(),
+        get<_i3.Box<_i7.Company>>()))
+    ..lazySingleton<_i19.NetworkConnection>(() => _i19.NetworkConnectionImpl(
+        connectionChecker: get<_i15.InternetConnectionChecker>()))
+    ..lazySingleton<_i20.RemoteConfigService>(() => serviceInjectableModule.remoteConfig)
+    ..lazySingleton<_i21.ServiceClient>(() => serviceInjectableModule.client)
+    ..lazySingleton<_i22.SharedPref>(() => serviceInjectableModule.network)
+    ..factory<_i23.AuthBloc>(() => _i23.AuthBloc(get<_i17.LocalRepository>()))
+    ..factory<_i24.FirebaseCloudMessageService>(() => _i24.FirebaseCloudMessageService(
+          get<_i11.FirebaseMessaging>(),
+          get<_i16.LocalNotificationsService>(),
+          get<_i22.SharedPref>(),
+        ))
+    ..lazySingleton<_i25.RemoteDataSource>(() => _i26.RemoteDataSourceImpl(
+          get<_i21.ServiceClient>(),
+          get<_i20.RemoteConfigService>(),
+          get<_i19.NetworkConnection>(),
+        ))
+    ..lazySingleton<_i27.IsService>(() => _i28.IsServiceImpl(
+          get<_i17.LocalRepository>(),
+          get<_i13.Formater>(),
+          get<_i25.RemoteDataSource>(),
+        ))
+    ..factory<_i29.PhoneValidationBloc>(() => _i29.PhoneValidationBloc(
+          get<_i27.IsService>(),
+          get<_i17.LocalRepository>(),
+        ))
+    ..factory<_i30.ProfileFormBloc>(() => _i30.ProfileFormBloc(
+          get<_i17.LocalRepository>(),
+          get<_i27.IsService>(),
+        ))
+    ..factory<_i31.AddCardPageBloc>(() => _i31.AddCardPageBloc(
+          get<_i27.IsService>(),
+          get<_i17.LocalRepository>(),
+        ))
+    ..lazySingleton<_i32.AuthRepository>(() => _i33.AuthRepositoryImpl(
+          get<_i14.GoogleSignIn>(),
+          get<_i27.IsService>(),
+          get<_i17.LocalRepository>(),
+        ))
+    ..factory<_i34.SignFormBloc>(() => _i34.SignFormBloc(
+          get<_i32.AuthRepository>(),
+          get<_i19.NetworkConnection>(),
+        ));
   return get;
 }
 

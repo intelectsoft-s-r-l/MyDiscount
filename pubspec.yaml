@@ -43,11 +43,9 @@ dependencies:
   intl: ^0.17.0
   material_design_icons_flutter: ^4.0.5755
   package_info: ^0.4.3+2
-  path_provider: ^2.0.1
+  #path_provider: ^2.0.1
   provider: ^5.0.0
   qr_flutter: ^3.2.0
-  flutter_typeahead: ^3.1.1
-  searchfield: ^0.3.2
   shared_preferences: ^2.0.5
   sign_in_with_apple: ^3.0.0
   simple_html_css: ^3.0.1

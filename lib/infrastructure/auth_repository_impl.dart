@@ -118,11 +118,3 @@ class AuthRepositoryImpl implements AuthRepository {
     return user;
   }
 }
-
-/* Map<String, dynamic> addCredentialstoMap({List<MapEntry> list}) {
-  final credentialsMap = {};
-  list.map((element) {
-    credentialsMap.putIfAbsent(element.key, () => element.value);
-  });
-  return credentialsMap;
-} */

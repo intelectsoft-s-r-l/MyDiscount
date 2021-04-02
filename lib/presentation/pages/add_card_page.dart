@@ -9,9 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../aplication/card_bloc/add_card_page_bloc.dart';
 import '../../core/localization/localizations.dart';
 import '../../domain/entities/company_model.dart';
-//import '../../domain/repositories/local_repository.dart';
+
 import '../../injectable.dart';
-//import '../widgets/custom_app_bar.dart';
 
 class AddCardPage extends StatefulWidget {
   const AddCardPage();
@@ -20,14 +19,11 @@ class AddCardPage extends StatefulWidget {
 }
 
 class _AddCardPageState extends State<AddCardPage> {
-  List<Company> companylist;
-  Company selectedCompany;
   final TextEditingController _controller = TextEditingController();
-  //final TextEditingController _controllerC = TextEditingController();
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final FocusNode _node = FocusNode();
-  bool showError = false;
-  final err = ErrorWidget('Erorrr');
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +32,7 @@ class _AddCardPageState extends State<AddCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final company = ModalRoute.of(context).settings.arguments;
+    final company = ModalRoute.of(context).settings.arguments as Company;
     return BlocProvider(
       create: (context) => getIt<AddCardPageBloc>(),
       child: Scaffold(
@@ -47,12 +43,13 @@ class _AddCardPageState extends State<AddCardPage> {
                 ? Icons.arrow_back_sharp
                 : Icons.arrow_back_ios_sharp),
             onPressed: () {
-              Navigator.popUntil(context, ModalRoute.withName('/cardlist'));
+              Navigator.maybeOf(context)..pop()..pop();
+              // Navigator.popUntil(context, ModalRoute.withName('/cardlist'));
             },
           ),
           centerTitle: true,
           title: Text(
-            AppLocalizations.of(context).translate('connectcard'),
+            '${AppLocalizations.of(context).translate('connectcard')}: ${company.name}',
             style: const TextStyle(fontSize: 18),
           ),
           elevation: 0,
@@ -91,133 +88,24 @@ class _AddCardPageState extends State<AddCardPage> {
                   },
                   builder: (context, state) {
                     return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      //mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        /* Container(width: 150,
-                          child: SearchField(
-                            hint: 'Select a Company',
-                            //initialValue: companylist.first.name,
-                            suggestions: [
-                              'asdf',
-                              'asdfa',
-                              'aerwrfd'
-                            ] /* companylist
-                                              .map((e) => e.name)
-                                              .toList() */
-                            ,
-                            controller: _controllerC,
-                            itemHeight: 45,
-                            onTap: (val) {
-                              _controllerC.text = val;
-                            },
+                        const SizedBox(height: 10),
+                        Container(
+                          height: 110,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.memory(company.logo),
+                            ],
                           ),
+                        ),
+                        const SizedBox(height: 10),
+                        /* Text(
+                          company.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold,fontSize:25),
                         ), */
-                        /*  Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .05,
-                            ),
-                            Text(
-                              AppLocalizations.of(context).translate('company'),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .05,
-                            ),
-                            Row(
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  //height: 100,
-                                  width: 150,
-                                  child: FutureBuilder<List<Company>>(
-                                    future: getIt<LocalRepository>()
-                                        .getCachedCompany(),
-                                    builder: (context, snapshot) {
-                                      final companylist = snapshot.data;
-                                      return snapshot.hasData
-                                          ? SearchField(
-                                              hint: 'Select a Company',
-                                              maxSuggestionsInViewPort: 2,
-                                             /*  initialValue:
-                                                  companylist.first.name, */
-                                              suggestions: companylist
-                                                  .map((e) => e.name)
-                                                  .toList(),
-                                              controller: _controllerC,
-                                              itemHeight: 45,
-                                              onTap: (val) {
-                                                _controllerC.text = val;
-                                              },
-                                            )
-                                          /* DropdownButton<Company>(
-                                        hint: selectedCompany == null
-                                            ? Text(AppLocalizations.of(context)
-                                                .translate('selectcompany'))
-                                            : Row(
-                                                children: [
-                                                  Container(
-                                                    width: 30,
-                                                    height: 30,
-                                                    child:
-                                                        selectedCompany?.logo !=
-                                                                null
-                                                            ? Image.memory(
-                                                                selectedCompany
-                                                                    ?.logo,
-                                                              )
-                                                            : null,
-                                                  ),
-                                                  const SizedBox(width: 10),
-                                                  Text(selectedCompany?.name ??
-                                                      ''),
-                                                ],
-                                              ),
-                                        items: companylist != null
-                                            ? companylist
-                                                .map<DropdownMenuItem<Company>>(
-                                                  (company) => DropdownMenuItem(
-                                                    value: company,
-                                                    child: Container(
-                                                      height: 40,
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                              width: 30,
-                                                              height: 30,
-                                                              child: Image
-                                                                  .memory(company
-                                                                      ?.logo)),
-                                                          const SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text(company?.name ??
-                                                              '')
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                                .toList()
-                                            : [],
-                                        onChanged: (Company company) {
-                                          /* context
-                                              .read<AddCardPageBloc>()
-                                              .add(CompanyChanged(company)); */
-                                          setState(() {
-                                            selectedCompany = company;
-                                            showError = false;
-                                          });
-                                        },
-                                      ) */
-                                          : Container();
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ), */
+                        const SizedBox(height: 40),
                         Row(
                           children: [
                             SizedBox(

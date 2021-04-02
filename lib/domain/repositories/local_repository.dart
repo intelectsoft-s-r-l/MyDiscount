@@ -4,19 +4,21 @@ import '../../domain/entities/profile_model.dart';
 import '../entities/user_model.dart';
 
 abstract class LocalRepository {
-  void saveLocalNews(List newsList);
+  void saveNewsLocal(List newsList);
   List<News> getLocalNews();
   String readEldestNewsId();
   List<News> deleteNews();
 
-  Future<List<Company>> getCachedCompany(String pattern);
-  void saveLocalCompanyList(List<Company> list);
+  Future<List<Company>> getSavedCompany(String pattern);
+  void saveCompanyListLocal(List<Company> list);
+  List<Company> searchCompany(String pattern);
+  
   Future<Map<String, dynamic>> returnProfileMapDataAsMap(Profile profile);
-  Profile saveLocalClientInfo(Profile profile);
-  Future<Map<String, dynamic>> getFacebookProfile(String token);
+  Profile saveClientInfoLocal(Profile profile);
+  //Future<Map<String, dynamic>> getFacebookProfile(String token);
   Profile getLocalClientInfo();
 
-  User saveLocalUser(User user);
+  User saveUserLocal(User user);
   void deleteLocalUser();
   User getLocalUser();
   Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json);

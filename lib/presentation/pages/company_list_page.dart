@@ -28,7 +28,7 @@ class CompanyListPage extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: FutureBuilder<List<Company>>(
-          future: getIt<LocalRepository>().getCachedCompany(''),
+          future: getIt<LocalRepository>().getSavedCompany(''),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               return CompaniesList(snapshot.data);

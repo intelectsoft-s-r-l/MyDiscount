@@ -1,33 +1,170 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
-import '../../core/failure.dart';
 import '../../domain/entities/company_model.dart';
 import '../../domain/repositories/local_repository.dart';
 import '../../injectable.dart';
-import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/company_page_widgets/companies_list_widget.dart';
-import '../widgets/company_page_widgets/noCompani_list_widget.dart';
 
-import '../widgets/nointernet_widget.dart';
-
-class AddCardCompanyListPage extends StatelessWidget {
+class AddCardCompanyListPage extends StatefulWidget {
   const AddCardCompanyListPage({
     Key key,
   }) : super(key: key);
 
   @override
+  _AddCardCompanyListPageState createState() => _AddCardCompanyListPageState();
+}
+
+class _AddCardCompanyListPageState extends State<AddCardCompanyListPage>
+    with TickerProviderStateMixin {
+  List<Company> filteredSearchHistory;
+  bool search = false;
+
+  @override
+  void initState() {
+    super.initState();
+    filteredSearchHistory = getIt<LocalRepository>().searchCompany(null);
+  }
+
+  bool first = true;
+  @override
   Widget build(BuildContext context) {
-    final String pageName = ModalRoute.of(context).settings.arguments;
-    final _controller = TextEditingController();
+    //final String pageName = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle: true,
-        title: Text(pageName),
-        /* TextFormField(
-          controller: _controller,
-          onChanged: (text) {},
-        ), */
+        //centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            /* AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              width: search ? 0 : MediaQuery.of(context).size.width * .72,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: !search ? Colors.green : Colors.white,
+                  borderRadius: BorderRadius.circular(32)),
+              child:  AnimatedSize(
+                duration: const Duration(milliseconds: 400),
+                vsync: this,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: !search ? Center(child: Text(pageName)) : null,
+                      ),
+                    ),
+                    !search
+                        ? Container(
+                            child: Material(
+                              animationDuration:
+                                  const Duration(milliseconds: 400),
+                              type: MaterialType.transparency,
+                              child: InkWell(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(search ? 32 : 0),
+                                  topRight: const Radius.circular(32),
+                                  bottomLeft: Radius.circular(search ? 32 : 0),
+                                  bottomRight: const Radius.circular(32),
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    search = !search;
+                                    setState(() {
+                                      filteredSearchHistory =
+                                          getIt<LocalRepository>()
+                                              .searchCompany(null);
+                                    });
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Icon(
+                                    !search ? Icons.search : Icons.close,
+                                    color: Colors.blue[900],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
+            ), */
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              width: !search ? 40 : MediaQuery.of(context).size.width * .72,
+              height: 40,
+              //padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                  color: !search ? Colors.green : Colors.white,
+                  borderRadius: BorderRadius.circular(32)),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 15, bottom: 4),
+                      alignment: Alignment.center,
+                      child: search
+                          ? TextFormField(
+                              decoration: const InputDecoration(
+                                  hintStyle: TextStyle(),
+                                  hintText: 'Cauta',
+                                  border: InputBorder.none),
+                              onChanged: (value) {
+                                setState(() {
+                                  filteredSearchHistory =
+                                      getIt<LocalRepository>()
+                                          .searchCompany(value);
+                                });
+                              },
+                            )
+                          : null,
+                    ),
+                  ),
+                  Container(
+                    child: Material(
+                      animationDuration: const Duration(milliseconds: 400),
+                      type: MaterialType.transparency,
+                      child: InkWell(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(search ? 32 : 0),
+                          topRight: const Radius.circular(32),
+                          bottomLeft: Radius.circular(search ? 32 : 0),
+                          bottomRight: const Radius.circular(32),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            search = !search;
+                            setState(() {
+                              filteredSearchHistory =
+                                  getIt<LocalRepository>().searchCompany(null);
+                            });
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 15.0),
+                          child: Icon(
+                            !search ? Icons.search : Icons.close,
+                            color: search ? Colors.green : Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
         elevation: 0,
       ),
       body: Container(
@@ -41,21 +178,11 @@ class AddCardCompanyListPage extends StatelessWidget {
             ),
             child: Container(
               color: Colors.white,
-              child: FutureBuilder<List<Company>>(
-                future:
-                    getIt<LocalRepository>().getCachedCompany(_controller.text),
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.hasData) {
-                    return CompaniesList(snapshot.data);
-                  }
-                  if (snapshot.hasError) {
-                    return snapshot.error is EmptyList
-                        ? const NoCompanieList()
-                        : const NoInternetWidget();
-                  }
-                  return CircularProgresIndicatorWidget();
-                },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(child: CompaniesList(filteredSearchHistory)),
+                ],
               ),
             ),
           ),

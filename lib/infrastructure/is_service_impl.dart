@@ -1,9 +1,8 @@
 import 'package:is_service/service_client_response.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/core/formater.dart';
-import 'package:my_discount/providers/news_settings.dart';
 
 import '../core/failure.dart';
+import '../core/formater.dart';
 import '../domain/data_source/remote_datasource.dart';
 import '../domain/entities/card.dart';
 import '../domain/entities/company_model.dart';
@@ -13,6 +12,7 @@ import '../domain/entities/tranzaction_model.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
+import '../providers/news_settings.dart';
 
 @LazySingleton(as: IsService)
 class IsServiceImpl implements IsService {
@@ -36,10 +36,10 @@ class IsServiceImpl implements IsService {
           final _listNewsMaps = response.body as List;
           _formater
             ..parseDateTime(_listNewsMaps, 'CreateDate')
-            ..checkImageFormatAndDecode(_listNewsMaps, 'CompanyLogo')
-            ..checkImageFormatAndDecode(_listNewsMaps, 'Photo');
+            ..deleteImageFormatAndDecode(_listNewsMaps, 'CompanyLogo')
+            ..deleteImageFormatAndDecode(_listNewsMaps, 'Photo');
 
-          _localRepository.saveLocalNews(_listNewsMaps);
+          _localRepository.saveNewsLocal(_listNewsMaps);
           return _localRepository.getLocalNews();
         } else {
           throw ServerError();
@@ -68,7 +68,7 @@ class IsServiceImpl implements IsService {
         await _formater.downloadProfileImageOrDecodeString(profileMap);
         _formater.addToProfileMapSignMethod(profileMap, _registerMode);
         final profile = Profile.fromJson(profileMap);
-        _localRepository.saveLocalClientInfo(profile);
+        _localRepository.saveClientInfoLocal(profile);
         return profile;
       } else {
         return null;
@@ -77,15 +77,7 @@ class IsServiceImpl implements IsService {
       throw ServerError();
     }
   }
-
-/* flutter clean
-pod cache clean  --all
-rm -rf ios/Flutter/Flutter.framework
-
-flutter pub get
-pod install
-flutter run
- */
+  
   @override
   Future<List<Company>> getCompanyList() async {
     try {
@@ -94,11 +86,11 @@ flutter run
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       if (response.statusCode == 0) {
         final listCompaniesMaps = response.body as List;
-        _formater.checkImageFormatAndDecode(listCompaniesMaps, 'Logo');
+        _formater.deleteImageFormatAndDecode(listCompaniesMaps, 'Logo');
         final listCompanies = listCompaniesMaps
             .map((company) => Company.fromJson(company))
             .toList();
-        _localRepository.saveLocalCompanyList(listCompanies);
+        _localRepository.saveCompanyListLocal(listCompanies);
         if (listCompanies.isEmpty) {
           throw EmptyList();
         }
@@ -183,7 +175,7 @@ flutter run
       final userMap = _localRepository.returnUserMapToSave(json);
 
       if (response.statusCode == 0) {
-        final user = _localRepository.saveLocalUser(User.fromJson(userMap));
+        final user = _localRepository.saveUserLocal(User.fromJson(userMap));
         return user;
       } else {
         throw ServerError();

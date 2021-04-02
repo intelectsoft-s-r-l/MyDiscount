@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:hive/hive.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:my_discount/core/failure.dart';
 
@@ -65,7 +65,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Profile saveLocalClientInfo(Profile profile) {
+  Profile saveClientInfoLocal(Profile profile) {
     try {
       profileBox?.put(1, profile);
       return profile;
@@ -75,7 +75,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  void saveLocalNews(List newsList) {
+  void saveNewsLocal(List newsList) {
     try {
       newsList
           .map((e) => News.fromJson(e))
@@ -87,7 +87,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  User saveLocalUser(User user) {
+  User saveUserLocal(User user) {
     try {
       userBox?.put(1, user);
       return user;
@@ -117,7 +117,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  void saveLocalCompanyList(List<Company> list) {
+  void saveCompanyListLocal(List<Company> list) {
     try {
       // ignore: avoid_function_literals_in_foreach_calls
       list.forEach((company) {
@@ -147,17 +147,6 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> getFacebookProfile(String token) async {
-    try {
-      final _graphResponse = await http.get(Uri.parse(
-          'https://graph.facebook.com/v2.6/me?fields=id,name,picture,email&access_token=$token'));
-      return json.decode(_graphResponse.body) as Map<String, dynamic>;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
   void deleteLocalUser() {
     try {
       userBox.delete(1);
@@ -180,28 +169,9 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Future<List<Company>> getCachedCompany(String pattern) async {
+  Future<List<Company>> getSavedCompany(String pattern) async {
     try {
-      final keys = companyBox.keys;
-      final list = <Company>[];
-      if (companyBox.isNotEmpty) {
-        for (int key in keys) {
-          if (pattern.isNotEmpty) {
-            final company = companyBox.get(key);
-            if (company.name.contains(pattern)) {
-              list.add(company);
-            }
-          } else {
-            final company = companyBox.get(key);
-            if (company.name.contains(pattern)) {
-              list.add(company);
-            }
-          }
-        }
-        return list;
-      } else {
-        throw EmptyList();
-      }
+      return companyBox.values.toList();
     } catch (e) {
       throw LocalCacheError();
     }
@@ -209,21 +179,17 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   Future<Map<String, dynamic>> returnProfileMapDataAsMap(
-      Profile profile) async {
+    Profile profile,
+  ) async {
     try {
       final user = userBox.get(1);
       final result = await testComporessList(profile.photo);
       print(result);
-      return {
-        'DisplayName': '${profile.firstName} ${profile.lastName}',
-        'Email': profile.email,
-        'ID': user.id,
-        'phone': profile.phone,
-        'PhotoUrl': base64Encode(result.toList()),
-        'PushToken': '',
-        'RegisterMode': user.registerMode,
-        'access_token': user.accessToken,
-      };
+      final map = profile.toCreateUser()
+        ..update('ID', (value) => user.id)
+        ..update('access_token', (value) => user.accessToken)
+        ..update('PhotoUrl', (value) => base64Encode(result.toList()));
+      return map;
     } catch (e) {
       throw LocalCacheError();
     }
@@ -256,6 +222,36 @@ class LocalRepositoryImpl implements LocalRepository {
     } catch (e) {
       throw LocalCacheError();
     }
+  }
+
+  @override
+  List<Company> searchCompany(String pattern) {
+    if (pattern != null && pattern.isNotEmpty) {
+      final companyNameList = companyBox.values
+          .toList()
+          .cast<Company>()
+          .map((e) => e.name.toLowerCase())
+          .toList();
+      final filteredNameList = companyNameList
+          .where((name) => name.startsWith(pattern.toLowerCase()))
+          .toList();
+      final filteredCompanyList = companyBox.values
+          .toList()
+          .map((company) {
+            for (var name in filteredNameList) {
+              if (name.startsWith(company.name.toLowerCase())) {
+                return company;
+              }
+            }
+          })
+          .toList()
+          .where((company) => company != null)
+          .toList();
+
+      print(filteredCompanyList);
+      return filteredCompanyList;
+    }
+    return companyBox.values.map((company) => company).toList();
   }
 }
 
