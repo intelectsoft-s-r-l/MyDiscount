@@ -14,11 +14,14 @@ import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/domain/entities/company_model.dart';
 import 'package:my_discount/domain/entities/news_model.dart';
 import 'package:my_discount/domain/entities/profile_model.dart';
+import 'package:my_discount/domain/entities/user_model.dart';
+import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
-import 'package:my_discount/infrastructure/is_service_impl.dart';
+
 import 'package:my_discount/services/remote_config_service.dart';
 
 import '../fixtures/fixtures_redear.dart';
+
 class MockFormater extends Mock implements Formater {}
 
 class MockRemoteDataSource extends Mock implements RemoteDataSource {}
@@ -33,21 +36,21 @@ class MockRemoteConfig extends Mock implements RemoteConfigService {}
 
 class MockNetworkConnections extends Mock implements NetworkConnection {}
 
+class MockIsService extends Mock implements IsService {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  IsServiceImpl _service;
-  MockLocalRepository _repo;
-  MockRemoteDataSource _remoteDataSource;
+  MockIsService _service;
+  /* MockLocalRepository _repo;
+  MockRemoteDataSource _remoteDataSource; */
   MockNetworkConnections _inet;
-  MockFormater _formater;
 
   setUp(() {
-    _service = IsServiceImpl(_repo, _formater, _remoteDataSource);
-    _repo = MockLocalRepository();
-    _remoteDataSource = MockRemoteDataSource();
-    _formater = MockFormater();
+    _service = MockIsService();
+    /*  _repo = MockLocalRepository();
+    _remoteDataSource = MockRemoteDataSource(); */
+
     _inet = MockNetworkConnections();
-    // String cr = Credentials().header;
   });
 
   void runTestsOnline(Function body) {
@@ -85,19 +88,6 @@ void main() {
         expect(response, tNewsList);
         verify(_service.getAppNews());
       });
-
-/*       test("should return qr when the response code is 200", () async {
-        final url =
-            'https://dev.edi.md/ISMobileDiscountService/json/GetAppNews?ID=0';
-        final tresp = json.decode(fixture('list_of_news.json'));
-        when(_client.get(url)).thenAnswer(
-          (_) async => IsResponse(0, '', tresp),
-        );
-
-        final result = await _service.getAppNews();
-
-        expect(result, equals(tresp));
-      });*/
     });
 
     group('getClientInfo()', () {
@@ -113,22 +103,6 @@ void main() {
         verify(_service.getClientInfo());
       });
     });
-    /* {
-	"ErrorCode":0,
-	"ErrorMessage":"String content",
-	"NewsList":[{
-		"AppType":0,
-		"CompanyID":2147483647,
-		"CompanyLogo":"String content",
-		"Content":"String content",
-		"CreateDate":"\/Date(928138800000+0300)\/",
-		"Header":"String content",
-		"ID":2147483647,
-		"Photo":"String content",
-		"Status":0,
-		"CompanyName":"String content"
-	}]
-} */
     group('getCompanyList()', () {
       test('check if function return a List of Company Objects', () async {
         final tcompanyList = [
@@ -139,12 +113,10 @@ void main() {
             'Name': 'String content'
           }
         ];
-        final  user = _repo.getLocalUser();
-        final urlFragment = '/json/GetCompany?ID=${user.id}';
+
         final tList = tcompanyList.map((map) => Company.fromJson(map)).toList();
-        final resp = IsResponse(0, 'errorMessage', tcompanyList);
-        when(_remoteDataSource.getRequest(urlFragment))
-            .thenAnswer((_) async => resp);
+
+        when(_service.getCompanyList()).thenAnswer((_) async => tList);
 
         final response = await _service.getCompanyList();
 

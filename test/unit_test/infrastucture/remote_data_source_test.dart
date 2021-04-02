@@ -3,21 +3,24 @@ import 'package:is_service/service_client_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_discount/core/internet_connection_service.dart';
+import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart';
 
 class MockNetworkConnections extends Mock implements NetworkConnection {}
 
 class MockServiceClient extends Mock implements ServiceClient {}
 
+class MockRemoteDataSource extends Mock implements RemoteDataSource {}
+
 void main() {
   MockNetworkConnections _network;
-  //MockServiceClient _client;
-  RemoteDataSourceImpl remoteDataSource;
+  
+  MockRemoteDataSource remoteDataSource;
 
   setUp(() {
     _network = MockNetworkConnections();
-   //_client = MockServiceClient();
-    //remoteDataSource = RemoteDataSourceImpl(_client, _network);
+    
+    remoteDataSource = MockRemoteDataSource();
   });
   void runTestsOnline(Function body) {
     group(
@@ -55,7 +58,7 @@ void main() {
       final response = await remoteDataSource.getRequest(urlFragment);
 
       expect(response, tResponse);
-      //verify(remoteDataSource.getRequest(urlFragment));
+      verify(remoteDataSource.getRequest(urlFragment));
     });
   });
 }
