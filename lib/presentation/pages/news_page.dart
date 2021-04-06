@@ -76,9 +76,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     padding: const EdgeInsets.only(left: 7, right: 7),
                     height: 30,
                     child: const Divider(
-                      //height: 10.0,
                       thickness: 3.0,
-                      // color: Colors.red,
                     ),
                   ),
                   itemCount: snapshot.data.length,

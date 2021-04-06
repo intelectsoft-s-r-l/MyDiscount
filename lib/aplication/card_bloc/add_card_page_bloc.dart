@@ -45,6 +45,7 @@ class AddCardPageBloc extends Bloc<AddCardPageEvent, AddCardPageState> {
               event.company, event.cardNumer, false, resp.errorMessage);
         }
       } on NoInternetConection {
+        //!TODO:de adaugat internationalizarea la CardError
         yield CardError(
             event.company, event.cardNumer, false, 'No internet connection');
       } catch (e) {

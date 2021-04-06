@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../core/localization/localizations.dart';
@@ -15,12 +16,13 @@ class SettingsPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     void _changeLanguage(Language language) async {
-      final  _locale =
+      final _locale =
           await AppLocalizations.of(context).setLocale(language.languageCode);
       MyApp.setLocale(context, _locale);
       InitApp.setLocale(context, _locale);
     }
 
+    
     return CustomAppBar(
       title: AppLocalizations.of(context).translate('settings'),
       child: Container(
@@ -40,7 +42,7 @@ class SettingsPage extends StatelessWidget {
                           title: Text(
                             AppLocalizations.of(context)
                                 .translate('notificationsettings'),
-                            style:const TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 17),
                           ),
                           trailing: Switch(
@@ -50,13 +52,13 @@ class SettingsPage extends StatelessWidget {
                               }),
                         ),
                         Container(
-                          padding:const EdgeInsets.only(left: 10, right: 10),
-                          child:const Divider(),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: const Divider(),
                         ),
                         ListTile(
                           title: Text(
                             AppLocalizations.of(context).translate('news'),
-                            style:const TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 17),
                           ),
                           trailing: Switch(
@@ -66,8 +68,8 @@ class SettingsPage extends StatelessWidget {
                               }),
                         ),
                         Container(
-                          padding:const EdgeInsets.only(left: 10, right: 10),
-                          child:const Divider(),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: const Divider(),
                         ),
                       ],
                     );
@@ -75,12 +77,12 @@ class SettingsPage extends StatelessWidget {
                 ),
                 Container(
                   width: size.width,
-                  padding:const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 10),
                   child: ListTile(
                     title: Text(
                       AppLocalizations.of(context).translate('lang'),
-                      style:
-                         const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                     trailing: FutureBuilder<Language>(
                       future: AppLocalizations.of(context).getLanguage(),
@@ -88,41 +90,41 @@ class SettingsPage extends StatelessWidget {
                         underline: Container(),
                         hint: Container(
                             alignment: Alignment.centerRight,
-                            padding:const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.only(right: 5),
                             height: 20,
                             width: 120,
                             child: snapshot.hasData
                                 ? Text('${snapshot.data.name}')
                                 : Container()),
                         items: Language.languageList()
-                            .map<DropdownMenuItem<Language>>(
-                                (lang) => DropdownMenuItem(
-                                      value: lang,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            lang.flag,
-                                            style:const TextStyle(fontSize: 20),
-                                          ),
-                                       const   SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(lang.name),
-                                        ],
+                            .map<DropdownMenuItem<Language>>((lang) =>
+                                DropdownMenuItem(
+                                  value: lang,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        lang.flag,
+                                        style: const TextStyle(fontSize: 20),
                                       ),
-                                    ))
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(lang.name),
+                                    ],
+                                  ),
+                                ))
                             .toList(),
                         onChanged: (Language language) {
                           _changeLanguage(language);
                         },
-                        icon:const Icon(Icons.language),
+                        icon: const Icon(Icons.language),
                       ),
                     ),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  child:const Divider(),
+                  child: const Divider(),
                 ),
               ],
             ),

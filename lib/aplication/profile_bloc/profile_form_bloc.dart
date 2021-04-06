@@ -70,7 +70,8 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
         await _isServiceImpl.updateClientInfo(json: map);
         yield ProfileFormDone(event.profile, true);
       } catch (e) {
-        yield ProfileFormError(event.profile, false);
+        final profile = _localRepositoryImpl.getLocalClientInfo();
+        yield ProfileFormError(profile, false);
       }
     }
   }

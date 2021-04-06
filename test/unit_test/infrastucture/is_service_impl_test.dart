@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
-import 'package:is_service/service_client_response.dart';
 
 import 'package:my_discount/core/constants/credentials.dart';
 import 'package:my_discount/core/formater.dart';
@@ -14,7 +13,9 @@ import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/domain/entities/company_model.dart';
 import 'package:my_discount/domain/entities/news_model.dart';
 import 'package:my_discount/domain/entities/profile_model.dart';
+import 'package:my_discount/domain/entities/tranzaction_model.dart';
 import 'package:my_discount/domain/entities/user_model.dart';
+//import 'package:my_discount/domain/entities/user_model.dart';
 import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
 
@@ -134,6 +135,49 @@ void main() {
 
         expect(response, tTempId);
         verify(_service.getTempId());
+      });
+    });
+    group('getTransactionList()', () {
+      test('function must return a transaction list', () async {
+        final tTransaction = [
+          {
+            'Amount': 12678967.543233,
+            'Company': 'String content',
+            'DateTimeOfSale': '\/Date(928138800000+0300)\/',
+            'SalesPoint': 'String content'
+          }
+        ];
+        final tTransactionList =
+            tTransaction.map((e) => Transaction.fromJson(e)).toList();
+        when(_service.getTransactionList())
+            .thenAnswer((_) async => tTransactionList);
+
+        final response = await _service.getTransactionList();
+
+        expect(response, tTransactionList);
+        verify(_service.getTransactionList());
+      });
+    });
+    group('validatePhone()', () {
+      test('function must return a verification code', () async {
+        final tCode = '1234';
+        when(_service.validatePhone())
+            .thenAnswer((realInvocation) async => tCode);
+        final response = await _service.validatePhone();
+
+        expect(response, tCode);
+      });
+    });
+
+    group('updateClientInfo()', () {
+      test('function must return a empty body', () async {
+        final tUser = User();
+        when(_service.updateClientInfo())
+            .thenAnswer((realInvocation) async => tUser);
+
+        final response = await _service.updateClientInfo();
+
+        expect(response, tUser);
       });
     });
   });

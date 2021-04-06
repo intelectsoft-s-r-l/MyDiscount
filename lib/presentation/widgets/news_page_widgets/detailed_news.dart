@@ -21,16 +21,14 @@ class _DetailedNewsState extends State<DetailedNews> {
   Widget build(BuildContext context) {
     final news = widget.news;
     final size = widget.size;
-    //print(news.content);
+    
     final textContent = HTML.toTextSpan(context, news.content,
-        /* defaultTextStyle: TextStyle(
-          fontSize: 14,
-        ), */
+       
         linksCallback: (url) async {
       if (await canLaunch(url)) {
         await launch(url);
       } else {
-        throw Exception(); //"Can't Launch Url ";
+        throw Exception(); 
       }
     });
 

@@ -17,91 +17,38 @@ class AddCardCompanyListPage extends StatefulWidget {
 }
 
 class _AddCardCompanyListPageState extends State<AddCardCompanyListPage>
-    with TickerProviderStateMixin {
+/* with TickerProviderStateMixin */ {
   List<Company> filteredSearchHistory;
   bool search = false;
+
+  final _node = FocusNode();
 
   @override
   void initState() {
     super.initState();
     filteredSearchHistory = getIt<LocalRepository>().searchCompany(null);
+    _node.requestFocus();
+  }
+
+  @override
+  void dispose() {
+    _node.unfocus();
+    super.dispose();
   }
 
   bool first = true;
   @override
   Widget build(BuildContext context) {
-    //final String pageName = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        //centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            /* AnimatedContainer(
-              duration: const Duration(milliseconds: 400),
-              width: search ? 0 : MediaQuery.of(context).size.width * .72,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: !search ? Colors.green : Colors.white,
-                  borderRadius: BorderRadius.circular(32)),
-              child:  AnimatedSize(
-                duration: const Duration(milliseconds: 400),
-                vsync: this,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: !search ? Center(child: Text(pageName)) : null,
-                      ),
-                    ),
-                    !search
-                        ? Container(
-                            child: Material(
-                              animationDuration:
-                                  const Duration(milliseconds: 400),
-                              type: MaterialType.transparency,
-                              child: InkWell(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(search ? 32 : 0),
-                                  topRight: const Radius.circular(32),
-                                  bottomLeft: Radius.circular(search ? 32 : 0),
-                                  bottomRight: const Radius.circular(32),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    search = !search;
-                                    setState(() {
-                                      filteredSearchHistory =
-                                          getIt<LocalRepository>()
-                                              .searchCompany(null);
-                                    });
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Icon(
-                                    !search ? Icons.search : Icons.close,
-                                    color: Colors.blue[900],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(),
-                  ],
-                ),
-              ),
-            ), */
             AnimatedContainer(
               duration: const Duration(milliseconds: 500),
               width: !search ? 40 : MediaQuery.of(context).size.width * .72,
               height: 40,
-              //padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                   color: !search ? Colors.green : Colors.white,
                   borderRadius: BorderRadius.circular(32)),
@@ -114,6 +61,7 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage>
                       alignment: Alignment.center,
                       child: search
                           ? TextFormField(
+                              focusNode: _node,
                               decoration: const InputDecoration(
                                   hintStyle: TextStyle(),
                                   hintText: 'Cauta',

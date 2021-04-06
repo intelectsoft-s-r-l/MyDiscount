@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,13 +44,13 @@ import 'presentation/widgets/circular_progress_indicator_widget.dart';
 import 'services/fcm_service.dart';
 import 'services/remote_config_service.dart';
 
-/* Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  await FlutterLocalNotificationsPlugin().show(message.data['id'],
-      message.data['title'], message.data['body'], message.data['id']);
-  print('Handling a background message: ${message.messageId}');
-} */
+  /* await FlutterLocalNotificationsPlugin().show(int.parse(message.data['id']),
+      message.data['title'], message.data['body'],const NotificationDetails() ); */
+  debugPrint('Handling a background message: ${message.messageId}');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +58,6 @@ void main() async {
   configureInjection(Environment.dev);
 
   await Firebase.initializeApp();
-  //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   try {
     await Hive.initFlutter();
@@ -82,6 +82,8 @@ void main() async {
   getIt<FirebaseCloudMessageService>().fcmConfigure();
   getIt<LocalNotificationsService>().getFlutterLocalNotificationPlugin();
 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -103,10 +105,7 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    /*  final  state = */ context
-        .findAncestorStateOfType<_MyAppState>()
-        .setLocale(newLocale);
-    //state.setLocale(newLocale);
+    context.findAncestorStateOfType<_MyAppState>().setLocale(newLocale);
   }
 
   @override

@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:hive/hive.dart';
-//import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:my_discount/core/failure.dart';
 
@@ -139,7 +138,7 @@ class LocalRepositoryImpl implements LocalRepository {
         }
       }
       userMap.putIfAbsent('expireDate',
-          () => DateTime.now().add(const Duration(minutes: 1)).toString());
+          () => DateTime.now().add(const Duration(hours: 1)).toString());
       return userMap;
     } catch (e) {
       throw LocalCacheError();
@@ -187,6 +186,7 @@ class LocalRepositoryImpl implements LocalRepository {
       print(result);
       final map = profile.toCreateUser()
         ..update('ID', (value) => user.id)
+        ..update('RegisterMode', (value) => user.registerMode)
         ..update('access_token', (value) => user.accessToken)
         ..update('PhotoUrl', (value) => base64Encode(result.toList()));
       return map;

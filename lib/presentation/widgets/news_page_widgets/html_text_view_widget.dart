@@ -17,14 +17,14 @@ class HtmlText extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.only(
-          /* left: 5, */ right: 5, /* top: 5, */ bottom: 5),
+          right: 5,  bottom: 5),
       child: Html(
         data: list.content,
         onLinkTap: (url,_,__,___) async {
           if (await canLaunch(url)) {
             await launch(url);
           } else {
-            throw Exception(); //"Can't Launch Url ";
+            throw Exception();
           }
         },
       ),
