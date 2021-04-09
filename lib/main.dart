@@ -43,6 +43,7 @@ import 'presentation/widgets/bottom_navigator/bottom_navigation_bar_widget.dart'
 import 'presentation/widgets/circular_progress_indicator_widget.dart';
 import 'services/fcm_service.dart';
 import 'services/remote_config_service.dart';
+import 'services/shared_preferences_service.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -74,7 +75,9 @@ void main() async {
     rethrow;
   }
 
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  SharedPref().remove();
+
+  //await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   await FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
