@@ -78,7 +78,7 @@ void main() async {
   SharedPref().remove();
 
   //await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  await FirebaseCrashlytics.instance.deleteUnsentReports();
+  //await FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
