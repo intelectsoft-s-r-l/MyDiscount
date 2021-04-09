@@ -28,7 +28,7 @@ void main() {
         dateTime: '',
         photo: Uint8List.fromList([]))
   ];
-  final tUser = User(id: '',accessToken: '',registerMode: 0);
+  final tUser = User(id: '', accessToken: '', registerMode: 0);
   test('check if retun local profile data from database', () async {
     when(localRepozitory.getLocalClientInfo()).thenAnswer((_) => tUserProfile);
     final response = localRepozitory.getLocalClientInfo();
@@ -68,8 +68,7 @@ void main() {
 
     verify(localRepozitory.saveNewsLocal(tNewsList));
   });
-  
-  ///not passe
+
   /* test('save user locally ', () async {
     when(localRepozitory.saveUserLocal(User()))
         .thenAnswer((realInvocation) => tUser);

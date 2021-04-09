@@ -5,7 +5,7 @@ import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback
 import io.flutter.plugins.GeneratedPluginRegistrant
 import io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingBackgroundService
-import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin
+//import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin
 //import io.flutter.plugins.pathprovider.PathProviderPlugin
 
 class Application : FlutterApplication(), PluginRegistrantCallback {

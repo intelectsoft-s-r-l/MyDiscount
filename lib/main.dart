@@ -55,7 +55,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  configureInjection(Environment.dev);
+  configureInjection(Environment.prod);
 
   await Firebase.initializeApp();
 
@@ -122,13 +122,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    initializeHiveDB();
     getIt<RemoteConfigService>().getServiceNameFromRemoteConfig();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
-
-  void initializeHiveDB() async {}
 
   @override
   void didChangeDependencies() {
@@ -187,7 +184,6 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthInitial) {}
           if (state is AuthAuthorized) {
             Navigator.pushReplacementNamed(context, '/first');
           } else {

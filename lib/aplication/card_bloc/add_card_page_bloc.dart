@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:my_discount/core/failure.dart';
+import 'package:my_discount/core/localization/localizations.dart';
 import 'package:my_discount/domain/entities/company_model.dart';
 import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
@@ -45,12 +47,11 @@ class AddCardPageBloc extends Bloc<AddCardPageEvent, AddCardPageState> {
               event.company, event.cardNumer, false, resp.errorMessage);
         }
       } on NoInternetConection {
-        //!TODO:de adaugat internationalizarea la CardError
-        yield CardError(
-            event.company, event.cardNumer, false, 'No internet connection');
+        yield CardError(event.company, event.cardNumer, false,
+            AppLocalizations.of(event.context).translate('nothaveinet'));
       } catch (e) {
-        yield CardError(
-            event.company, event.cardNumer, false, 'Service connection error');
+        yield CardError(event.company, event.cardNumer, false,
+            AppLocalizations.of(event.context).translate('servererror'));
       }
     }
   }

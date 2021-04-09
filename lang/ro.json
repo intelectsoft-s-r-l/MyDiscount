@@ -71,7 +71,7 @@
     "phoneverification": "Verificare telefon",
     "mycards": "Cardurile Adăugate",
     "addedcard": "Carduri Active",
-    "card": "Card ",
+    "card": "Card: ",
     "statusaccepted": "Acceptat",
     "statuswaiting": "În Aşteptare",
     "statusdenied": "Respins",
@@ -82,5 +82,7 @@
     "inputcardnumber": "Numarul Cardului: ",
     "showqr": "Prezentați acest cod casierului",
     "qrtime": "Codul se modifică la fiecare 10 sec.",
-    "addcardnum": "Adaugați numarul cardului"
+    "addcardnum": "Adaugați numarul cardului",
+    "servererror":"Eroare de serviciu!",
+    "scancard":"Scanează nr. Cardului"
 }

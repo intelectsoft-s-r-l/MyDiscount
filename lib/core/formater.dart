@@ -104,7 +104,7 @@ class Formater {
 
   Future<Uint8List> _downloadImageFromLink(url) async {
     try {
-      final response = await http.get(url);
+      final response = await http.get(Uri.parse(url));
       return response.bodyBytes;
     } catch (e) {
       return Uint8List.fromList([]);

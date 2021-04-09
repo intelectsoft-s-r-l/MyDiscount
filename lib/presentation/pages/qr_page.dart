@@ -181,6 +181,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                     return snapshot.data
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            //mainAxisSize:MainAxisSize.min,
                             children: [
                               Text(
                                   AppLocalizations.of(context)
@@ -249,3 +250,4 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     );
   }
 }
+/* edx  (G74,Jr:hL2QNX&V) */

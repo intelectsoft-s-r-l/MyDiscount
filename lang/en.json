@@ -72,7 +72,7 @@
     
     "mycards":"My Cards",
     "addedcard":"Added Cards",
-    "card":"Card ",
+    "card":"Card: ",
     "statusaccepted":"Accepted",
     "statuswaiting":"Waiting",
     "statusdenied":"Declined",
@@ -83,5 +83,7 @@
     "inputcardnumber":"Input Card Number: ",
     "showqr": "Present this code to the cashier",
     "qrtime": "The code changes every 10 sec.",
-    "addcardnum": "Add card number"
+    "addcardnum": "Add card number",
+    "servererror":"Service error!",
+    "scancard":"Scan Card Number"
 }

@@ -10,7 +10,6 @@ import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
 import '../widgets/custom_app_bar.dart';
 
-
 class CardListPage extends StatelessWidget {
   const CardListPage();
   @override
@@ -120,7 +119,7 @@ class CardWidget extends StatelessWidget {
         ),
         //color: Colors.amber,
       ),
-      height: 70,
+      height: 75,
       child: Column(
         children: [
           Row(
@@ -142,12 +141,17 @@ class CardWidget extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(
-                    AppLocalizations.of(context).translate('card'),
-                  ),
-                  Text(
-                    '${card.code}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  Container(width:MediaQuery.of(context).size.width*.55,
+                    child: OverflowBar(children: [
+                      Text(
+                        AppLocalizations.of(context).translate('card'),
+                      ),
+                      Text(
+                        '${card.code}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ]),
                   ),
                 ],
               ),
