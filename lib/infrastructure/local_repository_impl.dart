@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
@@ -207,7 +208,7 @@ class LocalRepositoryImpl implements LocalRepository {
       );
       return result;
     } catch (e) {
-      throw LocalCacheError();
+     return  _readProfileImageFromAssets();
     }
   }
 
@@ -252,6 +253,11 @@ class LocalRepositoryImpl implements LocalRepository {
       return filteredCompanyList;
     }
     return companyBox.values.map((company) => company).toList();
+  }
+
+  Future<Uint8List> _readProfileImageFromAssets() async {
+    final list = await rootBundle.load('assets/icons/profile.png');
+    return list.buffer.asUint8List();
   }
 }
 

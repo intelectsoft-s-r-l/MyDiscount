@@ -69,6 +69,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Use camera to change User avatar</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Use gallery to change User avatar</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -90,9 +94,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Use gallery to change User avatar</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Use camera to change User avatar</string>
 </dict>
 </plist>

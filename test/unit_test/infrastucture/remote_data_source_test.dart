@@ -65,12 +65,12 @@ void main() {
       verify(remoteDataSource.getRequest(urlFragment));
     });
   });
-  /* runTestsOffline(() {
+  runTestsOffline(() {
     test('offline getRequest', () async {
       when(remoteDataSource.getRequest(urlFragment))
-          .thenThrow(NoInternetConection());
+          .thenThrow(NoInternetConection()); 
       final response = await remoteDataSource.getRequest(urlFragment);
       expect(response, throwsA(NoInternetConection()));
     });
-  }); */
+  });
 }
