@@ -77,8 +77,8 @@ void main() async {
 
   SharedPref().remove();
 
-  //await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  //await FirebaseCrashlytics.instance.deleteUnsentReports();
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  await FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
@@ -294,3 +294,37 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
     );
   }
 }
+/*  encryptionCipher: HiveAesCipher([
+          19,
+          93,
+          01,
+          03,
+          255,
+          08,
+          29,
+          155,
+          32,
+          45,
+          86,
+          120,
+          76,
+          240,
+          58,
+          200,
+          35,
+          42,
+          244,
+          195,
+          71,
+          08,
+          29,
+          155,
+          32,
+          45,
+          86,
+          120,
+          76,
+          240,
+          58,
+          200
+        ]) */
