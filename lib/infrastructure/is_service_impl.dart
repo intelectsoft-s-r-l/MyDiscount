@@ -77,7 +77,7 @@ class IsServiceImpl implements IsService {
       throw ServerError();
     }
   }
-  
+
   @override
   Future<List<Company>> getCompanyList() async {
     try {
@@ -131,6 +131,7 @@ class IsServiceImpl implements IsService {
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       if (response.statusCode == 0) {
         final listTransactionsMaps = response.body as List;
+        _formater.parseDateTime(listTransactionsMaps, 'DateTimeOfSale');
         final listTransactions = listTransactionsMaps
             .map((transaction) => Transaction.fromJson(transaction))
             .toList();

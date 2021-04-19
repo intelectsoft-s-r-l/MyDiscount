@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/failure.dart';
 import '../../domain/entities/company_model.dart';
-import '../../domain/repositories/local_repository.dart';
+import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/company_page_widgets/companies_list_widget.dart';
@@ -28,7 +28,7 @@ class CompanyListPage extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: FutureBuilder<List<Company>>(
-          future: getIt<LocalRepository>().getSavedCompany(''),
+          future: getIt<IsService>().getCompanyList(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               return CompaniesList(snapshot.data);
