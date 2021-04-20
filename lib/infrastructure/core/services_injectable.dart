@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_discount/core/formater.dart';
+import 'package:my_discount/providers/news_settings.dart';
 
 import '../../core/constants/credentials.dart';
 import '../../domain/entities/company_model.dart';
@@ -17,7 +18,6 @@ import '../../domain/entities/user_model.dart';
 import '../../services/remote_config_service.dart';
 import '../../services/shared_preferences_service.dart';
 
-
 @module
 abstract class ServiceInjectableModule {
   @lazySingleton
@@ -25,11 +25,13 @@ abstract class ServiceInjectableModule {
   @lazySingleton
   FirebaseMessaging get fcm => FirebaseMessaging.instance;
   @lazySingleton
-  FlutterLocalNotificationsPlugin get flutterLocalNotification => FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin get flutterLocalNotification =>
+      FlutterLocalNotificationsPlugin();
   @lazySingleton
   ServiceClient get client => ServiceClient(credentials.header);
   @lazySingleton
-  InternetConnectionChecker get connectionChecker => InternetConnectionChecker();
+  InternetConnectionChecker get connectionChecker =>
+      InternetConnectionChecker();
   @lazySingleton
   DeviceInfoPlugin get deviceinfo => DeviceInfoPlugin();
   @lazySingleton
@@ -39,13 +41,15 @@ abstract class ServiceInjectableModule {
   @lazySingleton
   SharedPref get network => SharedPref();
   @lazySingleton
-  Box<User> get userBox  => Hive.box<User>('user');
+  Box<User> get userBox => Hive.box<User>('user');
   @lazySingleton
-  Box<Profile> get profileBox  => Hive.box<Profile>('profile');
+  Box<Profile> get profileBox => Hive.box<Profile>('profile');
   @lazySingleton
-  Box<News> get newsBox  => Hive.box<News>('news');
+  Box<News> get newsBox => Hive.box<News>('news');
   @lazySingleton
-  Box<Company> get companyBox  => Hive.box<Company>('company');
+  Box<Company> get companyBox => Hive.box<Company>('company');
   @lazySingleton
   RemoteConfigService get remoteConfig => RemoteConfigService();
+  @lazySingleton
+  NewsSettings get settings => NewsSettings();
 }

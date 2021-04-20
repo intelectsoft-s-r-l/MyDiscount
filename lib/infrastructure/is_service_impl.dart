@@ -19,11 +19,12 @@ class IsServiceImpl implements IsService {
   final RemoteDataSource remoteDataSourceImpl;
   final Formater _formater;
   final LocalRepository _localRepository;
-  NewsSettings settings = NewsSettings();
+  final NewsSettings settings /* = NewsSettings() */;
   IsServiceImpl(
     this._localRepository,
     this._formater,
     this.remoteDataSourceImpl,
+    this.settings,
   );
   @override
   Future<List<News>> getAppNews() async {

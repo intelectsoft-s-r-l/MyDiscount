@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:is_service/service_client_response.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:my_discount/core/constants/credentials.dart';
@@ -18,6 +19,8 @@ import 'package:my_discount/domain/entities/user_model.dart';
 //import 'package:my_discount/domain/entities/user_model.dart';
 import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
+import 'package:my_discount/infrastructure/is_service_impl.dart';
+import 'package:my_discount/providers/news_settings.dart';
 
 import 'package:my_discount/services/remote_config_service.dart';
 
@@ -37,21 +40,32 @@ class MockRemoteConfig extends Mock implements RemoteConfigService {}
 
 class MockNetworkConnections extends Mock implements NetworkConnection {}
 
+class MockNewsState extends Mock implements NewsSettings {}
+
 class MockIsService extends Mock implements IsService {}
+
+class MockIsResponse extends Mock implements IsResponse {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   MockIsService _service;
-  /* MockLocalRepository _repo;
-  MockRemoteDataSource _remoteDataSource; */
+  MockLocalRepository _repo;
+  MockFormater _formater;
+  MockRemoteDataSource _remoteDataSource;
   MockNetworkConnections _inet;
-
+  MockNewsState _newsState;
+  IsServiceImpl _serviceImpl;
+  MockIsResponse _isResponse;
   setUp(() {
     _service = MockIsService();
-    /*  _repo = MockLocalRepository();
-    _remoteDataSource = MockRemoteDataSource(); */
-
+    _repo = MockLocalRepository();
+    _formater = MockFormater();
+    _remoteDataSource = MockRemoteDataSource();
     _inet = MockNetworkConnections();
+    _newsState = MockNewsState();
+    _isResponse = MockIsResponse();
+    _serviceImpl =
+        IsServiceImpl(_repo, _formater, _remoteDataSource, _newsState);
   });
 
   void runTestsOnline(Function body) {
@@ -60,6 +74,7 @@ void main() {
       () {
         setUp(() {
           when(_inet.isConnected).thenAnswer((_) async => true);
+          when(_newsState.getNewsState()).thenAnswer((_) async => true);
         });
         body();
       },
@@ -67,6 +82,7 @@ void main() {
   }
 
   runTestsOnline(() {
+    final tUrlFragment = '/json/GetAppNews?ID=0';
     group('getAppNews', () {
       final tNewsList = [
         News(
@@ -81,13 +97,24 @@ void main() {
           photo: Uint8List.fromList([]),
         ),
       ];
+      final tResponse = IsResponse(0, 'errorMessage', tNewsList);
       test('check if function return a list of news', () async {
-        when(_service.getAppNews()).thenAnswer((_) async => tNewsList);
+        when(_repo.readEldestNewsId()).thenAnswer((realInvocation) => '0');
+        when(_remoteDataSource.getRequest(tUrlFragment))
+            .thenAnswer((realInvocation) async => tResponse);
+        when(_isResponse.statusCode).thenAnswer((realInvocation) => 0);
+        when(_repo.getLocalNews()).thenAnswer((_) => tNewsList);
 
-        final response = await _service.getAppNews();
+        final response = await _serviceImpl.getAppNews();
+        verify(_formater.parseDateTime(response, 'CreateDate'))
+            .called(response.length);
+        verify(_formater.deleteImageFormatAndDecode(response, 'CompanyLogo'))
+            .called(response.length);
+        verify(_formater.deleteImageFormatAndDecode(response, 'Photo'))
+            .called(response.length);
 
         expect(response, tNewsList);
-        verify(_service.getAppNews());
+        //verify(_service.getAppNews());
       });
     });
 

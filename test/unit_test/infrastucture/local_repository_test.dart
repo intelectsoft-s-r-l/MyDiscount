@@ -11,6 +11,8 @@ class MockLocalRepositoryImpl extends Mock implements LocalRepository {}
 
 void main() {
   MockLocalRepositoryImpl localRepozitory;
+  
+ // final _repo = LocalRepositoryImpl();
 
   setUp(() {
     localRepozitory = MockLocalRepositoryImpl();

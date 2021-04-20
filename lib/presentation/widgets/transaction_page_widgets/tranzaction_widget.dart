@@ -103,8 +103,8 @@ class TranzactionWidget extends StatelessWidget {
               children: [
                 SizedBox(
                   width: size.width * .9,
-                  child:const Text(
-                    'Strada Petricani 84, Chișinău 2059',
+                  child: Text(
+                    transaction.salesPoint,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                   ),
