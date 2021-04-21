@@ -8,7 +8,7 @@ abstract class AddCardPageEvent extends Equatable {
 }
 
 class CompanyChanged extends AddCardPageEvent {
-  final Company company;
+  final Company? company;
 
   CompanyChanged(this.company);
 }
@@ -21,7 +21,7 @@ class CardNumberChanged extends AddCardPageEvent {
 
 class SaveNewCard extends AddCardPageEvent {
   final BuildContext context;
-  final Company company;
+  final Company? company;
   final String cardNumer;
 
   SaveNewCard(this.company, this.cardNumer, this.context);

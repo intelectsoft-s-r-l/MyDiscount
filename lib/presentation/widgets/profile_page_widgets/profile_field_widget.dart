@@ -8,12 +8,12 @@ import '../../pages/phone_validation_page.dart';
 
 class ProfileFieldWidget extends StatefulWidget {
   const ProfileFieldWidget({
-    Key key,
-    @required this.labelText,
-    @required this.isEdit,
+    Key? key,
+    required this.labelText,
+    required this.isEdit,
   }) : super(key: key);
 
-  final String labelText;
+  final String? labelText;
   final bool isEdit;
   @override
   _ProfileFieldWidgetState createState() => _ProfileFieldWidgetState();
@@ -21,11 +21,11 @@ class ProfileFieldWidget extends StatefulWidget {
 
 class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   final _formKey = GlobalKey<FormState>();
-  bool requestCode;
+  late bool requestCode;
 
   FocusNode focusNode = FocusNode();
 
-  bool isState;
+  late bool sendCode;
   @override
   void initState() {
     super.initState();
@@ -40,12 +40,12 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   @override
   void dispose() {
     super.dispose();
-    focusNode?.dispose();
-    if (mounted) focusNode?.unfocus();
+    focusNode.dispose();
+    if (mounted) focusNode.unfocus();
   }
 
-  String phoneIsoCode;
-  String phoneNumber;
+  String? phoneIsoCode;
+  String? phoneNumber;
   String confirmedNumber = '';
 
   @override
@@ -54,11 +54,11 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
       listener: (context, state) {},
       builder: (context, state) {
-        final profile = state.profile;
-        if (profile.phone == null) {
-          isState = true;
+        final profile = state.profile!;
+        if (profile.phone.isEmpty) {
+          sendCode = true;
         } else {
-          isState = false;
+          sendCode = false;
         }
         return Column(
           children: [
@@ -67,7 +67,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
               children: [
                 isEdit
                     ? Expanded(
-                        //height: 40,
                         child: Column(
                         children: [
                           Form(
@@ -78,31 +77,30 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                               decoration: const InputDecoration(
                                 enabled: true,
                               ),
-                              onPhoneNumberChange: (
-                                String number,
-                                String internationalizedPhoneNumber,
-                                String isoCode,
-                              ) {
+                              onPhoneNumberChange: (String number,
+                                  String? internationalizedPhoneNumber,
+                                  String? isoCode,
+                                  _) {
                                 debugPrint(internationalizedPhoneNumber);
-                                confirmedNumber = internationalizedPhoneNumber;
+                                confirmedNumber =
+                                    internationalizedPhoneNumber as String;
                                 setState(() {
                                   phoneIsoCode = isoCode;
                                 });
                               },
-                              errorText: AppLocalizations.of(context)
+                              errorText: AppLocalizations.of(context)!
                                   .translate('inputerror'),
-                              //initialPhoneNumber: profile?.phone?.characters?.skip(4).toString() ?? "",
+                              initialPhoneNumber:
+                                  profile.phone.characters.skip(4).toString(),
                               initialSelection: phoneIsoCode,
-                              enabledCountries: [
-                                '+373',
-                              ],
+                              enabledCountries: ['+373'],
                             ),
                           ),
                           const Divider(),
                           ElevatedButton(
                             onPressed: requestCode
                                 ? () async {
-                                    if (confirmedNumber != '') {
+                                    if (confirmedNumber.isEmpty) {
                                       setState(() {
                                         requestCode = false;
                                       });
@@ -110,20 +108,18 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               PhoneVerificationPage(
-                                            //bloc: bloc,
                                             phone: confirmedNumber,
                                           ),
                                         ),
                                       );
-                                      /*  } */
                                     }
                                   }
                                 : null,
-                            child: isState
-                                ? Text(AppLocalizations.of(context)
-                                    .translate('sendcode'))
-                                : Text(AppLocalizations.of(context)
-                                    .translate('changephone')),
+                            child: sendCode
+                                ? Text(AppLocalizations.of(context)!
+                                    .translate('sendcode')!)
+                                : Text(AppLocalizations.of(context)!
+                                    .translate('changephone')!),
                           ),
                         ],
                       ))
@@ -134,7 +130,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              child: Text(widget.labelText,
+                              child: Text(widget.labelText!,
                                   style: const TextStyle(
                                     color: Colors.black,
                                   )),
@@ -144,7 +140,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             ),
                             Container(
                               child: Text(
-                                profile.phone ?? '',
+                                profile.phone,
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 17.0,

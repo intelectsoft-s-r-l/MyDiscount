@@ -35,7 +35,7 @@ class AddCardPageBloc extends Bloc<AddCardPageEvent, AddCardPageState> {
         final user = _repo.getLocalUser();
         final map = <String, dynamic>{
           'CardCode': event.cardNumer,
-          'CompanyID': event.company.id.toString(),
+          'CompanyID': event.company!.id.toString(),
           'ID': user.id,
           'RegisterMode': user.registerMode,
         };
@@ -48,10 +48,10 @@ class AddCardPageBloc extends Bloc<AddCardPageEvent, AddCardPageState> {
         }
       } on NoInternetConection {
         yield CardError(event.company, event.cardNumer, false,
-            AppLocalizations.of(event.context).translate('nothaveinet'));
+            AppLocalizations.of(event.context)!.translate('nothaveinet'));
       } catch (e) {
         yield CardError(event.company, event.cardNumer, false,
-            AppLocalizations.of(event.context).translate('servererror'));
+            AppLocalizations.of(event.context)!.translate('servererror'));
       }
     }
   }

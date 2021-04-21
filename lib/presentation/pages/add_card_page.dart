@@ -23,8 +23,8 @@ class _AddCardPageState extends State<AddCardPage> {
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final FocusNode _node = FocusNode();
-  Barcode result;
-  QRViewController controller;
+  Barcode? result;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool scann = false;
 
@@ -112,7 +112,7 @@ class _AddCardPageState extends State<AddCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final company = ModalRoute.of(context).settings.arguments as Company;
+    final company = ModalRoute.of(context)!.settings.arguments as Company?;
     return !scann
         ? BlocProvider(
             create: (context) => getIt<AddCardPageBloc>(),
@@ -124,12 +124,12 @@ class _AddCardPageState extends State<AddCardPage> {
                       ? Icons.arrow_back_sharp
                       : Icons.arrow_back_ios_sharp),
                   onPressed: () {
-                    Navigator.maybeOf(context)..pop()..pop();
+                    Navigator.of(context)..pop()..pop();
                   },
                 ),
                 centerTitle: true,
                 title: Text(
-                  '${AppLocalizations.of(context).translate('connectcard')}: ${company.name}',
+                  '${AppLocalizations.of(context)!.translate('connectcard')}: ${company!.name}',
                   style: const TextStyle(fontSize: 18),
                 ),
                 elevation: 0,
@@ -181,8 +181,8 @@ class _AddCardPageState extends State<AddCardPage> {
                                           .05,
                                     ),
                                     Text(
-                                      AppLocalizations.of(context)
-                                          .translate('inputcardnumber'),
+                                      AppLocalizations.of(context)!
+                                          .translate('inputcardnumber')!,
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
@@ -214,13 +214,13 @@ class _AddCardPageState extends State<AddCardPage> {
                                       ),
                                       // ignore: missing_return
                                       validator: (code) {
-                                        if (code.isEmpty) {
-                                          return AppLocalizations.of(context)
+                                        if (code!.isEmpty) {
+                                          return AppLocalizations.of(context)!
                                               .translate('addcardnum');
                                         }
                                       },
                                       onSaved: (input) {
-                                        _controller?.text = input;
+                                        _controller.text = input as String;
                                       },
                                     ),
                                   ),
@@ -245,8 +245,8 @@ class _AddCardPageState extends State<AddCardPage> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () async {
-                                        if (_key.currentState.validate()) {
-                                          _key.currentState.save();
+                                        if (_key.currentState!.validate()) {
+                                          _key.currentState!.save();
                                           _node.unfocus();
                                           context.read<AddCardPageBloc>().add(
                                               SaveNewCard(company,
@@ -254,8 +254,8 @@ class _AddCardPageState extends State<AddCardPage> {
                                         }
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)
-                                            .translate('addcard'),
+                                        AppLocalizations.of(context)!
+                                            .translate('addcard')!,
                                       ),
                                     ),
                                   ],

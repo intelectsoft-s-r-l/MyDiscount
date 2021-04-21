@@ -8,7 +8,7 @@ abstract class ProfileFormEvent extends Equatable {
 }
 
 class FirstNameChanged extends ProfileFormEvent {
-  final String firstName;
+  final String? firstName;
 
   FirstNameChanged(
     this.firstName,
@@ -32,7 +32,7 @@ class EmailChanged extends ProfileFormEvent {
 }
 
 class PhoneChanged extends ProfileFormEvent {
-  final String phone;
+  final String? phone;
 
   PhoneChanged(
     this.phone,

@@ -1,10 +1,10 @@
 class ReceivedNotification {
   
-  int id;
+  int? id;
   
-  String title;
+  String? title;
   
-  String body;
+  String? body;
 
   ReceivedNotification({
     this.id,
@@ -13,8 +13,8 @@ class ReceivedNotification {
   });
   factory ReceivedNotification.fromMap(dynamic map) {
     return ReceivedNotification(
-        id: map['id'] as int,
-        title: map['title'] as String,
-        body: map['body'] as String);
+        id: map['id'] as int?,
+        title: map['title'] as String?,
+        body: map['body'] as String?);
   }
 }

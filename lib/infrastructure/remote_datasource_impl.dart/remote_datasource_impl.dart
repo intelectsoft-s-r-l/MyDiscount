@@ -17,9 +17,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<IsResponse> getRequest(urlFragment) async {
     try {
-      if (await _network?.isConnected) {
+      if (await _network.isConnected) {
         final serviceName =
-            await _remoteConfigService?.getServiceNameFromRemoteConfig();
+            await _remoteConfigService.getServiceNameFromRemoteConfig();
         final _baseUrl = '$serviceName$urlFragment';
         return _client.get(_baseUrl);
       } else {
@@ -31,12 +31,14 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<IsResponse> postRequest(
-      {Map<String, dynamic> json, String urlFragment}) async {
+  Future<IsResponse> postRequest({
+    required Map<String, dynamic> json,
+    required String urlFragment,
+  }) async {
     try {
-      if (await _network?.isConnected) {
+      if (await _network.isConnected) {
         final serviceName =
-            await _remoteConfigService?.getServiceNameFromRemoteConfig();
+            await _remoteConfigService.getServiceNameFromRemoteConfig();
         final _url = '$serviceName$urlFragment';
         return _client.post(_url, json);
       } else {

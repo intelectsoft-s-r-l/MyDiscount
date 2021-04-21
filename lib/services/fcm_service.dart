@@ -10,7 +10,7 @@ import '../services/shared_preferences_service.dart';
 @injectable
 class FirebaseCloudMessageService with ChangeNotifier {
   final FirebaseMessaging _fcm;
-  final LocalNotificationsService _localNotificationsService;
+  final LocalNotificationsService? _localNotificationsService;
 
   final SharedPref _prefs;
 
@@ -44,7 +44,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
     }
   }
 
-  Future<bool> getFCMState() async {
+  Future<bool?> getFCMState() async {
     final data = await _prefs.instance;
     if (data.containsKey('fcmState')) _isActivate = await _prefs.readFCMState();
     notifyListeners();
@@ -55,17 +55,17 @@ class FirebaseCloudMessageService with ChangeNotifier {
     _fcm.requestPermission();
     FirebaseMessaging.onMessage.listen((event) {
       print(event.data);
-      _localNotificationsService.showNotification(event.data);
+      _localNotificationsService!.showNotification(event.data);
     });
   }
 
-  Future<String> getfcmToken() async {
+  Future<String?> getfcmToken() async {
     final data = await _prefs.instance;
     if (data.containsKey('fcmState')) {
       if (await _prefs.readFCMState()) {
         final token = await _fcm.getToken();
         _fcm.onTokenRefresh.listen((event) {
-          event = token;
+          event = token as String;
         });
         debugPrint(token);
         return token;

@@ -7,7 +7,7 @@ import 'curve_wave.dart';
 
 class RipplesAnimation extends StatefulWidget {
   const RipplesAnimation({
-    Key key,
+    Key? key,
     this.size = 20.0,
     this.color = Colors.green,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class RipplesAnimation extends StatefulWidget {
 
 class _RipplesAnimationState extends State<RipplesAnimation>
     with TickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
   @override
   void initState() {
     super.initState();
@@ -42,9 +42,9 @@ class _RipplesAnimationState extends State<RipplesAnimation>
         child: DecoratedBox(
           decoration: BoxDecoration(
             gradient: RadialGradient(
-              colors: <Color>[
+              colors: [
                 widget.color,
-                Color.lerp(widget.color, Colors.black, .05)
+                Color.lerp(widget.color, Colors.black, .05) as Color
               ],
             ),
           ),
@@ -55,7 +55,7 @@ class _RipplesAnimationState extends State<RipplesAnimation>
                 curve: const CurveWave(),
               ),
             ),
-            child:const Icon(
+            child: const Icon(
               MdiIcons.qrcode,
               size: 30,
               color: Colors.white,

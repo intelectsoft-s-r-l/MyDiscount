@@ -4,11 +4,12 @@ import 'package:injectable/injectable.dart';
 abstract class NetworkConnection {
   Future<bool> get isConnected;
 }
+
 @LazySingleton(as: NetworkConnection)
 class NetworkConnectionImpl implements NetworkConnection {
   final InternetConnectionChecker connectionChecker;
 
-  NetworkConnectionImpl({this.connectionChecker});
+  NetworkConnectionImpl({required this.connectionChecker});
 
   @override
   Future<bool> get isConnected => connectionChecker.hasConnection;

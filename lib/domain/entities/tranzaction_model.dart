@@ -1,7 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
-
 class Transaction {
   final num amount;
   final String company;
@@ -10,11 +8,11 @@ class Transaction {
   final Uint8List logo;
 
   Transaction({
-    @required this.amount,
-    @required this.company,
-    @required this.dateOfSale,
-    @required this.salesPoint,
-    @required this.logo,
+    required this.amount,
+    required this.company,
+    required this.dateOfSale,
+    required this.salesPoint,
+    required this.logo,
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
@@ -23,7 +21,7 @@ class Transaction {
       company: json['Company']as String,
       dateOfSale: json['DateTimeOfSale']as String,
       salesPoint: json['SalesPoint']as String,
-      logo: json['Logo']as Uint8List ?? Uint8List.fromList([]),
+      logo: json['Logo'] ?? Uint8List.fromList([]),
     );
   }
 }

@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final  pageName = ModalRoute.of(context)!.settings.arguments as String?;
 
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
       listenWhen: (p, c) => p.props != c.props,
@@ -40,17 +40,17 @@ class _ProfilePageState extends State<ProfilePage> {
           ).show(context);
           context
               .read<ProfileFormBloc>()
-              .add(FirstNameChanged(state.profile.firstName));
+              .add(FirstNameChanged(state.profile!.firstName));
         }
       },
       builder: (context, state) {
-        final profile = state.profile;
+        final profile = state.profile!;
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              pageName,
+              pageName!,
               style: const TextStyle(fontSize: 18),
             ),
             backgroundColor: Colors.green,
@@ -65,9 +65,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       isReadOnly = !isReadOnly;
                     });
                     if (isReadOnly) {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        _formKey.currentState.context
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        _formKey.currentState!.context
                             .read<ProfileFormBloc>()
                             .add(SaveProfileData(profile));
                       }
@@ -130,9 +130,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     children: [
                                                       Text(
                                                         AppLocalizations.of(
-                                                                context)
+                                                                context)!
                                                             .translate(
-                                                                'firstname'),
+                                                                'firstname')!,
                                                         style: const TextStyle(
                                                             color:
                                                                 Colors.black),
@@ -180,9 +180,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   children: [
                                                     Text(
                                                       AppLocalizations.of(
-                                                              context)
+                                                              context)!
                                                           .translate(
-                                                              'lastname'),
+                                                              'lastname')!,
                                                       style: const TextStyle(
                                                           color: Colors.black),
                                                     ),
@@ -258,7 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   const Divider(),
                                   ProfileFieldWidget(
-                                    labelText: AppLocalizations.of(context)
+                                    labelText: AppLocalizations.of(context)!
                                         .translate('phone'),
                                     isEdit: !isReadOnly,
                                   ),
@@ -279,8 +279,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                               .read<AuthBloc>()
                                               .add(SignOut());
                                         },
-                                        child: Text(AppLocalizations.of(context)
-                                            .translate('logout')),
+                                        child: Text(AppLocalizations.of(context)!
+                                            .translate('logout')!),
                                       ),
                                     ],
                                   ),

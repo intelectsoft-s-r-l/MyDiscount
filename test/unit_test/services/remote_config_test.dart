@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart';
 class MockRemoteConfig extends Mock implements RemoteConfig {}
 
 void main() {
-  MockRemoteConfig mockRemoteConfig;
+  late MockRemoteConfig mockRemoteConfig;
 
   setUp(() {
     mockRemoteConfig = MockRemoteConfig();

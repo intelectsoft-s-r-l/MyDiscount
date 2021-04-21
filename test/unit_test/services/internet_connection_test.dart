@@ -1,23 +1,28 @@
-import 'package:my_discount/core/internet_connection_service.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:my_discount/core/internet_connection_service.dart';
 
-class MockDataConnectionChecker extends Mock implements NetworkConnection {}
+class MockInternetConnectionChecker extends Mock
+    implements InternetConnectionChecker {}
 
 void main() {
-  MockDataConnectionChecker networkConnectionImpl;
- 
+  late MockInternetConnectionChecker _internetChecker;
+  late NetworkConnectionImpl _networkConnection;
   setUp(() {
-   // mockDataConnectionChecker = NetworkConnection();
-    networkConnectionImpl = MockDataConnectionChecker();
+    _networkConnection =
+        NetworkConnectionImpl(connectionChecker: _internetChecker);
+    _internetChecker = MockInternetConnectionChecker();
   });
 
   group('check internet connection', () {
-    test('should forward the call DataConnectionChecker.hasConnection', () async {
+    test('should forward the call DataConnectionChecker.hasConnection',
+        () async {
       final hasConnection = Future.value(true);
-      when(networkConnectionImpl.isConnected).thenAnswer((_) => hasConnection);
-      final result = networkConnectionImpl.isConnected;
-      verify(networkConnectionImpl.isConnected);
+      when(_networkConnection.isConnected).thenAnswer((_) => hasConnection);
+      final result = _networkConnection.isConnected;
+      verify(_networkConnection.isConnected);
       expect(result, hasConnection);
     });
   });

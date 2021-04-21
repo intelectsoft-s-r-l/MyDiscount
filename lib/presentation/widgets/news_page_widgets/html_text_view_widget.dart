@@ -6,8 +6,8 @@ import '../../../domain/entities/news_model.dart';
 
 class HtmlText extends StatelessWidget {
   const HtmlText({
-    Key key,
-    @required this.list,
+    Key? key,
+    required this.list,
   }) : super(key: key);
 
   final News list;
@@ -21,7 +21,7 @@ class HtmlText extends StatelessWidget {
       child: Html(
         data: list.content,
         onLinkTap: (url,_,__,___) async {
-          if (await canLaunch(url)) {
+          if (await canLaunch(url!)) {
             await launch(url);
           } else {
             throw Exception();

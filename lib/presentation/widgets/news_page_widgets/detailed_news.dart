@@ -7,10 +7,10 @@ import '../../../domain/entities/news_model.dart';
 import 'html_text_view_widget.dart';
 
 class DetailedNews extends StatefulWidget {
-  final News news;
-  final Size size;
+  final News? news;
+  final Size? size;
 
-  const DetailedNews({Key key, this.news, this.size}) : super(key: key);
+  const DetailedNews({Key? key, this.news, this.size}) : super(key: key);
   @override
   _DetailedNewsState createState() => _DetailedNewsState();
 }
@@ -19,7 +19,7 @@ class _DetailedNewsState extends State<DetailedNews> {
   bool showText = false;
   @override
   Widget build(BuildContext context) {
-    final news = widget.news;
+    final news = widget.news!;
     final size = widget.size;
     
     final textContent = HTML.toTextSpan(context, news.content,
@@ -39,7 +39,7 @@ class _DetailedNewsState extends State<DetailedNews> {
             !showText
                 ? Container(
                     padding:const EdgeInsets.only(left: 7),
-                    width: size.width * .95,
+                    width: size!.width * .95,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -60,7 +60,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                             });
                           },
                           child: Text(
-                            AppLocalizations.of(context).translate('more'),
+                            AppLocalizations.of(context)!.translate('more')!,
                             style:const TextStyle(
                               fontSize: 15,
                               color: Colors.blue,
@@ -103,7 +103,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                               width: 7,
                             ),
                             Text(
-                              AppLocalizations.of(context).translate('less'),
+                              AppLocalizations.of(context)!.translate('less')!,
                               style:const TextStyle(
                                 fontSize: 15,
                                 color: Colors.blue,

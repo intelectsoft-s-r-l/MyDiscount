@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 part 'company_model.g.dart';
@@ -16,10 +15,10 @@ class Company {
   @HiveField(3)
   final String name;
   Company({
-    @required this.amount,
-    @required this.id,
-    @required this.logo,
-    @required this.name,
+    required this.amount,
+    required this.id,
+    required this.logo,
+    required this.name,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {

@@ -4,13 +4,13 @@ import '../../../domain/entities/news_model.dart';
 
 class NewsHeaderWidget extends StatelessWidget {
   const NewsHeaderWidget({
-    Key key,
-    @required this.size,
-    @required this.news,
+    Key? key,
+    required this.size,
+    required this.news,
   }) : super(key: key);
 
-  final Size size;
-  final News news;
+  final Size? size;
+  final News? news;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class NewsHeaderWidget extends StatelessWidget {
               right: 10,
             ),
             child: Text(
-              news.dateTime,
+              news!.dateTime,
               style:const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
@@ -45,7 +45,7 @@ class NewsHeaderWidget extends StatelessWidget {
           left: 69,
           child: Container(
             child: Text(
-              news.companyName.toString(),
+              news!.companyName.toString(),
               style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -62,7 +62,7 @@ class NewsHeaderWidget extends StatelessWidget {
             width: 60,
             height: 60,
             child: Image.memory(
-              news.logo,
+              news!.logo,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container();

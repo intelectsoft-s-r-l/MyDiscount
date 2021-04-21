@@ -20,12 +20,12 @@ class HumanImage extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           Text(
-            AppLocalizations.of(context).translate('generateqrtoomanytimes'),
+            AppLocalizations.of(context)!.translate('generateqrtoomanytimes')!,
             textAlign: TextAlign.center,
             style:const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            AppLocalizations.of(context).translate('generatenewqr'),
+            AppLocalizations.of(context)!.translate('generatenewqr')!,
             style:const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],

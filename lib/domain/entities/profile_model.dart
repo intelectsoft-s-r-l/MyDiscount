@@ -18,16 +18,16 @@ class Profile {
   @HiveField(4)
   final Uint8List photo;
   @HiveField(5)
-  final String pushToken;
+  final String? pushToken;
   @HiveField(6)
-  final int registerMode;
+  final int? registerMode;
 
   Profile({
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.phone,
-    this.photo,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.phone,
+    required this.photo,
     this.pushToken,
     this.registerMode,
   });
@@ -38,7 +38,8 @@ class Profile {
       lastName: json['lastName'] ?? '',
       email: json['Email'],
       phone: json['phone'],
-      photo: json['Photo'], /* ?? Uint8List.fromList([]), */
+      photo: json['Photo'],
+      /* ?? Uint8List.fromList([]), */
       pushToken: json['PushToken'],
       registerMode: json['mode'],
     );
@@ -59,12 +60,12 @@ class Profile {
     return {
       'DisplayName': '$firstName $lastName',
       'Email': email,
-      'ID':null,
+      'ID': null,
       'phone': phone,
       'PhotoUrl': base64Encode(photo.toList()),
       'PushToken': pushToken,
       'RegisterMode': registerMode,
-      'access_token':null,
+      'access_token': null,
     };
   }
 
@@ -80,11 +81,11 @@ class Profile {
   }
 
   Profile copyWith({
-    String firstName,
-    String lastName,
-    String email,
-    String phone,
-    Uint8List photo,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+    Uint8List? photo,
   }) {
     return Profile(
       firstName: firstName ?? this.firstName,
@@ -94,4 +95,12 @@ class Profile {
       photo: photo ?? this.photo,
     );
   }
+
+  bool get isEmpty =>
+      firstName == '' &&
+      lastName == '' &&
+      email == '' &&
+      phone == '' &&
+      pushToken == '' &&
+      photo == Uint8List.fromList([]);
 }

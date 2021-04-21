@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final Widget child;
-  final String title;
+  final Widget? child;
+  final String? title;
 
-  const CustomAppBar({Key key, this.title, this.child}) : super(key: key);
+  const CustomAppBar({Key? key, this.title, this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +12,7 @@ class CustomAppBar extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          title,
+          title!,
           style:const TextStyle(fontSize: 18),
         ),
         elevation: 0,

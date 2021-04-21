@@ -62,10 +62,11 @@ void main() async {
 
   try {
     await Hive.initFlutter();
-    Hive.registerAdapter<User>(UserAdapter());
-    Hive.registerAdapter<Profile>(ProfileAdapter());
-    Hive.registerAdapter<News>(NewsAdapter());
-    Hive.registerAdapter<Company>(CompanyAdapter());
+    Hive
+      ..registerAdapter<User>(UserAdapter())
+      ..registerAdapter<Profile>(ProfileAdapter())
+      ..registerAdapter<News>(NewsAdapter())
+      ..registerAdapter<Company>(CompanyAdapter());
 
     await Hive.openBox<User>('user');
     await Hive.openBox<Profile>('profile');
@@ -108,7 +109,7 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    context.findAncestorStateOfType<_MyAppState>().setLocale(newLocale);
+    context.findAncestorStateOfType<_MyAppState>()!.setLocale(newLocale);
   }
 
   @override
@@ -116,7 +117,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  Locale _locale;
+  Locale? _locale;
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -127,7 +128,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     getIt<RemoteConfigService>().getServiceNameFromRemoteConfig();
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
@@ -142,7 +143,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -201,7 +202,7 @@ class SplashScreen extends StatelessWidget {
 
 class InitApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    context.findAncestorStateOfType<_InitAppState>().setLocale(newLocale);
+    context.findAncestorStateOfType<_InitAppState>()!.setLocale(newLocale);
   }
 
   @override
@@ -209,7 +210,7 @@ class InitApp extends StatefulWidget {
 }
 
 class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
-  Locale _locale;
+  Locale? _locale;
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -219,7 +220,7 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
@@ -234,7 +235,7 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 

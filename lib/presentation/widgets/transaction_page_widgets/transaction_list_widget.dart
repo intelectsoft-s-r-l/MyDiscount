@@ -5,13 +5,13 @@ import '../transaction_page_widgets/tranzaction_widget.dart';
 
 class TranzactionListWidget extends StatelessWidget {
   const TranzactionListWidget({
-    Key key,
-    @required this.size,
+    Key? key,
+    required this.size,
     this.transactionList,
   }) : super(key: key);
 
   final Size size;
-  final List<Transaction> transactionList;
+  final List<Transaction>? transactionList;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class TranzactionListWidget extends StatelessWidget {
         height: 3,
       ),
       shrinkWrap: true,
-      itemCount: transactionList.length,
+      itemCount: transactionList!.length,
       itemBuilder: (context, index) {
         return Card(
           elevation: 2,
@@ -30,7 +30,7 @@ class TranzactionListWidget extends StatelessWidget {
           ),
           child: TranzactionWidget(
             size: size,
-            transaction: transactionList[index],
+            transaction: transactionList![index],
           ),
         );
       },

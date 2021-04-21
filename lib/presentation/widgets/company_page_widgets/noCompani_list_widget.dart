@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/localization/localizations.dart';
 
 class NoCompanieList extends StatelessWidget {
-  const NoCompanieList({Key key}) : super(key: key);
+  const NoCompanieList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class NoCompanieList extends StatelessWidget {
             scale: 1.2,
           ),
           Text(
-            AppLocalizations.of(context).translate('companylist'),
+            AppLocalizations.of(context)!.translate('companylist')!,
             style:const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
@@ -27,7 +27,7 @@ class NoCompanieList extends StatelessWidget {
             height: 20,
           ),
           Text(
-            AppLocalizations.of(context).translate('nocompany'),
+            AppLocalizations.of(context)!.translate('nocompany')!,
             style:const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),

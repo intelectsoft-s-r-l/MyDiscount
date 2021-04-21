@@ -17,8 +17,8 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
     this._authRepositoryImpl,
     this.network,
   ) : super(SignFormInitial());
-  final AuthRepository _authRepositoryImpl;
-  final NetworkConnection network;
+  final AuthRepository? _authRepositoryImpl;
+  final NetworkConnection? network;
 
   @override
   Stream<SignFormState> mapEventToState(
@@ -26,8 +26,8 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
   ) async* {
     try {
       if (event is SignInWithGoogle) {
-        if (await network.isConnected) {
-          final user = await _authRepositoryImpl.authenticateWithGoogle();
+        if (await network!.isConnected) {
+          final user = await _authRepositoryImpl!.authenticateWithGoogle();
           if (user != null) {
             yield SignFormDone(user);
           } else {
@@ -38,8 +38,8 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
         }
       }
       if (event is SignInWithFacebook) {
-        if (await network.isConnected) {
-          final user = await _authRepositoryImpl.authenticateWithFacebook();
+        if (await network!.isConnected) {
+          final user = await _authRepositoryImpl!.authenticateWithFacebook();
           if (user != null) {
             yield SignFormDone(user);
           } else {
@@ -50,8 +50,8 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
         }
       }
       if (event is SignInWithApple) {
-        if (await network.isConnected) {
-          final user = await _authRepositoryImpl.authenticateWithApple();
+        if (await network!.isConnected) {
+          final user = await _authRepositoryImpl!.authenticateWithApple();
           if (user != null) {
             yield SignFormDone(user);
           } else {
@@ -62,7 +62,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
         }
       }
       if (event is SignOutEvent) {
-        _authRepositoryImpl.logOut();
+        _authRepositoryImpl!.logOut();
         yield SignFormInitial();
       }
     } catch (e) {

@@ -8,7 +8,6 @@ import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart';
 import 'package:my_discount/services/remote_config_service.dart';
 
-
 class MockNetworkConnections extends Mock implements NetworkConnection {}
 
 class MockServiceClient extends Mock implements ServiceClient {}
@@ -18,13 +17,13 @@ class MockRemoteConfig extends Mock implements RemoteConfigService {}
 class MockRemoteDataSource extends Mock implements RemoteDataSource {}
 
 void main() {
-  MockNetworkConnections _network;
+  late MockNetworkConnections _network;
 
-  MockRemoteConfig _mockRemoteConfig;
+  late MockRemoteConfig _mockRemoteConfig;
 
-  MockServiceClient _client;
+  late MockServiceClient _client;
 
-  /* Mock */ RemoteDataSourceImpl remoteDataSource;
+  /* Mock */ late RemoteDataSourceImpl remoteDataSource;
 
   setUp(() {
     _network = MockNetworkConnections();

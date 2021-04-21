@@ -30,7 +30,7 @@ class LocalRepositoryImpl implements LocalRepository {
   Profile getLocalClientInfo() {
     try {
       if (profileBox.isNotEmpty) {
-        return profileBox?.get(1);
+        return profileBox.get(1) as Profile;
       } else {
         return Profile.empty();
       }
@@ -43,12 +43,13 @@ class LocalRepositoryImpl implements LocalRepository {
   List<News> getLocalNews() {
     try {
       final newsList = <News>[];
-      final keys = newsBox?.keys;
+      final keys = newsBox.keys;
       for (int key in keys) {
-        final news = newsBox?.get(key);
+        final news = newsBox.get(key) as News;
+
         newsList.add(news);
       }
-      return newsList.reversed?.toList();
+      return newsList.reversed.toList();
     } catch (e) {
       throw LocalCacheError();
     }
@@ -57,8 +58,11 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   User getLocalUser() {
     try {
-      final _user = userBox?.get(1);
-      return _user;
+      if (userBox.isNotEmpty) {
+        final _user = userBox.get(1) as User;
+        return _user;
+      }
+      return User.empty();
     } catch (e) {
       throw LocalCacheError();
     }
@@ -67,7 +71,7 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   Profile saveClientInfoLocal(Profile profile) {
     try {
-      profileBox?.put(1, profile);
+      profileBox.put(1, profile);
       return profile;
     } catch (e) {
       throw LocalCacheError();
@@ -80,7 +84,7 @@ class LocalRepositoryImpl implements LocalRepository {
       newsList
           .map((e) => News.fromJson(e))
           .toList()
-          .forEach((news) => newsBox?.put(news.id, news));
+          .forEach((news) => newsBox.put(news.id, news));
     } catch (e) {
       throw LocalCacheError();
     }
@@ -89,7 +93,7 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   User saveUserLocal(User user) {
     try {
-      userBox?.put(1, user);
+      userBox.put(1, user);
       return user;
     } catch (e) {
       throw LocalCacheError();
@@ -99,12 +103,12 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   String readEldestNewsId() {
     try {
-      final listOfKeys = newsBox?.keys;
+      final listOfKeys = newsBox.keys;
 
-      var id = 0;
+      int? id = 0;
       if (listOfKeys.isNotEmpty) {
         for (final int key in listOfKeys) {
-          if (key > id) {
+          if (key > id!) {
             id = key;
           }
         }
@@ -129,10 +133,10 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json) {
+  Map<String, dynamic> returnUserMapToSave(Map<String, dynamic>? json) {
     try {
       final userMap = <String, dynamic>{};
-      final keys = json.keys;
+      final keys = json!.keys;
       for (final key in keys) {
         if (key == 'ID' || key == 'RegisterMode' || key == 'access_token') {
           userMap.putIfAbsent(key, () => json[key]);
@@ -157,7 +161,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  bool smsCodeVerification(String serverCode, String userCode) {
+  bool smsCodeVerification(String? serverCode, String? userCode) {
     try {
       if (VerificationCode(serverCode) == VerificationCode(userCode)) {
         return true;
@@ -186,9 +190,9 @@ class LocalRepositoryImpl implements LocalRepository {
       final result = await testComporessList(profile.photo);
       print(result);
       final map = profile.toCreateUser()
-        ..update('ID', (value) => user.id)
-        ..update('RegisterMode', (value) => user.registerMode)
-        ..update('access_token', (value) => user.accessToken)
+        ..update('ID', (value) => user!.id)
+        ..update('RegisterMode', (value) => user!.registerMode)
+        ..update('access_token', (value) => user!.accessToken)
         ..update('PhotoUrl', (value) => base64Encode(result.toList()));
       return map;
     } catch (e) {
@@ -208,7 +212,7 @@ class LocalRepositoryImpl implements LocalRepository {
       );
       return result;
     } catch (e) {
-     return  _readProfileImageFromAssets();
+      return _readProfileImageFromAssets();
     }
   }
 
@@ -227,7 +231,7 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   List<Company> searchCompany(String pattern) {
-    if (pattern != null && pattern.isNotEmpty) {
+    if (pattern.isNotEmpty) {
       final companyNameList = companyBox.values
           .toList()
           .cast<Company>()
@@ -250,7 +254,7 @@ class LocalRepositoryImpl implements LocalRepository {
           .toList();
 
       print(filteredCompanyList);
-      return filteredCompanyList;
+      return filteredCompanyList as List<Company>;
     }
     return companyBox.values.map((company) => company).toList();
   }
@@ -262,11 +266,11 @@ class LocalRepositoryImpl implements LocalRepository {
 }
 
 class VerificationCode {
-  final String code;
+  final String? code;
 
   const VerificationCode(this.code);
 
-  int get lenght => code.length;
+  int get lenght => code!.length;
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||

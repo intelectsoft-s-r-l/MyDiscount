@@ -10,14 +10,14 @@ import 'package:mockito/mockito.dart';
 class MockLocalRepositoryImpl extends Mock implements LocalRepository {}
 
 void main() {
-  MockLocalRepositoryImpl localRepozitory;
+  late MockLocalRepositoryImpl localRepozitory;
   
  // final _repo = LocalRepositoryImpl();
 
   setUp(() {
     localRepozitory = MockLocalRepositoryImpl();
   });
-  final tUserProfile = Profile();
+  final tUserProfile = Profile.empty();
   final tNewsList = [
     News(
         appType: 0,

@@ -16,7 +16,7 @@ class CardListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: CustomAppBar(
-        title: AppLocalizations.of(context).translate('addedcard'),
+        title: AppLocalizations.of(context)!.translate('addedcard'),
         child: Container(
           color: Colors.white,
           height: MediaQuery.of(context).size.height * .85,
@@ -34,7 +34,7 @@ class CardListPage extends StatelessWidget {
                         separatorBuilder: (context, index) => Container(
                           height: 10,
                         ),
-                        itemCount: list.length,
+                        itemCount: list!.length,
                         itemBuilder: (context, index) {
                           final card = list[index];
                           return CardWidget(card: card);
@@ -58,14 +58,14 @@ class CardListPage extends StatelessWidget {
                     context,
                     '/addcardcompanylist',
                     arguments:
-                        AppLocalizations.of(context).translate('companies'),
+                        AppLocalizations.of(context)!.translate('companies'),
                   );
                 },
                 child: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width * .5,
                   child: Text(
-                    AppLocalizations.of(context).translate('addcard'),
+                    AppLocalizations.of(context)!.translate('addcard')!,
                   ),
                 ),
               ),
@@ -79,7 +79,7 @@ class CardListPage extends StatelessWidget {
 
 class NoCardsWidget extends StatelessWidget {
   const NoCardsWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -99,8 +99,8 @@ class NoCardsWidget extends StatelessWidget {
 
 class CardWidget extends StatelessWidget {
   const CardWidget({
-    Key key,
-    @required this.card,
+    Key? key,
+    required this.card,
   }) : super(key: key);
 
   final DiscountCard card;
@@ -129,9 +129,9 @@ class CardWidget extends StatelessWidget {
                   width: 30,
                   height: 30,
                   child: card.companyLogo != []
-                      ? Image.memory(card.companyLogo)
+                      ? Image.memory(card.companyLogo!)
                       : const Placeholder()),
-              Text(card?.companyName),
+              Text(card.companyName),
             ],
           ),
           Row(
@@ -144,7 +144,7 @@ class CardWidget extends StatelessWidget {
                   Container(width:MediaQuery.of(context).size.width*.55,
                     child: OverflowBar(children: [
                       Text(
-                        AppLocalizations.of(context).translate('card'),
+                        AppLocalizations.of(context)!.translate('card')!,
                       ),
                       Text(
                         '${card.code}',
@@ -168,7 +168,7 @@ class CardWidget extends StatelessWidget {
 class CheckStatusWidget extends StatelessWidget {
   final int status;
 
-  const CheckStatusWidget({Key key, this.status}) : super(key: key);
+  const CheckStatusWidget({Key? key, required this.status}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     switch (status) {
@@ -178,21 +178,19 @@ class CheckStatusWidget extends StatelessWidget {
           icon: Icons.check_circle_outline,
           color: Colors.green,
         );
-        break;
       case 1:
         return const Status(
           jKey: 'statuswaiting',
           icon: Icons.cached_rounded,
           color: Colors.amber,
         );
-        break;
       case 2:
         return const Status(
           jKey: 'statusdenied',
           icon: Icons.highlight_remove_sharp,
           color: Colors.red,
         );
-        break;
+      
     }
     return Container();
   }
@@ -200,15 +198,15 @@ class CheckStatusWidget extends StatelessWidget {
 
 class Status extends StatelessWidget {
   const Status({this.icon, this.color, this.jKey});
-  final String jKey;
-  final IconData icon;
-  final Color color;
+  final String? jKey;
+  final IconData? icon;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Text(
-          AppLocalizations.of(context).translate(jKey),
+          AppLocalizations.of(context)!.translate(jKey)!,
           style: TextStyle(color: color),
         ),
         Icon(

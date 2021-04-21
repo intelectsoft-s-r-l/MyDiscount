@@ -23,7 +23,7 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final pageName = ModalRoute.of(context)!.settings.arguments as String?;
     return CustomAppBar(
       title: pageName,
       child: Container(
@@ -31,6 +31,7 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
         child: FutureBuilder(
             future: getIt<DeviceInfoService>().getDeviceInfo(),
             builder: (context, snapshot) {
+              final map = snapshot.data as Map<String, dynamic>;
               return snapshot.hasData
                   ? Container(
                       padding: const EdgeInsets.all(10),
@@ -38,16 +39,19 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
                         children: [
                           if (Platform.isAndroid)
                             ListTile(
-                              title: Text(AppLocalizations.of(context).translate('manufacture')),
-                              trailing: Text('${snapshot.data['name']}'),
+                              title: Text(AppLocalizations.of(context)!
+                                  .translate('manufacture')!),
+                              trailing: Text('${map['name'] as String}'),
                             ),
                           ListTile(
-                            title: Text(AppLocalizations.of(context).translate('model')),
-                            trailing: Text('${snapshot.data['model']}'),
+                            title: Text(AppLocalizations.of(context)!
+                                .translate('model')!),
+                            trailing: Text('${map['model']}'),
                           ),
                           ListTile(
-                            title: Text(AppLocalizations.of(context).translate('version')),
-                            trailing: Text('${snapshot.data['systemVersion']}'),
+                            title: Text(AppLocalizations.of(context)!
+                                .translate('version')!),
+                            trailing: Text('${map['systemVersion']}'),
                           ),
                         ],
                       ),

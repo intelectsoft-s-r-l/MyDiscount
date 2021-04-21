@@ -48,14 +48,14 @@ class MockIsResponse extends Mock implements IsResponse {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  MockIsService _service;
-  MockLocalRepository _repo;
-  MockFormater _formater;
-  MockRemoteDataSource _remoteDataSource;
-  MockNetworkConnections _inet;
-  MockNewsState _newsState;
-  IsServiceImpl _serviceImpl;
-  MockIsResponse _isResponse;
+  late MockIsService _service;
+  late MockLocalRepository _repo;
+  late MockFormater _formater;
+  late MockRemoteDataSource _remoteDataSource;
+  late MockNetworkConnections _inet;
+  late MockNewsState _newsState;
+  late IsServiceImpl _serviceImpl;
+  late MockIsResponse _isResponse;
   setUp(() {
     _service = MockIsService();
     _repo = MockLocalRepository();
@@ -90,7 +90,7 @@ void main() {
           content: 'test Content',
           logo: Uint8List.fromList([]),
           companyName: 'TestCompany',
-          appType: null,
+          appType: 1,
           dateTime: '21 Jan 2021',
           header: 'null',
           id: 1,
@@ -188,9 +188,9 @@ void main() {
     group('validatePhone()', () {
       test('function must return a verification code', () async {
         final tCode = '1234';
-        when(_service.validatePhone())
+        when(_service.validatePhone(phone: ''))
             .thenAnswer((realInvocation) async => tCode);
-        final response = await _service.validatePhone();
+        final response = await _service.validatePhone(phone: '');
 
         expect(response, tCode);
       });
@@ -198,11 +198,15 @@ void main() {
 
     group('updateClientInfo()', () {
       test('function must return a empty body', () async {
-        final tUser = User();
-        when(_service.updateClientInfo())
+        final tUser = User(
+          id: '',
+          accessToken: '',
+          registerMode: 0,
+        );
+        when(_service.updateClientInfo(json: {}))
             .thenAnswer((realInvocation) async => tUser);
 
-        final response = await _service.updateClientInfo();
+        final response = await _service.updateClientInfo(json: {});
 
         expect(response, tUser);
       });
