@@ -36,12 +36,13 @@ PODS:
     - Firebase/Analytics (= 7.3.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.0.2):
+  - firebase_core (1.0.4):
     - Firebase/CoreOnly (= 7.3.0)
     - Flutter
-  - firebase_crashlytics (1.0.0):
+  - firebase_crashlytics (2.0.1):
     - Firebase/Crashlytics (= 7.3.0)
     - firebase_core
+    - Flutter
   - firebase_messaging (9.0.1):
     - Firebase/Messaging (= 7.3.0)
     - firebase_core
@@ -313,8 +314,8 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: d98498c598ec09de657385a9349a1f21119b7f86
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
   firebase_analytics: ee4abb07bfa857e7c95d97144efe9eb68be414cd
-  firebase_core: e6cbb0d1f7091edfcae31559e58224bfc1e455dc
-  firebase_crashlytics: a62319db93baf2bfeca8a2384af3f29e3d62b09c
+  firebase_core: 4be162b452c4af1f8257dc7a55003ceacec028ac
+  firebase_crashlytics: 8e7b4f61dccbe21a2b07b10005f680afded8a9a6
   firebase_messaging: 446f8b30023ace26f162a9309b5bd1fdff78c011
   firebase_remote_config: da22cf690ca0d1fb7f785227d7d56af6c9351eac
   FirebaseABTesting: 44acbfc9db915bca8f111ebae342da6fd4f1cc55
