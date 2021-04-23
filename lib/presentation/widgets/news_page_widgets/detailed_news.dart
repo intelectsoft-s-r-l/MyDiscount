@@ -21,14 +21,13 @@ class _DetailedNewsState extends State<DetailedNews> {
   Widget build(BuildContext context) {
     final news = widget.news!;
     final size = widget.size;
-    
-    final textContent = HTML.toTextSpan(context, news.content,
-       
-        linksCallback: (url) async {
+
+    final textContent =
+        HTML.toTextSpan(context, news.content, linksCallback: (url) async {
       if (await canLaunch(url)) {
         await launch(url);
       } else {
-        throw Exception(); 
+        throw Exception();
       }
     });
 
@@ -38,7 +37,7 @@ class _DetailedNewsState extends State<DetailedNews> {
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             !showText
                 ? Container(
-                    padding:const EdgeInsets.only(left: 7),
+                    padding: const EdgeInsets.only(left: 7),
                     width: size!.width * .95,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,9 +46,10 @@ class _DetailedNewsState extends State<DetailedNews> {
                           text: textContent,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          textHeightBehavior:const TextHeightBehavior.fromEncoded(2),
+                          textHeightBehavior:
+                              const TextHeightBehavior.fromEncoded(2),
                         ),
-                       const SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         InkResponse(
@@ -61,7 +61,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                           },
                           child: Text(
                             AppLocalizations.of(context)!.translate('more')!,
-                            style:const TextStyle(
+                            style: const TextStyle(
                               fontSize: 15,
                               color: Colors.blue,
                               decoration: TextDecoration.underline,
@@ -99,12 +99,12 @@ class _DetailedNewsState extends State<DetailedNews> {
                         },
                         child: Row(
                           children: [
-                         const   SizedBox(
+                            const SizedBox(
                               width: 7,
                             ),
                             Text(
                               AppLocalizations.of(context)!.translate('less')!,
-                              style:const TextStyle(
+                              style: const TextStyle(
                                 fontSize: 15,
                                 color: Colors.blue,
                                 decoration: TextDecoration.underline,

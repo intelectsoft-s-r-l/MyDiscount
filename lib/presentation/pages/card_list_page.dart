@@ -141,7 +141,7 @@ class CardWidget extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Container(width:MediaQuery.of(context).size.width*.55,
+                  Container(width:MediaQuery.of(context).size.width*.53,
                     child: OverflowBar(children: [
                       Text(
                         AppLocalizations.of(context)!.translate('card')!,

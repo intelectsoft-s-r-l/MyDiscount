@@ -19,13 +19,13 @@ extension AuthorizationCredentialAppleIDX on AuthorizationCredentialAppleID {
 
 extension FacebookUserProfileX on FacebookAuth {
   Map<String, dynamic> toCredMap({
-    required AccessToken token,
+    required AccessToken? token,
     required Map<String, dynamic> profile,
   }) {
     return {
       'DisplayName': profile['name'],
       'Email': profile['email'],
-      'ID': token.userId,
+      'ID': token!.userId,
       'PhotoUrl': profile['picture']['data']['url'],
       'PushToken': null,
       'RegisterMode': 2,

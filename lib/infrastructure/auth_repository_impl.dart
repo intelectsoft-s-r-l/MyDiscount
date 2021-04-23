@@ -52,23 +52,23 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> authenticateWithFacebook() async {
     try {
-      await fb.login(loginBehavior: LoginBehavior.DEVICE_AUTH);
+      final fbUser = await fb.login(loginBehavior: LoginBehavior.DIALOG_ONLY);
       final fbProfile = await fb.getUserData();
 
       final profile = await _isService.getClientInfo(
-        id: fbProfile['id'],
+        id: fbUser.accessToken!.userId,
         registerMode: 2,
       );
 
       final localCredentialsMap = profile.toCreateUser();
 
       final baseUserCredentials =
-          fb.toCredMap(token: fbProfile['id'], profile: fbProfile);
+          fb.toCredMap(token: fbUser.accessToken, profile: fbProfile);
 
       final credentialsMap =
           profile.isEmpty ? baseUserCredentials : localCredentialsMap
-            ..update('ID', (_) => fbProfile['id'])
-            ..update('access_token', (_) => fbProfile['id']);
+            ..update('ID', (_) => fbUser.accessToken!.userId)
+            ..update('access_token', (_) => fbUser.accessToken!.token);
 
       final localUser = await _isService.updateClientInfo(json: credentialsMap);
 

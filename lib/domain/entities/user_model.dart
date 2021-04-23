@@ -27,6 +27,9 @@ class User {
       registerMode: json['RegisterMode'] as int,
     );
   }
+
+  bool get isEmpty => registerMode == -1;
+
   factory User.empty() {
     return User(id: '', accessToken: '', expireDate: '', registerMode: -1);
   }

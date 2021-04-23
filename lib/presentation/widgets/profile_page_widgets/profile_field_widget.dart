@@ -35,6 +35,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   void didUpdateWidget(ProfileFieldWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.isEdit != oldWidget.isEdit) requestCode = true;
+    if (confirmedNumber.isEmpty) requestCode = true;
   }
 
   @override
@@ -100,7 +101,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           ElevatedButton(
                             onPressed: requestCode
                                 ? () async {
-                                    if (confirmedNumber.isEmpty) {
+                                    if (confirmedNumber.isNotEmpty) {
                                       setState(() {
                                         requestCode = false;
                                       });
