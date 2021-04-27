@@ -16,7 +16,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_discount/presentation/pages/add_card_page.dart';
-import 'package:my_discount/services/local_notification_service.dart';
+import 'package:my_discount/infrastructure/core/local_notification_service.dart';
 
 import 'aplication/auth/auth_bloc.dart';
 import 'aplication/auth/sign_in/sign_form_bloc.dart';
@@ -26,6 +26,9 @@ import 'domain/entities/company_model.dart';
 import 'domain/entities/news_model.dart';
 import 'domain/entities/profile_model.dart';
 import 'domain/entities/user_model.dart';
+import 'infrastructure/core/fcm_service.dart';
+import 'infrastructure/core/remote_config_service.dart';
+import 'infrastructure/core/shared_preferences_service.dart';
 import 'injectable.dart';
 import 'presentation/pages/about_app_page.dart';
 import 'presentation/pages/add_card_company_list.dart';
@@ -41,9 +44,6 @@ import 'presentation/pages/technic_details_page.dart';
 import 'presentation/pages/transactions_page.dart';
 import 'presentation/widgets/bottom_navigator/bottom_navigation_bar_widget.dart';
 import 'presentation/widgets/circular_progress_indicator_widget.dart';
-import 'services/fcm_service.dart';
-import 'services/remote_config_service.dart';
-import 'services/shared_preferences_service.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../aplication/providers/news_settings.dart';
 import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/fcm_service.dart';
 import '../../injectable.dart';
 import '../../main.dart';
-import '../../providers/news_settings.dart';
-import '../../services/fcm_service.dart';
 import '../widgets/custom_app_bar.dart';
 
 class SettingsPage extends StatelessWidget {

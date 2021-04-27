@@ -21,6 +21,7 @@ import 'aplication/auth/sign_in/sign_form_bloc.dart' as _i35;
 import 'aplication/card_bloc/add_card_page_bloc.dart' as _i32;
 import 'aplication/phone_validation_bloc/phone_validation_bloc.dart' as _i30;
 import 'aplication/profile_bloc/profile_form_bloc.dart' as _i31;
+import 'aplication/providers/news_settings.dart' as _i20;
 import 'core/constants/credentials.dart' as _i8;
 import 'core/formater.dart' as _i13;
 import 'core/internet_connection_service.dart' as _i19;
@@ -33,18 +34,18 @@ import 'domain/repositories/auth_repository.dart' as _i33;
 import 'domain/repositories/is_service_repository.dart' as _i28;
 import 'domain/repositories/local_repository.dart' as _i17;
 import 'infrastructure/auth_repository_impl.dart' as _i34;
+import 'infrastructure/core/device_info_service.dart' as _i10;
+import 'infrastructure/core/fcm_service.dart' as _i25;
+import 'infrastructure/core/local_notification_service.dart' as _i16;
+import 'infrastructure/core/remote_config_service.dart' as _i21;
 import 'infrastructure/core/services_injectable.dart' as _i36;
+import 'infrastructure/core/shared_preferences_service.dart' as _i23;
 import 'infrastructure/is_service_impl.dart' as _i29;
 import 'infrastructure/local_repository_impl.dart' as _i18;
 import 'infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart'
     as _i27;
-import 'providers/news_settings.dart' as _i20;
-import 'services/device_info_service.dart' as _i10;
-import 'services/fcm_service.dart' as _i25;
-import 'services/local_notification_service.dart' as _i16;
-import 'services/remote_config_service.dart' as _i21;
-import 'services/shared_preferences_service.dart'
-    as _i23; // ignore_for_file: unnecessary_lambdas
+
+// ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 // initializes the registration of provided dependencies inside of [GetIt]

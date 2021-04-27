@@ -6,7 +6,7 @@ import 'package:my_discount/core/failure.dart';
 import 'package:my_discount/core/internet_connection_service.dart';
 import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart';
-import 'package:my_discount/services/remote_config_service.dart';
+import 'package:my_discount/infrastructure/core/remote_config_service.dart';
 
 class MockNetworkConnections extends Mock implements NetworkConnection {}
 

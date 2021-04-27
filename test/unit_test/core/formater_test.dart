@@ -6,8 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../fixtures/fixtures_redear.dart';
 
-//import 'package:mockito/mockito.dart';
-
 void main() {
   late Formater _formater;
   setUp(() {
@@ -55,7 +53,7 @@ void main() {
       };
       final responseMap = await json.decode(fixture('auth_providers_credentials.json'));
       final result = _formater.splitDisplayName(responseMap);
-      expect(map, result);
+      expect(map, equals(result));
     });
   });
 }

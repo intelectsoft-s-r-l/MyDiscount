@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/device_info_service.dart';
 import '../../injectable.dart';
-import '../../services/device_info_service.dart';
 import '../widgets/custom_app_bar.dart';
 
 class TechnicDetailPage extends StatefulWidget {

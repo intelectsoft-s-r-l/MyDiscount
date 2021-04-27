@@ -20,9 +20,9 @@ import 'package:my_discount/domain/entities/user_model.dart';
 import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
 import 'package:my_discount/infrastructure/is_service_impl.dart';
-import 'package:my_discount/providers/news_settings.dart';
+import 'package:my_discount/aplication/providers/news_settings.dart';
 
-import 'package:my_discount/services/remote_config_service.dart';
+import 'package:my_discount/infrastructure/core/remote_config_service.dart';
 
 import '../fixtures/fixtures_redear.dart';
 

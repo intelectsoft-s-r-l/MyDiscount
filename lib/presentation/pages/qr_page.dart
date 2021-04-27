@@ -185,17 +185,19 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                             //mainAxisSize:MainAxisSize.min,
                             children: [
                               Text(
-                                  AppLocalizations.of(context)!
-                                      .translate('showqr')!,
-                                  style: const TextStyle(
-                                      //fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
+                                AppLocalizations.of(context)!
+                                    .translate('showqr')!,
+                                style: const TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
                               Text(
-                                  AppLocalizations.of(context)!
-                                      .translate('qrtime')!,
-                                  style: const TextStyle(
-                                      // fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
+                                AppLocalizations.of(context)!
+                                    .translate('qrtime')!,
+                                style: const TextStyle(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
                               SizedBox(
                                 height: size.height * .06,
                               ),

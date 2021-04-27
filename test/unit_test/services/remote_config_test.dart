@@ -9,12 +9,11 @@ import 'package:mockito/mockito.dart';
 class MockRemoteConfig extends Mock implements RemoteConfig {}
 
 void main() {
-  late MockRemoteConfig mockRemoteConfig;
+     MockRemoteConfig mockRemoteConfig;
 
-  setUp(() {
     mockRemoteConfig = MockRemoteConfig();
+  setUp(() {
   });
-
   test('check remoteconfig', () async {
     final tfechMap = {
       'service_name_dev': {

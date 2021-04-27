@@ -4,8 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 
-import '../services/local_notification_service.dart';
-import '../services/shared_preferences_service.dart';
+import '../../infrastructure/core/local_notification_service.dart';
+import '../../infrastructure/core/shared_preferences_service.dart';
 
 @injectable
 class FirebaseCloudMessageService with ChangeNotifier {

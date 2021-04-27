@@ -11,19 +11,19 @@ void main() {
   late MockInternetConnectionChecker _internetChecker;
   late NetworkConnectionImpl _networkConnection;
   setUp(() {
+    _internetChecker = MockInternetConnectionChecker();
     _networkConnection =
         NetworkConnectionImpl(connectionChecker: _internetChecker);
-    _internetChecker = MockInternetConnectionChecker();
   });
 
   group('check internet connection', () {
     test('should forward the call DataConnectionChecker.hasConnection',
         () async {
-      final hasConnection = Future.value(true);
-      when(_networkConnection.isConnected).thenAnswer((_) => hasConnection);
-      final result = _networkConnection.isConnected;
+      //final hasConnection = Future.value(true);
+      when(_internetChecker.hasConnection).thenAnswer((_)async => true/* hasConnection */);
+      final result = await _networkConnection.isConnected;
       verify(_networkConnection.isConnected);
-      expect(result, hasConnection);
+      expect(result, true);
     });
   });
 }

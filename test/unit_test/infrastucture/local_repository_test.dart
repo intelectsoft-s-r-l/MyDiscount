@@ -17,6 +17,7 @@ void main() {
   setUp(() {
     localRepozitory = MockLocalRepositoryImpl();
   });
+  
   final tUserProfile = Profile.empty();
   final tNewsList = [
     News(
