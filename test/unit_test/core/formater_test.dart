@@ -18,14 +18,14 @@ void main() {
       final listOfCompany = await json.decode(fixture('list_of_company.json'));
 
       final result = _formater.deleteImageFormatAndDecode(listOfCompany, index);
-      final bytes = result[0]![index];
+      final bytes = result[0][index];
       expect(bytes, isA<Uint8List>());
     });
     test('check if de return type of index "Photo" is Uint8List', () async {
       final index = 'Photo';
       final listOfNews = await json.decode(fixture('list_of_news.json'));
       final result = _formater.deleteImageFormatAndDecode(listOfNews, index);
-      final bytes = result[0]![index];
+      final bytes = result[0][index];
       expect(bytes, isA<Uint8List>());
     });
   });
@@ -46,12 +46,14 @@ void main() {
         'lastName': 'Cristea',
         'Email': '',
         'ID': '',
+        'phone': '',
         'PhotoUrl': '',
         'PushToken': '',
         'RegisterMode': 1,
         'access_token': '',
       };
-      final responseMap = await json.decode(fixture('auth_providers_credentials.json'));
+      final responseMap =
+          await json.decode(fixture('auth_providers_credentials.json'));
       final result = _formater.splitDisplayName(responseMap);
       expect(map, equals(result));
     });

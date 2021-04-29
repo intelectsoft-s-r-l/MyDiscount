@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
-class DiscountCard {
+import 'package:equatable/equatable.dart';
+
+class DiscountCard extends Equatable{
   final String code;
   final String companyName;
   final int status;
@@ -33,4 +35,8 @@ class DiscountCard {
       companyLogo: companyLogo ?? this.companyLogo,
     );
   }
+
+  @override
+  
+  List<Object?> get props => [];
 }

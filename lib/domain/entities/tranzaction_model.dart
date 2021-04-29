@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
-class Transaction {
+import 'package:equatable/equatable.dart';
+
+class Transaction extends Equatable{
   final num amount;
   final String company;
   final String dateOfSale;
@@ -24,4 +26,8 @@ class Transaction {
       logo: json['Logo'] ?? Uint8List.fromList([]),
     );
   }
+
+  @override
+
+  List<Object?> get props => [];
 }

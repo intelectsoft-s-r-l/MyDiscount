@@ -50,12 +50,12 @@ class IsServiceImpl implements IsService {
       }
       throw EmptyList();
     } catch (e) {
-      throw ServerError();
+      rethrow;
     }
   }
 
   @override
-  Future<Profile> getClientInfo({ String? id,  int? registerMode}) async {
+  Future<Profile> getClientInfo({String? id, int? registerMode}) async {
     try {
       final localUser = _localRepository.getLocalUser();
       final _id = id ?? localUser.id;
@@ -63,6 +63,7 @@ class IsServiceImpl implements IsService {
       final _urlFragment =
           '/json/GetClientInfo?ID=$_id&RegisterMode=$_registerMode';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
+      //print(response.statusCode);
       if (response.statusCode == 0) {
         final profileMap = response.body as Map;
         _formater.splitDisplayName(profileMap);
@@ -73,35 +74,37 @@ class IsServiceImpl implements IsService {
         _localRepository.saveClientInfoLocal(profile);
         return profile;
       } else {
-       return Profile.empty();
+        return Profile.empty();
       }
     } catch (e) {
+      print(e);
+
       throw ServerError();
     }
   }
 
   @override
   Future<List<Company>> getCompanyList() async {
-    try {
-      final user = _localRepository.getLocalUser();
-      final _urlFragment = '/json/GetCompany?ID=${user.id}';
-      final response = await remoteDataSourceImpl.getRequest(_urlFragment);
-      if (response.statusCode == 0) {
-        final listCompaniesMaps = response.body as List;
-        _formater.deleteImageFormatAndDecode(listCompaniesMaps, 'Logo');
-        final listCompanies = listCompaniesMaps
-            .map((company) => Company.fromJson(company))
-            .toList();
-        _localRepository.saveCompanyListLocal(listCompanies);
-        if (listCompanies.isEmpty) {
-          throw EmptyList();
-        }
-        return listCompanies;
-      } else {
-        throw ServerError();
+     try {
+    final user = _localRepository.getLocalUser();
+    final _urlFragment = '/json/GetCompany?ID=${user.id}';
+    final response = await remoteDataSourceImpl.getRequest(_urlFragment);
+    if (response.statusCode == 0) {
+      final listCompaniesMaps = response.body as List;
+      _formater.deleteImageFormatAndDecode(listCompaniesMaps, 'Logo');
+      final listCompanies = listCompaniesMaps
+          .map((company) => Company.fromJson(company))
+          .toList();
+      _localRepository.saveCompanyListLocal(listCompanies);
+      if (listCompanies.isEmpty) {
+        throw EmptyList();
       }
-    } catch (e) {
+      return listCompanies;
+    } else {
       throw ServerError();
+    }
+    } catch (e) {
+      rethrow;
     }
   }
 

@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'profile_model.g.dart';
 
 @HiveType(typeId: 0)
-class Profile {
+class Profile extends Equatable {
   @HiveField(0)
   final String firstName;
   @HiveField(1)
@@ -39,7 +40,6 @@ class Profile {
       email: json['Email'],
       phone: json['phone'],
       photo: json['Photo'],
-      /* ?? Uint8List.fromList([]), */
       pushToken: json['PushToken'],
       registerMode: json['mode'],
     );
@@ -60,12 +60,12 @@ class Profile {
     return {
       'DisplayName': '$firstName $lastName',
       'Email': email,
-      'ID': null,
+      'ID': '',
       'phone': phone,
       'PhotoUrl': base64Encode(photo.toList()),
       'PushToken': pushToken,
       'RegisterMode': registerMode,
-      'access_token': null,
+      'access_token': '',
     };
   }
 
@@ -103,4 +103,7 @@ class Profile {
       phone == '' &&
       pushToken == '' &&
       photo == Uint8List.fromList([]);
+
+  @override
+  List<Object?> get props => [];
 }

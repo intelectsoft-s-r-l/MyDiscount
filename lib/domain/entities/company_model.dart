@@ -1,11 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'company_model.g.dart';
 
 @HiveType(typeId: 2)
-class Company {
+class Company extends Equatable {
   @HiveField(0)
   final String amount;
   @HiveField(1)
@@ -29,4 +30,7 @@ class Company {
       name: json['Name'] as String,
     );
   }
+
+  @override
+  List<Object?> get props => [];
 }

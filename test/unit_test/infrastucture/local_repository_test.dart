@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:hive/hive.dart';
+import 'package:mockito/annotations.dart';
 import 'package:my_discount/domain/entities/news_model.dart';
 import 'package:my_discount/domain/entities/profile_model.dart';
 import 'package:my_discount/domain/entities/user_model.dart';
@@ -7,17 +9,15 @@ import 'package:my_discount/domain/repositories/local_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockLocalRepositoryImpl extends Mock implements LocalRepository {}
+import 'is_service_impl_test.mocks.dart';
 
+
+
+@GenerateMocks([LocalRepository, Box ])
 void main() {
-  late MockLocalRepositoryImpl localRepozitory;
-  
- // final _repo = LocalRepositoryImpl();
+  final localRepozitory = MockLocalRepository();
+  setUp(() {});
 
-  setUp(() {
-    localRepozitory = MockLocalRepositoryImpl();
-  });
-  
   final tUserProfile = Profile.empty();
   final tNewsList = [
     News(
