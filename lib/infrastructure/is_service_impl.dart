@@ -19,7 +19,7 @@ class IsServiceImpl implements IsService {
   final RemoteDataSource remoteDataSourceImpl;
   final Formater _formater;
   final LocalRepository _localRepository;
-  final NewsSettings settings /* = NewsSettings() */;
+  final NewsSettings settings;
   IsServiceImpl(
     this._localRepository,
     this._formater,
