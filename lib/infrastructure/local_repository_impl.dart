@@ -29,12 +29,12 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   Profile getLocalClientInfo() {
     try {
-      if (profileBox.isNotEmpty) {
+      if (profileBox.isNotEmpty)  {
         return profileBox.get(1) as Profile;
       } else {
         return Profile.empty();
-      }
-    } catch (e) {
+     }
+     } catch (e) {
       throw LocalCacheError();
     }
   }
@@ -105,10 +105,10 @@ class LocalRepositoryImpl implements LocalRepository {
     try {
       final listOfKeys = newsBox.keys;
 
-      int? id = 0;
+      var id = 0;
       if (listOfKeys.isNotEmpty) {
         for (final int key in listOfKeys) {
-          if (key > id!) {
+          if (key > id) {
             id = key;
           }
         }
@@ -123,8 +123,7 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   void saveCompanyListLocal(List<Company> list) {
     try {
-      // ignore: avoid_function_literals_in_foreach_calls
-      list.forEach((company) {
+      list.map((company) {
         companyBox.put(company.id, company);
       });
     } catch (e) {

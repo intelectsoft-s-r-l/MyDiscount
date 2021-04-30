@@ -59,7 +59,7 @@ class MockInternetConnectionChecker extends _i1.Mock
   @override
   _i3.Stream<_i2.InternetConnectionStatus> get onStatusChange =>
       (super.noSuchMethod(Invocation.getter(#onStatusChange),
-              returnValue: const Stream<_i2.InternetConnectionStatus>.empty())
+              returnValue:const Stream<_i2.InternetConnectionStatus>.empty())
           as _i3.Stream<_i2.InternetConnectionStatus>);
   @override
   bool get hasListeners =>

@@ -4,7 +4,7 @@ abstract class ProfileFormState extends Equatable {
   const ProfileFormState(
     this.profile, this.isSaved,
   );
-  final Profile? profile;
+  final Profile profile;
   final bool isSaved;
 
   @override
@@ -12,12 +12,12 @@ abstract class ProfileFormState extends Equatable {
 }
 
 class ProfileFormInitial extends ProfileFormState {
-  ProfileFormInitial(Profile? profile,bool isSaved) : super(profile,isSaved);
+  ProfileFormInitial(Profile profile,bool isSaved) : super(profile,isSaved);
 }
 
 class ProfileFormDone extends ProfileFormState {
   ProfileFormDone(Profile profile,bool isSaved) : super(profile,isSaved);
 }
 class ProfileFormError extends ProfileFormState{
-  ProfileFormError(Profile? profile, bool isSaved) : super(profile, isSaved);
+  ProfileFormError(Profile profile, bool isSaved) : super(profile, isSaved);
 }

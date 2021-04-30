@@ -3,25 +3,21 @@
 // Do not manually edit this file.
 
 import 'dart:async' as _i6;
-import 'dart:ui' as _i12;
+import 'dart:ui' as _i7;
 
 import 'package:is_service/service_client_response.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:my_discount/aplication/providers/news_settings.dart' as _i11;
-import 'package:my_discount/core/formater.dart' as _i16;
-import 'package:my_discount/core/internet_connection_service.dart' as _i13;
-import 'package:my_discount/domain/data_source/remote_datasource.dart' as _i17;
-import 'package:my_discount/domain/entities/card.dart' as _i8;
-import 'package:my_discount/domain/entities/company_model.dart' as _i9;
-import 'package:my_discount/domain/entities/news_model.dart' as _i7;
+import 'package:my_discount/aplication/providers/news_settings.dart' as _i5;
+import 'package:my_discount/core/formater.dart' as _i13;
+import 'package:my_discount/core/internet_connection_service.dart' as _i8;
+import 'package:my_discount/domain/data_source/remote_datasource.dart' as _i14;
+import 'package:my_discount/domain/entities/company_model.dart' as _i12;
+import 'package:my_discount/domain/entities/news_model.dart' as _i11;
 import 'package:my_discount/domain/entities/profile_model.dart' as _i2;
-import 'package:my_discount/domain/entities/tranzaction_model.dart' as _i10;
 import 'package:my_discount/domain/entities/user_model.dart' as _i3;
-import 'package:my_discount/domain/repositories/is_service_repository.dart'
-    as _i5;
-import 'package:my_discount/domain/repositories/local_repository.dart' as _i15;
+import 'package:my_discount/domain/repositories/local_repository.dart' as _i10;
 import 'package:my_discount/infrastructure/core/remote_config_service.dart'
-    as _i14;
+    as _i9;
 
 // ignore_for_file: comment_references
 // ignore_for_file: unnecessary_parenthesis
@@ -31,68 +27,6 @@ class _FakeProfile extends _i1.Fake implements _i2.Profile {}
 class _FakeUser extends _i1.Fake implements _i3.User {}
 
 class _FakeIsResponse extends _i1.Fake implements _i4.IsResponse {}
-
-/// A class which mocks [IsService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockIsService extends _i1.Mock implements _i5.IsService {
-  MockIsService() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i6.Future<List<_i7.News>> getAppNews() =>
-      (super.noSuchMethod(Invocation.method(#getAppNews, []),
-              returnValue: Future<List<_i7.News>>.value(<_i7.News>[]))
-          as _i6.Future<List<_i7.News>>);
-  @override
-  _i6.Future<_i2.Profile> getClientInfo({String? id, int? registerMode}) =>
-      (super.noSuchMethod(
-              Invocation.method(
-                  #getClientInfo, [], {#id: id, #registerMode: registerMode}),
-              returnValue: Future<_i2.Profile>.value(_FakeProfile()))
-          as _i6.Future<_i2.Profile>);
-  @override
-  _i6.Future<_i3.User> updateClientInfo({Map<String, dynamic>? json}) => (super
-          .noSuchMethod(Invocation.method(#updateClientInfo, [], {#json: json}),
-              returnValue: Future<_i3.User>.value(_FakeUser()))
-      as _i6.Future<_i3.User>);
-  @override
-  _i6.Future<_i4.IsResponse> requestActivationCard(
-          {Map<String, dynamic>? json}) =>
-      (super.noSuchMethod(
-              Invocation.method(#requestActivationCard, [], {#json: json}),
-              returnValue: Future<_i4.IsResponse>.value(_FakeIsResponse()))
-          as _i6.Future<_i4.IsResponse>);
-  @override
-  _i6.Future<List<_i8.DiscountCard>> getRequestActivationCards(
-          {String? id, int? registerMode}) =>
-      (super.noSuchMethod(
-              Invocation.method(#getRequestActivationCards, [],
-                  {#id: id, #registerMode: registerMode}),
-              returnValue:
-                  Future<List<_i8.DiscountCard>>.value(<_i8.DiscountCard>[]))
-          as _i6.Future<List<_i8.DiscountCard>>);
-  @override
-  _i6.Future<List<_i9.Company>> getCompanyList() =>
-      (super.noSuchMethod(Invocation.method(#getCompanyList, []),
-              returnValue: Future<List<_i9.Company>>.value(<_i9.Company>[]))
-          as _i6.Future<List<_i9.Company>>);
-  @override
-  _i6.Future<String> getTempId() =>
-      (super.noSuchMethod(Invocation.method(#getTempId, []),
-          returnValue: Future<String>.value('')) as _i6.Future<String>);
-  @override
-  _i6.Future<List<_i10.Transaction>> getTransactionList() =>
-      (super.noSuchMethod(Invocation.method(#getTransactionList, []),
-              returnValue:
-                  Future<List<_i10.Transaction>>.value(<_i10.Transaction>[]))
-          as _i6.Future<List<_i10.Transaction>>);
-  @override
-  _i6.Future<String> validatePhone({String? phone}) => (super.noSuchMethod(
-      Invocation.method(#validatePhone, [], {#phone: phone}),
-      returnValue: Future<String>.value('')) as _i6.Future<String>);
-}
 
 /// A class which mocks [IsResponse].
 ///
@@ -106,7 +40,7 @@ class MockIsResponse extends _i1.Mock implements _i4.IsResponse {
 /// A class which mocks [NewsSettings].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNewsSettings extends _i1.Mock implements _i11.NewsSettings {
+class MockNewsSettings extends _i1.Mock implements _i5.NewsSettings {
   MockNewsSettings() {
     _i1.throwOnMissingStub(this);
   }
@@ -128,11 +62,11 @@ class MockNewsSettings extends _i1.Mock implements _i11.NewsSettings {
       (super.noSuchMethod(Invocation.method(#getNewsState, []),
           returnValue: Future<bool>.value(false)) as _i6.Future<bool>);
   @override
-  void addListener(_i12.VoidCallback? listener) =>
+  void addListener(_i7.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#addListener, [listener]),
           returnValueForMissingStub: null);
   @override
-  void removeListener(_i12.VoidCallback? listener) =>
+  void removeListener(_i7.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#removeListener, [listener]),
           returnValueForMissingStub: null);
   @override
@@ -147,7 +81,7 @@ class MockNewsSettings extends _i1.Mock implements _i11.NewsSettings {
 /// A class which mocks [NetworkConnection].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkConnection extends _i1.Mock implements _i13.NetworkConnection {
+class MockNetworkConnection extends _i1.Mock implements _i8.NetworkConnection {
   MockNetworkConnection() {
     _i1.throwOnMissingStub(this);
   }
@@ -162,7 +96,7 @@ class MockNetworkConnection extends _i1.Mock implements _i13.NetworkConnection {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockRemoteConfigService extends _i1.Mock
-    implements _i14.RemoteConfigService {
+    implements _i9.RemoteConfigService {
   MockRemoteConfigService() {
     _i1.throwOnMissingStub(this);
   }
@@ -176,7 +110,7 @@ class MockRemoteConfigService extends _i1.Mock
 /// A class which mocks [LocalRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocalRepository extends _i1.Mock implements _i15.LocalRepository {
+class MockLocalRepository extends _i1.Mock implements _i10.LocalRepository {
   MockLocalRepository() {
     _i1.throwOnMissingStub(this);
   }
@@ -186,30 +120,30 @@ class MockLocalRepository extends _i1.Mock implements _i15.LocalRepository {
       super.noSuchMethod(Invocation.method(#saveNewsLocal, [newsList]),
           returnValueForMissingStub: null);
   @override
-  List<_i7.News> getLocalNews() =>
+  List<_i11.News> getLocalNews() =>
       (super.noSuchMethod(Invocation.method(#getLocalNews, []),
-          returnValue: <_i7.News>[]) as List<_i7.News>);
+          returnValue: <_i11.News>[]) as List<_i11.News>);
   @override
   String readEldestNewsId() =>
       (super.noSuchMethod(Invocation.method(#readEldestNewsId, []),
           returnValue: '') as String);
   @override
-  List<_i7.News> deleteNews() =>
+  List<_i11.News> deleteNews() =>
       (super.noSuchMethod(Invocation.method(#deleteNews, []),
-          returnValue: <_i7.News>[]) as List<_i7.News>);
+          returnValue: <_i11.News>[]) as List<_i11.News>);
   @override
-  _i6.Future<List<_i9.Company>> getSavedCompany(String? pattern) =>
+  _i6.Future<List<_i12.Company>> getSavedCompany(String? pattern) =>
       (super.noSuchMethod(Invocation.method(#getSavedCompany, [pattern]),
-              returnValue: Future<List<_i9.Company>>.value(<_i9.Company>[]))
-          as _i6.Future<List<_i9.Company>>);
+              returnValue: Future<List<_i12.Company>>.value(<_i12.Company>[]))
+          as _i6.Future<List<_i12.Company>>);
   @override
-  void saveCompanyListLocal(List<_i9.Company>? list) =>
+  void saveCompanyListLocal(List<_i12.Company>? list) =>
       super.noSuchMethod(Invocation.method(#saveCompanyListLocal, [list]),
           returnValueForMissingStub: null);
   @override
-  List<_i9.Company> searchCompany(String? pattern) =>
+  List<_i12.Company> searchCompany(String? pattern) =>
       (super.noSuchMethod(Invocation.method(#searchCompany, [pattern]),
-          returnValue: <_i9.Company>[]) as List<_i9.Company>);
+          returnValue: <_i12.Company>[]) as List<_i12.Company>);
   @override
   _i6.Future<Map<String, dynamic>> returnProfileMapDataAsMap(
           _i2.Profile? profile) =>
@@ -252,7 +186,7 @@ class MockLocalRepository extends _i1.Mock implements _i15.LocalRepository {
 /// A class which mocks [Formater].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFormater extends _i1.Mock implements _i16.Formater {
+class MockFormater extends _i1.Mock implements _i13.Formater {
   MockFormater() {
     _i1.throwOnMissingStub(this);
   }
@@ -294,7 +228,7 @@ class MockFormater extends _i1.Mock implements _i16.Formater {
 /// A class which mocks [RemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRemoteDataSource extends _i1.Mock implements _i17.RemoteDataSource {
+class MockRemoteDataSource extends _i1.Mock implements _i14.RemoteDataSource {
   MockRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }

@@ -20,7 +20,7 @@ class HomePageTopWidget extends StatelessWidget {
       child: BlocConsumer<ProfileFormBloc, ProfileFormState>(
         listener: (context, state) {},
         builder: (context, state) {
-          final  profile = state.profile!;
+          final  profile = state.profile;
           return Stack(
             children: [
               Positioned(

@@ -21,7 +21,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         final serviceName =
             await _remoteConfigService.getServiceNameFromRemoteConfig();
         final _baseUrl = '$serviceName$urlFragment';
-        return _client.get(_baseUrl);
+        return _client.get(_baseUrl).timeout(const Duration(seconds: 3));
       } else {
         throw NoInternetConection();
       }
@@ -40,7 +40,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         final serviceName =
             await _remoteConfigService.getServiceNameFromRemoteConfig();
         final _url = '$serviceName$urlFragment';
-        return _client.post(_url, json);
+        return _client.post(_url, json).timeout(const Duration(seconds: 3));
       } else {
         throw NoInternetConection();
       }

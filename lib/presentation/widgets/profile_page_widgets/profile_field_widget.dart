@@ -55,7 +55,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
       listener: (context, state) {},
       builder: (context, state) {
-        final profile = state.profile!;
+        final profile = state.profile;
         if (profile.phone.isEmpty) {
           sendCode = true;
         } else {

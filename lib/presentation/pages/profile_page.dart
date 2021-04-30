@@ -34,17 +34,16 @@ class _ProfilePageState extends State<ProfilePage> {
         if (state is ProfileFormError) {
           _node.unfocus();
           Flushbar(
-           // flushbarPosition: FlushbarPosition.TOP,
             duration: const Duration(seconds: 3),
             message: 'Service Error',
           ).show(context);
           context
               .read<ProfileFormBloc>()
-              .add(FirstNameChanged(state.profile!.firstName));
+              .add(FirstNameChanged(state.profile.firstName));
         }
       },
       builder: (context, state) {
-        final profile = state.profile!;
+        final profile = state.profile;
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(

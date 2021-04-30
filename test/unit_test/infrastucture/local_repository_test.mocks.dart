@@ -4,6 +4,7 @@
 
 import 'dart:async' as _i6;
 
+import 'package:hive/hive.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:my_discount/domain/entities/company_model.dart' as _i7;
 import 'package:my_discount/domain/entities/news_model.dart' as _i5;
@@ -92,4 +93,42 @@ class MockLocalRepository extends _i1.Mock implements _i4.LocalRepository {
       (super.noSuchMethod(
           Invocation.method(#smsCodeVerification, [serverCode, userCode]),
           returnValue: false) as bool);
+}
+
+/// A class which mocks [Box].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockBox<E> extends _i1.Mock implements _i8.Box<E> {
+  MockBox() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  Iterable<E> get values =>
+      (super.noSuchMethod(Invocation.getter(#values), returnValue: [])
+          as Iterable<E>);
+  @override
+  Iterable<E> valuesBetween({dynamic startKey, dynamic endKey}) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #valuesBetween, [], {#startKey: startKey, #endKey: endKey}),
+          returnValue: []) as Iterable<E>);
+  @override
+  E? getAt(int? index) =>
+      (super.noSuchMethod(Invocation.method(#getAt, [index])) as E?);
+  @override
+  Map<dynamic, E> toMap() => (super.noSuchMethod(Invocation.method(#toMap, []),
+      returnValue: <dynamic, E>{}) as Map<dynamic, E>);
+  @override
+  bool get isNotEmpty =>
+      (super.noSuchMethod(Invocation.getter(#isNotEmpty), returnValue: false));
+  @override
+  Iterable<dynamic> get keys =>
+      (super.noSuchMethod(Invocation.getter(#keys), returnValue: [])as Iterable<dynamic> );
+}
+class MockList<E> extends _i1.Mock implements List<E>{
+   @override
+  void add(E value) =>
+      super.noSuchMethod(Invocation.method(#add, [value]),
+          returnValueForMissingStub: null);
 }

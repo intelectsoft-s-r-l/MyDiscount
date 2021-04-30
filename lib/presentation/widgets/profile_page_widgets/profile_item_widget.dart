@@ -9,11 +9,11 @@ class NewWidget extends StatelessWidget {
   NewWidget({
     Key? key,
     required this.profile,
-    this.isEdit,
+    required this.isEdit,
   }) : super(key: key);
   final _picker = ImagePicker();
   final Profile profile;
-  final bool? isEdit;
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -38,23 +38,27 @@ class NewWidget extends StatelessWidget {
                     height: 110,
                   ),
           ),
-          isEdit!
+          isEdit
               ? Positioned(
                   bottom: 0,
                   child: InkResponse(
-                    onTap: isEdit!
+                    onTap: isEdit
                         ? () async {
-                            final file = await _picker.getImage(
-                                source: ImageSource.gallery);
-                            final bytes = (await file?.readAsBytes())!;
-                            context
-                                .read<ProfileFormBloc>()
-                                .add(ImageChanged(bytes));
+                            try {
+                              final file = await _picker.getImage(
+                                  source: ImageSource.gallery);
+                              final bytes = await file!.readAsBytes();
+                              print(bytes);
+                              context
+                                  .read<ProfileFormBloc>()
+                                  .add(ImageChanged(bytes));
+                            } catch (e) {
+                              print('error:$e');
+                            }
                           }
                         : null,
                     child: Container(
                       alignment: Alignment.center,
-                      //padding: EdgeInsets.only(bottom: 3),
                       decoration: const BoxDecoration(
                         color: Colors.black45,
                         borderRadius: BorderRadius.only(

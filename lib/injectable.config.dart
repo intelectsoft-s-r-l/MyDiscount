@@ -43,10 +43,9 @@ import 'infrastructure/core/shared_preferences_service.dart' as _i23;
 import 'infrastructure/is_service_impl.dart' as _i29;
 import 'infrastructure/local_repository_impl.dart' as _i18;
 import 'infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart'
-    as _i27; 
-    
-// ignore_for_file: unnecessary_lambdas
-// ignore_for_file: cascade_invocations
+    as _i27; // ignore_for_file: unnecessary_lambdas
+
+  // ignore_for_file: cascade_invocations
 // ignore_for_file: lines_longer_than_80_chars
 // initializes the registration of provided dependencies inside of [GetIt]
 _i1.GetIt $initGetIt(_i1.GetIt get,
