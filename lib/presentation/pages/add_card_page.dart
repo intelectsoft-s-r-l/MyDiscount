@@ -112,7 +112,7 @@ class _AddCardPageState extends State<AddCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final company = ModalRoute.of(context)!.settings.arguments as Company?;
+    final company = ModalRoute.of(context)!.settings.arguments as Company;
     return !scann
         ? BlocProvider(
             create: (context) => getIt<AddCardPageBloc>(),
@@ -129,7 +129,7 @@ class _AddCardPageState extends State<AddCardPage> {
                 ),
                 centerTitle: true,
                 title: Text(
-                  '${AppLocalizations.of(context)!.translate('connectcard')}: ${company!.name}',
+                  '${AppLocalizations.of(context)!.translate('connectcard')}: ${company.name}',
                   style: const TextStyle(fontSize: 18),
                 ),
                 elevation: 0,
@@ -231,15 +231,6 @@ class _AddCardPageState extends State<AddCardPage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    /*  ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          scann = !scann;
-                                        });
-                                      },
-                                      child: Text(AppLocalizations.of(context)
-                                          .translate('scancard')),
-                                    ), */
                                     const SizedBox(
                                       width: 10,
                                     ),

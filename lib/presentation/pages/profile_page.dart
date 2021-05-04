@@ -26,10 +26,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final  pageName = ModalRoute.of(context)!.settings.arguments as String?;
+    final  pageName = ModalRoute.of(context)!.settings.arguments as String;
 
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
-      listenWhen: (p, c) => p.props != c.props,
+      listenWhen: (p, c) => p.props.first != c.props.first,
       listener: (context, state) {
         if (state is ProfileFormError) {
           _node.unfocus();
@@ -49,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              pageName!,
+              pageName,
               style: const TextStyle(fontSize: 18),
             ),
             backgroundColor: Colors.green,

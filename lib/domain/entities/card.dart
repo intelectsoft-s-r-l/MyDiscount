@@ -2,11 +2,11 @@ import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
 
-class DiscountCard extends Equatable{
+class DiscountCard extends Equatable {
   final String code;
   final String companyName;
   final int status;
-  final Uint8List? companyLogo;
+  final Uint8List companyLogo;
 
   DiscountCard({
     required this.code,
@@ -17,9 +17,9 @@ class DiscountCard extends Equatable{
   factory DiscountCard.fromJson(Map<String, dynamic> json) {
     return DiscountCard(
       code: json['Code'],
-      companyLogo: json['Logo'],
+      companyLogo: json['Logo'] as Uint8List,
       companyName: json['Company'],
-      status: json['State'],
+      status: json['State'] ,
     );
   }
   DiscountCard copyWith({
@@ -37,6 +37,5 @@ class DiscountCard extends Equatable{
   }
 
   @override
-  
   List<Object?> get props => [];
 }

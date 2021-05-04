@@ -16,9 +16,8 @@ class AddCardCompanyListPage extends StatefulWidget {
   _AddCardCompanyListPageState createState() => _AddCardCompanyListPageState();
 }
 
-class _AddCardCompanyListPageState extends State<AddCardCompanyListPage>
-/* with TickerProviderStateMixin */ {
-  List<Company>? filteredSearchHistory;
+class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
+  late List<Company> filteredSearchHistory;
   bool search = false;
 
   final _node = FocusNode();

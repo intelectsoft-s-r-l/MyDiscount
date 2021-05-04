@@ -119,7 +119,7 @@ class CardWidget extends StatelessWidget {
         ),
         //color: Colors.amber,
       ),
-      height: 75,
+      height: 80,
       child: Column(
         children: [
           Row(
@@ -129,7 +129,7 @@ class CardWidget extends StatelessWidget {
                   width: 30,
                   height: 30,
                   child: card.companyLogo != []
-                      ? Image.memory(card.companyLogo!)
+                      ? Image.memory(card.companyLogo)
                       : const Placeholder()),
               Text(card.companyName),
             ],

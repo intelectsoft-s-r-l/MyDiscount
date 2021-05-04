@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'profile_model.g.dart';
 
 @HiveType(typeId: 0)
-class Profile extends Equatable {
+class Profile {
   @HiveField(0)
   final String firstName;
   @HiveField(1)
@@ -29,8 +28,8 @@ class Profile extends Equatable {
     required this.email,
     required this.phone,
     required this.photo,
-    this.pushToken,
-    this.registerMode,
+    required this.pushToken,
+    required this.registerMode,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -77,6 +76,7 @@ class Profile extends Equatable {
       phone: '',
       photo: Uint8List.fromList([]),
       pushToken: '',
+      registerMode: -1,
     );
   }
 
@@ -86,6 +86,8 @@ class Profile extends Equatable {
     String? email,
     String? phone,
     Uint8List? photo,
+    String? pushToken,
+    int? registerMode,
   }) {
     return Profile(
       firstName: firstName ?? this.firstName,
@@ -93,6 +95,8 @@ class Profile extends Equatable {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       photo: photo ?? this.photo,
+      pushToken: pushToken ?? this.pushToken,
+      registerMode: registerMode ?? this.registerMode,
     );
   }
 
@@ -103,7 +107,19 @@ class Profile extends Equatable {
       phone == '' &&
       pushToken == '' &&
       photo == Uint8List.fromList([]);
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Profile &&
+            firstName == other.firstName &&
+            lastName == other.lastName &&
+            email == other.email &&
+            phone == other.phone &&
+            pushToken == other.pushToken &&
+            photo == other.photo &&
+            registerMode == other.registerMode;
+  }
 
   @override
-  List<Object?> get props => [];
+  int get hashCode => super.hashCode;
 }

@@ -48,7 +48,7 @@ class NewWidget extends StatelessWidget {
                               final file = await _picker.getImage(
                                   source: ImageSource.gallery);
                               final bytes = await file!.readAsBytes();
-                              print(bytes);
+                    
                               context
                                   .read<ProfileFormBloc>()
                                   .add(ImageChanged(bytes));
@@ -90,3 +90,5 @@ class NewWidget extends StatelessWidget {
     );
   }
 }
+/* 255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 72, 0, 
+   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 72, 0  */

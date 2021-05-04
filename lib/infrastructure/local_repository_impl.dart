@@ -29,12 +29,12 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   Profile getLocalClientInfo() {
     try {
-      if (profileBox.isNotEmpty)  {
+      if (profileBox.isNotEmpty) {
         return profileBox.get(1) as Profile;
       } else {
         return Profile.empty();
-     }
-     } catch (e) {
+      }
+    } catch (e) {
       throw LocalCacheError();
     }
   }
@@ -123,7 +123,8 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   void saveCompanyListLocal(List<Company> list) {
     try {
-      list.map((company) {
+      // ignore: avoid_function_literals_in_foreach_calls
+      list.forEach((company) {
         companyBox.put(company.id, company);
       });
     } catch (e) {
@@ -160,7 +161,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  bool smsCodeVerification(String? serverCode, String? userCode) {
+  bool smsCodeVerification(String serverCode, String userCode) {
     try {
       if (VerificationCode(serverCode) == VerificationCode(userCode)) {
         return true;
@@ -239,21 +240,19 @@ class LocalRepositoryImpl implements LocalRepository {
       final filteredNameList = companyNameList
           .where((name) => name.startsWith(pattern.toLowerCase()))
           .toList();
-      final filteredCompanyList = companyBox.values
-          .toList()
-          .map((company) {
-            for (var name in filteredNameList) {
-              if (name.startsWith(company.name.toLowerCase())) {
-                return company;
-              }
-            }
-          })
-          .toList()
+   
+      final filteredCompanyList = companyBox.values.toList().map((company) {
+        for (var name in filteredNameList) {
+          if (name.startsWith(company.name.toLowerCase())) {
+            return company;
+          }
+        }
+      }).toList();
+      final companyList = filteredCompanyList
           .where((company) => company != null)
           .toList();
-
-      print(filteredCompanyList);
-      return filteredCompanyList as List<Company>;
+      print(filteredCompanyList.runtimeType);
+      return companyList.cast<Company>();
     }
     return companyBox.values.map((company) => company).toList();
   }
@@ -265,11 +264,11 @@ class LocalRepositoryImpl implements LocalRepository {
 }
 
 class VerificationCode {
-  final String? code;
+  final String code;
 
   const VerificationCode(this.code);
 
-  int get lenght => code!.length;
+  int get lenght => code.length;
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||

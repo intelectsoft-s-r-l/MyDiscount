@@ -182,7 +182,7 @@ class Formater {
 }
 
 class CompanyName {
-  final String? name;
+  final String name;
   CompanyName(this.name);
   @override
   bool operator ==(Object other) {
