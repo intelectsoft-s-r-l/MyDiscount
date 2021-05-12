@@ -15,6 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_discount/domain/settings/settings.dart';
 import 'package:my_discount/presentation/pages/add_card_page.dart';
 import 'package:my_discount/infrastructure/core/local_notification_service.dart';
 
@@ -28,7 +29,7 @@ import 'domain/entities/profile_model.dart';
 import 'domain/entities/user_model.dart';
 import 'infrastructure/core/fcm_service.dart';
 import 'infrastructure/core/remote_config_service.dart';
-import 'infrastructure/core/shared_preferences_service.dart';
+//import 'infrastructure/core/shared_preferences_service.dart';
 import 'injectable.dart';
 import 'presentation/pages/about_app_page.dart';
 import 'presentation/pages/add_card_company_list.dart';
@@ -64,11 +65,13 @@ void main() async {
     await Hive.initFlutter();
     Hive
       ..registerAdapter<User>(UserAdapter())
+      ..registerAdapter<Settings>(SettingsAdapter())
       ..registerAdapter<Profile>(ProfileAdapter())
       ..registerAdapter<News>(NewsAdapter())
       ..registerAdapter<Company>(CompanyAdapter());
 
     await Hive.openBox<User>('user');
+    await Hive.openBox<Settings>('settings');
     await Hive.openBox<Profile>('profile');
     await Hive.openBox<News>('news');
     await Hive.openBox<Company>('company');
@@ -76,7 +79,7 @@ void main() async {
     rethrow;
   }
 
-  SharedPref().remove();
+  //SharedPref().remove();
 
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   await FirebaseCrashlytics.instance.deleteUnsentReports();

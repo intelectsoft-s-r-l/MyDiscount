@@ -45,7 +45,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
     if (mounted) focusNode.unfocus();
   }
 
-  String? phoneIsoCode;
+  String? phoneIsoCode = '+373';
   String? phoneNumber;
   String confirmedNumber = '';
 
@@ -75,9 +75,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                             autovalidateMode: AutovalidateMode.always,
                             child: InternationalPhoneInput(
                               hintText: 'xxxxxxxx',
-                              decoration: const InputDecoration(
-                                enabled: true,
-                              ),
                               onPhoneNumberChange: (String number,
                                   String? internationalizedPhoneNumber,
                                   String? isoCode,
@@ -94,25 +91,33 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                               initialPhoneNumber:
                                   profile.phone.characters.skip(4).toString(),
                               initialSelection: phoneIsoCode,
-                              enabledCountries: ['+373'],
+                              enabledCountries: {
+                                '+40': 'RO',
+                                '+7': 'RU',
+                                '+374': 'AM',
+                                '+373': 'MD',
+                              },
                             ),
                           ),
                           const Divider(),
                           ElevatedButton(
                             onPressed: requestCode
-                                ? () async {
+                                ? () {
                                     if (confirmedNumber.isNotEmpty) {
-                                      setState(() {
-                                        requestCode = false;
-                                      });
-                                      await Navigator.of(context).push(
+                                      Navigator.of(context)
+                                          .push(
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               PhoneVerificationPage(
                                             phone: confirmedNumber,
                                           ),
                                         ),
-                                      );
+                                      )
+                                          .then((value) {
+                                        setState(() {
+                                          requestCode = !value;
+                                        });
+                                      });
                                     }
                                   }
                                 : null,
@@ -125,7 +130,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                         ],
                       ))
                     : Container(
-                        height: 56,
+                        //height: 56,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,

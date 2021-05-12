@@ -41,4 +41,19 @@ class User {
       'RegisterMode': registerMode,
     };
   }
+
+  @override
+ 
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is User &&
+            id == other.id &&
+            accessToken == other.accessToken &&
+            expireDate == other.expireDate &&
+            registerMode == other.registerMode;
+  }
+
+  @override
+  int get hashCode => super.hashCode;
+
 }

@@ -86,15 +86,14 @@ class LocalRepositoryImpl implements LocalRepository {
           .toList()
           .forEach((news) => newsBox.put(news.id, news));
     } catch (e) {
-      throw LocalCacheError();
+      //throw LocalCacheError();
     }
   }
 
   @override
-  User saveUserLocal(User user) {
+  void saveUserLocal(User user) {
     try {
       userBox.put(1, user);
-      return user;
     } catch (e) {
       throw LocalCacheError();
     }
@@ -133,10 +132,10 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Map<String, dynamic> returnUserMapToSave(Map<String, dynamic>? json) {
+  Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json) {
     try {
       final userMap = <String, dynamic>{};
-      final keys = json!.keys;
+      final keys = json.keys;
       for (final key in keys) {
         if (key == 'ID' || key == 'RegisterMode' || key == 'access_token') {
           userMap.putIfAbsent(key, () => json[key]);
@@ -217,13 +216,12 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  List<News> deleteNews() {
+  void deleteNews() {
     try {
       final keys = newsBox.keys;
       for (var key in keys) {
         newsBox.delete(key);
       }
-      return [];
     } catch (e) {
       throw LocalCacheError();
     }
@@ -240,17 +238,16 @@ class LocalRepositoryImpl implements LocalRepository {
       final filteredNameList = companyNameList
           .where((name) => name.startsWith(pattern.toLowerCase()))
           .toList();
-   
+
       final filteredCompanyList = companyBox.values.toList().map((company) {
         for (var name in filteredNameList) {
           if (name.startsWith(company.name.toLowerCase())) {
-            return company;
+            return company;   
           }
         }
       }).toList();
-      final companyList = filteredCompanyList
-          .where((company) => company != null)
-          .toList();
+      final companyList =
+          filteredCompanyList.where((company) => company != null).toList();
       print(filteredCompanyList.runtimeType);
       return companyList.cast<Company>();
     }
