@@ -75,7 +75,7 @@ void main() async {
     rethrow;
   }
 
-  SharedPref().remove();
+  //SharedPref().remove();
 
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   await FirebaseCrashlytics.instance.deleteUnsentReports();
