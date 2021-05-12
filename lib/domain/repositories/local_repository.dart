@@ -7,18 +7,18 @@ abstract class LocalRepository {
   void saveNewsLocal(List newsList);
   List<News> getLocalNews();
   String readEldestNewsId();
-  List<News> deleteNews();
+  void deleteNews();
 
   Future<List<Company>> getSavedCompany(String pattern);
   void saveCompanyListLocal(List<Company> list);
   List<Company> searchCompany(String pattern);
-  
+
   Future<Map<String, dynamic>> returnProfileMapDataAsMap(Profile profile);
   Profile saveClientInfoLocal(Profile profile);
   //Future<Map<String, dynamic>> getFacebookProfile(String token);
   Profile getLocalClientInfo();
 
-  User saveUserLocal(User user);
+  void saveUserLocal(User user);
   void deleteLocalUser();
   User getLocalUser();
   Map<String, dynamic> returnUserMapToSave(Map<String, dynamic> json);

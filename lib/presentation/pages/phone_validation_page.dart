@@ -85,7 +85,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
               if (state is ValidCode) {
                 context.read<ProfileFormBloc>().add(PhoneChanged(phone));
 
-                Navigator.pop(context);
+                Navigator.of(context).pop(true);
               } else if (state is InvalidCode) {
                 _focusNode.unfocus();
                 Flushbar(

@@ -85,24 +85,24 @@ class IsServiceImpl implements IsService {
 
   @override
   Future<List<Company>> getCompanyList() async {
-     try {
-    final user = _localRepository.getLocalUser();
-    final _urlFragment = '/json/GetCompany?ID=${user.id}';
-    final response = await remoteDataSourceImpl.getRequest(_urlFragment);
-    if (response.statusCode == 0) {
-      final listCompaniesMaps = response.body as List;
-      _formater.deleteImageFormatAndDecode(listCompaniesMaps, 'Logo');
-      final listCompanies = listCompaniesMaps
-          .map((company) => Company.fromJson(company))
-          .toList();
-      _localRepository.saveCompanyListLocal(listCompanies);
-      if (listCompanies.isEmpty) {
-        throw EmptyList();
+    try {
+      final user = _localRepository.getLocalUser();
+      final _urlFragment = '/json/GetCompany?ID=${user.id}';
+      final response = await remoteDataSourceImpl.getRequest(_urlFragment);
+      if (response.statusCode == 0) {
+        final listCompaniesMaps = response.body as List;
+        _formater.deleteImageFormatAndDecode(listCompaniesMaps, 'Logo');
+        final listCompanies = listCompaniesMaps
+            .map((company) => Company.fromJson(company))
+            .toList();
+        _localRepository.saveCompanyListLocal(listCompanies);
+        if (listCompanies.isEmpty) {
+          throw EmptyList();
+        }
+        return listCompanies;
+      } else {
+        throw ServerError();
       }
-      return listCompanies;
-    } else {
-      throw ServerError();
-    }
     } catch (e) {
       rethrow;
     }
@@ -181,7 +181,8 @@ class IsServiceImpl implements IsService {
       final userMap = _localRepository.returnUserMapToSave(json);
 
       if (response.statusCode == 0) {
-        final user = _localRepository.saveUserLocal(User.fromJson(userMap));
+        final user = User.fromJson(userMap);
+        _localRepository.saveUserLocal(user);
         return user;
       } else {
         throw ServerError();
