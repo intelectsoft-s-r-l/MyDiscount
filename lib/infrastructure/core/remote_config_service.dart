@@ -15,7 +15,7 @@ class RemoteConfigService {
       }
 
       final serviceNameAsMap =
-          _decodeRemoteConfigData(remoteConfig.getString('service_name_dev'))!;
+          _decodeRemoteConfigData(remoteConfig.getString('service_name_dev'));
 
       return serviceNameAsMap['service_name'];
     } catch (e, s) {
@@ -24,8 +24,8 @@ class RemoteConfigService {
     }
   }
 
-  Map<String, dynamic>? _decodeRemoteConfigData(String data) {
-    final decoded = json.decode(data) as Map<String, dynamic>?;
+  Map<String, dynamic> _decodeRemoteConfigData(String data) {
+    final decoded = json.decode(data) as Map<String, dynamic>;
     return decoded;
   }
 }

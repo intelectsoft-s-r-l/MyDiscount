@@ -46,12 +46,13 @@ import 'infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart'
     as _i27; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
-/// initializes the registration of provided dependencies inside of [GetIt]
+// initializes the registration of provided dependencies inside of [GetIt]
 _i1.GetIt $initGetIt(_i1.GetIt get,
     {String? environment, _i2.EnvironmentFilter? environmentFilter}) {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final serviceInjectableModule = _$ServiceInjectableModule();
   gh.lazySingleton<_i3.Box<_i4.User>>(() => serviceInjectableModule.userBox);
+  // ignore_for_file: cascade_invocations
   gh.lazySingleton<_i3.Box<_i5.Profile>>(
       () => serviceInjectableModule.profileBox);
   gh.lazySingleton<_i3.Box<_i6.News>>(() => serviceInjectableModule.newsBox);

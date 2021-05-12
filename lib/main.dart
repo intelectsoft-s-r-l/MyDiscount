@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -12,10 +13,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/domain/settings/settings.dart';
+import 'package:my_discount/core/constants/credentials.dart';
+
 import 'package:my_discount/presentation/pages/add_card_page.dart';
 import 'package:my_discount/infrastructure/core/local_notification_service.dart';
 
@@ -60,19 +63,29 @@ void main() async {
   configureInjection(Environment.prod);
 
   await Firebase.initializeApp();
+  final storage = const FlutterSecureStorage();
 
+  const key = 'hiveKey';
+  final List<int> hiveKey;
+  if (await storage.containsKey(key: key)) {
+    hiveKey = base64Decode(await storage.read(key: key) as String).toList();
+  } else {
+    final value = Hive.generateSecureKey();
+    await storage.write(key: key, value: base64Encode(value));
+    hiveKey = base64Decode(await storage.read(key: key) as String).toList();
+  }
   try {
     await Hive.initFlutter();
     Hive
       ..registerAdapter<User>(UserAdapter())
-      ..registerAdapter<Settings>(SettingsAdapter())
       ..registerAdapter<Profile>(ProfileAdapter())
       ..registerAdapter<News>(NewsAdapter())
       ..registerAdapter<Company>(CompanyAdapter());
 
-    await Hive.openBox<User>('user');
-    await Hive.openBox<Settings>('settings');
-    await Hive.openBox<Profile>('profile');
+    await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
+
+    await Hive.openBox<Profile>('profile',
+        encryptionCipher: HiveAesCipher(hiveKey));
     await Hive.openBox<News>('news');
     await Hive.openBox<Company>('company');
   } catch (e) {
