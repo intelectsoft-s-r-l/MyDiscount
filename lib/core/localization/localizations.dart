@@ -8,7 +8,7 @@ import '../../infrastructure/core/shared_preferences_service.dart';
 class AppLocalizations {
   final Locale? locale;
   AppLocalizations(this.locale);
- final SharedPref _prefs = SharedPref();
+  final SharedPref _prefs = SharedPref();
 
   static AppLocalizations? of(BuildContext context) {
     return Localizations.of(context, AppLocalizations);
@@ -19,11 +19,11 @@ class AppLocalizations {
   late Map<String, dynamic> _localizedStrings;
 
   Future<bool> load() async {
-   final  jsonString =
+    final jsonString =
         await rootBundle.loadString('lang/${locale!.languageCode}.json');
-   final  jsonMap = json.decode(jsonString) as Map<String,dynamic>;
+    final jsonMap = json.decode(jsonString) as Map<String, dynamic>;
 
-    _localizedStrings = jsonMap.map<String,String>(
+    _localizedStrings = jsonMap.map<String, String>(
       (key, dynamic value) {
         return MapEntry(key, value.toString());
       },
@@ -32,12 +32,12 @@ class AppLocalizations {
   }
 
   Future<Locale> setLocale(String languageCode) async {
-     _prefs.saveLocale(languageCode);
+    _prefs.saveLocale(languageCode);
     return _locale(languageCode);
   }
 
   Future<Locale> getLocale() async {
-   final languageCode = await _prefs.readLocale() ?? 'en';
+    final languageCode = await _prefs.readLocale() ?? 'en';
     return _locale(languageCode);
   }
 
@@ -70,7 +70,7 @@ class AppLocalizations {
   }
 
   Future<Language> getLanguage() async {
-  final  languageCode = await _prefs.readLocale() ?? 'en';
+    final languageCode = await _prefs.readLocale() ?? 'en';
     return _language(languageCode);
   }
 
@@ -90,7 +90,7 @@ class _AppLocalizationsDelegate
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
-  final  localizations =  AppLocalizations(locale);
+    final localizations = AppLocalizations(locale);
     await localizations.load();
     return localizations;
   }
@@ -98,7 +98,7 @@ class _AppLocalizationsDelegate
   @override
 
   // ignore: non_constant_identifier_names
-  
+
   bool shouldReload(LocalizationsDelegate<AppLocalizations> _) => false;
 }
 

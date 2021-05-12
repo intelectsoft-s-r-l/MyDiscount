@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_discount/domain/settings/settings.dart';
 
 import '../../aplication/providers/news_settings.dart';
 import '../../core/constants/credentials.dart';
@@ -48,6 +49,8 @@ abstract class ServiceInjectableModule {
   Box<News> get newsBox => Hive.box<News>('news');
   @lazySingleton
   Box<Company> get companyBox => Hive.box<Company>('company');
+  @lazySingleton
+  Box<Settings> get settingsBox => Hive.box<Settings>('settings');
   @lazySingleton
   RemoteConfigService get remoteConfig => RemoteConfigService();
   @lazySingleton
