@@ -4,24 +4,24 @@ class ProfileHomeItemWidget extends StatelessWidget {
   const ProfileHomeItemWidget({
     Key? key,
     this.icon,
-    this.pageName,
-    this.routeName,
+   required this.pageName,
+   required this.routeName,
   }) : super(key: key);
   final IconData? icon;
-  final String? pageName;
-  final String? routeName;
+  final String pageName;
+  final String routeName;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(routeName!, arguments: pageName);
+            Navigator.of(context).pushNamed(routeName, arguments: pageName);
           },
           child: ListTile(
             leading: icon != null ? Icon(icon, size: 35, color: Colors.green) : null,
             title: Text(
-              pageName!,
+              pageName,
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

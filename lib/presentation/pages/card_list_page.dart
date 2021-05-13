@@ -141,7 +141,8 @@ class CardWidget extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Container(width:MediaQuery.of(context).size.width*.53,
+                  Container(
+                    width: MediaQuery.of(context).size.width * .53,
                     child: OverflowBar(children: [
                       Text(
                         AppLocalizations.of(context)!.translate('card')!,
@@ -174,15 +175,15 @@ class CheckStatusWidget extends StatelessWidget {
     switch (status) {
       case 0:
         return const Status(
-          jKey: 'statusaccepted',
-          icon: Icons.check_circle_outline,
-          color: Colors.green,
-        );
-      case 1:
-        return const Status(
           jKey: 'statuswaiting',
           icon: Icons.cached_rounded,
           color: Colors.amber,
+        );
+      case 1:
+        return const Status(
+          jKey: 'statusaccepted',
+          icon: Icons.check_circle_outline,
+          color: Colors.green,
         );
       case 2:
         return const Status(
@@ -190,7 +191,6 @@ class CheckStatusWidget extends StatelessWidget {
           icon: Icons.highlight_remove_sharp,
           color: Colors.red,
         );
-      
     }
     return Container();
   }

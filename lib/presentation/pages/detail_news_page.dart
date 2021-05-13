@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../domain/entities/news_model.dart';
 import '../widgets/custom_app_bar.dart';
-import '../widgets/news_page_widgets/html_text_view_widget.dart';
+import '../widgets/news_page_widgets/news_item/html_text_view_widget.dart';
 
 class DetailNewsPage extends StatelessWidget {
   const DetailNewsPage({
