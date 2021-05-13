@@ -232,23 +232,26 @@ class LocalRepositoryImpl implements LocalRepository {
       final companyNameList = companyBox.values
           .toList()
           .cast<Company>()
-          .map((e) => e.name.toLowerCase())
-          .toList();
-      final filteredNameList = companyNameList
+          .map((company) => company.name.toLowerCase())
+          .toList()
           .where((name) => name.startsWith(pattern.toLowerCase()))
           .toList();
 
-      final filteredCompanyList = companyBox.values.toList().map((company) {
-        for (var name in filteredNameList) {
-          if (name.startsWith(company.name.toLowerCase())) {
-            return company;
-          }
-        }
-      }).toList();
-      final companyList =
-          filteredCompanyList.where((company) => company != null).toList();
-      print(filteredCompanyList.runtimeType);
-      return companyList.cast<Company>();
+      final filteredCompanyList = companyBox.values
+          .toList()
+          .map((company) {
+            for (var name in companyNameList) {
+              if (name.startsWith(company.name.toLowerCase())) {
+                return company;
+              }
+            }
+          })
+          .toList()
+          .where((company) => company != null)
+          .toList()
+          .cast<Company>();
+     // print(filteredCompanyList.runtimeType);
+      return filteredCompanyList;
     }
     return companyBox.values.map((company) => company).toList();
   }
