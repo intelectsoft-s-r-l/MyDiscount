@@ -37,9 +37,9 @@ class Profile {
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       email: json['Email'],
-      phone: json['phone'],
+      phone: json['phone']??'',
       photo: json['Photo'],
-      pushToken: json['PushToken'],
+      pushToken: json['PushToken']??'',
       registerMode: json['mode'],
     );
   }
