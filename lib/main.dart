@@ -11,13 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/core/constants/credentials.dart';
 
 import 'package:my_discount/presentation/pages/add_card_page.dart';
 import 'package:my_discount/infrastructure/core/local_notification_service.dart';
@@ -32,7 +32,6 @@ import 'domain/entities/profile_model.dart';
 import 'domain/entities/user_model.dart';
 import 'infrastructure/core/fcm_service.dart';
 import 'infrastructure/core/remote_config_service.dart';
-//import 'infrastructure/core/shared_preferences_service.dart';
 import 'injectable.dart';
 import 'presentation/pages/about_app_page.dart';
 import 'presentation/pages/add_card_company_list.dart';
@@ -52,8 +51,22 @@ import 'presentation/widgets/circular_progress_indicator_widget.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  /* await FlutterLocalNotificationsPlugin().show(int.parse(message.data['id']),
-      message.data['title'], message.data['body'],const NotificationDetails() ); */
+  await FlutterLocalNotificationsPlugin().show(int.parse(message.data['id']),
+      message.data['title'], message.data['body'],const NotificationDetails(android:AndroidNotificationDetails(
+      'your channel id',
+      'your channel name',
+      'your channel description',
+      importance: Importance.max,
+      priority: Priority.max,
+      icon: '@mipmap/ic_notifications_icon',
+      enableLights: true,
+      ledColor:  Color(0xFF0000FF),
+      ledOffMs: 2000,
+      ledOnMs: 2000,
+      color:  Color(0xFF00C569),
+      enableVibration: true,
+     // vibrationPattern: vibrationPattern,
+    ) ) );
   debugPrint('Handling a background message: ${message.messageId}');
 }
 
@@ -311,37 +324,3 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
     );
   }
 }
-/*  encryptionCipher: HiveAesCipher([
-          19,
-          93,
-          01,
-          03,
-          255,
-          08,
-          29,
-          155,
-          32,
-          45,
-          86,
-          120,
-          76,
-          240,
-          58,
-          200,
-          35,
-          42,
-          244,
-          195,
-          71,
-          08,
-          29,
-          155,
-          32,
-          45,
-          86,
-          120,
-          76,
-          240,
-          58,
-          200
-        ]) */
