@@ -8,11 +8,11 @@ import '../widgets/news_page_widgets/html_text_view_widget.dart';
 
 class DetailNewsPage extends StatelessWidget {
   const DetailNewsPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final  news = ModalRoute.of(context).settings.arguments as News;
+    final  news = ModalRoute.of(context)!.settings.arguments as News;
     final size = MediaQuery.of(context).size;
     return CustomAppBar(
       title: news.companyName,
@@ -24,7 +24,7 @@ class DetailNewsPage extends StatelessWidget {
             Html(
               data: news.header,
               onLinkTap: (url,_,__,___) async {
-                if (await canLaunch(url)) {
+                if (await canLaunch(url!)) {
                 await  launch(url);
                 } else {
                   throw Exception();
@@ -36,7 +36,7 @@ class DetailNewsPage extends StatelessWidget {
               width: size.width,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: news.photo != null && news.photo != []
+                child: news.photo != []
                     ? Image.memory(
                         news.photo,
                         fit: BoxFit.fill,

@@ -11,7 +11,7 @@ import '../transaction_page_widgets/transaction_list_widget.dart';
 
 class TransactionPageList extends StatelessWidget {
   const TransactionPageList({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class TransactionPageList extends StatelessWidget {
                         top: size.width * .65,
                         child: Container(
                           width: size.width,
-                          child: Text(AppLocalizations.of(context).translate('notransactions'),
+                          child: Text(AppLocalizations.of(context)!.translate('notransactions')!,
                               style:const TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                         ),
                       ),

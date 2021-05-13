@@ -5,10 +5,10 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class QrImageWidget extends StatelessWidget {
   const QrImageWidget({
-    Key key,
-    @required this.future,
-    @required this.size,
-    @required StreamController<double> progressController,
+    Key? key,
+    required this.future,
+    required this.size,
+    required StreamController<double> progressController,
   })  : _progressController = progressController,
         super(key: key);
   final Future<String> future;
@@ -43,6 +43,7 @@ class QrImageWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: FutureBuilder<String>(
+                  //initialData: '',
                   future: future,
                   builder: (context, snapshot) => snapshot.hasData
                       ? Container(
@@ -58,7 +59,7 @@ class QrImageWidget extends StatelessWidget {
                               ],
                             ).createShader(rect),
                             child: QrImage(
-                              data: snapshot.data,
+                              data: snapshot.data as String,
                               size: size.width * .6,
                             ),
                           ),

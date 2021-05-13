@@ -10,11 +10,11 @@ import '../entities/user_model.dart';
 abstract class IsService {
   Future<List<News>> getAppNews();
   
-  Future<Profile> getClientInfo({String id, int registerMode});
-  Future<User> updateClientInfo({Map<String, dynamic> json});
+  Future<Profile> getClientInfo({String? id, int? registerMode});
+  Future<User> updateClientInfo({required Map<String, dynamic> json});
   
-  Future<IsResponse> requestActivationCard({Map<String, dynamic> json});
-  Future<List<DiscountCard>> getRequestActivationCards({String id, int registerMode});
+  Future<IsResponse> requestActivationCard({required Map<String, dynamic> json});
+  Future<List<DiscountCard>> getRequestActivationCards({ String? id,  int? registerMode});
   
   Future<List<Company>> getCompanyList();
   
@@ -22,5 +22,5 @@ abstract class IsService {
   
   Future<List<Transaction>> getTransactionList();
   
-  Future<String> validatePhone({String phone});
+  Future<String> validatePhone({required String phone});
 }

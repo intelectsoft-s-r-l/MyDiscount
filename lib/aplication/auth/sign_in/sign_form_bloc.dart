@@ -28,7 +28,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
       if (event is SignInWithGoogle) {
         if (await network.isConnected) {
           final user = await _authRepositoryImpl.authenticateWithGoogle();
-          if (user != null) {
+          if (!user.isEmpty) {
             yield SignFormDone(user);
           } else {
             yield const SignInError();
@@ -40,7 +40,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
       if (event is SignInWithFacebook) {
         if (await network.isConnected) {
           final user = await _authRepositoryImpl.authenticateWithFacebook();
-          if (user != null) {
+          if (!user.isEmpty) {
             yield SignFormDone(user);
           } else {
             yield const SignInError();
@@ -52,7 +52,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
       if (event is SignInWithApple) {
         if (await network.isConnected) {
           final user = await _authRepositoryImpl.authenticateWithApple();
-          if (user != null) {
+          if (!user.isEmpty) {
             yield SignFormDone(user);
           } else {
             throw Exception();

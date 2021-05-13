@@ -8,7 +8,7 @@ class SharedPref {
     await authData.clear();
   }
 
- /*  void savePhoneNumber(String profile) async {
+  /*  void savePhoneNumber(String profile) async {
     final prefs = await SharedPreferences.getInstance();
    await prefs.setString('phone', profile);
   }
@@ -23,7 +23,7 @@ class SharedPref {
     await prefs.setString('locale', locale);
   }
 
-  Future<String> readLocale() async {
+  Future<String?> readLocale() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('locale');
   }
@@ -45,17 +45,20 @@ class SharedPref {
 
   Future<bool> readFCMState() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('fcmState');
+    return prefs.getBool('fcmState') ?? false;
   }
 
- void saveNewsState(bool value) async {
+  void saveNewsState(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('newsState', value);
   }
 
   Future<bool> readNewsState() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('newsState')) return prefs.getBool('newsState');
+    if (prefs.containsKey('newsState')) {
+      return prefs.getBool('newsState') ?? true;
+    }
+
     return true;
   }
 }

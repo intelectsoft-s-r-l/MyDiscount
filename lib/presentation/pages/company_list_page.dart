@@ -16,12 +16,12 @@ import '../widgets/nointernet_widget.dart';
 
 class CompanyListPage extends StatelessWidget {
   const CompanyListPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final pageName = ModalRoute.of(context)!.settings.arguments as String?;
 
     return CustomAppBar(
       title: pageName,

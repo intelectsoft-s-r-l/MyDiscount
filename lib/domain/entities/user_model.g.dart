@@ -19,7 +19,7 @@ class UserAdapter extends TypeAdapter<User> {
     return User(
       id: fields[0] as String,
       accessToken: fields[1] as String,
-      expireDate: fields[2] as String,
+      expireDate: fields[2] as String?,
       registerMode: fields[3] as int,
     );
   }

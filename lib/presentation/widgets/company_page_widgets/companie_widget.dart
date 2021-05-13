@@ -49,7 +49,7 @@ class CompanyWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context).translate('amount'),
+                AppLocalizations.of(context)!.translate('amount')!,
                 style: const TextStyle(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.start,
               ),

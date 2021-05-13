@@ -17,5 +17,8 @@ class UserInputCode extends PhoneValidationEvent {
   final String userCode;
   final String serverCode;
 
-  UserInputCode(this.userCode,this.serverCode);
+  UserInputCode(
+    this.userCode,
+    this.serverCode,
+  );
 }

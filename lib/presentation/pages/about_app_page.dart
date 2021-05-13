@@ -11,7 +11,7 @@ class AboutAppPage extends StatefulWidget {
 }
 
 class _AboutAppPageState extends State<AboutAppPage> {
-  String appversion;
+  String? appversion;
   @override
   void initState() {
     super.initState();
@@ -25,19 +25,20 @@ class _AboutAppPageState extends State<AboutAppPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final pageName = ModalRoute.of(context)!.settings.arguments as String?;
 
     return CustomAppBar(
       title: pageName,
       child: Container(
-        padding:const EdgeInsets.only(left: 5, right: 5),
+        padding: const EdgeInsets.only(left: 5, right: 5),
         color: Colors.white,
         child: SingleChildScrollView(
           child: Column(
             children: [
               Text(
-                AppLocalizations.of(context).translate('welcome'),
-                style:const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                AppLocalizations.of(context)!.translate('welcome')!,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Container(
                   height: size.height * .45,
@@ -47,29 +48,29 @@ class _AboutAppPageState extends State<AboutAppPage> {
                     fit: BoxFit.fill,
                   )),
               Text(
-                '${AppLocalizations.of(context).translate('appversion')} $appversion',
-                style:const TextStyle(fontWeight: FontWeight.bold),
+                '${AppLocalizations.of(context)!.translate('appversion')} $appversion',
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-             const SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
-                AppLocalizations.of(context).translate('aboutpar.1'),
+                AppLocalizations.of(context)!.translate('aboutpar.1')!,
                 style: const TextStyle(fontSize: 15),
               ),
               Text(
-                AppLocalizations.of(context).translate('aboutpar.2'),
-                style:const TextStyle(fontSize: 15),
+                AppLocalizations.of(context)!.translate('aboutpar.2')!,
+                style: const TextStyle(fontSize: 15),
               ),
               Text(
-                AppLocalizations.of(context).translate('aboutpar.3'),
-                style:const TextStyle(fontSize: 15),
+                AppLocalizations.of(context)!.translate('aboutpar.3')!,
+                style: const TextStyle(fontSize: 15),
               ),
               Text(
-                AppLocalizations.of(context).translate('aboutpar.4'),
-                style:const TextStyle(fontSize: 15),
+                AppLocalizations.of(context)!.translate('aboutpar.4')!,
+                style: const TextStyle(fontSize: 15),
               ),
-            const  SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Image.asset(

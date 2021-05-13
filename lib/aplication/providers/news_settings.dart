@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../services/shared_preferences_service.dart';
+import '../../infrastructure/core/shared_preferences_service.dart';
 
 class NewsSettings with ChangeNotifier {
   final SharedPref _prefs = SharedPref();

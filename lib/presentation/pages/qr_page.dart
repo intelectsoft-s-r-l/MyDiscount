@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_discount/presentation/widgets/circular_progress_indicator_widget.dart';
 
 import '../../core/internet_connection_service.dart';
 import '../../core/localization/localizations.dart';
@@ -12,7 +13,7 @@ import '../widgets/qr_page_widgets/human_image_widget.dart';
 import '../widgets/qr_page_widgets/qr-widget.dart';
 
 class QrPage extends StatefulWidget {
- const QrPage({Key key}) : super(key: key);
+  const QrPage({Key? key}) : super(key: key);
 
   @override
   _QrPageState createState() => _QrPageState();
@@ -24,9 +25,9 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
       StreamController.broadcast();
 
   int countTID = 0;
-  bool serviceConection;
-  String tempId;
-  Timer _timer;
+  late bool serviceConection;
+  late String tempId = '';
+  late Timer _timer;
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     getIt<IsService>().getCompanyList();
     if (mounted) _getAuthorization();
 
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
@@ -49,32 +50,32 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
       case AppLifecycleState.resumed:
         _imageController.sink.add(true);
         debugPrint('resumed');
-        _timer?.cancel();
+        _timer.cancel();
         _getAuthorization();
         countTID = 0;
         _progress = 1.1;
         break;
 
       case AppLifecycleState.inactive:
-        _timer?.cancel();
+        _timer.cancel();
         debugPrint('inactive');
         break;
       case AppLifecycleState.paused:
         debugPrint('paused');
-        _timer?.cancel();
+        _timer.cancel();
         break;
       case AppLifecycleState.detached:
         debugPrint('detached');
-        _timer?.cancel();
+        _timer.cancel();
         break;
       default:
-        if (_timer.isActive) _timer?.cancel();
+        if (_timer.isActive) _timer.cancel();
         break;
     }
   }
 
   void _changeImages() {
-    _imageController.sink?.add(false);
+    _imageController.sink.add(false);
   }
 
   double _progress = 1.1;
@@ -94,13 +95,13 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
           if (countTID < 3) {
             _getAuthorization();
             _progress = 1.1;
-            _timer?.cancel();
+            _timer.cancel();
           } else {
             _changeImages();
-            _timer?.cancel();
+            _timer.cancel();
           }
         } else {
-          _timer?.cancel();
+          _timer.cancel();
         }
       });
     }
@@ -111,7 +112,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   void _showProgress() {
     _progress -= .1;
     print('progress: ${_progress.toStringAsFixed(2)}');
-    if (mounted) _progressController.sink?.add(_progress);
+    if (mounted) _progressController.sink.add(_progress);
   }
 
   void _getAuthorization() async {
@@ -127,7 +128,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
           }
           if (countTID == 3) {
             _changeImages();
-            if (_timer.isActive) _timer?.cancel();
+            if (_timer.isActive) _timer.cancel();
           } else {
             _startTimer();
           }
@@ -155,10 +156,10 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     super.dispose();
-    if (mounted) _imageController?.close();
-    if (mounted) _progressController?.close();
-    if (mounted) _timer?.cancel();
-    WidgetsBinding.instance.removeObserver(this);
+    if (mounted) _imageController.close();
+    if (mounted) _progressController.close();
+    if (mounted) _timer.cancel();
+    WidgetsBinding.instance!.removeObserver(this);
   }
 
   @override
@@ -166,7 +167,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     final size = MediaQuery.of(context).size;
 
     return CustomAppBar(
-      title: AppLocalizations.of(context).translate('qr'),
+      title: AppLocalizations.of(context)!.translate('qr'),
       child: Container(
         color: Colors.white,
         child: Column(
@@ -178,31 +179,39 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                   stream: _imageController.stream,
                   initialData: true,
                   builder: (context, snapshot) {
-                    return snapshot.data
+                    return snapshot.data as bool
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             //mainAxisSize:MainAxisSize.min,
                             children: [
                               Text(
-                                  AppLocalizations.of(context)
-                                      .translate('showqr'),
-                                  style: const TextStyle(
-                                      //fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
+                                AppLocalizations.of(context)!
+                                    .translate('showqr')!,
+                                style: const TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
                               Text(
-                                  AppLocalizations.of(context)
-                                      .translate('qrtime'),
-                                  style: const TextStyle(
-                                      // fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
+                                AppLocalizations.of(context)!
+                                    .translate('qrtime')!,
+                                style: const TextStyle(
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
                               SizedBox(
                                 height: size.height * .06,
                               ),
-                              QrImageWidget(
-                                size: size,
-                                progressController: _progressController,
-                                future: Future.value(tempId),
-                              ),
+                              tempId != ''
+                                  ? QrImageWidget(
+                                      size: size,
+                                      progressController: _progressController,
+                                      future: Future.value(tempId),
+                                    )
+                                  : Container(
+                                      width: size.width * .8,
+                                      height: size.width * .8,
+                                      child: CircularProgresIndicatorWidget(),
+                                    )
                             ],
                           )
                         : Column(
@@ -222,16 +231,16 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                 },
                                 child: serviceConection
                                     ? Text(
-                                        AppLocalizations.of(context)
-                                            .translate('generate'),
+                                        AppLocalizations.of(context)!
+                                            .translate('generate')!,
                                         style: const TextStyle(
                                           // color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       )
                                     : Text(
-                                        AppLocalizations.of(context)
-                                            .translate('retry'),
+                                        AppLocalizations.of(context)!
+                                            .translate('retry')!,
                                         style: const TextStyle(
                                           //color: Colors.white,
                                           fontWeight: FontWeight.bold,

@@ -30,7 +30,7 @@ class LocalRepositoryImpl implements LocalRepository {
   Profile getLocalClientInfo() {
     try {
       if (profileBox.isNotEmpty) {
-        return profileBox?.get(1);
+        return profileBox.get(1) as Profile;
       } else {
         return Profile.empty();
       }
@@ -43,12 +43,13 @@ class LocalRepositoryImpl implements LocalRepository {
   List<News> getLocalNews() {
     try {
       final newsList = <News>[];
-      final keys = newsBox?.keys;
+      final keys = newsBox.keys;
       for (int key in keys) {
-        final news = newsBox?.get(key);
+        final news = newsBox.get(key) as News;
+
         newsList.add(news);
       }
-      return newsList.reversed?.toList();
+      return newsList.reversed.toList();
     } catch (e) {
       throw LocalCacheError();
     }
@@ -57,8 +58,11 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   User getLocalUser() {
     try {
-      final _user = userBox?.get(1);
-      return _user;
+      if (userBox.isNotEmpty) {
+        final _user = userBox.get(1) as User;
+        return _user;
+      }
+      return User.empty();
     } catch (e) {
       throw LocalCacheError();
     }
@@ -67,7 +71,7 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   Profile saveClientInfoLocal(Profile profile) {
     try {
-      profileBox?.put(1, profile);
+      profileBox.put(1, profile);
       return profile;
     } catch (e) {
       throw LocalCacheError();
@@ -80,17 +84,16 @@ class LocalRepositoryImpl implements LocalRepository {
       newsList
           .map((e) => News.fromJson(e))
           .toList()
-          .forEach((news) => newsBox?.put(news.id, news));
+          .forEach((news) => newsBox.put(news.id, news));
     } catch (e) {
-      throw LocalCacheError();
+      //throw LocalCacheError();
     }
   }
 
   @override
-  User saveUserLocal(User user) {
+  void saveUserLocal(User user) {
     try {
-      userBox?.put(1, user);
-      return user;
+      userBox.put(1, user);
     } catch (e) {
       throw LocalCacheError();
     }
@@ -99,7 +102,7 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   String readEldestNewsId() {
     try {
-      final listOfKeys = newsBox?.keys;
+      final listOfKeys = newsBox.keys;
 
       var id = 0;
       if (listOfKeys.isNotEmpty) {
@@ -186,9 +189,9 @@ class LocalRepositoryImpl implements LocalRepository {
       final result = await testComporessList(profile.photo);
       print(result);
       final map = profile.toCreateUser()
-        ..update('ID', (value) => user.id)
-        ..update('RegisterMode', (value) => user.registerMode)
-        ..update('access_token', (value) => user.accessToken)
+        ..update('ID', (value) => user!.id)
+        ..update('RegisterMode', (value) => user!.registerMode)
+        ..update('access_token', (value) => user!.accessToken)
         ..update('PhotoUrl', (value) => base64Encode(result.toList()));
       return map;
     } catch (e) {
@@ -208,18 +211,17 @@ class LocalRepositoryImpl implements LocalRepository {
       );
       return result;
     } catch (e) {
-     return  _readProfileImageFromAssets();
+      return _readProfileImageFromAssets();
     }
   }
 
   @override
-  List<News> deleteNews() {
+  void deleteNews() {
     try {
       final keys = newsBox.keys;
       for (var key in keys) {
         newsBox.delete(key);
       }
-      return [];
     } catch (e) {
       throw LocalCacheError();
     }
@@ -227,7 +229,7 @@ class LocalRepositoryImpl implements LocalRepository {
 
   @override
   List<Company> searchCompany(String pattern) {
-    if (pattern != null && pattern.isNotEmpty) {
+    if (pattern.isNotEmpty) {
       final companyNameList = companyBox.values
           .toList()
           .cast<Company>()
@@ -236,21 +238,18 @@ class LocalRepositoryImpl implements LocalRepository {
       final filteredNameList = companyNameList
           .where((name) => name.startsWith(pattern.toLowerCase()))
           .toList();
-      final filteredCompanyList = companyBox.values
-          .toList()
-          .map((company) {
-            for (var name in filteredNameList) {
-              if (name.startsWith(company.name.toLowerCase())) {
-                return company;
-              }
-            }
-          })
-          .toList()
-          .where((company) => company != null)
-          .toList();
 
-      print(filteredCompanyList);
-      return filteredCompanyList;
+      final filteredCompanyList = companyBox.values.toList().map((company) {
+        for (var name in filteredNameList) {
+          if (name.startsWith(company.name.toLowerCase())) {
+            return company;   
+          }
+        }
+      }).toList();
+      final companyList =
+          filteredCompanyList.where((company) => company != null).toList();
+      print(filteredCompanyList.runtimeType);
+      return companyList.cast<Company>();
     }
     return companyBox.values.map((company) => company).toList();
   }

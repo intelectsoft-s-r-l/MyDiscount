@@ -12,7 +12,7 @@ part 'phone_validation_state.dart';
 
 @injectable
 class PhoneValidationBloc extends Bloc<PhoneValidationEvent, PhoneValidationState> {
-  PhoneValidationBloc(this._isServiceImpl, this._localRepositoryImpl) : super(PhoneValidationInitial(null));
+  PhoneValidationBloc(this._isServiceImpl, this._localRepositoryImpl) : super(PhoneValidationInitial(''));
   final IsService _isServiceImpl;
   final LocalRepository _localRepositoryImpl;
   String code = '';

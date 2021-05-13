@@ -24,7 +24,7 @@ class Formater {
           map[index] = _bytes;
           return map;
         }
-      }).toList();
+      }).toList().cast<Map<String,dynamic>>();
       return _listOfMaps;
     } catch (e) {
       throw ImageDecoderError();
@@ -50,7 +50,7 @@ class Formater {
   Map<String, dynamic> splitDisplayName(Map map) {
     final displayName = map['Name'];
     try {
-      var listStrings = [];
+      List<dynamic>? listStrings = [];
       if (displayName.contains(' ')) {
         listStrings = displayName.split(' ').map((e) => e.toString()).toList();
       } else {
@@ -60,11 +60,11 @@ class Formater {
       }
 
       map
-        ..putIfAbsent('firstName', () => listStrings[0])
-        ..putIfAbsent('lastName', () => listStrings[1])
+        ..putIfAbsent('firstName', () => listStrings![0])
+        ..putIfAbsent('lastName', () => listStrings![1])
         ..remove('Name');
 
-      return map;
+      return map as Map<String, dynamic>;
     } catch (e) {
       throw NameParserError();
     }
@@ -93,7 +93,7 @@ class Formater {
   }
 
   Map<String, dynamic> addToProfileMapSignMethod(
-      Map<String, dynamic> map, int registerMode) {
+      Map<String, dynamic> map, int? registerMode) {
     try {
       map.putIfAbsent('mode', () => registerMode);
       return map;
@@ -134,7 +134,7 @@ class Formater {
     );
   }
 
-  String _deleteImageFormat(String _base64) {
+  String _deleteImageFormat(String? _base64) {
     return _base64
         .toString()
         .replaceRange(0, _base64.toString().indexOf(',') + 1, '');
@@ -157,10 +157,10 @@ class Formater {
       if (companyBox.isNotEmpty) {
         final keys = companyBox.keys;
         _addLogoToMap(keys, companyBox, map);
-        return map;
+        return map as Map<String, dynamic>;
       } else {
         map.putIfAbsent('Logo', () => _returnPlaceholderAsBytes);
-        return map;
+        return map as Map<String, dynamic>;
       }
     } catch (e) {
       rethrow;
@@ -173,7 +173,7 @@ class Formater {
 
   void _addLogoToMap(dynamic keys, Box<Company> companyBox, Map map) {
     for (dynamic key in keys) {
-      final company = companyBox.get(key);
+      final company = companyBox.get(key)!;
       if (CompanyName(company.name) == CompanyName(map['Company'])) {
         map.putIfAbsent('Logo', () => company.logo);
       }

@@ -8,7 +8,7 @@ abstract class ProfileFormState extends Equatable {
   final bool isSaved;
 
   @override
-  List<Object> get props => [profile];
+  List<Object?> get props => [profile];
 }
 
 class ProfileFormInitial extends ProfileFormState {

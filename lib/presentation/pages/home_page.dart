@@ -46,36 +46,36 @@ class _HomePageState extends State<HomePage> {
                     ProfileHomeItemWidget(
                       icon: Icons.account_circle_outlined,
                       pageName:
-                          AppLocalizations.of(context).translate('profile'),
+                          AppLocalizations.of(context)!.translate('profile'),
                       routeName: '/profilepage',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.apartment_outlined,
                       pageName:
-                          AppLocalizations.of(context).translate('companies'),
+                          AppLocalizations.of(context)!.translate('companies'),
                       routeName: '/companypage',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.card_giftcard_outlined,
                       pageName:
-                          AppLocalizations.of(context).translate('mycards'),
+                          AppLocalizations.of(context)!.translate('mycards'),
                       routeName: '/cardlist',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.transfer_within_a_station_outlined,
-                      pageName: AppLocalizations.of(context)
+                      pageName: AppLocalizations.of(context)!
                           .translate('transactions'),
                       routeName: '/transactionlist',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.info_outline,
-                      pageName: AppLocalizations.of(context).translate('Info'),
+                      pageName: AppLocalizations.of(context)!.translate('Info'),
                       routeName: '/infopage',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.settings,
                       pageName:
-                          AppLocalizations.of(context).translate('settings'),
+                          AppLocalizations.of(context)!.translate('settings'),
                       routeName: '/settings',
                     ),
                   ],

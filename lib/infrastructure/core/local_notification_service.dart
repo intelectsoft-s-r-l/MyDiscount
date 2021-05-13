@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 
-import '../domain/entities/received_notification.dart';
+import '../../domain/entities/received_notification.dart';
+
+
 
 @injectable
 class LocalNotificationsService {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  final FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 
   LocalNotificationsService(this.flutterLocalNotificationsPlugin);
 
@@ -25,7 +27,7 @@ class LocalNotificationsService {
         requestAlertPermission: false,
         requestBadgePermission: true,
         requestSoundPermission: false,
-        onDidReceiveLocalNotification: (int id, String title, String body, String payload) async {
+        onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
           didReceiveLocalNotificationSubject.add(ReceivedNotification(
             body: body,
             title: title,
@@ -38,7 +40,7 @@ class LocalNotificationsService {
       iOS: initializationSettingsIOS,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(
+    await flutterLocalNotificationsPlugin!.initialize(
       initializationSettings,
       onSelectNotification: (notification) async {
         selectNotificationSubject.add(notification);
@@ -72,7 +74,7 @@ class LocalNotificationsService {
       presentAlert: true,
     );
     final platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
+    await flutterLocalNotificationsPlugin!.show(
       /* Platform.isIOS ?  */int.parse(notification['id'] as String) /* : int.parse(notification['data']['id'] as String) */,
       /* Platform.isIOS ? */ '${notification['title']}' /* : '${notification['notification']['title']} '*/,
      /*  Platform.isIOS ? */ '${notification['body']}'/*  : '${notification['notification']['body']} '*/,

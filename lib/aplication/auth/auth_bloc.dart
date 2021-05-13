@@ -12,17 +12,22 @@ part 'auth_state.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._localRepositoryImpl) : super(AuthInitial());
-  final LocalRepository _localRepositoryImpl; 
- 
+  final LocalRepository _localRepositoryImpl;
+  late Timer timer;
   @override
   Stream<AuthState> mapEventToState(
     AuthEvent event,
   ) async* {
-   
-   
     if (event is AuthCheckRequested) {
       final user = _localRepositoryImpl.getLocalUser();
-      if (user != null) {
+      /*final date= DateTime.parse(user.expireDate as String); 
+ 
+ final diff= date.difference(DateTime.now());
+ print (diff.inSeconds);
+      timer = Timer.periodic(Duration(seconds:diff.inSeconds),(timer) {
+       
+      });*/
+      if (user.registerMode != -1) {
         yield AuthAuthorized();
       } else {
         yield AuthUnauthorized();

@@ -19,7 +19,7 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return CustomAppBar(
-      title: AppLocalizations.of(context).translate('news'),
+      title: AppLocalizations.of(context)!.translate('news'),
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -28,7 +28,7 @@ class _NotificationPageState extends State<NotificationPage> {
           future: getIt<IsService>().getAppNews(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data.isEmpty) {
+              if (snapshot.data!.isEmpty) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -56,8 +56,8 @@ class _NotificationPageState extends State<NotificationPage> {
                               alignment: Alignment.center,
                               width: size.width,
                               child: Text(
-                                AppLocalizations.of(context)
-                                    .translate('nonews'),
+                                AppLocalizations.of(context)!
+                                    .translate('nonews')!,
                                 style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
@@ -79,9 +79,9 @@ class _NotificationPageState extends State<NotificationPage> {
                       thickness: 3.0,
                     ),
                   ),
-                  itemCount: snapshot.data.length,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    final news = snapshot.data[index];
+                    final news = snapshot.data![index];
                     return NewsListItem(
                       news: news,
                       size: size,
@@ -117,7 +117,7 @@ class _NotificationPageState extends State<NotificationPage> {
                             alignment: Alignment.center,
                             width: size.width,
                             child: Text(
-                              AppLocalizations.of(context).translate('nonews'),
+                              AppLocalizations.of(context)!.translate('nonews')!,
                               style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),

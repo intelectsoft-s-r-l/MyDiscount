@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../../core/failure.dart';
 import '../../core/internet_connection_service.dart';
 import '../../domain/data_source/remote_datasource.dart';
-import '../../services/remote_config_service.dart';
+import '../../infrastructure/core/remote_config_service.dart';
 
 @LazySingleton(as: RemoteDataSource)
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -17,11 +17,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<IsResponse> getRequest(urlFragment) async {
     try {
-      if (await _network?.isConnected) {
+      if (await _network.isConnected) {
         final serviceName =
-            await _remoteConfigService?.getServiceNameFromRemoteConfig();
+            await _remoteConfigService.getServiceNameFromRemoteConfig();
         final _baseUrl = '$serviceName$urlFragment';
-        return _client.get(_baseUrl);
+        return _client.get(_baseUrl).timeout(const Duration(seconds: 3));
       } else {
         throw NoInternetConection();
       }
@@ -31,14 +31,16 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<IsResponse> postRequest(
-      {Map<String, dynamic> json, String urlFragment}) async {
+  Future<IsResponse> postRequest({
+    required Map<String, dynamic> json,
+    required String urlFragment,
+  }) async {
     try {
-      if (await _network?.isConnected) {
+      if (await _network.isConnected) {
         final serviceName =
-            await _remoteConfigService?.getServiceNameFromRemoteConfig();
+            await _remoteConfigService.getServiceNameFromRemoteConfig();
         final _url = '$serviceName$urlFragment';
-        return _client.post(_url, json);
+        return _client.post(_url, json).timeout(const Duration(seconds: 3));
       } else {
         throw NoInternetConection();
       }

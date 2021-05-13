@@ -12,9 +12,9 @@ import '../../injectable.dart';
 import '../widgets/custom_app_bar.dart';
 
 class PhoneVerificationPage extends StatefulWidget {
-  const PhoneVerificationPage({this.phone, this.phoneBloc});
+  const PhoneVerificationPage({required this.phone,/* this.phoneBloc */});
   //final ProfileFormBloc bloc;
-  final PhoneValidationBloc phoneBloc;
+  //final PhoneValidationBloc phoneBloc;
   final String phone;
   @override
   _PhoneVerificationPageState createState() => _PhoneVerificationPageState();
@@ -24,8 +24,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
   final TextEditingController _codeController = TextEditingController();
   final StreamController<int> _controller = StreamController();
   final FocusNode _focusNode = FocusNode();
-  String _currentCode;
-  Timer _timer;
+  late String _currentCode;
+  late Timer _timer;
   bool isActive = true;
 
   int _duration = 60;
@@ -74,7 +74,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     /* final phoneBloc = widget.phoneBloc; */
     final phone = widget.phone;
     return CustomAppBar(
-      title: AppLocalizations.of(context).translate('phoneverification'),
+      title: AppLocalizations.of(context)!.translate('phoneverification'),
       child: BlocProvider(
         create: (context) =>
             getIt<PhoneValidationBloc>()..add(GetValidationCode(phone)),
@@ -85,12 +85,12 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
               if (state is ValidCode) {
                 context.read<ProfileFormBloc>().add(PhoneChanged(phone));
 
-                Navigator.pop(context);
+                Navigator.of(context).pop(true);
               } else if (state is InvalidCode) {
                 _focusNode.unfocus();
                 Flushbar(
                   message:
-                      AppLocalizations.of(context).translate('incorectcode'),
+                      AppLocalizations.of(context)!.translate('incorectcode'),
                   duration: const Duration(seconds: 3),
                 ).show(context);
                 context.read<PhoneValidationBloc>();
@@ -105,7 +105,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Text(AppLocalizations.of(context).translate('entercode'),
+                  Text(AppLocalizations.of(context)!.translate('entercode')!,
                       style: const TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold)),
                   const SizedBox(
@@ -120,10 +120,10 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                     child: PinFieldAutoFill(
                       controller: _codeController,
                       focusNode: _focusNode,
-                      autofocus: true,
+                     // autofocus: true,
                       codeLength: 4,
                       onCodeChanged: (code) {
-                        _currentCode = code;
+                        _currentCode = code as String;
                       },
                     ),
                   ),
@@ -164,8 +164,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                 width: size.width * .3,
                                 child: Text(
                                   snapshot.hasData
-                                      ? '${AppLocalizations.of(context).translate('send')}(${snapshot.data})'
-                                      : '${AppLocalizations.of(context).translate('send')}',
+                                      ? '${AppLocalizations.of(context)!.translate('send')}(${snapshot.data})'
+                                      : '${AppLocalizations.of(context)!.translate('send')}',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -194,7 +194,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                           alignment: Alignment.center,
                           width: size.width * .3,
                           child: Text(
-                            AppLocalizations.of(context).translate('verify'),
+                            AppLocalizations.of(context)!.translate('verify')!,
                           ),
                         ),
                       )

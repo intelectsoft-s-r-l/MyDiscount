@@ -33,48 +33,48 @@ class AuthRepositoryImpl implements AuthRepository {
             AppleIDAuthorizationScopes.fullName
           ]);
       final profile = await _isService.getClientInfo(
-          id: appleCredentials.userIdentifier, registerMode: 3);
+          id: appleCredentials.userIdentifier as String, registerMode: 3);
 
-      final localCredentialsMap = profile?.toCreateUser();
+      final localCredentialsMap = profile.toCreateUser();
 
       final credentialsMap =
-          profile == null ? appleCredentials.toMap() : localCredentialsMap
+          profile.isEmpty ? appleCredentials.toMap() : localCredentialsMap
             ..update('ID', (_) => appleCredentials.userIdentifier)
             ..update('access_token', (_) => appleCredentials.identityToken);
 
       final localUser = await _isService.updateClientInfo(json: credentialsMap);
       return localUser;
     } catch (e) {
-      return null;
+      return User.empty();
     }
   }
 
   @override
   Future<User> authenticateWithFacebook() async {
     try {
-      final token = await fb.login();
+      final fbUser = await fb.login(loginBehavior: LoginBehavior.DIALOG_ONLY);
       final fbProfile = await fb.getUserData();
 
       final profile = await _isService.getClientInfo(
-        id: token?.userId,
+        id: fbUser.accessToken!.userId,
         registerMode: 2,
       );
 
-      final localCredentialsMap = profile?.toCreateUser();
+      final localCredentialsMap = profile.toCreateUser();
 
       final baseUserCredentials =
-          fb.toCredMap(token: token, profile: fbProfile);
+          fb.toCredMap(token: fbUser.accessToken, profile: fbProfile);
 
       final credentialsMap =
-          profile == null ? baseUserCredentials : localCredentialsMap
-            ..update('ID', (_) => token.userId)
-            ..update('access_token', (_) => token.token);
+          profile.isEmpty ? baseUserCredentials : localCredentialsMap
+            ..update('ID', (_) => fbUser.accessToken!.userId)
+            ..update('access_token', (_) => fbUser.accessToken!.token);
 
       final localUser = await _isService.updateClientInfo(json: credentialsMap);
 
       return localUser;
     } catch (e) {
-      return null;
+      return User.empty();
     }
   }
 
@@ -89,9 +89,9 @@ class AuthRepositoryImpl implements AuthRepository {
             await _isService.getClientInfo(id: _account.id, registerMode: 1);
         final googleCredentials = _account.toMap(user.idToken);
 
-        final localCredentialsMap = profile?.toCreateUser();
+        final localCredentialsMap = profile.toCreateUser();
 
-        final map = profile == null ? googleCredentials : localCredentialsMap
+        final map = profile.isEmpty ? googleCredentials : localCredentialsMap
           ..update('ID', (_) => _account.id)
           ..update('access_token', (_) => user.accessToken);
 
@@ -99,9 +99,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
         return localUser;
       }
-      return null;
+      return User.empty();
     } catch (e) {
-      return null;
+      return User.empty();
     }
   }
 

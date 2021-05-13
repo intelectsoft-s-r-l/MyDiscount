@@ -19,13 +19,13 @@ extension AuthorizationCredentialAppleIDX on AuthorizationCredentialAppleID {
 
 extension FacebookUserProfileX on FacebookAuth {
   Map<String, dynamic> toCredMap({
-    AccessToken token,
-    Map<String, dynamic> profile,
+    required AccessToken? token,
+    required Map<String, dynamic> profile,
   }) {
     return {
       'DisplayName': profile['name'],
       'Email': profile['email'],
-      'ID': token.userId,
+      'ID': token!.userId,
       'PhotoUrl': profile['picture']['data']['url'],
       'PushToken': null,
       'RegisterMode': 2,
@@ -36,7 +36,7 @@ extension FacebookUserProfileX on FacebookAuth {
 }
 extension GoogleSignInAccountX on GoogleSignInAccount{
   
- Map<String,dynamic> toMap(String token){
+ Map<String,dynamic> toMap(String? token){
     return {
       'DisplayName': displayName,
       'Email': email,

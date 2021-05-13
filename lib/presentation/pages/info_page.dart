@@ -8,7 +8,7 @@ class InformationPage extends StatelessWidget {
   const InformationPage();
   @override
   Widget build(BuildContext context) {
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final  pageName = ModalRoute.of(context)!.settings.arguments as String?;
 
     return CustomAppBar(
       title: pageName,
@@ -17,15 +17,15 @@ class InformationPage extends StatelessWidget {
         child: Column(
           children: [
             ProfileHomeItemWidget(
-              pageName: AppLocalizations.of(context).translate('privacypolicy'),
+              pageName: AppLocalizations.of(context)!.translate('privacypolicy'),
               routeName: '/politicaconf',
             ),
             ProfileHomeItemWidget(
-              pageName: AppLocalizations.of(context).translate('technicdata'),
+              pageName: AppLocalizations.of(context)!.translate('technicdata'),
               routeName: '/technicdetail',
             ),
             ProfileHomeItemWidget(
-              pageName: AppLocalizations.of(context).translate('appinfo'),
+              pageName: AppLocalizations.of(context)!.translate('appinfo'),
               routeName: '/about',
             )
           ],

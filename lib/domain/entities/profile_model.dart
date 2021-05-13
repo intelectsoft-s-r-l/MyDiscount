@@ -18,18 +18,18 @@ class Profile {
   @HiveField(4)
   final Uint8List photo;
   @HiveField(5)
-  final String pushToken;
+  final String? pushToken;
   @HiveField(6)
-  final int registerMode;
+  final int? registerMode;
 
   Profile({
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.phone,
-    this.photo,
-    this.pushToken,
-    this.registerMode,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.phone,
+    required this.photo,
+    required this.pushToken,
+    required this.registerMode,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -38,7 +38,7 @@ class Profile {
       lastName: json['lastName'] ?? '',
       email: json['Email'],
       phone: json['phone'],
-      photo: json['Photo'], /* ?? Uint8List.fromList([]), */
+      photo: json['Photo'],
       pushToken: json['PushToken'],
       registerMode: json['mode'],
     );
@@ -59,12 +59,12 @@ class Profile {
     return {
       'DisplayName': '$firstName $lastName',
       'Email': email,
-      'ID':null,
+      'ID': '',
       'phone': phone,
       'PhotoUrl': base64Encode(photo.toList()),
       'PushToken': pushToken,
       'RegisterMode': registerMode,
-      'access_token':null,
+      'access_token': '',
     };
   }
 
@@ -76,15 +76,18 @@ class Profile {
       phone: '',
       photo: Uint8List.fromList([]),
       pushToken: '',
+      registerMode: -1,
     );
   }
 
   Profile copyWith({
-    String firstName,
-    String lastName,
-    String email,
-    String phone,
-    Uint8List photo,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+    Uint8List? photo,
+    String? pushToken,
+    int? registerMode,
   }) {
     return Profile(
       firstName: firstName ?? this.firstName,
@@ -92,6 +95,31 @@ class Profile {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       photo: photo ?? this.photo,
+      pushToken: pushToken ?? this.pushToken,
+      registerMode: registerMode ?? this.registerMode,
     );
   }
+
+  bool get isEmpty =>
+      firstName == '' &&
+      lastName == '' &&
+      email == '' &&
+      phone == '' &&
+      pushToken == '' &&
+      photo == Uint8List.fromList([]);
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Profile &&
+            firstName == other.firstName &&
+            lastName == other.lastName &&
+            email == other.email &&
+            phone == other.phone &&
+            pushToken == other.pushToken &&
+            photo == other.photo &&
+            registerMode == other.registerMode;
+  }
+
+  @override
+  int get hashCode => super.hashCode;
 }
