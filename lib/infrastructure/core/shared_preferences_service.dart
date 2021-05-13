@@ -38,7 +38,7 @@ class SharedPref {
     return prefs.getString('code');
   } */
 
-  void saveFCMState(bool value) async {
+  /* void saveFCMState(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('fcmState', value);
   }
@@ -60,5 +60,5 @@ class SharedPref {
     }
 
     return true;
-  }
+  } */
 }

@@ -18,7 +18,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-
+import 'package:my_discount/domain/settings/settings.dart';
 import 'package:my_discount/presentation/pages/add_card_page.dart';
 import 'package:my_discount/infrastructure/core/local_notification_service.dart';
 
@@ -91,14 +91,14 @@ void main() async {
     await Hive.initFlutter();
     Hive
       ..registerAdapter<User>(UserAdapter())
+      ..registerAdapter<Settings>(SettingsAdapter())
       ..registerAdapter<Profile>(ProfileAdapter())
       ..registerAdapter<News>(NewsAdapter())
       ..registerAdapter<Company>(CompanyAdapter());
 
-    await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
-
-    await Hive.openBox<Profile>('profile',
-        encryptionCipher: HiveAesCipher(hiveKey));
+    await Hive.openBox<User>('user');
+    await Hive.openBox<Settings>('settings');
+    await Hive.openBox<Profile>('profile');
     await Hive.openBox<News>('news');
     await Hive.openBox<Company>('company');
   } catch (e) {
