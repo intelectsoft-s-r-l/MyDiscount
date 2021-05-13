@@ -51,22 +51,26 @@ import 'presentation/widgets/circular_progress_indicator_widget.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  await FlutterLocalNotificationsPlugin().show(int.parse(message.data['id']),
-      message.data['title'], message.data['body'],const NotificationDetails(android:AndroidNotificationDetails(
-      'your channel id',
-      'your channel name',
-      'your channel description',
-      importance: Importance.max,
-      priority: Priority.max,
-      icon: '@mipmap/ic_notifications_icon',
-      enableLights: true,
-      ledColor:  Color(0xFF0000FF),
-      ledOffMs: 2000,
-      ledOnMs: 2000,
-      color:  Color(0xFF00C569),
-      enableVibration: true,
-     // vibrationPattern: vibrationPattern,
-    ) ) );
+  await FlutterLocalNotificationsPlugin().show(
+      int.parse(message.data['id']),
+      message.data['title'],
+      message.data['body'],
+      const NotificationDetails(
+          android: AndroidNotificationDetails(
+        'your channel id',
+        'your channel name',
+        'your channel description',
+        importance: Importance.max,
+        priority: Priority.max,
+        icon: '@mipmap/ic_notifications_icon',
+        enableLights: true,
+        ledColor: Color(0xFF0000FF),
+        ledOffMs: 2000,
+        ledOnMs: 2000,
+        color: Color(0xFF00C569),
+        enableVibration: true,
+        // vibrationPattern: vibrationPattern,
+      )));
   debugPrint('Handling a background message: ${message.messageId}');
 }
 
@@ -90,22 +94,24 @@ void main() async {
   try {
     await Hive.initFlutter();
     Hive
-      ..registerAdapter<User>(UserAdapter())
+      ..registerAdapter<User>(
+        UserAdapter(),
+      )
       ..registerAdapter<Settings>(SettingsAdapter())
       ..registerAdapter<Profile>(ProfileAdapter())
       ..registerAdapter<News>(NewsAdapter())
       ..registerAdapter<Company>(CompanyAdapter());
 
-    await Hive.openBox<User>('user');
+    await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
     await Hive.openBox<Settings>('settings');
-    await Hive.openBox<Profile>('profile');
+    await Hive.openBox<Profile>('profile',
+        encryptionCipher: HiveAesCipher(hiveKey));
     await Hive.openBox<News>('news');
     await Hive.openBox<Company>('company');
+    await Hive.openBox<String>('locale');
   } catch (e) {
     rethrow;
   }
-
-  //SharedPref().remove();
 
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   await FirebaseCrashlytics.instance.deleteUnsentReports();

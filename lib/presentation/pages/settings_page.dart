@@ -30,7 +30,12 @@ class SettingsPage extends StatelessWidget {
           value: getIt<SettingsBloc>(),
           child: Column(
             children: [
-              BlocBuilder<SettingsBloc, SettingsState>(
+              BlocConsumer<SettingsBloc, SettingsState>(
+                listener: (context, state){
+                  
+                },
+                buildWhen: (previous, current) =>
+                    previous.props != current.props,
                 builder: (context, state) {
                   return Column(
                     children: [

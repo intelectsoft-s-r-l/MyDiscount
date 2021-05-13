@@ -69,10 +69,9 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Profile saveClientInfoLocal(Profile profile) {
+  void saveClientInfoLocal(Profile profile) {
     try {
       profileBox.put(1, profile);
-      return profile;
     } catch (e) {
       throw LocalCacheError();
     }
@@ -242,7 +241,7 @@ class LocalRepositoryImpl implements LocalRepository {
       final filteredCompanyList = companyBox.values.toList().map((company) {
         for (var name in filteredNameList) {
           if (name.startsWith(company.name.toLowerCase())) {
-            return company;   
+            return company;
           }
         }
       }).toList();

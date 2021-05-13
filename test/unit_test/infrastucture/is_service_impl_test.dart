@@ -18,6 +18,7 @@ import 'package:my_discount/domain/entities/profile_model.dart';
 import 'package:my_discount/domain/entities/tranzaction_model.dart';
 import 'package:my_discount/domain/entities/user_model.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
+import 'package:my_discount/domain/settings/settings.dart';
 import 'package:my_discount/infrastructure/is_service_impl.dart';
 //import 'package:my_discount/aplication/providers/news_settings.dart';
 
@@ -36,17 +37,19 @@ import 'is_service_impl_test.mocks.dart';
   Formater,
   RemoteDataSource,
   User,
+  Settings
 ])
 void main() {
   final _repo = MockLocalRepository();
   final _formater = MockFormater();
   final _remoteDataSource = MockRemoteDataSource();
   final _inet = MockNetworkConnection();
-  final _newsState = MockAppSettings();
+  final _appState = MockAppSettings();
+  final _mockSettings = MockSettings();
   final _isResponse = MockIsResponse();
   final user = MockUser();
   final _serviceImpl =
-      IsServiceImpl(_repo, _formater, _remoteDataSource, _newsState);
+      IsServiceImpl(_repo, _formater, _remoteDataSource, _appState);
   final _id = '';
   final _registerMode = -1;
   void runTestsOnline(Function body) {
@@ -55,7 +58,9 @@ void main() {
       () {
         setUp(() {
           when(_inet.isConnected).thenAnswer((_) async => true);
-          when(_newsState.getSettings().newsEnabled).thenAnswer((_) => true);
+          when(_appState.getSettings())
+              .thenAnswer((realInvocation) => _mockSettings);
+          when(_mockSettings.newsEnabled).thenAnswer((_) => true);
         });
         body();
       },
@@ -68,7 +73,9 @@ void main() {
       () {
         setUp(() {
           when(_inet.isConnected).thenAnswer((_) async => false);
-          when(_newsState.getSettings().newsEnabled).thenAnswer((_) => true);
+          when(_appState.getSettings())
+              .thenAnswer((realInvocation) => _mockSettings);
+          when(_mockSettings.newsEnabled).thenAnswer((_) => true);
         });
         body();
       },
@@ -317,14 +324,13 @@ void main() {
   group('check errors', () {
     final tUrlFragment = '/json/GetAppNews?ID=0';
     when(_inet.isConnected).thenAnswer((_) async => true);
-    when(_newsState.getSettings().newsEnabled).thenAnswer((_) => true);
+    when(_appState.getSettings().newsEnabled).thenAnswer((_) => true);
     group('ServerError', () {
       test('getAppNews catch server error when status code is 0', () {
         when(_remoteDataSource.getRequest(tUrlFragment))
             .thenAnswer((_) async => IsResponse(167, 'errorMessage', null));
         expect(_serviceImpl.getAppNews, throwsException);
       });
-      test('getAppNews catch ', () {});
     });
 
     runTestsOffline(() {

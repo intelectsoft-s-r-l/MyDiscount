@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+/* import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref {
   Future<SharedPreferences> get instance => SharedPreferences.getInstance();
@@ -22,7 +22,7 @@ class SharedPref {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('locale', locale);
   }
-
+/*  */
   Future<String?> readLocale() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('locale');
@@ -62,3 +62,4 @@ class SharedPref {
     return true;
   } */
 }
+ */

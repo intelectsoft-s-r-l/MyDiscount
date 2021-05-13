@@ -14,7 +14,7 @@ abstract class LocalRepository {
   List<Company> searchCompany(String pattern);
 
   Future<Map<String, dynamic>> returnProfileMapDataAsMap(Profile profile);
-  Profile saveClientInfoLocal(Profile profile);
+  void saveClientInfoLocal(Profile profile);
   //Future<Map<String, dynamic>> getFacebookProfile(String token);
   Profile getLocalClientInfo();
 

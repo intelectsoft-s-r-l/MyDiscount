@@ -6,7 +6,6 @@ import 'package:my_discount/domain/entities/company_model.dart';
 import 'package:my_discount/domain/entities/news_model.dart';
 import 'package:my_discount/domain/entities/profile_model.dart';
 import 'package:my_discount/domain/entities/user_model.dart';
-import 'package:my_discount/domain/repositories/local_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_discount/infrastructure/local_repository_impl.dart';
@@ -14,7 +13,6 @@ import 'package:my_discount/infrastructure/local_repository_impl.dart';
 import 'local_repository_test.mocks.dart';
 
 @GenerateMocks([
-  LocalRepository,
   Box,
 ])
 void main() {
@@ -25,7 +23,6 @@ void main() {
   final mockList = MockList<News>();
   final localRepozitory = LocalRepositoryImpl(
       mockUserBox, mockProfileBox, mockNewsBox, mockCompanyBox);
-  setUp(() {});
 
   final tUserProfile = Profile.empty();
   final tNewsList = News(
@@ -50,14 +47,15 @@ void main() {
   test('check if getLocalNews() return saved news from DB', () async {
     when(mockNewsBox.keys).thenAnswer((_) => [0]);
     when(mockNewsBox.get(0)).thenAnswer((_) => tNewsList);
-    when(mockList.add(tNewsList)).thenAnswer((realInvocation) => [tNewsList]);
+    when(mockList.add(tNewsList)).thenAnswer((_) => [tNewsList]);
     final response = localRepozitory.getLocalNews();
 
     expect(response, [tNewsList]);
   });
 
-  test('check if retun saved user', () async {
-    when(localRepozitory.getLocalUser()).thenAnswer((_) => tUser);
+  test('check if return saved user', () async {
+    when(mockUserBox.isNotEmpty).thenAnswer((_) => true);
+    when(mockUserBox.get(1)).thenAnswer((_) => tUser);
 
     final response = localRepozitory.getLocalUser();
 
@@ -65,12 +63,7 @@ void main() {
   });
 
   test('save local Client Info ', () async {
-    when(localRepozitory.saveClientInfoLocal(tUserProfile))
-        .thenAnswer((realInvocation) => tUserProfile);
-
-    final response = localRepozitory.saveClientInfoLocal(tUserProfile);
-
-    expect(response, tUserProfile);
+   // when(mockProfileBox.put(1, tUserProfile)).thenReturn(Future<void>.value());
   });
   test('save news locally ', () async {
     /*   when(localRepozitory.saveNewsLocal(tNewsList));

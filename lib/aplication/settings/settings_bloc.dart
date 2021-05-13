@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:my_discount/domain/settings/settings.dart';
+import 'package:my_discount/infrastructure/core/fcm_service.dart';
 import 'package:my_discount/infrastructure/settings/settings_Impl.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,7 +13,8 @@ part 'settings_state.dart';
 @injectable
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final AppSettings _settings;
-  SettingsBloc(this._settings)
+  final FirebaseCloudMessageService _firebaseCloudMessageService;
+  SettingsBloc(this._settings, this._firebaseCloudMessageService)
       : super(SettingsInitial(_settings.getSettings()));
 
   @override
@@ -23,6 +25,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final settings =
           _settings.getSettings().copyWith(notificationEnabled: event.isActive);
       yield SettingsInitial(settings);
+     await _firebaseCloudMessageService.getFCMState();
       _settings.setSettings(settings);
     }
     if (event is NewsStateChanged) {

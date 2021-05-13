@@ -37,8 +37,8 @@ abstract class ServiceInjectableModule {
   Formater get formater => Formater();
   @lazySingleton
   Credentials get credentials => Credentials();
-  @lazySingleton
-  SharedPref get network => SharedPref();
+ /*  @lazySingleton
+  SharedPref get network => SharedPref(); */
   @lazySingleton
   Box<User> get userBox => Hive.box<User>('user');
   @lazySingleton

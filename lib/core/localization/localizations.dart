@@ -2,14 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hive/hive.dart';
 
 import '../../infrastructure/core/shared_preferences_service.dart';
 
 class AppLocalizations {
   final Locale? locale;
-  AppLocalizations(this.locale);
-  final SharedPref _prefs = SharedPref();
-
+  AppLocalizations(
+    this.locale,
+  );
+ 
+  Box<String> localeBox = Hive.box<String>('locale');
   static AppLocalizations? of(BuildContext context) {
     return Localizations.of(context, AppLocalizations);
   }
@@ -19,6 +22,7 @@ class AppLocalizations {
   late Map<String, dynamic> _localizedStrings;
 
   Future<bool> load() async {
+   
     final jsonString =
         await rootBundle.loadString('lang/${locale!.languageCode}.json');
     final jsonMap = json.decode(jsonString) as Map<String, dynamic>;
@@ -32,12 +36,15 @@ class AppLocalizations {
   }
 
   Future<Locale> setLocale(String languageCode) async {
-    _prefs.saveLocale(languageCode);
+    await localeBox.put('locale', languageCode);
+   
     return _locale(languageCode);
   }
 
   Future<Locale> getLocale() async {
-    final languageCode = await _prefs.readLocale() ?? 'en';
+    final languageCode =
+        localeBox.get('locale')  ?? 'en';
+    print('box language code:$languageCode');
     return _locale(languageCode);
   }
 
@@ -70,7 +77,7 @@ class AppLocalizations {
   }
 
   Future<Language> getLanguage() async {
-    final languageCode = await _prefs.readLocale() ?? 'en';
+    final languageCode =  localeBox.get('locale')  ?? 'en';
     return _language(languageCode);
   }
 
