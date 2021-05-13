@@ -19,20 +19,17 @@ class SettingsAdapter extends TypeAdapter<Settings> {
     return Settings(
       notificationEnabled: fields[0] as bool,
       newsEnabled: fields[1] as bool,
-      locale: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(2)
       ..writeByte(0)
       ..write(obj.notificationEnabled)
       ..writeByte(1)
-      ..write(obj.newsEnabled)
-      ..writeByte(2)
-      ..write(obj.locale);
+      ..write(obj.newsEnabled);
   }
 
   @override

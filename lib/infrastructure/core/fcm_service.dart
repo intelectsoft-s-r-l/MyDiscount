@@ -3,16 +3,17 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_discount/infrastructure/settings/settings_Impl.dart';
 
 import '../../infrastructure/core/local_notification_service.dart';
-import '../../infrastructure/core/shared_preferences_service.dart';
+
 
 @injectable
 class FirebaseCloudMessageService with ChangeNotifier {
   final FirebaseMessaging _fcm;
   final LocalNotificationsService? _localNotificationsService;
 
-  final SharedPref _prefs;
+  final AppSettings _settings;
 
   bool _isActivate = false;
 
@@ -25,13 +26,13 @@ class FirebaseCloudMessageService with ChangeNotifier {
   }
 
   FirebaseCloudMessageService(
-      this._fcm, this._localNotificationsService, this._prefs) {
+      this._fcm, this._localNotificationsService, this._settings) {
     getFCMState();
     notifyListeners();
   }
   void _saveFCMState() async {
     _deactivateNotification();
-    _prefs.saveFCMState(_isActivate);
+    _settings.setSettings(_settings.getSettings().copyWith(notificationEnabled: _isActivate));
   }
 
   void _deactivateNotification() async {
@@ -45,8 +46,8 @@ class FirebaseCloudMessageService with ChangeNotifier {
   }
 
   Future<bool?> getFCMState() async {
-    final data = await _prefs.instance;
-    if (data.containsKey('fcmState')) _isActivate = await _prefs.readFCMState();
+    //final data = await _prefs.instance;
+    /* if (data.containsKey('fcmState')) */ _isActivate = _settings.getSettings().notificationEnabled;
     notifyListeners();
     return _isActivate;
   }
@@ -60,9 +61,9 @@ class FirebaseCloudMessageService with ChangeNotifier {
   }
 
   Future<String?> getfcmToken() async {
-    final data = await _prefs.instance;
-    if (data.containsKey('fcmState')) {
-      if (await _prefs.readFCMState()) {
+   // final data = await _prefs.instance;
+    /* if (data.containsKey('fcmState')) { */
+      if (_settings.getSettings().notificationEnabled) {
         final token = await _fcm.getToken();
         _fcm.onTokenRefresh.listen((event) {
           event = token as String;
@@ -72,7 +73,7 @@ class FirebaseCloudMessageService with ChangeNotifier {
       } else {
         return '';
       }
-    }
-    return '';
+   /*  }
+    return '';*/
   }
 }

@@ -19,16 +19,17 @@ import 'package:my_discount/domain/entities/tranzaction_model.dart';
 import 'package:my_discount/domain/entities/user_model.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
 import 'package:my_discount/infrastructure/is_service_impl.dart';
-import 'package:my_discount/aplication/providers/news_settings.dart';
+//import 'package:my_discount/aplication/providers/news_settings.dart';
 
 import 'package:my_discount/infrastructure/core/remote_config_service.dart';
+import 'package:my_discount/infrastructure/settings/settings_Impl.dart';
 
 import '../fixtures/fixtures_redear.dart';
 import 'is_service_impl_test.mocks.dart';
 
 @GenerateMocks([
   IsResponse,
-  NewsSettings,
+  AppSettings,
   NetworkConnection,
   RemoteConfigService,
   LocalRepository,
@@ -41,7 +42,7 @@ void main() {
   final _formater = MockFormater();
   final _remoteDataSource = MockRemoteDataSource();
   final _inet = MockNetworkConnection();
-  final _newsState = MockNewsSettings();
+  final _newsState = MockAppSettings();
   final _isResponse = MockIsResponse();
   final user = MockUser();
   final _serviceImpl =
@@ -54,7 +55,7 @@ void main() {
       () {
         setUp(() {
           when(_inet.isConnected).thenAnswer((_) async => true);
-          when(_newsState.getNewsState()).thenAnswer((_) async => true);
+          when(_newsState.getSettings().newsEnabled).thenAnswer((_) => true);
         });
         body();
       },
@@ -67,7 +68,7 @@ void main() {
       () {
         setUp(() {
           when(_inet.isConnected).thenAnswer((_) async => false);
-          when(_newsState.getNewsState()).thenAnswer((_) async => true);
+          when(_newsState.getSettings().newsEnabled).thenAnswer((_) => true);
         });
         body();
       },
@@ -316,16 +317,14 @@ void main() {
   group('check errors', () {
     final tUrlFragment = '/json/GetAppNews?ID=0';
     when(_inet.isConnected).thenAnswer((_) async => true);
-    when(_newsState.getNewsState()).thenAnswer((_) async => true);
+    when(_newsState.getSettings().newsEnabled).thenAnswer((_) => true);
     group('ServerError', () {
       test('getAppNews catch server error when status code is 0', () {
         when(_remoteDataSource.getRequest(tUrlFragment))
             .thenAnswer((_) async => IsResponse(167, 'errorMessage', null));
         expect(_serviceImpl.getAppNews, throwsException);
       });
-      test('getAppNews catch ', () {
-        
-      });
+      test('getAppNews catch ', () {});
     });
 
     runTestsOffline(() {

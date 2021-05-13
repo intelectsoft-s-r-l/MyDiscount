@@ -2,14 +2,12 @@ import 'package:is_service/service_client.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_discount/domain/settings/settings.dart';
 
-import '../../aplication/providers/news_settings.dart';
 import '../../core/constants/credentials.dart';
 import '../../core/formater.dart';
 import '../../domain/entities/company_model.dart';
@@ -53,6 +51,6 @@ abstract class ServiceInjectableModule {
   Box<Settings> get settingsBox => Hive.box<Settings>('settings');
   @lazySingleton
   RemoteConfigService get remoteConfig => RemoteConfigService();
-  @lazySingleton
-  NewsSettings get settings => NewsSettings();
+  /* @lazySingleton
+  NewsSettings get settings => NewsSettings(); */
 }

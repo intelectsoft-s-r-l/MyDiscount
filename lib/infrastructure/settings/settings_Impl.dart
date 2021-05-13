@@ -4,18 +4,18 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton()
 class AppSettings {
-  final Box<Settings> settingsBox;
-  AppSettings(this.settingsBox);
+  final Box<Settings> _settingsBox;
+  AppSettings(this._settingsBox);
 
   Settings getSettings() {
-    if (settingsBox.isNotEmpty) {
-      final settings = settingsBox.get(1) as Settings;
+    if (_settingsBox.isNotEmpty) {
+      final settings = _settingsBox.get(1) as Settings;
       return settings;
     }
-    return Settings(notificationEnabled: false,newsEnabled: true,locale: 'en');
+    return Settings(notificationEnabled: false,newsEnabled: true,);
   }
 
   void setSettings(Settings settings) {
-    settingsBox.put(1, settings);
+    _settingsBox.put(1, settings);
   }
 }

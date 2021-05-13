@@ -21,7 +21,6 @@ import 'aplication/auth/sign_in/sign_form_bloc.dart' as _i38;
 import 'aplication/card_bloc/add_card_page_bloc.dart' as _i35;
 import 'aplication/phone_validation_bloc/phone_validation_bloc.dart' as _i33;
 import 'aplication/profile_bloc/profile_form_bloc.dart' as _i34;
-import 'aplication/providers/news_settings.dart' as _i21;
 import 'aplication/settings/settings_bloc.dart' as _i30;
 import 'core/constants/credentials.dart' as _i9;
 import 'core/formater.dart' as _i14;
@@ -87,7 +86,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i3.Box<_i7.Company>>()));
   gh.lazySingleton<_i20.NetworkConnection>(() => _i20.NetworkConnectionImpl(
       connectionChecker: get<_i16.InternetConnectionChecker>()));
-  gh.lazySingleton<_i21.NewsSettings>(() => serviceInjectableModule.settings);
+  //gh.lazySingleton<_i21.NewsSettings>(() => serviceInjectableModule.settings);
   gh.lazySingleton<_i22.RemoteConfigService>(
       () => serviceInjectableModule.remoteConfig);
   gh.lazySingleton<_i23.ServiceClient>(() => serviceInjectableModule.client);
@@ -97,7 +96,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.factory<_i26.AuthBloc>(() => _i26.AuthBloc(get<_i18.LocalRepository>()));
   gh.factory<_i27.FirebaseCloudMessageService>(() =>
       _i27.FirebaseCloudMessageService(get<_i12.FirebaseMessaging>(),
-          get<_i17.LocalNotificationsService>(), get<_i24.SharedPref>()));
+          get<_i17.LocalNotificationsService>(), get<_i25.AppSettings>()));
   gh.lazySingleton<_i28.RemoteDataSource>(() => _i29.RemoteDataSourceImpl(
       get<_i23.ServiceClient>(),
       get<_i22.RemoteConfigService>(),
@@ -108,7 +107,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i18.LocalRepository>(),
       get<_i14.Formater>(),
       get<_i28.RemoteDataSource>(),
-      get<_i21.NewsSettings>()));
+      get<_i25.AppSettings>()));
   gh.factory<_i33.PhoneValidationBloc>(() => _i33.PhoneValidationBloc(
       get<_i31.IsService>(), get<_i18.LocalRepository>()));
   gh.factory<_i34.ProfileFormBloc>(() =>

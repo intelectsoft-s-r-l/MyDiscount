@@ -20,17 +20,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
   ) async* {
     if (event is NotificationStateChanged) {
-      yield SettingsInitial(_settings
-          .getSettings()
-          .copyWith(notificationEnabled: event.isActive));
+      final settings =
+          _settings.getSettings().copyWith(notificationEnabled: event.isActive);
+      yield SettingsInitial(settings);
+      _settings.setSettings(settings);
     }
     if (event is NewsStateChanged) {
-      yield SettingsInitial(
-          _settings.getSettings().copyWith(newsEnabled: event.isActive));
-    }
-    if (event is LocaleChanged) {
-      yield SettingsInitial(
-          _settings.getSettings().copyWith(locale: event.locale));
+      final settings =
+          _settings.getSettings().copyWith(newsEnabled: event.isActive);
+      yield SettingsInitial(settings);
+      _settings.setSettings(settings);
     }
   }
 }

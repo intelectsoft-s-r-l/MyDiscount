@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 
 import '../../infrastructure/core/shared_preferences_service.dart';
 
@@ -36,3 +36,4 @@ class NewsSettings with ChangeNotifier {
     return _isActivate;
   }
 }
+ */

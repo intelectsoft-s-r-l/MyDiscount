@@ -1,7 +1,6 @@
 import 'package:is_service/service_client_response.dart';
 import 'package:injectable/injectable.dart';
 
-import '../aplication/providers/news_settings.dart';
 import '../core/failure.dart';
 import '../core/formater.dart';
 import '../domain/data_source/remote_datasource.dart';
@@ -13,13 +12,14 @@ import '../domain/entities/tranzaction_model.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
+import 'settings/settings_Impl.dart';
 
 @LazySingleton(as: IsService)
 class IsServiceImpl implements IsService {
   final RemoteDataSource remoteDataSourceImpl;
   final Formater _formater;
   final LocalRepository _localRepository;
-  final NewsSettings settings /* = NewsSettings() */;
+  final AppSettings settings;
   IsServiceImpl(
     this._localRepository,
     this._formater,
@@ -29,7 +29,7 @@ class IsServiceImpl implements IsService {
   @override
   Future<List<News>> getAppNews() async {
     try {
-      if (await settings.getNewsState()) {
+      if (settings.getSettings().newsEnabled) {
         final eldestLocalNewsId = _localRepository.readEldestNewsId();
         final _urlFragment = '/json/GetAppNews?ID=$eldestLocalNewsId';
         final response = await remoteDataSourceImpl.getRequest(_urlFragment);

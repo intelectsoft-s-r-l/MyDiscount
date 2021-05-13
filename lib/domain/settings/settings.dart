@@ -8,13 +8,12 @@ class Settings {
   bool notificationEnabled = false;
   @HiveField(1)
   bool newsEnabled = true;
-  @HiveField(2)
-  String locale = 'en';
+  
 
   Settings({
     required this.notificationEnabled,
     required this.newsEnabled,
-    required this.locale,
+    
   });
 
   Settings copyWith({
@@ -25,6 +24,6 @@ class Settings {
     return Settings(
         notificationEnabled: notificationEnabled ?? this.notificationEnabled,
         newsEnabled: newsEnabled ?? this.newsEnabled,
-        locale: locale ?? this.locale);
+        );
   }
 }
