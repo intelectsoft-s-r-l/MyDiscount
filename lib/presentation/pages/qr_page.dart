@@ -111,7 +111,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
 
   void _showProgress() {
     _progress -= .1;
-    print('progress: ${_progress.toStringAsFixed(2)}');
+   // print('progress: ${_progress.toStringAsFixed(2)}');
     if (mounted) _progressController.sink.add(_progress);
   }
 

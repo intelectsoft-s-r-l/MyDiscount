@@ -77,7 +77,7 @@ class IsServiceImpl implements IsService {
         return Profile.empty();
       }
     } catch (e) {
-      print(e);
+      //print(e);
 
       throw ServerError();
     }
@@ -158,7 +158,6 @@ class IsServiceImpl implements IsService {
       final _urlFragment = '/json/ValidatePhone?Phone=$phone';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       if (response.statusCode == 0) {
-        print(response.body);
         return response.body;
       } else {
         throw ServerError();
@@ -170,7 +169,7 @@ class IsServiceImpl implements IsService {
 
   @override
   Future<User> updateClientInfo({required Map<String, dynamic> json}) async {
-    print(json);
+    //print(json);
     try {
       //throw Error();
       final _urlFragment = '/json/UpdateClientInfo';

@@ -22,7 +22,7 @@ class PhoneValidationBloc extends Bloc<PhoneValidationEvent, PhoneValidationStat
   ) async* {
     if (event is GetValidationCode) {
        code = await _isServiceImpl.validatePhone(phone: event.phone);
-      print(code);
+      //print(code);
       yield WaitingUserInput(code);
     }
     if (event is UserInputCode) {

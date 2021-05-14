@@ -42,7 +42,7 @@ class AppLocalizations {
   Future<Locale> getLocale() async {
     final languageCode =
         localeBox.get('locale')  ?? 'en';
-    print('box language code:$languageCode');
+   // print('box language code:$languageCode');
     return _locale(languageCode);
   }
 
