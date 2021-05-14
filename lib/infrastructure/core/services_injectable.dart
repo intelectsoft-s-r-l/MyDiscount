@@ -15,7 +15,6 @@ import '../../domain/entities/news_model.dart';
 import '../../domain/entities/profile_model.dart';
 import '../../domain/entities/user_model.dart';
 import '../../infrastructure/core/remote_config_service.dart';
-import '../../infrastructure/core/shared_preferences_service.dart';
 
 @module
 abstract class ServiceInjectableModule {
@@ -37,8 +36,6 @@ abstract class ServiceInjectableModule {
   Formater get formater => Formater();
   @lazySingleton
   Credentials get credentials => Credentials();
- /*  @lazySingleton
-  SharedPref get network => SharedPref(); */
   @lazySingleton
   Box<User> get userBox => Hive.box<User>('user');
   @lazySingleton
@@ -51,6 +48,4 @@ abstract class ServiceInjectableModule {
   Box<Settings> get settingsBox => Hive.box<Settings>('settings');
   @lazySingleton
   RemoteConfigService get remoteConfig => RemoteConfigService();
-  /* @lazySingleton
-  NewsSettings get settings => NewsSettings(); */
 }

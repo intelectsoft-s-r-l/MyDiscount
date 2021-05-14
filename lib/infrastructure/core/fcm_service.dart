@@ -17,17 +17,6 @@ class FirebaseCloudMessageService {
   FirebaseCloudMessageService(
       this._fcm, this._localNotificationsService, this._settings);
 
-  /* Future<void> getFCMState() async {
-    if (!_settings.getSettings().notificationEnabled) {
-      await _fcm.setAutoInitEnabled(true);
-
-      await getfcmToken();
-    } else {
-      await _fcm.deleteToken();
-      
-    }
-  } */
-
   void fcmConfigure() {
     _fcm.requestPermission();
     FirebaseMessaging.onMessage.listen((event) {

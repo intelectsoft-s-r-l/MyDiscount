@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
-import '../../infrastructure/core/shared_preferences_service.dart';
-
 class AppLocalizations {
   final Locale? locale;
   AppLocalizations(
