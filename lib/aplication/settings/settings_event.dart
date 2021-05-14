@@ -16,3 +16,5 @@ class NewsStateChanged extends SettingsEvent {
   final bool isActive;
   const NewsStateChanged(this.isActive);
 }
+
+class LangageChanged extends SettingsEvent {}

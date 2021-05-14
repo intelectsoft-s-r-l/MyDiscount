@@ -1,14 +1,12 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../core/localization/localizations.dart';
-
 import '../widgets/login_button_widget.dart';
 
 class LoginScreen2 extends StatelessWidget {

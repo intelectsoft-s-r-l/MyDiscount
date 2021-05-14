@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_discount/domain/entities/news_model.dart';
 
+import '../../../../domain/entities/news_model.dart';
 import '../news_item/news_item.dart';
 
 class NewsListWidget extends StatelessWidget {

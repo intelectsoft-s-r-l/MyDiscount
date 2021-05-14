@@ -12,9 +12,8 @@ import '../../injectable.dart';
 import '../widgets/custom_app_bar.dart';
 
 class PhoneVerificationPage extends StatefulWidget {
-  const PhoneVerificationPage({required this.phone,/* this.phoneBloc */});
-  //final ProfileFormBloc bloc;
-  //final PhoneValidationBloc phoneBloc;
+  const PhoneVerificationPage({required this.phone,});
+
   final String phone;
   @override
   _PhoneVerificationPageState createState() => _PhoneVerificationPageState();
@@ -70,8 +69,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    //final bloc = widget.bloc;
-    /* final phoneBloc = widget.phoneBloc; */
+   
     final phone = widget.phone;
     return CustomAppBar(
       title: AppLocalizations.of(context)!.translate('phoneverification'),

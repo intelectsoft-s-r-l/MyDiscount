@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:my_discount/core/failure.dart';
-import 'package:my_discount/core/localization/localizations.dart';
-import 'package:my_discount/domain/entities/company_model.dart';
-import 'package:my_discount/domain/repositories/is_service_repository.dart';
-import 'package:my_discount/domain/repositories/local_repository.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../core/failure.dart';
+import '../../core/localization/localizations.dart';
+import '../../domain/entities/company_model.dart';
+import '../../domain/repositories/is_service_repository.dart';
+import '../../domain/repositories/local_repository.dart';
 
 part 'add_card_page_event.dart';
 part 'add_card_page_state.dart';

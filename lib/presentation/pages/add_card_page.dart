@@ -1,15 +1,13 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../aplication/card_bloc/add_card_page_bloc.dart';
 import '../../core/localization/localizations.dart';
 import '../../domain/entities/company_model.dart';
-
 import '../../injectable.dart';
 
 class AddCardPage extends StatefulWidget {

@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:my_discount/presentation/widgets/circular_progress_indicator_widget.dart';
 
 import '../../core/internet_connection_service.dart';
 import '../../core/localization/localizations.dart';
 import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
+import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/nointernet_widget.dart';
 import '../widgets/qr_page_widgets/human_image_widget.dart';

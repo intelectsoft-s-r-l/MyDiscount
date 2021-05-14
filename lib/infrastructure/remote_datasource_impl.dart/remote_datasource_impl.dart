@@ -1,6 +1,6 @@
+import 'package:injectable/injectable.dart';
 import 'package:is_service/service_client.dart';
 import 'package:is_service/service_client_response.dart';
-import 'package:injectable/injectable.dart';
 
 import '../../core/failure.dart';
 import '../../core/internet_connection_service.dart';

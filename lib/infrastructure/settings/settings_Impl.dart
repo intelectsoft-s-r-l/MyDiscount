@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
-import 'package:my_discount/domain/settings/settings.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../domain/settings/settings.dart';
 
 @LazySingleton()
 class AppSettings {

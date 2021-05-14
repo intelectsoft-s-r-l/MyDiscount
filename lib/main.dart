@@ -5,36 +5,35 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/domain/settings/settings.dart';
-import 'package:my_discount/presentation/pages/add_card_page.dart';
-import 'package:my_discount/infrastructure/core/local_notification_service.dart';
 
 import 'aplication/auth/auth_bloc.dart';
 import 'aplication/auth/sign_in/sign_form_bloc.dart';
 import 'aplication/profile_bloc/profile_form_bloc.dart';
+import 'aplication/settings/settings_bloc.dart';
 import 'core/localization/localizations.dart';
 import 'domain/entities/company_model.dart';
 import 'domain/entities/news_model.dart';
 import 'domain/entities/profile_model.dart';
 import 'domain/entities/user_model.dart';
+import 'domain/settings/settings.dart';
 import 'infrastructure/core/fcm_service.dart';
+import 'infrastructure/core/local_notification_service.dart';
 import 'infrastructure/core/remote_config_service.dart';
 import 'injectable.dart';
 import 'presentation/pages/about_app_page.dart';
 import 'presentation/pages/add_card_company_list.dart';
+import 'presentation/pages/add_card_page.dart';
 import 'presentation/pages/app_inf_page.dart';
 import 'presentation/pages/card_list_page.dart';
 import 'presentation/pages/company_list_page.dart';
@@ -280,6 +279,9 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
       providers: [
         BlocProvider(
           create: (context) => getIt<ProfileFormBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<SettingsBloc>(),
         ),
       ],
       child: MaterialApp(
