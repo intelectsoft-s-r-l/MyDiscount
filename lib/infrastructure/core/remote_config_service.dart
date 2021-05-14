@@ -14,7 +14,7 @@ class RemoteConfigService {
         await remoteConfig.fetchAndActivate();
       }
       final serviceNameAsMap =
-          _decodeRemoteConfigData(remoteConfig.getString('service_name_dev'));
+          _decodeRemoteConfigData(remoteConfig.getString('service_name'));
 
       return serviceNameAsMap['service_name'];
     } catch (e, s) {
