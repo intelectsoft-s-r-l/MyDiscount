@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:my_discount/presentation/pages/add_card_page.dart';
 
 import '../../../core/localization/localizations.dart';
 import '../../../domain/entities/company_model.dart';

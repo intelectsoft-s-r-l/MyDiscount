@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:my_discount/domain/settings/settings.dart';
-import 'package:my_discount/infrastructure/core/fcm_service.dart';
-import 'package:my_discount/infrastructure/settings/settings_Impl.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../domain/settings/settings.dart';
+import '../../infrastructure/core/fcm_service.dart';
+import '../../infrastructure/settings/settings_Impl.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
@@ -24,17 +25,20 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is NotificationStateChanged) {
       final settings =
           _settings.getSettings().copyWith(notificationEnabled: event.isActive);
-      yield SettingsInitial(settings);
-      
+
       _settings.setSettings(settings);
+      yield SettingsChanged(settings);
 
       await _firebaseCloudMessageService.getfcmToken();
     }
     if (event is NewsStateChanged) {
       final settings =
           _settings.getSettings().copyWith(newsEnabled: event.isActive);
-      yield SettingsInitial(settings);
       _settings.setSettings(settings);
+      yield SettingsChanged(settings);
+    }
+    if (event is LangageChanged) {
+      yield LanguageChangedState(_settings.getSettings());
     }
   }
 }

@@ -11,3 +11,11 @@ abstract class SettingsState extends Equatable {
 class SettingsInitial extends SettingsState {
   SettingsInitial(Settings settings) : super(settings);
 }
+
+class SettingsChanged extends SettingsState {
+  SettingsChanged(Settings settings) : super(settings);
+}
+
+class LanguageChangedState extends SettingsState {
+  LanguageChangedState(Settings settings) : super(settings);
+}

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:my_discount/core/failure.dart';
-import 'package:my_discount/presentation/widgets/circular_progress_indicator_widget.dart';
-import 'package:my_discount/presentation/widgets/nointernet_widget.dart';
-
+import '../../core/failure.dart';
 import '../../core/localization/localizations.dart';
 import '../../domain/entities/card.dart';
 import '../../domain/repositories/is_service_repository.dart';
 import '../../injectable.dart';
+import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/nointernet_widget.dart';
 
 class CardListPage extends StatelessWidget {
   const CardListPage();

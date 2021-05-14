@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_discount/core/localization/localizations.dart';
+
+import '../../../core/localization/localizations.dart';
 
 class NoTransactionWidget extends StatelessWidget {
   const NoTransactionWidget({

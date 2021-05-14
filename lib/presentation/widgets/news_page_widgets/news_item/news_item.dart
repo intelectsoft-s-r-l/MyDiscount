@@ -14,9 +14,7 @@ class NewsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final news =widget.news;
-    // final size = widget.size;
-
+ 
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, '/detailpage', arguments: news);

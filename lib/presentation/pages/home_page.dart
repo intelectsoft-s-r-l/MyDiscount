@@ -16,7 +16,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    //final provider = Provider.of<LocalImagePicker>(context);
     return Scaffold(
       backgroundColor: Colors.green,
       body: BlocListener<AuthBloc, AuthState>(
@@ -69,13 +68,14 @@ class _HomePageState extends State<HomePage> {
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.info_outline,
-                      pageName: AppLocalizations.of(context)!.translate('Info')as String,
+                      pageName: AppLocalizations.of(context)!.translate('Info')
+                          as String,
                       routeName: '/infopage',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.settings,
-                      pageName:
-                          AppLocalizations.of(context)!.translate('settings')as String,
+                      pageName: AppLocalizations.of(context)!
+                          .translate('settings') as String,
                       routeName: '/settings',
                     ),
                   ],

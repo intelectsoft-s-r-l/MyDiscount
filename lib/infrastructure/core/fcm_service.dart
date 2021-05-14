@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/infrastructure/settings/settings_Impl.dart';
 
 import '../../infrastructure/core/local_notification_service.dart';
+
+import '../settings/settings_Impl.dart';
 
 @injectable
 class FirebaseCloudMessageService {
@@ -26,8 +26,7 @@ class FirebaseCloudMessageService {
   }
 
   Future<String?> getfcmToken() async {
-    print(
-        'notificationIsEnabled:${_settings.getSettings().notificationEnabled}');
+    await _fcm.setAutoInitEnabled(false);
     if (_settings.getSettings().notificationEnabled) {
       String? token;
       await _fcm.setAutoInitEnabled(true);
@@ -35,10 +34,11 @@ class FirebaseCloudMessageService {
       _fcm.onTokenRefresh.listen((event) {
         token = event;
       });
-      debugPrint(token);
       return token;
     } else {
-      await _fcm.deleteToken();
+      if (_fcm.isAutoInitEnabled) {
+        await _fcm.deleteToken();
+      }
       return '';
     }
   }
