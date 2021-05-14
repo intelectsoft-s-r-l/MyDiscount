@@ -56,19 +56,19 @@ class AuthRepositoryImpl implements AuthRepository {
       final fbProfile = await fb.getUserData();
 
       final profile = await _isService.getClientInfo(
-        id: token?.userId,
+        id: token.accessToken.userId,
         registerMode: 2,
       );
 
       final localCredentialsMap = profile?.toCreateUser();
 
       final baseUserCredentials =
-          fb.toCredMap(token: token, profile: fbProfile);
+          fb.toCredMap(token: token.accessToken, profile: fbProfile);
 
       final credentialsMap =
           profile == null ? baseUserCredentials : localCredentialsMap
-            ..update('ID', (_) => token.userId)
-            ..update('access_token', (_) => token.token);
+            ..update('ID', (_) => token.accessToken.userId)
+            ..update('access_token', (_) => token.accessToken.userId);
 
       final localUser = await _isService.updateClientInfo(json: credentialsMap);
 

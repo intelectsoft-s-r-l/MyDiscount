@@ -120,7 +120,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                     child: PinFieldAutoFill(
                       controller: _codeController,
                       focusNode: _focusNode,
-                      autofocus: true,
+                      autoFocus: true,
                       codeLength: 4,
                       onCodeChanged: (code) {
                         _currentCode = code;
