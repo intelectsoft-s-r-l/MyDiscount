@@ -48,12 +48,13 @@ import 'infrastructure/settings/settings_Impl.dart'
     as _i23; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
-/// initializes the registration of provided dependencies inside of [GetIt]
+// initializes the registration of provided dependencies inside of [GetIt]
 _i1.GetIt $initGetIt(_i1.GetIt get,
     {String? environment, _i2.EnvironmentFilter? environmentFilter}) {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final serviceInjectableModule = _$ServiceInjectableModule();
   gh.lazySingleton<_i3.Box<_i4.User>>(() => serviceInjectableModule.userBox);
+  // ignore_for_file: cascade_invocations
   gh.lazySingleton<_i3.Box<_i5.Profile>>(
       () => serviceInjectableModule.profileBox);
   gh.lazySingleton<_i3.Box<_i6.News>>(() => serviceInjectableModule.newsBox);
@@ -113,7 +114,8 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.lazySingleton<_i34.AuthRepository>(() => _i35.AuthRepositoryImpl(
       get<_i15.GoogleSignIn>(),
       get<_i29.IsService>(),
-      get<_i18.LocalRepository>()));
+      get<_i18.LocalRepository>(),
+      get<_i25.FirebaseCloudMessageService>(),));
   gh.factory<_i36.SignFormBloc>(() => _i36.SignFormBloc(
       get<_i34.AuthRepository>(), get<_i20.NetworkConnection>()));
   return get;

@@ -16,26 +16,17 @@ class FirebaseCloudMessageService {
 
   FirebaseCloudMessageService(
       this._fcm, this._localNotificationsService, this._settings);
-  /*  void _saveFCMState() async {
-    _deactivateNotification();
-    _settings.setSettings(
-        _settings.getSettings().copyWith(notificationEnabled: _isActivate));
-  } */
 
-  /* void _deactivateNotification() async {
-    
-  } */
-
-  Future<void> getFCMState() async {
-    if (_settings.getSettings().notificationEnabled) {
-      await _fcm.deleteToken();
-    } else {
+  /* Future<void> getFCMState() async {
+    if (!_settings.getSettings().notificationEnabled) {
       await _fcm.setAutoInitEnabled(true);
 
       await getfcmToken();
+    } else {
+      await _fcm.deleteToken();
+      
     }
-    //return _settings.getSettings().notificationEnabled;
-  }
+  } */
 
   void fcmConfigure() {
     _fcm.requestPermission();
@@ -46,14 +37,19 @@ class FirebaseCloudMessageService {
   }
 
   Future<String?> getfcmToken() async {
-    if (!_settings.getSettings().notificationEnabled) {
-      final token = await _fcm.getToken();
+    print(
+        'notificationIsEnabled:${_settings.getSettings().notificationEnabled}');
+    if (_settings.getSettings().notificationEnabled) {
+      String? token;
+      await _fcm.setAutoInitEnabled(true);
+      token = await _fcm.getToken();
       _fcm.onTokenRefresh.listen((event) {
-        event = token as String;
+        token = event;
       });
       debugPrint(token);
       return token;
     } else {
+      await _fcm.deleteToken();
       return '';
     }
   }

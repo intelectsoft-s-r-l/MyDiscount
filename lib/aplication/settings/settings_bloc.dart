@@ -25,8 +25,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final settings =
           _settings.getSettings().copyWith(notificationEnabled: event.isActive);
       yield SettingsInitial(settings);
-     await _firebaseCloudMessageService.getFCMState();
+      
       _settings.setSettings(settings);
+
+      await _firebaseCloudMessageService.getfcmToken();
     }
     if (event is NewsStateChanged) {
       final settings =

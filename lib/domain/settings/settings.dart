@@ -5,7 +5,7 @@ part 'settings.g.dart';
 @HiveType(typeId: 4)
 class Settings {
   @HiveField(0)
-  bool notificationEnabled = false;
+  bool notificationEnabled = true;
   @HiveField(1)
   bool newsEnabled = true;
   

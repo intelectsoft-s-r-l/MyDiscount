@@ -85,7 +85,7 @@ class LocalRepositoryImpl implements LocalRepository {
           .toList()
           .forEach((news) => newsBox.put(news.id, news));
     } catch (e) {
-      //throw LocalCacheError();
+      throw LocalCacheError();
     }
   }
 
@@ -250,7 +250,6 @@ class LocalRepositoryImpl implements LocalRepository {
           .where((company) => company != null)
           .toList()
           .cast<Company>();
-     // print(filteredCompanyList.runtimeType);
       return filteredCompanyList;
     }
     return companyBox.values.map((company) => company).toList();
