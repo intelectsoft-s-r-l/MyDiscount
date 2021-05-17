@@ -219,6 +219,7 @@ void main() {
             'Amount': 12678967.543233,
             'Company': 'String content',
             'DateTimeOfSale': '\/Date(928138800000+0300)\/',
+            'Logo': Uint8List.fromList([]),
             'SalesPoint': 'String content'
           }
         ];
@@ -230,6 +231,8 @@ void main() {
         when(_isResponse.statusCode).thenAnswer((_) => 0);
         when(_formater.parseDateTime(tTransaction, 'DateTimeOfSale'))
             .thenAnswer((_) => tTransaction);
+        when(_formater.deleteImageFormatAndDecode(tTransaction, 'Logo'))
+            .thenAnswer((realInvocation) => tTransaction);
 
         final response = await _serviceImpl.getTransactionList();
 
@@ -287,7 +290,7 @@ void main() {
         when(_repo.getLocalUser()).thenAnswer((_) => User.empty());
         when(_remoteDataSource.getRequest(_urlFragment))
             .thenAnswer((realInvocation) async => tResponse);
-        when(_formater.checkCompanyLogo(tCardList))
+        when(_formater.deleteImageFormatAndDecode(tCardList, 'Logo'))
             .thenAnswer((realInvocation) => tCardList);
 
         final response = await _serviceImpl.getRequestActivationCards();
