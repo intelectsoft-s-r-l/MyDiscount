@@ -21,6 +21,12 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
     getIt<DeviceInfoService>().getDeviceInfo();
   }
 
+  final initialData = {
+    'systemVersion': '',
+    'name': '',
+    'model': '',
+  };
+  
   @override
   Widget build(BuildContext context) {
     final pageName = ModalRoute.of(context)!.settings.arguments as String?;
@@ -28,36 +34,38 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
       title: pageName,
       child: Container(
         color: Colors.white,
-        child: FutureBuilder(
-            future: getIt<DeviceInfoService>().getDeviceInfo(),
-            builder: (context, snapshot) {
-              final map = snapshot.data as Map<String, dynamic>;
-              return snapshot.hasData
-                  ? Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          if (Platform.isAndroid)
-                            ListTile(
-                              title: Text(AppLocalizations.of(context)!
-                                  .translate('manufacture')!),
-                              trailing: Text('${map['name'] as String}'),
-                            ),
+        child: FutureBuilder<Map<String, dynamic>?>(
+          initialData: initialData,
+          future: getIt<DeviceInfoService>().getDeviceInfo(),
+          builder: (context, snapshot) {
+            final map = snapshot.data!;
+            return snapshot.hasData
+                ? Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        if (Platform.isAndroid)
                           ListTile(
                             title: Text(AppLocalizations.of(context)!
-                                .translate('model')!),
-                            trailing: Text('${map['model']}'),
+                                .translate('manufacture')!),
+                            trailing: Text('${map['name'] as String}'),
                           ),
-                          ListTile(
-                            title: Text(AppLocalizations.of(context)!
-                                .translate('version')!),
-                            trailing: Text('${map['systemVersion']}'),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container();
-            }),
+                        ListTile(
+                          title: Text(AppLocalizations.of(context)!
+                              .translate('model')!),
+                          trailing: Text('${map['model']}'),
+                        ),
+                        ListTile(
+                          title: Text(AppLocalizations.of(context)!
+                              .translate('version')!),
+                          trailing: Text('${map['systemVersion']}'),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container();
+          },
+        ),
       ),
     );
   }

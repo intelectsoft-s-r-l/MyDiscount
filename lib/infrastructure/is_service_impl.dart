@@ -136,7 +136,9 @@ class IsServiceImpl implements IsService {
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       if (response.statusCode == 0) {
         final listTransactionsMaps = response.body as List;
-        _formater.parseDateTime(listTransactionsMaps, 'DateTimeOfSale');
+        _formater
+          ..parseDateTime(listTransactionsMaps, 'DateTimeOfSale')
+          ..deleteImageFormatAndDecode(listTransactionsMaps, 'Logo');
         final listTransactions = listTransactionsMaps
             .map((transaction) => Transaction.fromJson(transaction))
             .toList();
@@ -202,7 +204,7 @@ class IsServiceImpl implements IsService {
           '/json/GetRequestActivationCards?ID=$_id&RegisterMode=$_registerMode';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       final listofCardsMaps = response.body as List;
-      _formater.checkCompanyLogo(listofCardsMaps);
+      _formater.deleteImageFormatAndDecode(listofCardsMaps, 'Logo');
       final listOfCards =
           listofCardsMaps.map((card) => DiscountCard.fromJson(card)).toList();
       if (listOfCards.isNotEmpty) {
