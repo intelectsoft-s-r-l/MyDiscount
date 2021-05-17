@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 
 class NoInternetWidget extends StatelessWidget {
   const NoInternetWidget();
@@ -13,11 +13,11 @@ class NoInternetWidget extends StatelessWidget {
           Image.asset('assets/icons/no internet.png'),
           const SizedBox(height: 20.0),
           Text(
-            AppLocalizations.of(context).translate('nothaveinet'),
+            AppLocalizations.of(context)!.translate('nothaveinet')!,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            AppLocalizations.of(context).translate('serviceunavailable'),
+            AppLocalizations.of(context)!.translate('serviceunavailable')!,
             style: const TextStyle(fontWeight: FontWeight.bold),
           )
         ],

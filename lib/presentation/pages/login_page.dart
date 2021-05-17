@@ -1,14 +1,12 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
-import '../../core/localization/localizations.dart';
-
+import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/login_button_widget.dart';
 
 class LoginScreen2 extends StatelessWidget {
@@ -26,7 +24,7 @@ class LoginScreen2 extends StatelessWidget {
           }
           if (state is SignInNetError) {
             Flushbar(
-              message: AppLocalizations.of(context).translate('nothaveinet'),
+              message: AppLocalizations.of(context)!.translate('nothaveinet'),
               duration: const Duration(seconds: 3),
               //backgroundColor: Colors.red,
             ).show(context);
@@ -36,7 +34,7 @@ class LoginScreen2 extends StatelessWidget {
             Flushbar(
               message: 'Error',
               duration: const Duration(seconds: 3),
-             // backgroundColor: Colors.red,
+              // backgroundColor: Colors.red,
             ).show(context);
             context.read<SignFormBloc>().add(SignOutEvent());
           }
@@ -59,7 +57,7 @@ class LoginScreen2 extends StatelessWidget {
                       alignment: Alignment.center,
                       width: size.width,
                       child: Text(
-                        AppLocalizations.of(context).translate('welcome'),
+                        AppLocalizations.of(context)!.translate('welcome')!,
                         style: const TextStyle(
                           color: Colors.white,
                         ),
@@ -81,11 +79,11 @@ class LoginScreen2 extends StatelessWidget {
                     width: size.width * .82,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      border: Border.all(width: 2, color: Colors.grey[300]),
+                      border: Border.all(width: 2, color: Colors.grey[300]!),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      AppLocalizations.of(context).translate('loginwith'),
+                      AppLocalizations.of(context)!.translate('loginwith')!,
                       style: const TextStyle(
                         color: Colors.black87,
                         fontWeight: FontWeight.bold,
@@ -100,7 +98,7 @@ class LoginScreen2 extends StatelessWidget {
                     size: size,
                     event: SignInWithGoogle(),
                     picture: 'assets/icons/icon_google.svg',
-                    text: AppLocalizations.of(context).translate('google'),
+                    text: AppLocalizations.of(context)!.translate('google'),
                     color: const Color(0xFF406BFB),
                   ),
                   SizedBox(
@@ -110,7 +108,7 @@ class LoginScreen2 extends StatelessWidget {
                     size: size,
                     event: SignInWithFacebook(),
                     picture: 'assets/icons/icon_facebook.svg',
-                    text: AppLocalizations.of(context).translate('facebook'),
+                    text: AppLocalizations.of(context)!.translate('facebook'),
                     color: const Color(0xFF2D4CB3),
                   ),
                   SizedBox(
@@ -121,7 +119,8 @@ class LoginScreen2 extends StatelessWidget {
                           size: size,
                           event: SignInWithApple(),
                           picture: 'assets/icons/icon_apple.svg',
-                          text: AppLocalizations.of(context).translate('apple'),
+                          text:
+                              AppLocalizations.of(context)!.translate('apple'),
                           color: Colors.black,
                         )
                       : Container(),

@@ -2,29 +2,31 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-
-import '../../services/shared_preferences_service.dart';
+import 'package:hive/hive.dart';
 
 class AppLocalizations {
-  final Locale locale;
-  AppLocalizations(this.locale);
- final SharedPref _prefs = SharedPref();
-
-  static AppLocalizations of(BuildContext context) {
+  final Locale? locale;
+  AppLocalizations(
+    this.locale,
+  );
+ 
+  Box<String> localeBox = Hive.box<String>('locale');
+  static AppLocalizations? of(BuildContext context) {
     return Localizations.of(context, AppLocalizations);
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
-  Map<String, dynamic> _localizedStrings;
+  late Map<String, dynamic> _localizedStrings;
 
   Future<bool> load() async {
-   final  jsonString =
-        await rootBundle.loadString('lang/${locale.languageCode}.json');
-   final  jsonMap = json.decode(jsonString) as Map<String,dynamic>;
+   
+    final jsonString =
+        await rootBundle.loadString('lang/${locale!.languageCode}.json');
+    final jsonMap = json.decode(jsonString) as Map<String, dynamic>;
 
-    _localizedStrings = jsonMap.map(
-      (key, value) {
+    _localizedStrings = jsonMap.map<String, String>(
+      (key, dynamic value) {
         return MapEntry(key, value.toString());
       },
     );
@@ -32,12 +34,15 @@ class AppLocalizations {
   }
 
   Future<Locale> setLocale(String languageCode) async {
-     _prefs.saveLocale(languageCode);
+    await localeBox.put('locale', languageCode);
+   
     return _locale(languageCode);
   }
 
   Future<Locale> getLocale() async {
-   final languageCode = await _prefs.readLocale() ?? 'en';
+    final languageCode =
+        localeBox.get('locale')  ?? 'en';
+    print('box language code:$languageCode');
     return _locale(languageCode);
   }
 
@@ -70,12 +75,12 @@ class AppLocalizations {
   }
 
   Future<Language> getLanguage() async {
-  final  languageCode = await _prefs.readLocale() ?? 'en';
+    final languageCode =  localeBox.get('locale')  ?? 'en';
     return _language(languageCode);
   }
 
-  String translate(String key) {
-    return _localizedStrings[key] as String;
+  String? translate(String? key) {
+    return _localizedStrings[key!] as String?;
   }
 }
 
@@ -90,7 +95,7 @@ class _AppLocalizationsDelegate
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
-  final  localizations =  AppLocalizations(locale);
+    final localizations = AppLocalizations(locale);
     await localizations.load();
     return localizations;
   }
@@ -98,7 +103,7 @@ class _AppLocalizationsDelegate
   @override
 
   // ignore: non_constant_identifier_names
-  
+
   bool shouldReload(LocalizationsDelegate<AppLocalizations> _) => false;
 }
 

@@ -1,8 +1,6 @@
-import 'package:is_service/service_client_response.dart';
 import 'package:injectable/injectable.dart';
+import 'package:is_service/service_client_response.dart';
 
-import '../core/failure.dart';
-import '../core/formater.dart';
 import '../domain/data_source/remote_datasource.dart';
 import '../domain/entities/card.dart';
 import '../domain/entities/company_model.dart';
@@ -12,14 +10,16 @@ import '../domain/entities/tranzaction_model.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
-import '../providers/news_settings.dart';
+import 'core/failure.dart';
+import 'core/formater.dart';
+import 'settings/settings_Impl.dart';
 
 @LazySingleton(as: IsService)
 class IsServiceImpl implements IsService {
   final RemoteDataSource remoteDataSourceImpl;
   final Formater _formater;
   final LocalRepository _localRepository;
-  final NewsSettings settings;
+  final AppSettings settings;
   IsServiceImpl(
     this._localRepository,
     this._formater,
@@ -29,8 +29,8 @@ class IsServiceImpl implements IsService {
   @override
   Future<List<News>> getAppNews() async {
     try {
-      if (await settings.getNewsState()) {
-        final eldestLocalNewsId = _localRepository?.readEldestNewsId();
+      if (settings.getSettings().newsEnabled) {
+        final eldestLocalNewsId = _localRepository.readEldestNewsId();
         final _urlFragment = '/json/GetAppNews?ID=$eldestLocalNewsId';
         final response = await remoteDataSourceImpl.getRequest(_urlFragment);
         if (response.statusCode == 0) {
@@ -50,31 +50,35 @@ class IsServiceImpl implements IsService {
       }
       throw EmptyList();
     } catch (e) {
-      throw ServerError();
+      rethrow;
     }
   }
 
   @override
-  Future<Profile> getClientInfo({String id, int registerMode}) async {
+  Future<Profile> getClientInfo({String? id, int? registerMode}) async {
     try {
       final localUser = _localRepository.getLocalUser();
-      final _id = id ?? localUser?.id;
-      final _registerMode = registerMode ?? localUser?.registerMode;
+      final _id = id ?? localUser.id;
+      final _registerMode = registerMode ?? localUser.registerMode;
       final _urlFragment =
           '/json/GetClientInfo?ID=$_id&RegisterMode=$_registerMode';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
+      //print(response.statusCode);
       if (response.statusCode == 0) {
         final profileMap = response.body as Map;
         _formater.splitDisplayName(profileMap);
-        await _formater.downloadProfileImageOrDecodeString(profileMap);
+        await _formater.downloadProfileImageOrDecodeString(
+            profileMap as Map<String, dynamic>);
         _formater.addToProfileMapSignMethod(profileMap, _registerMode);
         final profile = Profile.fromJson(profileMap);
         _localRepository.saveClientInfoLocal(profile);
         return profile;
       } else {
-        return null;
+        return Profile.empty();
       }
     } catch (e) {
+      print(e);
+
       throw ServerError();
     }
   }
@@ -100,7 +104,7 @@ class IsServiceImpl implements IsService {
         throw ServerError();
       }
     } catch (e) {
-      throw ServerError();
+      rethrow;
     }
   }
 
@@ -113,7 +117,7 @@ class IsServiceImpl implements IsService {
           '/json/GetTempID?ID=${user.id}&RegisterMode=${user.registerMode}';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       if (response.statusCode == 0) {
-        final id = response.body as String;
+        final id = response.body as String?;
         return Future.value(id);
       } else {
         throw ServerError();
@@ -132,7 +136,9 @@ class IsServiceImpl implements IsService {
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       if (response.statusCode == 0) {
         final listTransactionsMaps = response.body as List;
-        _formater.parseDateTime(listTransactionsMaps, 'DateTimeOfSale');
+        _formater
+          ..parseDateTime(listTransactionsMaps, 'DateTimeOfSale')
+          ..deleteImageFormatAndDecode(listTransactionsMaps, 'Logo');
         final listTransactions = listTransactionsMaps
             .map((transaction) => Transaction.fromJson(transaction))
             .toList();
@@ -149,7 +155,7 @@ class IsServiceImpl implements IsService {
   }
 
   @override
-  Future<String> validatePhone({String phone}) async {
+  Future<String> validatePhone({required String phone}) async {
     try {
       final _urlFragment = '/json/ValidatePhone?Phone=$phone';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
@@ -165,7 +171,7 @@ class IsServiceImpl implements IsService {
   }
 
   @override
-  Future<User> updateClientInfo({Map<String, dynamic> json}) async {
+  Future<User> updateClientInfo({required Map<String, dynamic> json}) async {
     print(json);
     try {
       //throw Error();
@@ -177,7 +183,8 @@ class IsServiceImpl implements IsService {
       final userMap = _localRepository.returnUserMapToSave(json);
 
       if (response.statusCode == 0) {
-        final user = _localRepository.saveUserLocal(User.fromJson(userMap));
+        final user = User.fromJson(userMap);
+        _localRepository.saveUserLocal(user);
         return user;
       } else {
         throw ServerError();
@@ -189,16 +196,16 @@ class IsServiceImpl implements IsService {
 
   @override
   Future<List<DiscountCard>> getRequestActivationCards(
-      {String id, int registerMode}) async {
+      {String? id, int? registerMode}) async {
     try {
       final localUser = _localRepository.getLocalUser();
-      final _id = id ?? localUser?.id;
-      final _registerMode = registerMode ?? localUser?.registerMode;
+      final _id = id ?? localUser.id;
+      final _registerMode = registerMode ?? localUser.registerMode;
       final _urlFragment =
           '/json/GetRequestActivationCards?ID=$_id&RegisterMode=$_registerMode';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       final listofCardsMaps = response.body as List;
-      _formater.checkCompanyLogo(listofCardsMaps);
+      _formater.deleteImageFormatAndDecode(listofCardsMaps, 'Logo');
       final listOfCards =
           listofCardsMaps.map((card) => DiscountCard.fromJson(card)).toList();
       if (listOfCards.isNotEmpty) {
@@ -212,7 +219,8 @@ class IsServiceImpl implements IsService {
   }
 
   @override
-  Future<IsResponse> requestActivationCard({Map<String, dynamic> json}) async {
+  Future<IsResponse> requestActivationCard(
+      {required Map<String, dynamic> json}) async {
     try {
       final _urlFragment = '/json/RequestActivationCard';
       final response = await remoteDataSourceImpl.postRequest(

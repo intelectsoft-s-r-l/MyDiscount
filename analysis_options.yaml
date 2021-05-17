@@ -1,7 +1,9 @@
 include: package:pedantic/analysis_options.yaml
 analyzer:
-  #strong-mode:
-    #implicit-casts: false
+  # strong-mode:
+    # implicit-casts: false
+    # implicit-dynamic: false
+  
 linter:
   rules:
     - always_declare_return_types
@@ -91,3 +93,4 @@ linter:
     - use_rethrow_when_possible
     - valid_regexps
     - void_checks
+    

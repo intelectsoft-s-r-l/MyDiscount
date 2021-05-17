@@ -8,17 +8,16 @@ class RemoteConfigService {
     try {
       final remoteConfig = RemoteConfig.instance;
 
-       await remoteConfig.fetchAndActivate();
-      
-      if (remoteConfig.lastFetchStatus!=RemoteConfigFetchStatus.success) {
+      await remoteConfig.fetchAndActivate();
+
+      if (remoteConfig.lastFetchStatus != RemoteConfigFetchStatus.success) {
         await remoteConfig.fetchAndActivate();
       }
-
       final serviceNameAsMap =
           _decodeRemoteConfigData(remoteConfig.getString('service_name_dev'));
 
       return serviceNameAsMap['service_name'];
-    } on dynamic catch (e, s) {
+    } catch (e, s) {
       await FirebaseCrashlytics.instance.recordError(e, s);
       rethrow;
     }

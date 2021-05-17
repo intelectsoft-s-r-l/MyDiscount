@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/app_info_widget.dart';
 
 class AppInfoPage extends StatelessWidget {
@@ -11,7 +11,7 @@ class AppInfoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).translate('privacypolicy'),
+          AppLocalizations.of(context)!.translate('privacypolicy')!,
           style: const TextStyle(fontSize: 18),
         ),
         backgroundColor: Colors.green,

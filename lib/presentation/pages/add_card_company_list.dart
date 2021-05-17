@@ -9,16 +9,15 @@ import '../widgets/company_page_widgets/companies_list_widget.dart';
 
 class AddCardCompanyListPage extends StatefulWidget {
   const AddCardCompanyListPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   _AddCardCompanyListPageState createState() => _AddCardCompanyListPageState();
 }
 
-class _AddCardCompanyListPageState extends State<AddCardCompanyListPage>
-/* with TickerProviderStateMixin */ {
-  List<Company> filteredSearchHistory;
+class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
+  late List<Company> filteredSearchHistory;
   bool search = false;
 
   final _node = FocusNode();
@@ -26,7 +25,7 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage>
   @override
   void initState() {
     super.initState();
-    filteredSearchHistory = getIt<LocalRepository>().searchCompany(null);
+    filteredSearchHistory = getIt<LocalRepository>().searchCompany('');
     _node.requestFocus();
   }
 
@@ -93,7 +92,7 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage>
                             search = !search;
                             setState(() {
                               filteredSearchHistory =
-                                  getIt<LocalRepository>().searchCompany(null);
+                                  getIt<LocalRepository>().searchCompany('');
                             });
                           });
                         },

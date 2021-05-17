@@ -8,10 +8,12 @@ import '../domain/entities/user_model.dart';
 import '../domain/repositories/auth_repository.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
+import 'core/fcm_service.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   final GoogleSignIn _googleSignIn;
+  final FirebaseCloudMessageService _firebaseCloudMessageService;
 
   final IsService _isService;
   final LocalRepository _localRepositoryImpl;
@@ -21,6 +23,7 @@ class AuthRepositoryImpl implements AuthRepository {
     this._googleSignIn,
     this._isService,
     this._localRepositoryImpl,
+    this._firebaseCloudMessageService,
   );
   final fb = FacebookAuth.instance;
 
@@ -33,48 +36,54 @@ class AuthRepositoryImpl implements AuthRepository {
             AppleIDAuthorizationScopes.fullName
           ]);
       final profile = await _isService.getClientInfo(
-          id: appleCredentials.userIdentifier, registerMode: 3);
+          id: appleCredentials.userIdentifier as String, registerMode: 3);
 
-      final localCredentialsMap = profile?.toCreateUser();
-
-      final credentialsMap =
-          profile == null ? appleCredentials.toMap() : localCredentialsMap
-            ..update('ID', (_) => appleCredentials.userIdentifier)
-            ..update('access_token', (_) => appleCredentials.identityToken);
+      final localCredentialsMap = profile.toCreateUser();
+      final token = await _firebaseCloudMessageService.getfcmToken();
+      final credentialsMap = profile.isEmpty
+          ? appleCredentials.toMap().update('PushToken', (_) => token)
+          : localCredentialsMap
+        ..update('ID', (_) => appleCredentials.userIdentifier)
+        ..update('access_token', (_) => appleCredentials.identityToken)
+        ..update('PushToken', (_) => token);
 
       final localUser = await _isService.updateClientInfo(json: credentialsMap);
       return localUser;
     } catch (e) {
-      return null;
+      return User.empty();
     }
   }
 
   @override
   Future<User> authenticateWithFacebook() async {
     try {
-      final token = await fb.login();
+      final fbUser = await fb.login(loginBehavior: LoginBehavior.DIALOG_ONLY);
       final fbProfile = await fb.getUserData();
 
       final profile = await _isService.getClientInfo(
-        id: token.accessToken.userId,
+        id: fbUser.accessToken!.userId,
         registerMode: 2,
       );
 
-      final localCredentialsMap = profile?.toCreateUser();
+      final localCredentialsMap = profile.toCreateUser();
 
       final baseUserCredentials =
-          fb.toCredMap(token: token.accessToken, profile: fbProfile);
-
-      final credentialsMap =
-          profile == null ? baseUserCredentials : localCredentialsMap
-            ..update('ID', (_) => token.accessToken.userId)
-            ..update('access_token', (_) => token.accessToken.userId);
+          fb.toCredMap(token: fbUser.accessToken, profile: fbProfile);
+          
+      final token = await _firebaseCloudMessageService.getfcmToken();
+      
+      final credentialsMap = profile.isEmpty
+          ? baseUserCredentials.update('PushToken', (_) => token)
+          : localCredentialsMap
+        ..update('ID', (_) => fbUser.accessToken!.userId)
+        ..update('access_token', (_) => fbUser.accessToken!.token)
+        ..update('PushToken', (_) => token);
 
       final localUser = await _isService.updateClientInfo(json: credentialsMap);
 
       return localUser;
     } catch (e) {
-      return null;
+      return User.empty();
     }
   }
 
@@ -89,19 +98,22 @@ class AuthRepositoryImpl implements AuthRepository {
             await _isService.getClientInfo(id: _account.id, registerMode: 1);
         final googleCredentials = _account.toMap(user.idToken);
 
-        final localCredentialsMap = profile?.toCreateUser();
-
-        final map = profile == null ? googleCredentials : localCredentialsMap
+        final localCredentialsMap = profile.toCreateUser();
+        final token = await _firebaseCloudMessageService.getfcmToken();
+        final map = profile.isEmpty
+            ? googleCredentials.update('PushToken', (_) => token)
+            : localCredentialsMap
           ..update('ID', (_) => _account.id)
-          ..update('access_token', (_) => user.accessToken);
+          ..update('access_token', (_) => user.accessToken)
+          ..update('PushToken', (_) => token);
 
         final localUser = await _isService.updateClientInfo(json: map);
 
         return localUser;
       }
-      return null;
+      return User.empty();
     } catch (e) {
-      return null;
+      return User.empty();
     }
   }
 

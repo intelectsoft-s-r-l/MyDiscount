@@ -9,12 +9,13 @@ class DeviceInfoService {
 
   DeviceInfoService(this._plugin);
 
-  Future getDeviceInfo() async {
+  Future<Map<String, dynamic>?> getDeviceInfo() async {
     if (Platform.isAndroid) {
       final _deviceInfo = await _plugin.androidInfo;
+    
       final deviceInfo = {
         'systemVersion': _deviceInfo.version.release,
-        'version.incremental': _deviceInfo.version.incremental,
+        //'version.incremental': _deviceInfo.version.incremental,
         'name': _deviceInfo.manufacturer,
         'model': _deviceInfo.model,
       };
@@ -25,7 +26,7 @@ class DeviceInfoService {
 
       final deviceInfo = {
         'name': _deviceInfo.name,
-        'systemName': _deviceInfo.systemName,
+        //'systemName': _deviceInfo.systemName,
         'systemVersion': _deviceInfo.systemVersion,
         'model': _deviceInfo.model,
       };

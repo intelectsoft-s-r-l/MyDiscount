@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 
 class HomePageTopWidget extends StatelessWidget {
   HomePageTopWidget({
-    Key key,
-    @required this.size,
+    Key? key,
+    required this.size,
   }) : super(key: key);
 
   final Size size;
@@ -20,7 +20,7 @@ class HomePageTopWidget extends StatelessWidget {
       child: BlocConsumer<ProfileFormBloc, ProfileFormState>(
         listener: (context, state) {},
         builder: (context, state) {
-          final  profile = state.profile;
+          final profile = state.profile;
           return Stack(
             children: [
               Positioned(
@@ -50,7 +50,7 @@ class HomePageTopWidget extends StatelessWidget {
                         children: [
                           Text(
                             '${profile.firstName}',
-                            style:const TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                             textScaleFactor: 1.3,
@@ -60,7 +60,7 @@ class HomePageTopWidget extends StatelessWidget {
                           ),
                           Text(
                             '${profile.lastName}',
-                            style:const TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                             textScaleFactor: 1.3,
@@ -72,24 +72,24 @@ class HomePageTopWidget extends StatelessWidget {
                       ),
                       if (profile.registerMode == 1)
                         Text(
-                          AppLocalizations.of(context).translate('signinG'),
-                          style:const TextStyle(
+                          AppLocalizations.of(context)!.translate('signinG')!,
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                           textScaleFactor: 1,
                         ),
                       if (profile.registerMode == 2)
                         Text(
-                          AppLocalizations.of(context).translate('signinF'),
-                          style:const TextStyle(
+                          AppLocalizations.of(context)!.translate('signinF')!,
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                           textScaleFactor: 1,
                         ),
                       if (profile.registerMode == 3)
                         Text(
-                          AppLocalizations.of(context).translate('signinA'),
-                          style:const TextStyle(
+                          AppLocalizations.of(context)!.translate('signinA')!,
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                           textScaleFactor: 1,
