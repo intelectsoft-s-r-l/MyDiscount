@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/localization/localizations.dart';
 import '../../../../domain/entities/news_model.dart';
+import '../../../../infrastructure/core/localization/localizations.dart';
 import 'html_text_view_widget.dart';
 
 class DetailedNews extends StatefulWidget {

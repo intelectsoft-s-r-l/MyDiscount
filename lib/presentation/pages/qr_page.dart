@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../core/internet_connection_service.dart';
-import '../../core/localization/localizations.dart';
 import '../../domain/repositories/is_service_repository.dart';
+import '../../infrastructure/core/internet_connection_service.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/custom_app_bar.dart';

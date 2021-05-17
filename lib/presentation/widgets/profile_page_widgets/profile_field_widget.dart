@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:international_phone_input/international_phone_input.dart';
 
 import '../../../aplication/profile_bloc/profile_form_bloc.dart';
-import '../../../core/localization/localizations.dart';
+import '../../../infrastructure/core/localization/localizations.dart';
 import '../../pages/phone_validation_page.dart';
 
 class ProfileFieldWidget extends StatefulWidget {

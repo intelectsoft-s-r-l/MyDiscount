@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../aplication/settings/settings_bloc.dart';
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 
 class LanguageDropDownWidget extends StatelessWidget {
   const LanguageDropDownWidget({

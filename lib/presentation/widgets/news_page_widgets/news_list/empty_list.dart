@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/localization/localizations.dart';
+import '../../../../infrastructure/core/localization/localizations.dart';
 
 class EmptyNewsWidget extends StatelessWidget {
   const EmptyNewsWidget({

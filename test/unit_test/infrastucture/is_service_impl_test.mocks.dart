@@ -6,8 +6,8 @@ import 'dart:async' as _i8;
 
 import 'package:is_service/service_client_response.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:my_discount/core/formater.dart' as _i13;
-import 'package:my_discount/core/internet_connection_service.dart' as _i7;
+import 'package:my_discount/infrastructure/core/formater.dart' as _i13;
+import 'package:my_discount/infrastructure/core/internet_connection_service.dart' as _i7;
 import 'package:my_discount/domain/data_source/remote_datasource.dart' as _i14;
 import 'package:my_discount/domain/entities/company_model.dart' as _i12;
 import 'package:my_discount/domain/entities/news_model.dart' as _i11;

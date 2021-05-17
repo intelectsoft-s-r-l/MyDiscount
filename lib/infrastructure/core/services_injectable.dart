@@ -7,14 +7,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/constants/credentials.dart';
-import '../../core/formater.dart';
 import '../../domain/entities/company_model.dart';
 import '../../domain/entities/news_model.dart';
 import '../../domain/entities/profile_model.dart';
 import '../../domain/entities/user_model.dart';
 import '../../domain/settings/settings.dart';
+import '../../infrastructure/core/constants/credentials.dart';
 import '../../infrastructure/core/remote_config_service.dart';
+import 'formater.dart';
 
 @module
 abstract class ServiceInjectableModule {

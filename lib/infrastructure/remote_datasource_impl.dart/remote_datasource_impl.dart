@@ -2,10 +2,10 @@ import 'package:injectable/injectable.dart';
 import 'package:is_service/service_client.dart';
 import 'package:is_service/service_client_response.dart';
 
-import '../../core/failure.dart';
-import '../../core/internet_connection_service.dart';
 import '../../domain/data_source/remote_datasource.dart';
+import '../../infrastructure/core/internet_connection_service.dart';
 import '../../infrastructure/core/remote_config_service.dart';
+import '../core/failure.dart';
 
 @LazySingleton(as: RemoteDataSource)
 class RemoteDataSourceImpl implements RemoteDataSource {

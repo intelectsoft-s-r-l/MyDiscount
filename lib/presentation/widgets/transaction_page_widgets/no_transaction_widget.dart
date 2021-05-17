@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/localization/localizations.dart';
+import '../../../infrastructure/core/localization/localizations.dart';
 
 class NoTransactionWidget extends StatelessWidget {
   const NoTransactionWidget({

@@ -7,7 +7,7 @@ import 'dart:async' as _i4;
 import 'package:is_service/service_client_response.dart' as _i2;
 import 'package:is_service/src/service_client.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:my_discount/core/internet_connection_service.dart' as _i3;
+import 'package:my_discount/infrastructure/core/internet_connection_service.dart' as _i3;
 import 'package:my_discount/domain/data_source/remote_datasource.dart' as _i7;
 import 'package:my_discount/infrastructure/core/remote_config_service.dart'
     as _i6;

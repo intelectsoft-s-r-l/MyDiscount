@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-import '../domain/entities/company_model.dart';
+import '../../domain/entities/company_model.dart';
 import 'failure.dart';
 
 class Formater {

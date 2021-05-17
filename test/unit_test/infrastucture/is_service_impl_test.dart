@@ -6,10 +6,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:is_service/service_client_response.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_discount/core/failure.dart';
+import 'package:my_discount/infrastructure/core/failure.dart';
 
-import 'package:my_discount/core/formater.dart';
-import 'package:my_discount/core/internet_connection_service.dart';
+import 'package:my_discount/infrastructure/core/formater.dart';
+import 'package:my_discount/infrastructure/core/internet_connection_service.dart';
 import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/domain/entities/card.dart';
 import 'package:my_discount/domain/entities/company_model.dart';
