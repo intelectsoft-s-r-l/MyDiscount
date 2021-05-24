@@ -24,7 +24,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   final StreamController<double> _progressController =
       StreamController.broadcast();
 
-  int countTID = 0;
+  int iterationsNumber = 0;
   late bool serviceConection;
   late String tempId = '';
   late Timer _timer;
@@ -49,23 +49,23 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         _imageController.sink.add(true);
-        debugPrint('resumed');
+        
         _timer.cancel();
         _getAuthorization();
-        countTID = 0;
+        iterationsNumber = 0;
         _progress = 1.1;
         break;
 
       case AppLifecycleState.inactive:
         _timer.cancel();
-        debugPrint('inactive');
+       
         break;
       case AppLifecycleState.paused:
-        debugPrint('paused');
+        
         _timer.cancel();
         break;
       case AppLifecycleState.detached:
-        debugPrint('detached');
+       
         _timer.cancel();
         break;
       default:
@@ -84,15 +84,14 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     if (mounted) {
       var _counter = 11;
 
-      countTID++;
+      iterationsNumber++;
 
       _timer = Timer.periodic(const Duration(seconds: 1), (_timer) {
         if (_counter > 0) {
           _counter--;
           _showProgress();
-          debugPrint('$_counter');
         } else if (_counter == 0) {
-          if (countTID < 3) {
+          if (iterationsNumber < 3) {
             _getAuthorization();
             _progress = 1.1;
             _timer.cancel();
@@ -106,12 +105,11 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
       });
     }
 
-    debugPrint('Count:$countTID');
+    
   }
 
   void _showProgress() {
     _progress -= .1;
-    print('progress: ${_progress.toStringAsFixed(2)}');
     if (mounted) _progressController.sink.add(_progress);
   }
 
@@ -126,7 +124,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
               serviceConection = netConnection;
             });
           }
-          if (countTID == 3) {
+          if (iterationsNumber == 3) {
             _changeImages();
             if (_timer.isActive) _timer.cancel();
           } else {
@@ -226,7 +224,7 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
                                 onPressed: () {
                                   _imageController.add(true);
                                   _getAuthorization();
-                                  countTID = 0;
+                                  iterationsNumber = 0;
                                   _progress = 1.1;
                                 },
                                 child: serviceConection
