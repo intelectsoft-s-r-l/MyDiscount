@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/news_model.dart';
+import '../../../../domain/entities/news_model.dart';
 
 class NewsHeaderWidget extends StatelessWidget {
   const NewsHeaderWidget({
-    Key key,
-    @required this.size,
-    @required this.news,
+    Key? key,
+    required this.size,
+    required this.news,
   }) : super(key: key);
 
   final Size size;

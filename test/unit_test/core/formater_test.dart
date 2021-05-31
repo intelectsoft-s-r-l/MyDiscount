@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:my_discount/core/formater.dart';
+import 'package:my_discount/infrastructure/core/formater.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../fixtures/fixtures_redear.dart';
 
-//import 'package:mockito/mockito.dart';
-
 void main() {
-  Formater _formater;
+  late Formater _formater;
   setUp(() {
     _formater = Formater();
   });
@@ -48,14 +46,16 @@ void main() {
         'lastName': 'Cristea',
         'Email': '',
         'ID': '',
+        'phone': '',
         'PhotoUrl': '',
         'PushToken': '',
         'RegisterMode': 1,
         'access_token': '',
       };
-      final responseMap = await json.decode(fixture('auth_providers_credentials.json'));
+      final responseMap =
+          await json.decode(fixture('auth_providers_credentials.json'));
       final result = _formater.splitDisplayName(responseMap);
-      expect(map, result);
+      expect(map, equals(result));
     });
   });
 }

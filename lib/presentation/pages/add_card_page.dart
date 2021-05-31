@@ -1,15 +1,13 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../aplication/card_bloc/add_card_page_bloc.dart';
-import '../../core/localization/localizations.dart';
 import '../../domain/entities/company_model.dart';
-
+import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 
 class AddCardPage extends StatefulWidget {
@@ -23,8 +21,8 @@ class _AddCardPageState extends State<AddCardPage> {
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final FocusNode _node = FocusNode();
-  Barcode result;
-  QRViewController controller;
+  Barcode? result;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool scann = false;
 
@@ -112,7 +110,7 @@ class _AddCardPageState extends State<AddCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final company = ModalRoute.of(context).settings.arguments as Company;
+    final company = ModalRoute.of(context)!.settings.arguments as Company;
     return !scann
         ? BlocProvider(
             create: (context) => getIt<AddCardPageBloc>(),
@@ -124,12 +122,12 @@ class _AddCardPageState extends State<AddCardPage> {
                       ? Icons.arrow_back_sharp
                       : Icons.arrow_back_ios_sharp),
                   onPressed: () {
-                    Navigator.maybeOf(context)..pop()..pop();
+                    Navigator.of(context)..pop()..pop();
                   },
                 ),
                 centerTitle: true,
                 title: Text(
-                  '${AppLocalizations.of(context).translate('connectcard')}: ${company.name}',
+                  '${AppLocalizations.of(context)!.translate('connectcard')}: ${company.name}',
                   style: const TextStyle(fontSize: 18),
                 ),
                 elevation: 0,
@@ -181,8 +179,8 @@ class _AddCardPageState extends State<AddCardPage> {
                                           .05,
                                     ),
                                     Text(
-                                      AppLocalizations.of(context)
-                                          .translate('inputcardnumber'),
+                                      AppLocalizations.of(context)!
+                                          .translate('inputcardnumber')!,
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
@@ -214,13 +212,13 @@ class _AddCardPageState extends State<AddCardPage> {
                                       ),
                                       // ignore: missing_return
                                       validator: (code) {
-                                        if (code.isEmpty) {
-                                          return AppLocalizations.of(context)
+                                        if (code!.isEmpty) {
+                                          return AppLocalizations.of(context)!
                                               .translate('addcardnum');
                                         }
                                       },
                                       onSaved: (input) {
-                                        _controller?.text = input;
+                                        _controller.text = input as String;
                                       },
                                     ),
                                   ),
@@ -231,22 +229,13 @@ class _AddCardPageState extends State<AddCardPage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    /*  ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          scann = !scann;
-                                        });
-                                      },
-                                      child: Text(AppLocalizations.of(context)
-                                          .translate('scancard')),
-                                    ), */
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     ElevatedButton(
                                       onPressed: () async {
-                                        if (_key.currentState.validate()) {
-                                          _key.currentState.save();
+                                        if (_key.currentState!.validate()) {
+                                          _key.currentState!.save();
                                           _node.unfocus();
                                           context.read<AddCardPageBloc>().add(
                                               SaveNewCard(company,
@@ -254,8 +243,8 @@ class _AddCardPageState extends State<AddCardPage> {
                                         }
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)
-                                            .translate('addcard'),
+                                        AppLocalizations.of(context)!
+                                            .translate('addcard')!,
                                       ),
                                     ),
                                   ],

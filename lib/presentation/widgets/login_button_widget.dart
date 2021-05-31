@@ -6,18 +6,18 @@ import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({
-    Key key,
-    @required this.size,
-    @required this.event,
-    @required this.picture,
-    @required this.text,
-    @required this.color,
+    Key? key,
+    required this.size,
+    required this.event,
+    required this.picture,
+    required this.text,
+    required this.color,
   }) : super(key: key);
 
   final Size size;
   final SignFormEvent event;
   final String picture;
-  final String text;
+  final String? text;
   final Color color;
 
   @override
@@ -51,7 +51,7 @@ class LoginButton extends StatelessWidget {
               width: 10,
             ),
             Text(
-              text,
+              text!,
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

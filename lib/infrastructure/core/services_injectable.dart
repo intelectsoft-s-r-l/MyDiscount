@@ -2,21 +2,19 @@ import 'package:is_service/service_client.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/core/formater.dart';
-import 'package:my_discount/providers/news_settings.dart';
 
-import '../../core/constants/credentials.dart';
 import '../../domain/entities/company_model.dart';
 import '../../domain/entities/news_model.dart';
 import '../../domain/entities/profile_model.dart';
 import '../../domain/entities/user_model.dart';
-import '../../services/remote_config_service.dart';
-import '../../services/shared_preferences_service.dart';
+import '../../domain/settings/settings.dart';
+import '../../infrastructure/core/constants/credentials.dart';
+import '../../infrastructure/core/remote_config_service.dart';
+import 'formater.dart';
 
 @module
 abstract class ServiceInjectableModule {
@@ -39,8 +37,6 @@ abstract class ServiceInjectableModule {
   @lazySingleton
   Credentials get credentials => Credentials();
   @lazySingleton
-  SharedPref get network => SharedPref();
-  @lazySingleton
   Box<User> get userBox => Hive.box<User>('user');
   @lazySingleton
   Box<Profile> get profileBox => Hive.box<Profile>('profile');
@@ -49,7 +45,7 @@ abstract class ServiceInjectableModule {
   @lazySingleton
   Box<Company> get companyBox => Hive.box<Company>('company');
   @lazySingleton
-  RemoteConfigService get remoteConfig => RemoteConfigService();
+  Box<Settings> get settingsBox => Hive.box<Settings>('settings');
   @lazySingleton
-  NewsSettings get settings => NewsSettings();
+  RemoteConfigService get remoteConfig => RemoteConfigService();
 }

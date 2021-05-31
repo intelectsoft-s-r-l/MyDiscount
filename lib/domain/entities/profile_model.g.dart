@@ -22,8 +22,8 @@ class ProfileAdapter extends TypeAdapter<Profile> {
       email: fields[2] as String,
       phone: fields[3] as String,
       photo: fields[4] as Uint8List,
-      pushToken: fields[5] as String,
-      registerMode: fields[6] as int,
+      pushToken: fields[5] as String?,
+      registerMode: fields[6] as int?,
     );
   }
 

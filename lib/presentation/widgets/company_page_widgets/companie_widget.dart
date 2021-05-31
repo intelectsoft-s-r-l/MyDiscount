@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:my_discount/presentation/pages/add_card_page.dart';
 
-import '../../../core/localization/localizations.dart';
 import '../../../domain/entities/company_model.dart';
+import '../../../infrastructure/core/localization/localizations.dart';
 
 class CompanyWidget extends StatelessWidget {
   const CompanyWidget(this.company);
@@ -49,7 +48,7 @@ class CompanyWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context).translate('amount'),
+                AppLocalizations.of(context)!.translate('amount')!,
                 style: const TextStyle(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.start,
               ),

@@ -1,39 +1,25 @@
 import 'package:is_service/service_client.dart';
 import 'package:is_service/service_client_response.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_discount/core/failure.dart';
-import 'package:my_discount/core/internet_connection_service.dart';
+import 'package:my_discount/infrastructure/core/failure.dart';
+import 'package:my_discount/infrastructure/core/internet_connection_service.dart';
 import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart';
-import 'package:my_discount/services/remote_config_service.dart';
+import 'package:my_discount/infrastructure/core/remote_config_service.dart';
 
+import 'remote_data_source_test.mocks.dart';
 
-class MockNetworkConnections extends Mock implements NetworkConnection {}
-
-class MockServiceClient extends Mock implements ServiceClient {}
-
-class MockRemoteConfig extends Mock implements RemoteConfigService {}
-
-class MockRemoteDataSource extends Mock implements RemoteDataSource {}
-
+@GenerateMocks(
+    [NetworkConnection, ServiceClient, RemoteConfigService, RemoteDataSource])
 void main() {
-  MockNetworkConnections _network;
-
-  MockRemoteConfig _mockRemoteConfig;
-
-  MockServiceClient _client;
-
-  /* Mock */ RemoteDataSourceImpl remoteDataSource;
-
-  setUp(() {
-    _network = MockNetworkConnections();
-    _client = MockServiceClient();
-    _mockRemoteConfig = MockRemoteConfig();
-
-    remoteDataSource = /* Mock */ RemoteDataSourceImpl(
-        _client, _mockRemoteConfig, _network);
-  });
+  final _network = MockNetworkConnection();
+  final _client = MockServiceClient();
+  final _mockRemoteConfig = MockRemoteConfigService();
+  final remoteDataSource = /* Mock */ RemoteDataSourceImpl(
+      _client, _mockRemoteConfig, _network);
+  setUp(() {});
   void runTestsOnline(Function body) {
     group(
       'device is online',

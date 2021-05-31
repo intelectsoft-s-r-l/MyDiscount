@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/home_page_top_widget.dart';
-import '../widgets/profile_page_widgets/profile_home_item_widget.dart';
+import '../widgets/profile_home_item_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage();
@@ -16,7 +16,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    //final provider = Provider.of<LocalImagePicker>(context);
     return Scaffold(
       backgroundColor: Colors.green,
       body: BlocListener<AuthBloc, AuthState>(
@@ -45,37 +44,38 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     ProfileHomeItemWidget(
                       icon: Icons.account_circle_outlined,
-                      pageName:
-                          AppLocalizations.of(context).translate('profile'),
+                      pageName: AppLocalizations.of(context)!
+                          .translate('profile') as String,
                       routeName: '/profilepage',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.apartment_outlined,
-                      pageName:
-                          AppLocalizations.of(context).translate('companies'),
+                      pageName: AppLocalizations.of(context)!
+                          .translate('companies') as String,
                       routeName: '/companypage',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.card_giftcard_outlined,
-                      pageName:
-                          AppLocalizations.of(context).translate('mycards'),
+                      pageName: AppLocalizations.of(context)!
+                          .translate('mycards') as String,
                       routeName: '/cardlist',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.transfer_within_a_station_outlined,
-                      pageName: AppLocalizations.of(context)
-                          .translate('transactions'),
+                      pageName: AppLocalizations.of(context)!
+                          .translate('transactions') as String,
                       routeName: '/transactionlist',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.info_outline,
-                      pageName: AppLocalizations.of(context).translate('Info'),
+                      pageName: AppLocalizations.of(context)!.translate('Info')
+                          as String,
                       routeName: '/infopage',
                     ),
                     ProfileHomeItemWidget(
                       icon: Icons.settings,
-                      pageName:
-                          AppLocalizations.of(context).translate('settings'),
+                      pageName: AppLocalizations.of(context)!
+                          .translate('settings') as String,
                       routeName: '/settings',
                     ),
                   ],

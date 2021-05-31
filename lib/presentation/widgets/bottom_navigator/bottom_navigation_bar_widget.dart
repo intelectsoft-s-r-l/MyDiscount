@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../../core/localization/localizations.dart';
+import '../../../infrastructure/core/localization/localizations.dart';
 import '../../pages/home_page.dart';
 import '../../pages/news_page.dart';
 import '../../pages/qr_page.dart';
@@ -19,7 +19,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
   final StreamController _indexController = StreamController();
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
 
     super.initState();
   }
@@ -27,7 +27,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
   @override
   void dispose() {
     _indexController.close();
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -52,12 +52,12 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
                 border: Border(
                   top: BorderSide(
                     width: 2,
-                    color: Colors.grey[200],
+                    color: Colors.grey[200]!,
                   ),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey[200],
+                    color: Colors.grey[200]!,
                     blurRadius: 0.1,
                     spreadRadius: 1.5,
                   )
@@ -82,7 +82,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
                           color: snapshot.data == 0 ? Colors.green : Colors.black,
                         ),
                         Text(
-                          AppLocalizations.of(context).translate('home'),
+                          AppLocalizations.of(context)!.translate('home')!,
                           style: TextStyle(
                             color: snapshot.data == 0 ? Colors.green : Colors.black,
                           ),
@@ -123,7 +123,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
                           color: snapshot.data == 2 ? Colors.green : Colors.black,
                         ),
                         Text(
-                          AppLocalizations.of(context).translate('news'),
+                          AppLocalizations.of(context)!.translate('news')!,
                           style: TextStyle(
                             color: snapshot.data == 2 ? Colors.green : Colors.black,
                           ),

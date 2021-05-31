@@ -1,34 +1,39 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/presentation/pages/add_card_page.dart';
-import 'package:my_discount/services/local_notification_service.dart';
 
 import 'aplication/auth/auth_bloc.dart';
 import 'aplication/auth/sign_in/sign_form_bloc.dart';
 import 'aplication/profile_bloc/profile_form_bloc.dart';
-import 'core/localization/localizations.dart';
+import 'aplication/settings/settings_bloc.dart';
 import 'domain/entities/company_model.dart';
 import 'domain/entities/news_model.dart';
 import 'domain/entities/profile_model.dart';
 import 'domain/entities/user_model.dart';
+import 'domain/settings/settings.dart';
+import 'infrastructure/core/fcm_service.dart';
+import 'infrastructure/core/local_notification_service.dart';
+import 'infrastructure/core/localization/localizations.dart';
+import 'infrastructure/core/remote_config_service.dart';
 import 'injectable.dart';
 import 'presentation/pages/about_app_page.dart';
 import 'presentation/pages/add_card_company_list.dart';
+import 'presentation/pages/add_card_page.dart';
 import 'presentation/pages/app_inf_page.dart';
 import 'presentation/pages/card_list_page.dart';
 import 'presentation/pages/company_list_page.dart';
@@ -41,15 +46,30 @@ import 'presentation/pages/technic_details_page.dart';
 import 'presentation/pages/transactions_page.dart';
 import 'presentation/widgets/bottom_navigator/bottom_navigation_bar_widget.dart';
 import 'presentation/widgets/circular_progress_indicator_widget.dart';
-import 'services/fcm_service.dart';
-import 'services/remote_config_service.dart';
-import 'services/shared_preferences_service.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  /* await FlutterLocalNotificationsPlugin().show(int.parse(message.data['id']),
-      message.data['title'], message.data['body'],const NotificationDetails() ); */
+  await FlutterLocalNotificationsPlugin().show(
+      int.parse(message.data['id']),
+      message.data['title'],
+      message.data['body'],
+      const NotificationDetails(
+          android: AndroidNotificationDetails(
+        'your channel id',
+        'your channel name',
+        'your channel description',
+        importance: Importance.max,
+        priority: Priority.max,
+        icon: '@mipmap/ic_notifications_icon',
+        enableLights: true,
+        ledColor: Color(0xFF0000FF),
+        ledOffMs: 2000,
+        ledOnMs: 2000,
+        color: Color(0xFF00C569),
+        enableVibration: true,
+        // vibrationPattern: vibrationPattern,
+      )));
   debugPrint('Handling a background message: ${message.messageId}');
 }
 
@@ -59,23 +79,38 @@ void main() async {
   configureInjection(Environment.prod);
 
   await Firebase.initializeApp();
+  final storage = const FlutterSecureStorage();
 
+  const key = 'hiveKey';
+  final List<int> hiveKey;
+  if (await storage.containsKey(key: key)) {
+    hiveKey = base64Decode(await storage.read(key: key) as String).toList();
+  } else {
+    final value = Hive.generateSecureKey();
+    await storage.write(key: key, value: base64Encode(value));
+    hiveKey = base64Decode(await storage.read(key: key) as String).toList();
+  }
   try {
     await Hive.initFlutter();
-    Hive.registerAdapter<User>(UserAdapter());
-    Hive.registerAdapter<Profile>(ProfileAdapter());
-    Hive.registerAdapter<News>(NewsAdapter());
-    Hive.registerAdapter<Company>(CompanyAdapter());
+    Hive
+      ..registerAdapter<User>(
+        UserAdapter(),
+      )
+      ..registerAdapter<Settings>(SettingsAdapter())
+      ..registerAdapter<Profile>(ProfileAdapter())
+      ..registerAdapter<News>(NewsAdapter())
+      ..registerAdapter<Company>(CompanyAdapter());
 
-    await Hive.openBox<User>('user');
-    await Hive.openBox<Profile>('profile');
+    await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
+    await Hive.openBox<Settings>('settings');
+    await Hive.openBox<Profile>('profile',
+        encryptionCipher: HiveAesCipher(hiveKey));
     await Hive.openBox<News>('news');
     await Hive.openBox<Company>('company');
+    await Hive.openBox<String>('locale');
   } catch (e) {
     rethrow;
   }
-
-  SharedPref().remove();
 
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   await FirebaseCrashlytics.instance.deleteUnsentReports();
@@ -108,7 +143,7 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    context.findAncestorStateOfType<_MyAppState>().setLocale(newLocale);
+    context.findAncestorStateOfType<_MyAppState>()!.setLocale(newLocale);
   }
 
   @override
@@ -116,7 +151,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  Locale _locale;
+  Locale? _locale;
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -127,7 +162,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     getIt<RemoteConfigService>().getServiceNameFromRemoteConfig();
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
@@ -142,7 +177,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -201,7 +236,7 @@ class SplashScreen extends StatelessWidget {
 
 class InitApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    context.findAncestorStateOfType<_InitAppState>().setLocale(newLocale);
+    context.findAncestorStateOfType<_InitAppState>()!.setLocale(newLocale);
   }
 
   @override
@@ -209,7 +244,7 @@ class InitApp extends StatefulWidget {
 }
 
 class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
-  Locale _locale;
+  Locale? _locale;
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -219,7 +254,7 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
@@ -234,7 +269,7 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -244,6 +279,9 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
       providers: [
         BlocProvider(
           create: (context) => getIt<ProfileFormBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<SettingsBloc>(),
         ),
       ],
       child: MaterialApp(
@@ -294,37 +332,3 @@ class _InitAppState extends State<InitApp> with WidgetsBindingObserver {
     );
   }
 }
-/*  encryptionCipher: HiveAesCipher([
-          19,
-          93,
-          01,
-          03,
-          255,
-          08,
-          29,
-          155,
-          32,
-          45,
-          86,
-          120,
-          76,
-          240,
-          58,
-          200,
-          35,
-          42,
-          244,
-          195,
-          71,
-          08,
-          29,
-          155,
-          32,
-          45,
-          86,
-          120,
-          76,
-          240,
-          58,
-          200
-        ]) */

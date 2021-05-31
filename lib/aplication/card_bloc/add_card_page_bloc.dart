@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:my_discount/core/failure.dart';
-import 'package:my_discount/core/localization/localizations.dart';
-import 'package:my_discount/domain/entities/company_model.dart';
-import 'package:my_discount/domain/repositories/is_service_repository.dart';
-import 'package:my_discount/domain/repositories/local_repository.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../domain/entities/company_model.dart';
+import '../../domain/repositories/is_service_repository.dart';
+import '../../domain/repositories/local_repository.dart';
+import '../../infrastructure/core/failure.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 
 part 'add_card_page_event.dart';
 part 'add_card_page_state.dart';
@@ -35,7 +36,7 @@ class AddCardPageBloc extends Bloc<AddCardPageEvent, AddCardPageState> {
         final user = _repo.getLocalUser();
         final map = <String, dynamic>{
           'CardCode': event.cardNumer,
-          'CompanyID': event.company.id.toString(),
+          'CompanyID': event.company!.id.toString(),
           'ID': user.id,
           'RegisterMode': user.registerMode,
         };
@@ -48,10 +49,10 @@ class AddCardPageBloc extends Bloc<AddCardPageEvent, AddCardPageState> {
         }
       } on NoInternetConection {
         yield CardError(event.company, event.cardNumer, false,
-            AppLocalizations.of(event.context).translate('nothaveinet'));
+            AppLocalizations.of(event.context)!.translate('nothaveinet'));
       } catch (e) {
         yield CardError(event.company, event.cardNumer, false,
-            AppLocalizations.of(event.context).translate('servererror'));
+            AppLocalizations.of(event.context)!.translate('servererror'));
       }
     }
   }

@@ -3,19 +3,17 @@ import 'dart:convert';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 
 import 'package:mockito/mockito.dart';
 
-class MockRemoteConfig extends Mock implements RemoteConfig {}
+import 'remote_config_test.mocks.dart';
 
+@GenerateMocks([RemoteConfig])
 void main() {
-  MockRemoteConfig mockRemoteConfig;
-
-  setUp(() {
-    mockRemoteConfig = MockRemoteConfig();
-  });
-
+  setUp(() {});
   test('check remoteconfig', () async {
+    final mockRemoteConfig = MockRemoteConfig();
     final tfechMap = {
       'service_name_dev': {
         'service_name': 'https://dev.edi.md/ISMobileDiscountService'

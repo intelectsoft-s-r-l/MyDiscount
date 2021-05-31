@@ -32,22 +32,22 @@ PODS:
   - Firebase/RemoteConfig (7.11.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 7.11.0)
-  - firebase_analytics (8.0.2):
+  - firebase_analytics (8.0.4):
     - Firebase/Analytics (= 7.11.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.1.0):
+  - firebase_core (1.1.1):
     - Firebase/CoreOnly (= 7.11.0)
     - Flutter
-  - firebase_crashlytics (2.0.2):
+  - firebase_crashlytics (2.0.3):
     - Firebase/Crashlytics (= 7.11.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (9.1.3):
+  - firebase_messaging (9.1.4):
     - Firebase/Messaging (= 7.11.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (0.10.0-dev.2):
+  - firebase_remote_config (0.10.0-dev.3):
     - Firebase/RemoteConfig (= 7.11.0)
     - firebase_core
     - Flutter
@@ -129,6 +129,8 @@ PODS:
     - Mantle
     - SDWebImageWebPCoder
   - flutter_local_notifications (0.0.1):
+    - Flutter
+  - flutter_secure_storage (3.3.1):
     - Flutter
   - google_sign_in (0.0.1):
     - Flutter
@@ -232,6 +234,7 @@ DEPENDENCIES:
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
@@ -297,6 +300,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_image_compress/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
   image_picker:
@@ -330,11 +335,11 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
   FBSDKLoginKit: d98498c598ec09de657385a9349a1f21119b7f86
   Firebase: c121feb35e4126c0b355e3313fa9b487d47319fd
-  firebase_analytics: 620e8cc1705feb6b9c40b6127bea9b39e03e3970
-  firebase_core: 84dcd80ac6d29c3d1039071b7306ee99688eb9c7
-  firebase_crashlytics: 1bf37e6bace6394a2bab8f316de395f49a836189
-  firebase_messaging: 7aecb08eada5e5cde85b10875141706a8d18b818
-  firebase_remote_config: f855065886b7d6ccc38144c9a3cecbdc7887f33e
+  firebase_analytics: 2d95c809fde5c606276a51b9cdc591a7ba44e1f2
+  firebase_core: 54856a8a39b8f3e35f34fdd3373f3b92a1daa68b
+  firebase_crashlytics: 1e72fe7a913faa6bc73f75794a5f68947e26623e
+  firebase_messaging: 64d2a9b095bc7afa54eff3f4e13522d9098619d2
+  firebase_remote_config: 44bb7d35f010caf2d28c2719a5b3585cea4ee558
   FirebaseABTesting: e66f1f80747792630d9b292966de206d5df9853b
   FirebaseAnalytics: cd3bd84d722a24a8923918af8af8e5236f615d77
   FirebaseCore: 907447d8917a4d3eb0cce2829c5a0ad21d90b432
@@ -348,6 +353,7 @@ SPEC CHECKSUMS:
   flutter_facebook_auth: 4b170c07b7fce791497093fcc3f134fb215f3f07
   flutter_image_compress: 082f8daaf6c1b0c9fe798251c750ef0ecd98d7ae
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleAppMeasurement: fd19169c3034975cb934e865e5667bfdce59df7f
   GoogleDataTransport: cd9db2180fcecd8da1b561aea31e3e56cf834aa7

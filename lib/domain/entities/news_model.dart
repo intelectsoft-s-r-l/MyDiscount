@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 part 'news_model.g.dart';
@@ -27,15 +26,15 @@ class News {
   final Uint8List logo;
 
   News({
-    @required this.companyName,
-    @required this.appType,
-    @required this.companyId,
-    @required this.content,
-    @required this.dateTime,
-    @required this.header,
-    @required this.id,
-    @required this.photo,
-    @required this.logo,
+    required this.companyName,
+    required this.appType,
+    required this.companyId,
+    required this.content,
+    required this.dateTime,
+    required this.header,
+    required this.id,
+    required this.photo,
+    required this.logo,
   });
 
   factory News.fromJson(Map<String, dynamic> json) {
@@ -47,20 +46,20 @@ class News {
       dateTime: json['CreateDate']as String,
       header: json['Header']as String,
       id: json['ID']as int,
-      photo: json['Photo']as Uint8List ?? Uint8List.fromList([]) ,
-      logo: json['CompanyLogo'] as Uint8List ?? Uint8List.fromList([]),
+      photo: json['Photo'] ?? Uint8List.fromList([]) ,
+      logo: json['CompanyLogo'] ?? Uint8List.fromList([]),
     );
   }
   News copyWith({
-    int appType,
-    int companyId,
-    String companyName,
-    String content,
-    String dateTime,
-    int id,
-    String header,
-    Uint8List photo,
-    Uint8List logo,
+    int? appType,
+    int? companyId,
+    String? companyName,
+    String? content,
+    String? dateTime,
+    int? id,
+    String? header,
+    Uint8List? photo,
+    Uint8List? logo,
   }) {
     return News(
       appType: appType ?? this.appType,

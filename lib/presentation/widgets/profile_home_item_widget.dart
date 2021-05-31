@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class ProfileHomeItemWidget extends StatelessWidget {
   const ProfileHomeItemWidget({
-    Key key,
+    Key? key,
     this.icon,
-    this.pageName,
-    this.routeName,
+   required this.pageName,
+   required this.routeName,
   }) : super(key: key);
-  final IconData icon;
+  final IconData? icon;
   final String pageName;
   final String routeName;
   @override

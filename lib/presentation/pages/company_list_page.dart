@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../core/failure.dart';
 import '../../domain/entities/company_model.dart';
 import '../../domain/repositories/is_service_repository.dart';
+import '../../infrastructure/core/failure.dart';
 import '../../injectable.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/company_page_widgets/companies_list_widget.dart';
@@ -10,18 +10,14 @@ import '../widgets/company_page_widgets/noCompani_list_widget.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/nointernet_widget.dart';
 
-/* class CompanyL extends ValueNotifier<Future<List<Company>>>{
-  CompanyL():super(getIt<LocalRepository>().getCachedCompany(''));
-} */
-
 class CompanyListPage extends StatelessWidget {
   const CompanyListPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final String pageName = ModalRoute.of(context).settings.arguments;
+    final pageName = ModalRoute.of(context)!.settings.arguments as String?;
 
     return CustomAppBar(
       title: pageName,
