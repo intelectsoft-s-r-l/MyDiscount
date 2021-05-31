@@ -204,10 +204,10 @@ class MockFormater extends _i1.Mock implements _i13.Formater {
       (super.noSuchMethod(
           Invocation.method(#addToProfileMapSignMethod, [map, registerMode]),
           returnValue: <String, dynamic>{}) as Map<String, dynamic>);
-  @override
+  /* @override
   List<dynamic> checkCompanyLogo(List<dynamic>? list) =>
       (super.noSuchMethod(Invocation.method(#checkCompanyLogo, [list]),
-          returnValue: <dynamic>[]) as List<dynamic>);
+          returnValue: <dynamic>[]) as List<dynamic>); */
 }
 
 /// A class which mocks [RemoteDataSource].

@@ -14,63 +14,64 @@ class NewsHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: 65,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          width: MediaQuery.of(context).size.width,
-        ),
-        Positioned(
-          top: 39,
-          left: 69,
-          child: Container(
-            padding:const EdgeInsets.only(
-              right: 10,
+    return  Stack(
+        children: [
+          Container(
+            height: 65,
+            decoration: const BoxDecoration(
+              color: Colors.white,
             ),
-            child: Text(
-              news.dateTime,
-              style:const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Colors.black38),
-              textAlign: TextAlign.left,
-            ),
+            width: MediaQuery.of(context).size.width,
           ),
-        ),
-        Positioned(
-          top: 15,
-          left: 69,
-          child: Container(
-            child: Text(
-              news.companyName.toString(),
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+          Positioned(
+            top: 39,
+            left: 69,
+            child: Container(
+              padding: const EdgeInsets.only(
+                right: 10,
               ),
-              textAlign: TextAlign.center,
+              child: Text(
+                news.dateTime,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: Colors.black38),
+                textAlign: TextAlign.left,
+              ),
             ),
           ),
-        ),
-        Positioned(
-          top: 5,
-          left: 5,
-          child: Container(
-            width: 60,
-            height: 60,
-            child: Image.memory(
-              news.logo,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container();
-              },
+          Positioned(
+            top: 15,
+            left: 69,
+            child: Container(
+              child: Text(
+                news.companyName.toString(),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
-        ),
-      ],
+          Positioned(
+            top: 5,
+            left: 5,
+            child: Container(
+              width: 60,
+              height: 60,
+              child: Image.memory(
+                news.logo,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container();
+                },
+              ),
+            ),
+          ),
+        ],
+    
     );
   }
 }

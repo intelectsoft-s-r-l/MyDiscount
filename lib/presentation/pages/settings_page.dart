@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../aplication/settings/settings_bloc.dart';
 import '../../infrastructure/core/localization/localizations.dart';
-import '../../main.dart';
+import '../../presentation/app/my_app.dart';
+
 import '../widgets/custom_app_bar.dart';
 import '../widgets/language_drop_down_widget.dart';
 
@@ -18,7 +19,6 @@ class SettingsPage extends StatelessWidget {
       final _locale =
           await AppLocalizations.of(context)!.setLocale(language.languageCode);
       MyApp.setLocale(context, _locale);
-      InitApp.setLocale(context, _locale);
     }
 
     return CustomAppBar(

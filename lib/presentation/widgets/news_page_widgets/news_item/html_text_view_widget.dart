@@ -16,11 +16,13 @@ class HtmlText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.only(
-          right: 5,  bottom: 5),
+      padding: const EdgeInsets.only(right: 5, bottom: 5),
       child: Html(
+        /* style: {
+          'p': Style(maxLines: 3, textOverflow: TextOverflow.ellipsis),
+        }, */
         data: list.content,
-        onLinkTap: (url,_,__,___) async {
+        onLinkTap: (url, _, __, ___) async {
           if (await canLaunch(url!)) {
             await launch(url);
           } else {

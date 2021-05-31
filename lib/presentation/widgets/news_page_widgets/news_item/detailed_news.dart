@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_html_css/simple_html_css.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import '../../../../domain/entities/news_model.dart';
 import '../../../../infrastructure/core/localization/localizations.dart';
@@ -21,55 +20,55 @@ class _DetailedNewsState extends State<DetailedNews> {
   Widget build(BuildContext context) {
     final news = widget.news!;
     final size = widget.size;
-
-    final textContent =
-        HTML.toTextSpan(context, news.content, linksCallback: (url) async {
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw Exception();
-      }
-    });
-
+    
     return Container(
       child: Column(
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             !showText
                 ? Container(
-                    padding: const EdgeInsets.only(left: 7),
-                    width: size!.width * .95,
-                    child: Column(
+                    width: size!.width * .99,
+                     child:/* Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RichText(
-                          text: textContent,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          textHeightBehavior:
-                              const TextHeightBehavior.fromEncoded(2),
-                        ),
-                        const SizedBox(
+                        Html(
+                          data: news.content,
+                          style: {
+                            'span': Style(
+                                maxLines: 2,
+                                textOverflow: TextOverflow.ellipsis),
+                            'div': Style(
+                                maxLines: 2,
+                                textOverflow: TextOverflow.ellipsis), 
+                            'p': Style(
+                                maxLines: 3,
+                                textOverflow: TextOverflow.ellipsis),
+                          }, 
+                        ),*/
+                        /* const SizedBox(
                           height: 10,
-                        ),
-                        InkResponse(
-                          autofocus: true,
-                          onTap: () {
-                            setState(() {
-                              showText = !showText;
-                            });
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.translate('more')!,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
+                        ), */
+                        Padding(
+                          padding: const EdgeInsets.only(left: 7),
+                          child: InkResponse(
+                            autofocus: true,
+                            onTap: () {
+                              setState(() {
+                                showText = !showText;
+                              });
+                            },
+                            child: Text(
+                              AppLocalizations.of(context)!.translate('more')!,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                           ),
                         ),
-                      ],
-                    ))
+                     /*  ],
+                    ) */)
                 : Container(),
           ]),
           Container(
