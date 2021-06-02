@@ -22,6 +22,7 @@ import 'package:my_discount/presentation/pages/transactions_page.dart';
 import 'package:my_discount/presentation/widgets/bottom_navigator/bottom_navigation_bar_widget.dart';
 import 'package:my_discount/presentation/widgets/circular_progress_indicator_widget.dart';
 
+
 import '../../injectable.dart';
 
 class MyApp extends StatefulWidget {
@@ -43,7 +44,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    //getIt<RemoteConfigService>().getServiceNameFromRemoteConfig();
+   
 
     super.initState();
     /*  WidgetsBinding.instance!.addObserver(this); */

@@ -9,8 +9,7 @@ import 'package:is_service/src/service_client.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:my_discount/infrastructure/core/internet_connection_service.dart' as _i3;
 import 'package:my_discount/domain/data_source/remote_datasource.dart' as _i7;
-import 'package:my_discount/infrastructure/core/remote_config_service.dart'
-    as _i6;
+
 
 // ignore_for_file: comment_references
 // ignore_for_file: unnecessary_parenthesis
@@ -55,20 +54,7 @@ class MockServiceClient extends _i1.Mock implements _i5.ServiceClient {
           as _i4.Future<_i2.IsResponse>);
 }
 
-/// A class which mocks [RemoteConfigService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockRemoteConfigService extends _i1.Mock
-    implements _i6.RemoteConfigService {
-  MockRemoteConfigService() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i4.Future<String> getServiceNameFromRemoteConfig() => (super.noSuchMethod(
-      Invocation.method(#getServiceNameFromRemoteConfig, []),
-      returnValue: Future<String>.value('')) as _i4.Future<String>);
-}
+/// A class which mocks [RemoteConfigService]
 
 /// A class which mocks [RemoteDataSource].
 ///

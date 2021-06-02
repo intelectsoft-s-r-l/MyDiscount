@@ -15,8 +15,7 @@ import 'package:my_discount/domain/entities/profile_model.dart' as _i3;
 import 'package:my_discount/domain/entities/user_model.dart' as _i4;
 import 'package:my_discount/domain/repositories/local_repository.dart' as _i10;
 import 'package:my_discount/domain/settings/settings.dart' as _i2;
-import 'package:my_discount/infrastructure/core/remote_config_service.dart'
-    as _i9;
+
 import 'package:my_discount/infrastructure/settings/settings_Impl.dart' as _i6;
 
 // ignore_for_file: comment_references
@@ -81,17 +80,7 @@ class MockNetworkConnection extends _i1.Mock implements _i7.NetworkConnection {
 /// A class which mocks [RemoteConfigService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRemoteConfigService extends _i1.Mock
-    implements _i9.RemoteConfigService {
-  MockRemoteConfigService() {
-    _i1.throwOnMissingStub(this);
-  }
 
-  @override
-  _i8.Future<String> getServiceNameFromRemoteConfig() => (super.noSuchMethod(
-      Invocation.method(#getServiceNameFromRemoteConfig, []),
-      returnValue: Future<String>.value('')) as _i8.Future<String>);
-}
 
 /// A class which mocks [LocalRepository].
 ///
