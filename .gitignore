@@ -30,6 +30,8 @@
 .pub/
 .last_build_id
 /build/
+web/
+macos/
 
 # Web related
 lib/generated_plugin_registrant.dart

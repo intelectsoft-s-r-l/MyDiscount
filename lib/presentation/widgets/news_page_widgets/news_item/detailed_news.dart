@@ -46,8 +46,6 @@ class _DetailedNewsState extends State<DetailedNews> {
                           text: textContent,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          textHeightBehavior:
-                              const TextHeightBehavior.fromEncoded(2),
                         ),
                         const SizedBox(
                           height: 10,
