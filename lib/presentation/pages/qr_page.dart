@@ -71,7 +71,7 @@ class _QrPageState extends State<QrPage> {
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  /* Text(
                                     AppLocalizations.of(context)!
                                         .translate('showqr')!,
                                     style: const TextStyle(fontSize: 20),
@@ -83,18 +83,18 @@ class _QrPageState extends State<QrPage> {
                                   ),
                                   SizedBox(
                                     height: size.height * .06,
-                                  ),
-                                  state.qrString.isNotEmpty
-                                      ? QrImageWidget(
+                                  ), */
+                                  /* state.qrString.isNotEmpty
+                                      ? */ QrImageWidget(
                                           size: size,
                                           future: state.qrString,
                                         )
-                                      : Container(
+                                     /*  : Container(
                                           width: size.width * .8,
                                           height: size.width * .8,
                                           child:
                                               CircularProgresIndicatorWidget(),
-                                        )
+                                        ) */
                                 ],
                               )
                             : Column(

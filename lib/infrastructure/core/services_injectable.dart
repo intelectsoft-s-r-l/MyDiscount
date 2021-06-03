@@ -13,7 +13,6 @@ import '../../domain/entities/profile_model.dart';
 import '../../domain/entities/user_model.dart';
 import '../../domain/settings/settings.dart';
 import '../../infrastructure/core/constants/credentials.dart';
-import '../../infrastructure/core/remote_config_service.dart';
 import 'formater.dart';
 
 @module
@@ -46,6 +45,5 @@ abstract class ServiceInjectableModule {
   Box<Company> get companyBox => Hive.box<Company>('company');
   @lazySingleton
   Box<Settings> get settingsBox => Hive.box<Settings>('settings');
-  @lazySingleton
-  RemoteConfigService get remoteConfig => RemoteConfigService();
+
 }

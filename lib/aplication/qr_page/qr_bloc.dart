@@ -13,7 +13,6 @@ part 'qr_state.dart';
 class QrBloc extends Bloc<QrEvent, QrState> {
   QrBloc() : super(QrInitial());
 
-
   @override
   Stream<QrState> mapEventToState(
     QrEvent event,
@@ -23,11 +22,15 @@ class QrBloc extends Bloc<QrEvent, QrState> {
       yield QrLoading();
       if (netConnection) {
         if (event.iteration != 3) {
-          final tempId = await getIt<IsService>().getTempId();
-          if (tempId.isNotEmpty) {
-            yield QrLoaded(qrString: tempId, iteration: event.iteration);
-          } else {
-            yield QrError(tempId, event.iteration);
+          try {
+            final tempId = await getIt<IsService>().getTempId();
+            if (tempId.isNotEmpty) {
+              yield QrLoaded(qrString: tempId, iteration: event.iteration);
+            } else {
+              yield QrError(tempId, event.iteration);
+            }
+          } catch (e) {
+            yield QrError('No internet Connection', event.iteration);
           }
         } else {
           yield QrLoaded(iteration: event.iteration, qrString: '');

@@ -4,24 +4,23 @@ import 'package:is_service/service_client_response.dart';
 
 import '../../domain/data_source/remote_datasource.dart';
 import '../../infrastructure/core/internet_connection_service.dart';
-import '../../infrastructure/core/remote_config_service.dart';
+
 import '../core/failure.dart';
 
 @LazySingleton(as: RemoteDataSource)
 class RemoteDataSourceImpl implements RemoteDataSource {
   final ServiceClient _client;
-  final RemoteConfigService _remoteConfigService;
   final NetworkConnection _network;
 
-  RemoteDataSourceImpl(this._client, this._remoteConfigService, this._network);
+  static const url = 'https://dev.edi.md/ISMobileDiscountService';
+
+  RemoteDataSourceImpl(this._client, this._network);
   @override
   Future<IsResponse> getRequest(urlFragment) async {
     try {
       if (await _network.isConnected) {
-        final serviceName =
-            await _remoteConfigService.getServiceNameFromRemoteConfig();
-        final _baseUrl = '$serviceName$urlFragment';
-        return _client.get(_baseUrl).timeout(const Duration(seconds: 3));
+        final _baseUrl = '$url$urlFragment';
+        return _client.get(_baseUrl).timeout(const Duration(seconds: 5));
       } else {
         throw NoInternetConection();
       }
@@ -37,9 +36,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }) async {
     try {
       if (await _network.isConnected) {
-        final serviceName =
-            await _remoteConfigService.getServiceNameFromRemoteConfig();
-        final _url = '$serviceName$urlFragment';
+        final _url = '$url$urlFragment';
         return _client.post(_url, json).timeout(const Duration(seconds: 3));
       } else {
         throw NoInternetConection();

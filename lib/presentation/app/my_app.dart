@@ -8,7 +8,6 @@ import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../aplication/settings/settings_bloc.dart';
 import '../../infrastructure/core/localization/localizations.dart';
-import '../../infrastructure/core/remote_config_service.dart';
 import '../../injectable.dart';
 import '../../presentation/pages/about_app_page.dart';
 import '../../presentation/pages/add_card_company_list.dart';
@@ -46,7 +45,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    getIt<RemoteConfigService>().getServiceNameFromRemoteConfig();
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
   }
