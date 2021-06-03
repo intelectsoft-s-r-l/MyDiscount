@@ -130,7 +130,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                         ],
                       ))
                     : Container(
-                        //height: 56,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -159,8 +158,6 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                       ),
               ],
             ),
-
-            /* ) */
           ],
         );
       },

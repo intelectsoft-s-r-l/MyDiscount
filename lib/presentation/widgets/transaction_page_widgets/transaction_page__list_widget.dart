@@ -6,7 +6,7 @@ import '../../../infrastructure/core/failure.dart';
 import '../../../injectable.dart';
 import '../../widgets/circular_progress_indicator_widget.dart';
 import '../../widgets/nointernet_widget.dart';
-import '../../widgets/transaction_page_widgets/no_transaction_widget.dart';
+import '../empty_list_widget.dart';
 import '../transaction_page_widgets/transaction_list_widget.dart';
 
 class TransactionPageList extends StatelessWidget {
@@ -29,7 +29,11 @@ class TransactionPageList extends StatelessWidget {
           }
           if (snapshot.hasError) {
             if (snapshot.error is EmptyList) {
-              return NoTransactionWidget(size: size);
+              return EmptyListWidget(
+                size: size,
+                assetPath: 'assets/icons/no_transaction.png',
+                localizationKey: 'notransactions',
+              );
             } else {
               return const NoInternetWidget();
             }
@@ -40,4 +44,3 @@ class TransactionPageList extends StatelessWidget {
     );
   }
 }
-

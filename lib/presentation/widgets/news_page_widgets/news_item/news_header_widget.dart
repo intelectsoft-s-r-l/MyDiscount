@@ -14,64 +14,56 @@ class NewsHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Stack(
+    return Container(
+      height: 55,
+      width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Row(
         children: [
           Container(
-            height: 65,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            width: MediaQuery.of(context).size.width,
-          ),
-          Positioned(
-            top: 39,
-            left: 69,
-            child: Container(
-              padding: const EdgeInsets.only(
-                right: 10,
-              ),
-              child: Text(
-                news.dateTime,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    color: Colors.black38),
-                textAlign: TextAlign.left,
-              ),
+            width: 50,
+            height: 50,
+            child: Image.memory(
+              news.logo,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container();
+              },
             ),
           ),
-          Positioned(
-            top: 15,
-            left: 69,
-            child: Container(
-              child: Text(
-                news.companyName.toString(),
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+          Container(
+            height: 50,
+            padding: const EdgeInsets.only(left: 2),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Text(
+                    news.companyName,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 5,
-            left: 5,
-            child: Container(
-              width: 60,
-              height: 60,
-              child: Image.memory(
-                news.logo,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container();
-                },
-              ),
+                Container(
+                  child: Text(
+                    news.dateTime,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        color: Colors.black38),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
-    
+      ),
     );
   }
 }

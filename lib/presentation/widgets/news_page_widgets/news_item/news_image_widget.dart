@@ -13,15 +13,13 @@ class NewsImageWidget extends StatelessWidget {
     return SizedBox(
       width: size.width,
       height: size.width,
-      child: ClipRRect(
-        child: Image.memory(
-          news.photo,
-          filterQuality: FilterQuality.high,
-          fit: BoxFit.fill,
-          errorBuilder: (context, error, stackTrace) {
-            return Container();
-          },
-        ),
+      child: Image.memory(
+        news.photo,
+        filterQuality: FilterQuality.high,
+        fit: BoxFit.fill,
+        errorBuilder: (context, error, stackTrace) {
+          return Container();
+        },
       ),
     );
   }

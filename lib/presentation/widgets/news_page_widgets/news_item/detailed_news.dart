@@ -15,11 +15,18 @@ class DetailedNews extends StatefulWidget {
 
 class _DetailedNewsState extends State<DetailedNews> {
   bool showText = false;
+
+  void updateText() {
+    setState(() {
+      showText = !showText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final news = widget.news!;
     final size = widget.size;
-    
+
     return Container(
       child: Column(
         children: [
@@ -27,7 +34,8 @@ class _DetailedNewsState extends State<DetailedNews> {
             !showText
                 ? Container(
                     width: size!.width * .99,
-                     child:/* Column(
+                    child:
+                        /* Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Html(
@@ -48,66 +56,76 @@ class _DetailedNewsState extends State<DetailedNews> {
                           height: 10,
                         ), */
                         Padding(
-                          padding: const EdgeInsets.only(left: 7),
-                          child: InkResponse(
-                            autofocus: true,
-                            onTap: () {
-                              setState(() {
-                                showText = !showText;
-                              });
-                            },
-                            child: Text(
-                              AppLocalizations.of(context)!.translate('more')!,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
+                      padding: const EdgeInsets.only(left: 7),
+                      child: InkResponse(
+                        autofocus: true,
+                        onTap: updateText,
+                        child: Text(
+                          AppLocalizations.of(context)!.translate('more')!,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
                           ),
                         ),
-                     /*  ],
-                    ) */)
+                      ),
+                    ),
+                    /*  ],
+                    ) */
+                  )
                 : Container(),
           ]),
           Container(
             child: showText
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      HtmlText(
-                        list: news,
-                      ),
-                      InkResponse(
-                        onTap: () {
-                          setState(() {
-                            showText = !showText;
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.translate('less')!,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )
+                ? DetailedNewsText(news: news, function: updateText)
                 : Container(),
           ),
         ],
       ),
+    );
+  }
+}
+
+class DetailedNewsText extends StatelessWidget {
+  const DetailedNewsText({
+    Key? key,
+    required this.news,
+    required this.function,
+  }) : super(key: key);
+
+  final VoidCallback function;
+
+  final News news;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        HtmlText(
+          data: news.content,
+        ),
+        InkResponse(
+          onTap: function,
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 7,
+              ),
+              Text(
+                AppLocalizations.of(context)!.translate('less')!,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
