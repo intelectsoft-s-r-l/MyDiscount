@@ -44,11 +44,11 @@ class _QrImageWidgetState extends State<QrImageWidget>
     }
   }
 
-  @override
+ /*  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.dependOnInheritedWidgetOfExactType();
-  }
+    //context.dependOnInheritedWidgetOfExactType();
+  } */
 
   @override
   void dispose() {
@@ -111,6 +111,7 @@ class _QrImageWidgetState extends State<QrImageWidget>
                   }
                 },
                 builder: (context, state) {
+                  print(state.duration);
                   return LinearProgressIndicator(
                     value: state.duration / 10,
                     backgroundColor: Colors.white,
