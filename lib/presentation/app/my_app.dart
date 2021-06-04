@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           create: (context) => getIt<SignFormBloc>(),
         ),
         BlocProvider(
-          create: (context) => getIt<ProfileFormBloc>(),
+          create: (context) => getIt<ProfileFormBloc>()..add(UpdateProfileData()),
         ),
         BlocProvider(
           create: (context) => getIt<SettingsBloc>(),

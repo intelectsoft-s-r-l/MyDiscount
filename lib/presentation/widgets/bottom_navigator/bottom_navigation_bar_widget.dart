@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:my_discount/aplication/profile_bloc/profile_form_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../../../infrastructure/core/localization/localizations.dart';
 import '../../pages/home_page.dart';
@@ -11,10 +13,12 @@ import '../../widgets/bottom_navigator/ripple_animation.dart';
 
 class BottomNavigationBarWidget extends StatefulWidget {
   @override
-  _BottomNavigationBarWidgetState createState() => _BottomNavigationBarWidgetState();
+  _BottomNavigationBarWidgetState createState() =>
+      _BottomNavigationBarWidgetState();
 }
 
-class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> with WidgetsBindingObserver {
+class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget>
+    with WidgetsBindingObserver {
   int selectedIndex = 1;
   final StreamController _indexController = StreamController();
   @override
@@ -36,9 +40,9 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
     return Scaffold(
       backgroundColor: Colors.white,
       body: [
-       const HomePage(),
-       const QrPage(),
-       const NotificationPage(),
+        const HomePage(),
+        const QrPage(),
+        const NotificationPage(),
       ].elementAt(selectedIndex),
       bottomNavigationBar: StreamBuilder(
         stream: _indexController.stream,
@@ -68,6 +72,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
                 InkResponse(
                   onTap: () {
                     setState(() {
+                      Provider.of<ProfileFormBloc>(context, listen: false)
+                          .add(UpdateProfileData());
                       selectedIndex = 0;
                       _indexController.add(0);
                     });
@@ -79,12 +85,15 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
                       children: [
                         Icon(
                           Icons.home,
-                          color: snapshot.data == 0 ? Colors.green : Colors.black,
+                          color:
+                              snapshot.data == 0 ? Colors.green : Colors.black,
                         ),
                         Text(
                           AppLocalizations.of(context)!.translate('home')!,
                           style: TextStyle(
-                            color: snapshot.data == 0 ? Colors.green : Colors.black,
+                            color: snapshot.data == 0
+                                ? Colors.green
+                                : Colors.black,
                           ),
                         ),
                       ],
@@ -120,12 +129,15 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> w
                       children: [
                         Icon(
                           MdiIcons.newspaper,
-                          color: snapshot.data == 2 ? Colors.green : Colors.black,
+                          color:
+                              snapshot.data == 2 ? Colors.green : Colors.black,
                         ),
                         Text(
                           AppLocalizations.of(context)!.translate('news')!,
                           style: TextStyle(
-                            color: snapshot.data == 2 ? Colors.green : Colors.black,
+                            color: snapshot.data == 2
+                                ? Colors.green
+                                : Colors.black,
                           ),
                         ),
                       ],

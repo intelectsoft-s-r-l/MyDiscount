@@ -31,7 +31,7 @@ class _QrPageState extends State<QrPage> {
   @override
   void initState() {
     super.initState();
-
+   // Provider.of<ProfileFormBloc>(context).add(UpdateProfileData());
     getIt<IsService>().getCompanyList();
   }
 
@@ -85,11 +85,12 @@ class _QrPageState extends State<QrPage> {
                                     height: size.height * .06,
                                   ), */
                                   /* state.qrString.isNotEmpty
-                                      ? */ QrImageWidget(
-                                          size: size,
-                                          future: state.qrString,
-                                        )
-                                     /*  : Container(
+                                      ? */
+                                  QrImageWidget(
+                                    size: size,
+                                    future: state.qrString,
+                                  )
+                                  /*  : Container(
                                           width: size.width * .8,
                                           height: size.width * .8,
                                           child:

@@ -71,5 +71,17 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
         yield ProfileFormError(profile, false);
       }
     }
+    if (event is UpdateProfileData) {
+      final profile = _localRepositoryImpl.getLocalClientInfo();
+      yield ProfileFormDone(profile, true);
+    }
   }
 }
+/* Stream<Profile> profileEventToMap(ProfileFormEvent event)async*{
+  final profile = _localRepositoryImpl.getLocalClientInfo();
+
+      final pr = profile.copyWith(email: event.email);
+      _localRepositoryImpl.saveClientInfoLocal(pr);
+
+      yield ProfileFormDone(pr, false);
+} */

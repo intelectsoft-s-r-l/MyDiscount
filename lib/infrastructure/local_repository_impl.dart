@@ -40,6 +40,11 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
+  Stream<Profile> updateClientInfo() async* {
+    yield profileBox.watch() as Profile;
+  }
+
+  @override
   List<News> getLocalNews() {
     try {
       final newsList = <News>[];

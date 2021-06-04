@@ -15,7 +15,7 @@ abstract class LocalRepository {
 
   Future<Map<String, dynamic>> returnProfileMapDataAsMap(Profile profile);
   void saveClientInfoLocal(Profile profile);
-  //Future<Map<String, dynamic>> getFacebookProfile(String token);
+  Stream<Profile> updateClientInfo();
   Profile getLocalClientInfo();
 
   void saveUserLocal(User user);
