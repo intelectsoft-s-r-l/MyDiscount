@@ -56,39 +56,26 @@ void main() async {
   configureInjection(Environment.prod);
 
   await Firebase.initializeApp();
-
-  
+  await Hive.initFlutter();
+  Hive
+    ..registerAdapter<User>(UserAdapter())
+    ..registerAdapter<Settings>(SettingsAdapter())
+    ..registerAdapter<Profile>(ProfileAdapter())
+    ..registerAdapter<News>(NewsAdapter())
+    ..registerAdapter<Company>(CompanyAdapter());
   final storage = const FlutterSecureStorage();
-
   const key = 'hiveKey';
   final List<int> hiveKey;
   if (await storage.containsKey(key: key)) {
     hiveKey = base64Decode(await storage.read(key: key) as String).toList();
+    print('stored key:$hiveKey');
   } else {
     final value = Hive.generateSecureKey();
     await storage.write(key: key, value: base64Encode(value));
     hiveKey = base64Decode(await storage.read(key: key) as String).toList();
+    print('generatedkey: $hiveKey');
   }
-  try {
-    await Hive.initFlutter();
-    Hive
-      ..registerAdapter<User>(UserAdapter())
-      ..registerAdapter<Settings>(SettingsAdapter())
-      ..registerAdapter<Profile>(ProfileAdapter())
-      ..registerAdapter<News>(NewsAdapter())
-      ..registerAdapter<Company>(CompanyAdapter());
-
-    await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
-    await Hive.openBox<Settings>('settings');
-    await Hive.openBox<Profile>('profile',
-        encryptionCipher: HiveAesCipher(hiveKey));
-    await Hive.openBox<News>('news');
-    await Hive.openBox<Company>('company');
-    await Hive.openBox<String>('locale');
-  } catch (e) {
-    rethrow;
-  }
-
+  await initDB(hiveKey);
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
   await FirebaseCrashlytics.instance.deleteUnsentReports();
 
@@ -117,4 +104,21 @@ void main() async {
       FirebaseCrashlytics.instance.recordError(obj, stack);
     });
   });
+}
+
+Future<void> initDB(List<int> hiveKey) async {
+  try {
+    print('encriptionKey: $hiveKey');
+    await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
+    await Hive.openBox<Settings>('settings');
+    await Hive.openBox<Profile>('profile',
+        encryptionCipher: HiveAesCipher(hiveKey));
+    await Hive.openBox<News>('news');
+    await Hive.openBox<Company>('company');
+    await Hive.openBox<String>('locale');
+  } catch (e) {
+    await Hive.deleteBoxFromDisk('user');
+    await Hive.deleteBoxFromDisk('profile');
+    await initDB(hiveKey);
+  }
 }
