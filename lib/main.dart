@@ -76,8 +76,8 @@ void main() async {
     print('generatedkey: $hiveKey');
   }
   await initDB(hiveKey);
- /*  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  await FirebaseCrashlytics.instance.deleteUnsentReports(); */
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  await FirebaseCrashlytics.instance.deleteUnsentReports();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
