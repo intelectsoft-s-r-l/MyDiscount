@@ -76,8 +76,8 @@ void main() async {
     print('generatedkey: $hiveKey');
   }
   await initDB(hiveKey);
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  await FirebaseCrashlytics.instance.deleteUnsentReports();
+ /*  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  await FirebaseCrashlytics.instance.deleteUnsentReports(); */
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
@@ -108,7 +108,6 @@ void main() async {
 
 Future<void> initDB(List<int> hiveKey) async {
   try {
-    print('encriptionKey: $hiveKey');
     await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
     await Hive.openBox<Settings>('settings');
     await Hive.openBox<Profile>('profile',
@@ -116,7 +115,9 @@ Future<void> initDB(List<int> hiveKey) async {
     await Hive.openBox<News>('news');
     await Hive.openBox<Company>('company');
     await Hive.openBox<String>('locale');
-  } catch (e) {
+  } catch (e, s) {
+    print(e);
+    await FirebaseCrashlytics.instance.log(s.toString());
     await Hive.deleteBoxFromDisk('user');
     await Hive.deleteBoxFromDisk('profile');
     await initDB(hiveKey);

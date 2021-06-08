@@ -8,11 +8,11 @@ extension AuthorizationCredentialAppleIDX on AuthorizationCredentialAppleID {
       'DisplayName': '$givenName $familyName',
       'Email': email,
       'ID': userIdentifier,
-      'PhotoUrl': null,
-      'PushToken': null,
+      'PhotoUrl': '',
+      'PushToken': '',
       'RegisterMode': 3,
       'access_token': identityToken,
-      'phone': null,
+      'phone': '',
     };
   }
 }
@@ -27,10 +27,10 @@ extension FacebookUserProfileX on FacebookAuth {
       'Email': profile['email'],
       'ID': token!.userId,
       'PhotoUrl': profile['picture']['data']['url'],
-      'PushToken': null,
+      'PushToken': '',
       'RegisterMode': 2,
       'access_token': token.token,
-      'phone': null,
+      'phone': '',
     };
   }
 }
@@ -42,10 +42,10 @@ extension GoogleSignInAccountX on GoogleSignInAccount{
       'Email': email,
       'ID': id,
       'PhotoUrl':photoUrl ,
-      'PushToken': null,
+      'PushToken': '',
       'RegisterMode': 1,
       'access_token': token,
-      'phone': null,
+      'phone': '',
     };
  }
 }

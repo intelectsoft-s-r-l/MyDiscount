@@ -25,7 +25,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
   Stream<SignFormState> mapEventToState(
     SignFormEvent event,
   ) async* {
-    try {
+  /*   try { */
       if (event is SignInWithGoogle) {
         if (await network.isConnected) {
           final user = await _authRepositoryImpl.authenticateWithGoogle();
@@ -56,7 +56,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
           if (!user.isEmpty) {
             yield SignFormDone(user);
           } else {
-            throw Exception();
+           yield const SignInError();
           }
         } else {
           yield const SignInNetError();
@@ -66,8 +66,9 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
         _authRepositoryImpl.logOut();
         yield SignFormInitial();
       }
-    } catch (e) {
+  /*   } catch (e,s) {
+      await FirebaseCrashlytics.instance.recordError(e, s);
       yield const SignInError();
-    }
+    } */
   }
 }
