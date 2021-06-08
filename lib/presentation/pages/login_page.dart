@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/login_button_widget.dart';
 
 class LoginScreen2 extends StatelessWidget {
@@ -34,7 +34,7 @@ class LoginScreen2 extends StatelessWidget {
             Flushbar(
               message: 'Error',
               duration: const Duration(seconds: 3),
-             // backgroundColor: Colors.red,
+              // backgroundColor: Colors.red,
             ).show(context);
             context.read<SignFormBloc>().add(SignOutEvent());
           }
@@ -87,8 +87,9 @@ class LoginScreen2 extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.black87,
                         fontWeight: FontWeight.bold,
+                        fontSize: 22,
                       ),
-                      textScaleFactor: 1.2,
+                     // textScaleFactor: 1.2,
                     ),
                   ),
                   SizedBox(
@@ -119,7 +120,8 @@ class LoginScreen2 extends StatelessWidget {
                           size: size,
                           event: SignInWithApple(),
                           picture: 'assets/icons/icon_apple.svg',
-                          text: AppLocalizations.of(context)!.translate('apple'),
+                          text:
+                              AppLocalizations.of(context)!.translate('apple'),
                           color: Colors.black,
                         )
                       : Container(),

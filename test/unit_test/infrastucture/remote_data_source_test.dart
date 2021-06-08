@@ -3,22 +3,22 @@ import 'package:is_service/service_client_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_discount/core/failure.dart';
-import 'package:my_discount/core/internet_connection_service.dart';
+import 'package:my_discount/infrastructure/core/failure.dart';
+import 'package:my_discount/infrastructure/core/internet_connection_service.dart';
 import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart';
-import 'package:my_discount/infrastructure/core/remote_config_service.dart';
+
 
 import 'remote_data_source_test.mocks.dart';
 
 @GenerateMocks(
-    [NetworkConnection, ServiceClient, RemoteConfigService, RemoteDataSource])
+    [NetworkConnection, ServiceClient, RemoteDataSource])
 void main() {
   final _network = MockNetworkConnection();
   final _client = MockServiceClient();
-  final _mockRemoteConfig = MockRemoteConfigService();
+
   final remoteDataSource = /* Mock */ RemoteDataSourceImpl(
-      _client, _mockRemoteConfig, _network);
+      _client,  _network);
   setUp(() {});
   void runTestsOnline(Function body) {
     group(
@@ -26,9 +26,7 @@ void main() {
       () {
         setUp(() {
           when(_network.isConnected).thenAnswer((_) async => true);
-          when(_mockRemoteConfig.getServiceNameFromRemoteConfig()).thenAnswer(
-              (realInvocation) async =>
-                  'https://dev.edi.md/ISMobileDiscountService');
+          
         });
         body();
       },
@@ -42,9 +40,7 @@ void main() {
         setUp(() {
           when(_network.isConnected)
               .thenAnswer((realInvocation) async => false);
-          when(_mockRemoteConfig.getServiceNameFromRemoteConfig()).thenAnswer(
-              (realInvocation) async =>
-                  'https://dev.edi.md/ISMobileDiscountService');
+         
         });
         body();
       },

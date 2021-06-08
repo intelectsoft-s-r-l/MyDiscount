@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../core/localization/localizations.dart';
 import '../../infrastructure/core/device_info_service.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../widgets/custom_app_bar.dart';
 
@@ -26,7 +26,7 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
     'name': '',
     'model': '',
   };
-  
+
   @override
   Widget build(BuildContext context) {
     final pageName = ModalRoute.of(context)!.settings.arguments as String?;

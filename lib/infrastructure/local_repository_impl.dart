@@ -6,12 +6,12 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
-import '../core/failure.dart';
 import '../domain/entities/company_model.dart';
 import '../domain/entities/news_model.dart';
 import '../domain/entities/profile_model.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/local_repository.dart';
+import 'core/failure.dart';
 
 @LazySingleton(as: LocalRepository)
 class LocalRepositoryImpl implements LocalRepository {

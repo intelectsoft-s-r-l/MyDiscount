@@ -7,12 +7,14 @@ import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../aplication/phone_validation_bloc/phone_validation_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../widgets/custom_app_bar.dart';
 
 class PhoneVerificationPage extends StatefulWidget {
-  const PhoneVerificationPage({required this.phone,});
+  const PhoneVerificationPage({
+    required this.phone,
+  });
 
   final String phone;
   @override
@@ -69,7 +71,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-   
+
     final phone = widget.phone;
     return CustomAppBar(
       title: AppLocalizations.of(context)!.translate('phoneverification'),
@@ -118,7 +120,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                     child: PinFieldAutoFill(
                       controller: _codeController,
                       focusNode: _focusNode,
-                     // autofocus: true,
+                      // autofocus: true,
                       codeLength: 4,
                       onCodeChanged: (code) {
                         _currentCode = code as String;

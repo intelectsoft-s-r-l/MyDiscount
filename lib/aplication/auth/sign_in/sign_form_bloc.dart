@@ -4,9 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/internet_connection_service.dart';
+
 import '../../../domain/entities/user_model.dart';
 import '../../../domain/repositories/auth_repository.dart';
+import '../../../infrastructure/core/internet_connection_service.dart';
 
 part 'sign_form_event.dart';
 part 'sign_form_state.dart';
@@ -24,7 +25,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
   Stream<SignFormState> mapEventToState(
     SignFormEvent event,
   ) async* {
-    try {
+  /*   try { */
       if (event is SignInWithGoogle) {
         if (await network.isConnected) {
           final user = await _authRepositoryImpl.authenticateWithGoogle();
@@ -55,7 +56,7 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
           if (!user.isEmpty) {
             yield SignFormDone(user);
           } else {
-            throw Exception();
+           yield const SignInError();
           }
         } else {
           yield const SignInNetError();
@@ -65,8 +66,9 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
         _authRepositoryImpl.logOut();
         yield SignFormInitial();
       }
-    } catch (e) {
+  /*   } catch (e,s) {
+      await FirebaseCrashlytics.instance.recordError(e, s);
       yield const SignInError();
-    }
+    } */
   }
 }

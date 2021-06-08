@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:hive/hive.dart';
+//import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-import '../../core/failure.dart';
-import '../../domain/entities/company_model.dart';
-
+//import '../../domain/entities/company_model.dart';
+import 'failure.dart';
 
 class Formater {
   static const String _placeholder =
@@ -112,14 +111,14 @@ class Formater {
     }
   }
 
-  List checkCompanyLogo(List list) {
+  /* List checkCompanyLogo(List list) {
     try {
       final dat = list.map((map) => _returnLogo(map as Map)).toList();
       return dat;
     } catch (e) {
       rethrow;
     }
-  }
+  } */
 
   Uint8List _convertBase64String(String _base64) {
     if (_base64.isNotEmpty) {
@@ -151,7 +150,7 @@ class Formater {
     return int.parse(d);
   }
 
-  Map<String, dynamic> _returnLogo(Map map) {
+  /* Map<String, dynamic> _returnLogo(Map map) {
     try {
       // ignore: omit_local_variable_types
       final Box<Company> companyBox = Hive.box('company');
@@ -167,21 +166,21 @@ class Formater {
       rethrow;
     }
   }
-
+ */
   Uint8List _returnPlaceholderAsBytes() {
     return const Base64Decoder().convert(_placeholder);
   }
 
-  void _addLogoToMap(dynamic keys, Box<Company> companyBox, Map map) {
+  /* void _addLogoToMap(dynamic keys, Box<Company> companyBox, Map map) {
     for (dynamic key in keys) {
       final company = companyBox.get(key)!;
       if (CompanyName(company.name) == CompanyName(map['Company'])) {
         map.putIfAbsent('Logo', () => company.logo);
       }
     }
-  }
-}
-
+  }*/
+} 
+/* 
 class CompanyName {
   final String name;
   CompanyName(this.name);
@@ -192,4 +191,4 @@ class CompanyName {
 
   @override
   int get hashCode => name.hashCode;
-}
+} */

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/failure.dart';
-import '../../core/localization/localizations.dart';
 import '../../domain/entities/card.dart';
 import '../../domain/repositories/is_service_repository.dart';
+import '../../infrastructure/core/failure.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/custom_app_bar.dart';

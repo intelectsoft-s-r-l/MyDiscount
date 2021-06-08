@@ -36,10 +36,10 @@ class Profile {
     return Profile(
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
-      email: json['Email']??'',
-      phone: json['phone']??'',
-      photo: json['Photo']??'',
-      pushToken: json['PushToken']??'',
+      email: json['Email'] ?? '',
+      phone: json['phone'] ?? '',
+      photo: json['Photo'],
+      pushToken: json['PushToken'] ?? '',
       registerMode: json['mode'],
     );
   }
@@ -101,12 +101,13 @@ class Profile {
   }
 
   bool get isEmpty =>
+      registerMode == -1 &&
       firstName == '' &&
       lastName == '' &&
       email == '' &&
       phone == '' &&
-      pushToken == '' &&
-      photo == Uint8List.fromList([]);
+      pushToken == '';
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||

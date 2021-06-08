@@ -6,10 +6,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:is_service/service_client_response.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_discount/core/failure.dart';
+import 'package:my_discount/infrastructure/core/failure.dart';
 
-import 'package:my_discount/core/formater.dart';
-import 'package:my_discount/core/internet_connection_service.dart';
+import 'package:my_discount/infrastructure/core/formater.dart';
+import 'package:my_discount/infrastructure/core/internet_connection_service.dart';
 import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/domain/entities/card.dart';
 import 'package:my_discount/domain/entities/company_model.dart';
@@ -22,7 +22,7 @@ import 'package:my_discount/domain/settings/settings.dart';
 import 'package:my_discount/infrastructure/is_service_impl.dart';
 //import 'package:my_discount/aplication/providers/news_settings.dart';
 
-import 'package:my_discount/infrastructure/core/remote_config_service.dart';
+
 import 'package:my_discount/infrastructure/settings/settings_Impl.dart';
 
 import '../fixtures/fixtures_redear.dart';
@@ -32,7 +32,7 @@ import 'is_service_impl_test.mocks.dart';
   IsResponse,
   AppSettings,
   NetworkConnection,
-  RemoteConfigService,
+
   LocalRepository,
   Formater,
   RemoteDataSource,

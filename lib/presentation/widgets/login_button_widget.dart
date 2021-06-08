@@ -22,26 +22,22 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: close_sinks
     final ctx = Provider.of<SignFormBloc>(context);
-   
-    // ignore: deprecated_member_use
-    return FlatButton(
+
+    return ElevatedButton(
       onPressed: () => ctx.add(event),
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
+      style: ElevatedButton.styleFrom(
+        primary: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+      ),
       child: Container(
         height: 40,
-        width: size.width * .86,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(20),
-        ),
+        width: size.width * .8,
         child: Row(
-          
           children: [
-          const  SizedBox(
+            const SizedBox(
               width: 20,
             ),
             SvgPicture.asset(

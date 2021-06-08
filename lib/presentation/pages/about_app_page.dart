@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/custom_app_bar.dart';
 
 class AboutAppPage extends StatefulWidget {

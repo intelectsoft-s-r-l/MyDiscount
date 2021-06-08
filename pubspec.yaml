@@ -47,7 +47,7 @@ dependencies:
   provider: ^5.0.0
   qr_code_scanner: ^0.4.0
   qr_flutter: ^4.0.0
-  shared_preferences: ^2.0.5
+  #shared_preferences: ^2.0.5
   sign_in_with_apple: ^3.0.0
   simple_html_css: ^3.0.1
   sms_autofill: ^2.0.0

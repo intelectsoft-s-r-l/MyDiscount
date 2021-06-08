@@ -5,11 +5,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/failure.dart';
-import '../../core/localization/localizations.dart';
 import '../../domain/entities/company_model.dart';
 import '../../domain/repositories/is_service_repository.dart';
 import '../../domain/repositories/local_repository.dart';
+import '../../infrastructure/core/failure.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 
 part 'add_card_page_event.dart';
 part 'add_card_page_state.dart';

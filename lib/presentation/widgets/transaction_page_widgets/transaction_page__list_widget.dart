@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/failure.dart';
 import '../../../domain/entities/tranzaction_model.dart';
 import '../../../domain/repositories/is_service_repository.dart';
+import '../../../infrastructure/core/failure.dart';
 import '../../../injectable.dart';
 import '../../widgets/circular_progress_indicator_widget.dart';
 import '../../widgets/nointernet_widget.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/profile_home_item_widget.dart';
 
@@ -8,7 +8,7 @@ class InformationPage extends StatelessWidget {
   const InformationPage();
   @override
   Widget build(BuildContext context) {
-    final  pageName = ModalRoute.of(context)!.settings.arguments as String?;
+    final pageName = ModalRoute.of(context)!.settings.arguments as String?;
 
     return CustomAppBar(
       title: pageName,
@@ -17,15 +17,18 @@ class InformationPage extends StatelessWidget {
         child: Column(
           children: [
             ProfileHomeItemWidget(
-              pageName: AppLocalizations.of(context)!.translate('privacypolicy')as String,
+              pageName: AppLocalizations.of(context)!.translate('privacypolicy')
+                  as String,
               routeName: '/politicaconf',
             ),
             ProfileHomeItemWidget(
-              pageName: AppLocalizations.of(context)!.translate('technicdata')as String,
+              pageName: AppLocalizations.of(context)!.translate('technicdata')
+                  as String,
               routeName: '/technicdetail',
             ),
             ProfileHomeItemWidget(
-              pageName: AppLocalizations.of(context)!.translate('appinfo')as String,
+              pageName:
+                  AppLocalizations.of(context)!.translate('appinfo') as String,
               routeName: '/about',
             )
           ],

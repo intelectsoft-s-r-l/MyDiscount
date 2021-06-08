@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
-import '../../core/localization/localizations.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/profile_page_widgets/profile_field_widget.dart';
 import '../widgets/profile_page_widgets/profile_item_widget.dart';
 
@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final  pageName = ModalRoute.of(context)!.settings.arguments as String;
+    final pageName = ModalRoute.of(context)!.settings.arguments as String;
 
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
       listenWhen: (p, c) => p.props.first != c.props.first,
@@ -278,8 +278,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                               .read<AuthBloc>()
                                               .add(SignOut());
                                         },
-                                        child: Text(AppLocalizations.of(context)!
-                                            .translate('logout')!),
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .translate('logout')!),
                                       ),
                                     ],
                                   ),

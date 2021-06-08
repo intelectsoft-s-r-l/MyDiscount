@@ -41,7 +41,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final localCredentialsMap = profile.toCreateUser();
       final token = await _firebaseCloudMessageService.getfcmToken();
       final credentialsMap = profile.isEmpty
-          ? appleCredentials.toMap().update('PushToken', (_) => token)
+          ? appleCredentials.toMap()
           : localCredentialsMap
         ..update('ID', (_) => appleCredentials.userIdentifier)
         ..update('access_token', (_) => appleCredentials.identityToken)
@@ -73,7 +73,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final token = await _firebaseCloudMessageService.getfcmToken();
       
       final credentialsMap = profile.isEmpty
-          ? baseUserCredentials.update('PushToken', (_) => token)
+          ? baseUserCredentials
           : localCredentialsMap
         ..update('ID', (_) => fbUser.accessToken!.userId)
         ..update('access_token', (_) => fbUser.accessToken!.token)
@@ -101,7 +101,7 @@ class AuthRepositoryImpl implements AuthRepository {
         final localCredentialsMap = profile.toCreateUser();
         final token = await _firebaseCloudMessageService.getfcmToken();
         final map = profile.isEmpty
-            ? googleCredentials.update('PushToken', (_) => token)
+            ? googleCredentials
             : localCredentialsMap
           ..update('ID', (_) => _account.id)
           ..update('access_token', (_) => user.accessToken)

@@ -1,8 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:is_service/service_client_response.dart';
 
-import '../core/failure.dart';
-import '../core/formater.dart';
 import '../domain/data_source/remote_datasource.dart';
 import '../domain/entities/card.dart';
 import '../domain/entities/company_model.dart';
@@ -12,6 +10,8 @@ import '../domain/entities/tranzaction_model.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
+import 'core/failure.dart';
+import 'core/formater.dart';
 import 'settings/settings_Impl.dart';
 
 @LazySingleton(as: IsService)

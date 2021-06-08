@@ -22,9 +22,6 @@ import 'aplication/card_bloc/add_card_page_bloc.dart' as _i33;
 import 'aplication/phone_validation_bloc/phone_validation_bloc.dart' as _i31;
 import 'aplication/profile_bloc/profile_form_bloc.dart' as _i32;
 import 'aplication/settings/settings_bloc.dart' as _i28;
-import 'core/constants/credentials.dart' as _i9;
-import 'core/formater.dart' as _i14;
-import 'core/internet_connection_service.dart' as _i20;
 import 'domain/data_source/remote_datasource.dart' as _i26;
 import 'domain/entities/company_model.dart' as _i7;
 import 'domain/entities/news_model.dart' as _i6;
@@ -35,10 +32,12 @@ import 'domain/repositories/is_service_repository.dart' as _i29;
 import 'domain/repositories/local_repository.dart' as _i18;
 import 'domain/settings/settings.dart' as _i8;
 import 'infrastructure/auth_repository_impl.dart' as _i35;
+import 'infrastructure/core/constants/credentials.dart' as _i9;
 import 'infrastructure/core/device_info_service.dart' as _i11;
 import 'infrastructure/core/fcm_service.dart' as _i25;
+import 'infrastructure/core/formater.dart' as _i14;
+import 'infrastructure/core/internet_connection_service.dart' as _i20;
 import 'infrastructure/core/local_notification_service.dart' as _i17;
-import 'infrastructure/core/remote_config_service.dart' as _i21;
 import 'infrastructure/core/services_injectable.dart' as _i37;
 import 'infrastructure/is_service_impl.dart' as _i30;
 import 'infrastructure/local_repository_impl.dart' as _i19;
@@ -85,8 +84,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i3.Box<_i7.Company>>()));
   gh.lazySingleton<_i20.NetworkConnection>(() => _i20.NetworkConnectionImpl(
       connectionChecker: get<_i16.InternetConnectionChecker>()));
-  gh.lazySingleton<_i21.RemoteConfigService>(
-      () => serviceInjectableModule.remoteConfig);
+ 
   gh.lazySingleton<_i22.ServiceClient>(() => serviceInjectableModule.client);
   gh.lazySingleton<_i23.AppSettings>(
       () => _i23.AppSettings(get<_i3.Box<_i8.Settings>>()));
@@ -96,7 +94,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
           get<_i17.LocalNotificationsService>(), get<_i23.AppSettings>()));
   gh.lazySingleton<_i26.RemoteDataSource>(() => _i27.RemoteDataSourceImpl(
       get<_i22.ServiceClient>(),
-      get<_i21.RemoteConfigService>(),
+      
       get<_i20.NetworkConnection>()));
   gh.factory<_i28.SettingsBloc>(() => _i28.SettingsBloc(
       get<_i23.AppSettings>(), get<_i25.FirebaseCloudMessageService>()));
