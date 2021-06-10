@@ -1,11 +1,18 @@
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-
+/// Dart object for Discount cards provided by back service
+/// 
+/// Utilize this class for representing on UI a list of real Discount cards 
+/// activated by user on `MyDiscount` service
 class DiscountCard extends Equatable {
+  /// Card unique code
   final String code;
+  /// Company which emit this card
   final String companyName;
+  /// The status of card in our system
   final int status;
+  /// Company logo as `bytes` 
   final Uint8List companyLogo;
 
   DiscountCard({

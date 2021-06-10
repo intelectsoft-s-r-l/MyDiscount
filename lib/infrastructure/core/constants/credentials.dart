@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+// Credentials for Basic authorization to API
 class Credentials {
   static const String credentials = 'appuser:frj936epae293e9c6epae29';
 

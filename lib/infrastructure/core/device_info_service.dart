@@ -8,7 +8,7 @@ class DeviceInfoService {
   final DeviceInfoPlugin _plugin;
 
   DeviceInfoService(this._plugin);
-
+  /// Return Device info as a `Map<String,dynamic>` for both platform
   Future<Map<String, dynamic>?> getDeviceInfo() async {
     if (Platform.isAndroid) {
       final _deviceInfo = await _plugin.androidInfo;

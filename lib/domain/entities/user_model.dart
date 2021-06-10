@@ -1,15 +1,26 @@
 import 'package:hive/hive.dart';
 
 part 'user_model.g.dart';
+/// Dart object for User data provided by authorization provider
 
 @HiveType(typeId: 3)
 class User {
+  /// User ID
+  /// Is required to create user in MyDiscount Service 
   @HiveField(0)
   final String id;
+  /// User access token 
   @HiveField(1)
   final String accessToken;
+  /// Date time when expire user data and is necessary to log in again 
+  /// Not used for now
   @HiveField(2)
   final String? expireDate;
+  ///Service register mode 
+  /// 1-Google
+  /// 2-Facebook
+  /// 3-Apple
+  /// Is required to create user in MyDiscount Service
   @HiveField(3)
   final int registerMode;
 

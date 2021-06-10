@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-
+/// [AppLocalizations] class is used to change the [Locale] of the aplication 
+///  independent of language of device 
 class AppLocalizations {
   final Locale? locale;
   AppLocalizations(
     this.locale,
   );
- 
+  // initalize 'locale' box to save curent Locale
   Box<String> localeBox = Hive.box<String>('locale');
   static AppLocalizations? of(BuildContext context) {
     return Localizations.of(context, AppLocalizations);
@@ -18,7 +19,7 @@ class AppLocalizations {
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
   late Map<String, dynamic> _localizedStrings;
-
+  // Load translation from json document
   Future<bool> load() async {
    
     final jsonString =
@@ -32,13 +33,14 @@ class AppLocalizations {
     );
     return true;
   }
-
+  /// Set a New [Locale] in application from Settings Page
   Future<Locale> setLocale(String languageCode) async {
     await localeBox.put('locale', languageCode);
    
     return _locale(languageCode);
   }
-
+  /// Return [Locale] from database or default [Locale] if is not saved in 
+  /// database
   Future<Locale> getLocale() async {
     final languageCode =
         localeBox.get('locale')  ?? 'en';
@@ -73,12 +75,12 @@ class AppLocalizations {
         return const Locale('en', 'US');
     }
   }
-
+  /// Return a [Language] instance for the set locale
   Future<Language> getLanguage() async {
     final languageCode =  localeBox.get('locale')  ?? 'en';
     return _language(languageCode);
   }
-
+  /// Retrun a translation for the [key] 
   String? translate(String? key) {
     return _localizedStrings[key!] as String?;
   }
@@ -107,6 +109,7 @@ class _AppLocalizationsDelegate
   bool shouldReload(LocalizationsDelegate<AppLocalizations> _) => false;
 }
 
+/// Settings [Language] Dart Object
 class Language {
   final int id;
   final String flag;
