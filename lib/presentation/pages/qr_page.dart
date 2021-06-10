@@ -31,7 +31,6 @@ class _QrPageState extends State<QrPage> {
   @override
   void initState() {
     super.initState();
-   // Provider.of<ProfileFormBloc>(context).add(UpdateProfileData());
     getIt<IsService>().getCompanyList();
   }
 
@@ -53,6 +52,30 @@ class _QrPageState extends State<QrPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              BlocConsumer<QrBloc, QrState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    if (state is QrLoaded && state.iteration < 3 ||
+                        state is QrLoading) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: size.height * .06,
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.translate('showqr')!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.translate('qrtime')!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      );
+                    }
+                    return Container();
+                  }),
               Expanded(
                 child: Center(
                   child: BlocConsumer<QrBloc, QrState>(
@@ -71,31 +94,10 @@ class _QrPageState extends State<QrPage> {
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  /* Text(
-                                    AppLocalizations.of(context)!
-                                        .translate('showqr')!,
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .translate('qrtime')!,
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  SizedBox(
-                                    height: size.height * .06,
-                                  ), */
-                                  /* state.qrString.isNotEmpty
-                                      ? */
                                   QrImageWidget(
                                     size: size,
                                     future: state.qrString,
                                   )
-                                  /*  : Container(
-                                          width: size.width * .8,
-                                          height: size.width * .8,
-                                          child:
-                                              CircularProgresIndicatorWidget(),
-                                        ) */
                                 ],
                               )
                             : Column(

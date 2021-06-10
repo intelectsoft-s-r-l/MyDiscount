@@ -44,12 +44,6 @@ class _QrImageWidgetState extends State<QrImageWidget>
     }
   }
 
- /*  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    //context.dependOnInheritedWidgetOfExactType();
-  } */
-
   @override
   void dispose() {
     super.dispose();
