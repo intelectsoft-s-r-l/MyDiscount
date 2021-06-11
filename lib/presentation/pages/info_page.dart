@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/custom_app_bar.dart';
-import '../widgets/profile_home_item_widget.dart';
+import '../widgets/home_item_widget.dart';
 
 class InformationPage extends StatelessWidget {
   const InformationPage();
@@ -16,17 +16,17 @@ class InformationPage extends StatelessWidget {
         color: Colors.white,
         child: Column(
           children: [
-            ProfileHomeItemWidget(
+            HomeItemWidget(
               pageName: AppLocalizations.of(context)!.translate('privacypolicy')
                   as String,
               routeName: '/politicaconf',
             ),
-            ProfileHomeItemWidget(
+            HomeItemWidget(
               pageName: AppLocalizations.of(context)!.translate('technicdata')
                   as String,
               routeName: '/technicdetail',
             ),
-            ProfileHomeItemWidget(
+            HomeItemWidget(
               pageName:
                   AppLocalizations.of(context)!.translate('appinfo') as String,
               routeName: '/about',

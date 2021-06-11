@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProfileHomeItemWidget extends StatelessWidget {
-  const ProfileHomeItemWidget({
+class HomeItemWidget extends StatelessWidget {
+  const HomeItemWidget({
     Key? key,
     this.icon,
    required this.pageName,
