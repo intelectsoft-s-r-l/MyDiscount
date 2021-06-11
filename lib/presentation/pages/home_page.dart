@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../infrastructure/core/localization/localizations.dart';
-import '../widgets/home_page_top_widget.dart';
 import '../widgets/home_item_widget.dart';
+import '../widgets/home_page_top_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage();

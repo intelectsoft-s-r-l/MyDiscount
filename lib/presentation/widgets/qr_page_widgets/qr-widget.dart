@@ -78,19 +78,21 @@ class _QrImageWidgetState extends State<QrImageWidget>
               Expanded(
                   child: Container(
                 alignment: Alignment.center,
-                child: ShaderMask(
-                  blendMode: BlendMode.srcATop,
-                  shaderCallback: (rect) => const LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black,
-                      Colors.green,
-                    ],
-                  ).createShader(rect),
-                  child: QrImage(
-                    data: widget.future,
-                    size: widget.size.width * .6,
+                child: RepaintBoundary(
+                  child: ShaderMask(
+                    blendMode: BlendMode.srcATop,
+                    shaderCallback: (rect) => const LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black,
+                        Colors.green,
+                      ],
+                    ).createShader(rect),
+                    child: QrImage(
+                      data: widget.future,
+                      size: widget.size.width * .6,
+                    ),
                   ),
                 ),
               )),
