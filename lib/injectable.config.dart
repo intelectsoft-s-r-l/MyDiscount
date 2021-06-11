@@ -15,6 +15,7 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i16;
 import 'package:is_service/service_client.dart' as _i22;
+import 'package:my_discount/aplication/company_list_bloc/companylist_bloc.dart';
 import 'package:my_discount/aplication/bottom_navigation_bar_bloc/bottom_navigator_bar_bloc.dart';
 
 import 'aplication/auth/auth_bloc.dart' as _i24;
@@ -118,6 +119,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.factory<_i36.SignFormBloc>(() => _i36.SignFormBloc(
       get<_i34.AuthRepository>(), get<_i20.NetworkConnection>()));
   gh.factory<BottomNavigatorBarBloc>(() => BottomNavigatorBarBloc());
+  gh.factory<CompanylistBloc>(() => CompanylistBloc(get<_i29.IsService>()));
   return get;
 }
 
