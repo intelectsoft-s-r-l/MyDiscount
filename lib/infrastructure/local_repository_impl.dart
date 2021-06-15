@@ -86,8 +86,7 @@ class LocalRepositoryImpl implements LocalRepository {
   void saveNewsLocal(List newsList) {
     try {
       newsList
-          .map((e) => News.fromJson(e))
-          .toList()
+          .map((news) => News.fromJson(news))
           .forEach((news) => newsBox.put(news.id, news));
     } catch (e) {
       throw LocalCacheError();
@@ -126,7 +125,7 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   void saveCompanyListLocal(List<Company> list) {
     try {
-      // ignore: avoid_function_literals_in_foreach_calls
+      // ignore_for_file: avoid_function_literals_in_foreach_calls
       list.forEach((company) {
         companyBox.put(company.id, company);
       });
