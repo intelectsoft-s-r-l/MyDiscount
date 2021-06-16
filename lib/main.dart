@@ -73,9 +73,7 @@ void main() async {
   try {
     await Hive.initFlutter();
     Hive
-      ..registerAdapter<User>(
-        UserAdapter(),
-      )
+      ..registerAdapter<User>(UserAdapter())
       ..registerAdapter<Settings>(SettingsAdapter())
       ..registerAdapter<Profile>(ProfileAdapter())
       ..registerAdapter<News>(NewsAdapter())

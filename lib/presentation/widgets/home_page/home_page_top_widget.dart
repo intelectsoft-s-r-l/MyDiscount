@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../aplication/profile_bloc/profile_form_bloc.dart';
-import '../../infrastructure/core/localization/localizations.dart';
+import '../../../aplication/profile_bloc/profile_form_bloc.dart';
+import '../../../infrastructure/core/localization/localizations.dart';
 
 class HomePageTopWidget extends StatelessWidget {
   HomePageTopWidget({

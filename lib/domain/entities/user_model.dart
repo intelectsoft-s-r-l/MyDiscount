@@ -17,9 +17,9 @@ class User {
   @HiveField(2)
   final String? expireDate;
   ///Service register mode 
-  /// 1-Google
-  /// 2-Facebook
-  /// 3-Apple
+  /// 1-Google,
+  /// 2-Facebook,
+  /// 3-Apple,
   /// Is required to create user in MyDiscount Service
   @HiveField(3)
   final int registerMode;
