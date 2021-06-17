@@ -14,7 +14,7 @@ class HumanImage extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.3,
             child: Image.asset(
-              'assets/icons/om.png',
+              'assets/icons/human.png',
               scale: 0.5,
             ),
           ),
