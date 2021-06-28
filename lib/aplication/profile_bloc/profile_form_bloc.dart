@@ -59,6 +59,10 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
       _localRepositoryImpl.saveClientInfoLocal(pr);
       yield ProfileFormDone(pr, false);
     }
+    if (event is UpdateProfileData) {
+      final profile = _localRepositoryImpl.getLocalClientInfo();
+      yield ProfileFormInitial(profile, false);
+    }
     if (event is SaveProfileData) {
       try {
         final map =
