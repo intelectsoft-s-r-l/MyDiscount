@@ -186,7 +186,7 @@ class LocalRepositoryImpl implements LocalRepository {
     try {
       final user = userBox.get(1);
       final result = await testComporessList(profile.photo);
-      print(result);
+     // print(result);
       final map = profile.toCreateUser()
         ..update('ID', (value) => user!.id)
         ..update('RegisterMode', (value) => user!.registerMode)

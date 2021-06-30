@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_discount/aplication/profile_bloc/profile_form_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../../domain/repositories/is_service_repository.dart';
 import '../../infrastructure/core/internet_connection_service.dart';
@@ -35,12 +37,12 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
     getIt<IsService>().getClientInfo();
     getIt<IsService>().getCompanyList();
     if (mounted) _getAuthorization();
-
     WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
   void didChangeDependencies() {
+    Provider.of<ProfileFormBloc>(context).add(UpdateProfileData());
     super.didChangeDependencies();
   }
 

@@ -219,6 +219,7 @@ void main() {
             'Amount': 12678967.543233,
             'Company': 'String content',
             'DateTimeOfSale': '\/Date(928138800000+0300)\/',
+            'Logo': Uint8List.fromList([]),
             'SalesPoint': 'String content'
           }
         ];

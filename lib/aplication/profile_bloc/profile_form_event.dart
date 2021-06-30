@@ -52,3 +52,6 @@ class SaveProfileData extends ProfileFormEvent {
 
   SaveProfileData(this.profile);
 }
+class UpdateProfileData extends ProfileFormEvent {
+ 
+}
