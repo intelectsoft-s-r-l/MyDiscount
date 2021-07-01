@@ -121,10 +121,16 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   void saveCompanyListLocal(List<Company> list) {
     try {
-      // ignore: avoid_function_literals_in_foreach_calls
-      list.forEach((company) {
-        companyBox.put(company.id, company);
-      });
+      final keys = companyBox.keys;
+
+      for (final key in keys) {
+        if (list.map((company) => company.id).toList().contains(key)) {
+          // ignore: avoid_function_literals_in_foreach_calls
+          list.forEach((company) => companyBox.put(company.id, company));
+        } else {
+          companyBox.delete(key);
+        }
+      }
     } catch (e) {
       throw LocalCacheError();
     }
@@ -186,7 +192,7 @@ class LocalRepositoryImpl implements LocalRepository {
     try {
       final user = userBox.get(1);
       final result = await testComporessList(profile.photo);
-     // print(result);
+      // print(result);
       final map = profile.toCreateUser()
         ..update('ID', (value) => user!.id)
         ..update('RegisterMode', (value) => user!.registerMode)
