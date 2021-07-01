@@ -39,46 +39,52 @@ class _HomePageState extends State<HomePage> {
                   ),
                   color: Colors.white,
                 ),
-                child: ListView(
-                  //physics: BouncingScrollPhysics(),
-                  children: [
-                    ProfileHomeItemWidget(
-                      icon: Icons.account_circle_outlined,
-                      pageName: AppLocalizations.of(context)!
-                          .translate('profile') as String,
-                      routeName: '/profilepage',
-                    ),
-                    ProfileHomeItemWidget(
-                      icon: Icons.apartment_outlined,
-                      pageName: AppLocalizations.of(context)!
-                          .translate('companies') as String,
-                      routeName: '/companypage',
-                    ),
-                    ProfileHomeItemWidget(
-                      icon: Icons.card_giftcard_outlined,
-                      pageName: AppLocalizations.of(context)!
-                          .translate('mycards') as String,
-                      routeName: '/cardlist',
-                    ),
-                    ProfileHomeItemWidget(
-                      icon: Icons.transfer_within_a_station_outlined,
-                      pageName: AppLocalizations.of(context)!
-                          .translate('transactions') as String,
-                      routeName: '/transactionlist',
-                    ),
-                    ProfileHomeItemWidget(
-                      icon: Icons.info_outline,
-                      pageName: AppLocalizations.of(context)!.translate('Info')
-                          as String,
-                      routeName: '/infopage',
-                    ),
-                    ProfileHomeItemWidget(
-                      icon: Icons.settings,
-                      pageName: AppLocalizations.of(context)!
-                          .translate('settings') as String,
-                      routeName: '/settings',
-                    ),
-                  ],
+                child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (overscroll) {
+                    overscroll.disallowGlow();
+                    return true;
+                  },
+                  child: ListView(
+                    //physics: BouncingScrollPhysics(),
+                    children: [
+                      ProfileHomeItemWidget(
+                        icon: Icons.account_circle_outlined,
+                        pageName: AppLocalizations.of(context)!
+                            .translate('profile') as String,
+                        routeName: '/profilepage',
+                      ),
+                      ProfileHomeItemWidget(
+                        icon: Icons.apartment_outlined,
+                        pageName: AppLocalizations.of(context)!
+                            .translate('companies') as String,
+                        routeName: '/companypage',
+                      ),
+                      ProfileHomeItemWidget(
+                        icon: Icons.card_giftcard_outlined,
+                        pageName: AppLocalizations.of(context)!
+                            .translate('mycards') as String,
+                        routeName: '/cardlist',
+                      ),
+                      ProfileHomeItemWidget(
+                        icon: Icons.transfer_within_a_station_outlined,
+                        pageName: AppLocalizations.of(context)!
+                            .translate('transactions') as String,
+                        routeName: '/transactionlist',
+                      ),
+                      ProfileHomeItemWidget(
+                        icon: Icons.info_outline,
+                        pageName: AppLocalizations.of(context)!
+                            .translate('Info') as String,
+                        routeName: '/infopage',
+                      ),
+                      ProfileHomeItemWidget(
+                        icon: Icons.settings,
+                        pageName: AppLocalizations.of(context)!
+                            .translate('settings') as String,
+                        routeName: '/settings',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -84,5 +84,11 @@
     "qrtime": "Codul se modifică la fiecare 10 sec.",
     "addcardnum": "Adaugați numarul cardului",
     "servererror":"Eroare de serviciu!",
-    "scancard":"Scanează nr. Cardului"
+    "scancard":"Scanează nr. Cardului",
+    "search":"Caută",
+    "savebeforegoout":"Salvați modificările înainte de a schimba pagina!",
+    "savebeforelogout":"Salvați modificările înainte de a vă deloga!",
+    "edit":"Editează",
+    "save":"Salvează",
+    "changeimg":"Schimbă" 
 }

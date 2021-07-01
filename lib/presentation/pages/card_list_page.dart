@@ -27,17 +27,24 @@ class CardListPage extends StatelessWidget {
                   builder: (context, snapshot) {
                     final list = snapshot.data;
                     if (snapshot.hasData) {
-                      return ListView.separated(
-                        padding:
-                            const EdgeInsets.only(top: 15, left: 10, right: 10),
-                        separatorBuilder: (context, index) => Container(
-                          height: 10,
-                        ),
-                        itemCount: list!.length,
-                        itemBuilder: (context, index) {
-                          final card = list[index];
-                          return CardWidget(card: card);
+                      return NotificationListener<
+                          OverscrollIndicatorNotification>(
+                        onNotification: (overscroll) {
+                          overscroll.disallowGlow();
+                          return true;
                         },
+                        child: ListView.separated(
+                          padding: const EdgeInsets.only(
+                              top: 15, left: 10, right: 10),
+                          separatorBuilder: (context, index) => Container(
+                            height: 10,
+                          ),
+                          itemCount: list!.length,
+                          itemBuilder: (context, index) {
+                            final card = list[index];
+                            return CardWidget(card: card);
+                          },
+                        ),
                       );
                     }
                     if (snapshot.hasError) {

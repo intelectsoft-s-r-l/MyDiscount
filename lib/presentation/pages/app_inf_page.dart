@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 
 import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/app_info_widget.dart';
@@ -36,3 +36,4 @@ class AppInfoPage extends StatelessWidget {
     );
   }
 }
+ */

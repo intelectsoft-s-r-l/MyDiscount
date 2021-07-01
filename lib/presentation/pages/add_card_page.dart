@@ -127,7 +127,7 @@ class _AddCardPageState extends State<AddCardPage> {
                 ),
                 centerTitle: true,
                 title: Text(
-                  '${AppLocalizations.of(context)!.translate('connectcard')}: ${company.name}',
+                  '${AppLocalizations.of(context)!.translate('connectcard')} ${company.name}',
                   style: const TextStyle(fontSize: 18),
                 ),
                 elevation: 0,
@@ -197,13 +197,20 @@ class _AddCardPageState extends State<AddCardPage> {
                                       controller: _controller,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        suffixIcon: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              scann = !scann;
-                                            });
-                                          },
-                                          child: const Icon(Icons.fit_screen),
+                                        suffixIcon: Tooltip(
+                                          preferBelow: false,
+                                          message: AppLocalizations.of(context)!
+                                              .translate('scancard') as String,
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                scann = !scann;
+                                              });
+                                            },
+                                            child: const Icon(
+                                              Icons.fit_screen,
+                                            ),
+                                          ),
                                         ),
                                         border: OutlineInputBorder(
                                           borderRadius:

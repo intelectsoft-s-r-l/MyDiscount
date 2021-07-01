@@ -9,7 +9,8 @@ class CompanyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkResponse(
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
       onTap: () {
         Navigator.pushNamed(context, '/addcard', arguments: company);
       },

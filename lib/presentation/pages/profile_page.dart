@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +49,22 @@ class _ProfilePageState extends State<ProfilePage> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              onPressed: () {
+                if (isReadOnly) {
+                  Navigator.pop(context);
+                } else {
+                  Flushbar(
+                    duration: const Duration(seconds: 3),
+                    message: AppLocalizations.of(context)!
+                        .translate('savebeforegoout'),
+                  ).show(context);
+                }
+              },
+              icon: Icon(
+                  Platform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios),
+            ),
             centerTitle: true,
             title: Text(
               pageName,
@@ -58,7 +76,10 @@ class _ProfilePageState extends State<ProfilePage> {
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 3000),
                 child: IconButton(
-                  icon: Icon(isReadOnly ? Icons.edit : Icons.save),
+                  icon: Tooltip(
+                      message: AppLocalizations.of(context)!
+                          .translate(isReadOnly ? 'edit' : 'save') as String,
+                      child: Icon(isReadOnly ? Icons.edit : Icons.save)),
                   onPressed: () {
                     setState(() {
                       isReadOnly = !isReadOnly;
@@ -92,36 +113,41 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Stack(
                     children: [
                       Container(
-                        child: ListView(
+                        child:NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (overscroll) {
+                    overscroll.disallowGlow();
+                    return true;
+                  },
+                  child: ListView(
                           shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
                           children: [
                             Container(
                               height: MediaQuery.of(context).size.height * .858,
                               padding: const EdgeInsets.only(
                                   left: 10, right: 10, top: 10, bottom: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      NewWidget(
-                                          profile: profile,
-                                          isEdit: !isReadOnly),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Container(
-                                                child: Form(
-                                                  key: _formKey,
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        ProfileImagePicker(
+                                            profile: profile,
+                                            isEdit: !isReadOnly),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -170,126 +196,143 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     ],
                                                   ),
                                                 ),
-                                              ),
-                                              const Divider(),
-                                              Container(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .translate(
-                                                              'lastname')!,
-                                                      style: const TextStyle(
-                                                          color: Colors.black),
-                                                    ),
-                                                    Container(
-                                                      child: TextFormField(
-                                                        keyboardType:
-                                                            TextInputType.name,
-                                                        initialValue:
-                                                            profile.lastName,
-                                                        decoration:
-                                                            const InputDecoration(
-                                                                border:
-                                                                    InputBorder
-                                                                        .none),
-                                                        onChanged: (val) {
-                                                          context
-                                                              .read<
-                                                                  ProfileFormBloc>()
-                                                              .add(
-                                                                  LastNameChanged(
-                                                                      val));
-                                                        },
-                                                        readOnly: isReadOnly,
+                                                const Divider(),
+                                                Container(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .translate(
+                                                                'lastname')!,
                                                         style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 20.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                            color:
+                                                                Colors.black),
                                                       ),
-                                                    ),
-                                                  ],
+                                                      Container(
+                                                        child: TextFormField(
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .name,
+                                                          initialValue:
+                                                              profile.lastName,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none),
+                                                          onChanged: (val) {
+                                                            context
+                                                                .read<
+                                                                    ProfileFormBloc>()
+                                                                .add(
+                                                                    LastNameChanged(
+                                                                        val));
+                                                          },
+                                                          readOnly: isReadOnly,
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 20.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Divider(),
-                                  Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Email',
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                        Container(
-                                          child: TextFormField(
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            initialValue: profile.email,
-                                            decoration: const InputDecoration(
-                                                border: InputBorder.none,
-                                                focusColor: Colors.red),
-                                            onChanged: (val) {
-                                              context
-                                                  .read<ProfileFormBloc>()
-                                                  .add(EmailChanged(val));
-                                            },
-                                            readOnly: isReadOnly,
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  const Divider(),
-                                  ProfileFieldWidget(
-                                    labelText: AppLocalizations.of(context)!
-                                        .translate('phone'),
-                                    isEdit: !isReadOnly,
-                                  ),
-                                  const Divider(),
-                                  const Expanded(
-                                    child: SizedBox(),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          context
-                                              .read<SignFormBloc>()
-                                              .add(SignOutEvent());
-                                          context
-                                              .read<AuthBloc>()
-                                              .add(SignOut());
-                                        },
-                                        child: Text(
-                                            AppLocalizations.of(context)!
-                                                .translate('logout')!),
+                                    const Divider(),
+                                    Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Email',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                          Container(
+                                            child: TextFormField(
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
+                                              initialValue: profile.email,
+                                              decoration: const InputDecoration(
+                                                  border: InputBorder.none,
+                                                  focusColor: Colors.red),
+                                              onChanged: (val) {
+                                                context
+                                                    .read<ProfileFormBloc>()
+                                                    .add(EmailChanged(val));
+                                              },
+                                              readOnly: isReadOnly,
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                    const Divider(),
+                                    ProfileFieldWidget(
+                                      labelText: AppLocalizations.of(context)!
+                                          .translate('phone'),
+                                      isEdit: !isReadOnly,
+                                    ),
+                                    const Divider(),
+                                    const Expanded(
+                                      child: SizedBox(),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            if (isReadOnly) {
+                                              Navigator.pop(context);
+                                              context
+                                                  .read<SignFormBloc>()
+                                                  .add(SignOutEvent());
+                                              context
+                                                  .read<AuthBloc>()
+                                                  .add(SignOut());
+                                            } else {
+                                              Flushbar(
+                                                duration:
+                                                    const Duration(seconds: 3),
+                                                message: AppLocalizations.of(
+                                                        context)!
+                                                    .translate(
+                                                        'savebeforelogout'),
+                                              ).show(context);
+                                            }
+                                          },
+                                          child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .translate('logout')!),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
+                      ),),
                     ],
                   ),
                 ),

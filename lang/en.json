@@ -85,5 +85,12 @@
     "qrtime": "The code changes every 10 sec.",
     "addcardnum": "Add card number",
     "servererror":"Service error!",
-    "scancard":"Scan Card Number"
+    "scancard":"Scan Card Number",
+    "search":"Search",
+    
+    "savebeforegoout":"Save changes before go out!",
+    "savebeforelogout":"Save changes before logout!",
+    "edit":"Edit",
+    "save":"Save",
+    "changeimg":"Change"    
 }

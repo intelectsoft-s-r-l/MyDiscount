@@ -15,25 +15,30 @@ class TranzactionListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics:const ClampingScrollPhysics(),
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 3,
-      ),
-      shrinkWrap: true,
-      itemCount: transactionList!.length,
-      itemBuilder: (context, index) {
-        return Card(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: TranzactionWidget(
-            size: size,
-            transaction: transactionList![index],
-          ),
-        );
+    return NotificationListener<OverscrollIndicatorNotification>(
+      onNotification: (overscroll) {
+        overscroll.disallowGlow();
+        return true;
       },
+      child: ListView.separated(
+        separatorBuilder: (context, index) => const SizedBox(
+          height: 3,
+        ),
+        shrinkWrap: true,
+        itemCount: transactionList!.length,
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TranzactionWidget(
+              size: size,
+              transaction: transactionList![index],
+            ),
+          );
+        },
+      ),
     );
   }
 }

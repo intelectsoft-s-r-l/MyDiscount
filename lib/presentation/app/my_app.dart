@@ -9,7 +9,7 @@ import 'package:my_discount/infrastructure/core/localization/localizations.dart'
 import 'package:my_discount/presentation/pages/about_app_page.dart';
 import 'package:my_discount/presentation/pages/add_card_company_list.dart';
 import 'package:my_discount/presentation/pages/add_card_page.dart';
-import 'package:my_discount/presentation/pages/app_inf_page.dart';
+import 'package:my_discount/presentation/pages/app_info_page.dart';
 import 'package:my_discount/presentation/pages/card_list_page.dart';
 import 'package:my_discount/presentation/pages/company_list_page.dart';
 import 'package:my_discount/presentation/pages/detail_news_page.dart';

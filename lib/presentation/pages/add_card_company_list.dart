@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:my_discount/infrastructure/core/localization/localizations.dart';
 
 import '../../domain/entities/company_model.dart';
 import '../../domain/repositories/local_repository.dart';
@@ -61,9 +62,10 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
                       child: search
                           ? TextFormField(
                               focusNode: _node,
-                              decoration: const InputDecoration(
-                                  hintStyle: TextStyle(),
-                                  hintText: 'Cauta',
+                              decoration:  InputDecoration(
+                                  contentPadding:const EdgeInsets.only(bottom: 8),
+                                 // hintStyle:const TextStyle(),
+                                  hintText: AppLocalizations.of(context)!.translate('search'),
                                   border: InputBorder.none),
                               onChanged: (value) {
                                 setState(() {
