@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_discount/aplication/qr_page/timer_bloc/ticker.dart';
@@ -16,9 +14,6 @@ import '../widgets/custom_app_bar.dart';
 import '../widgets/nointernet_widget.dart';
 import '../widgets/qr_page_widgets/human_image_widget.dart';
 import '../widgets/qr_page_widgets/qr-widget.dart';
-
-final StreamController<double> qrProgressIndicator =
-    StreamController.broadcast();
 
 class QrPage extends StatefulWidget {
   const QrPage({Key? key}) : super(key: key);
