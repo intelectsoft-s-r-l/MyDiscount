@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_discount/aplication/qr_page/timer_bloc/timer_bloc.dart';
-import 'package:my_discount/aplication/qr_page/qr_bloc.dart';
-import 'package:provider/provider.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../../aplication/qr_page/qr_bloc.dart';
+import '../../../aplication/qr_page/timer_bloc/timer_bloc.dart';
+import '../../../domain/repositories/is_service_repository.dart';
+import '../../../injectable.dart';
 
 class QrImageWidget extends StatefulWidget {
   const QrImageWidget({
@@ -24,6 +27,7 @@ class _QrImageWidgetState extends State<QrImageWidget>
   @override
   void initState() {
     super.initState();
+     getIt<IsService>().getCompanyList();
     WidgetsBinding.instance!.addObserver(this);
   }
 
@@ -96,29 +100,40 @@ class _QrImageWidgetState extends State<QrImageWidget>
                   ),
                 ),
               )),
-              BlocConsumer<TimerBloc, TimerState>(
-                listener: (context, state) {
-                  if (state is TimerRunComplete) {
-                    final updatedIteration = state.iteration + 1;
-                    if (state.iteration < 3) {
-                      BlocProvider.of<QrBloc>(context, listen: false)
-                          .add(LoadQrData(updatedIteration));
-                    }
-                  }
-                },
-                builder: (context, state) {
-                  print(state.duration);
-                  return LinearProgressIndicator(
-                    value: state.duration / 10,
-                    backgroundColor: Colors.white,
-                    valueColor: const AlwaysStoppedAnimation(Colors.green),
-                  );
-                },
-              ),
+              const QrTimer(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class QrTimer extends StatelessWidget {
+  const QrTimer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<TimerBloc, TimerState>(
+      listener: (context, state) {
+        if (state is TimerRunComplete) {
+          final updatedIteration = state.iteration + 1;
+          if (state.iteration < 3) {
+            BlocProvider.of<QrBloc>(context, listen: false)
+                .add(LoadQrData(updatedIteration));
+          }
+        }
+      },
+      builder: (context, state) {
+        print(state.hashCode);
+        return LinearProgressIndicator(
+          value: state.duration / 10,
+          backgroundColor: Colors.white,
+          valueColor: const AlwaysStoppedAnimation(Colors.green),
+        );
+      },
     );
   }
 }

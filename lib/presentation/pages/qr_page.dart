@@ -16,29 +16,14 @@ import '../widgets/nointernet_widget.dart';
 import '../widgets/qr_page_widgets/human_image_widget.dart';
 import '../widgets/qr_page_widgets/qr-widget.dart';
 
-class QrPage extends StatefulWidget {
+class QrPage extends StatelessWidget {
   const QrPage({Key? key}) : super(key: key);
 
-  @override
-  _QrPageState createState() => _QrPageState();
-}
 
-class _QrPageState extends State<QrPage> {
-  @override
-  void initState() {
-    super.initState();
-    getIt<IsService>().getCompanyList();
-  }
-  @override
-  void didChangeDependencies() {
-    Provider.of<ProfileFormBloc>(context).add(UpdateProfileData());
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -53,30 +38,29 @@ class _QrPageState extends State<QrPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              BlocConsumer<QrBloc, QrState>(
-                  listener: (context, state) {},
+              BlocBuilder<QrBloc, QrState>(
                   builder: (context, state) {
-                    if (state is QrLoaded && state.iteration < 3 ||
-                        state is QrLoading) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            height: size.height * .06,
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.translate('showqr')!,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.translate('qrtime')!,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      );
-                    }
-                    return Container();
-                  }),
+                if (state is QrLoaded && state.iteration < 3 ||
+                    state is QrLoading) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: size.height * .06,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.translate('showqr')!,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.translate('qrtime')!,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  );
+                }
+                return Container();
+              }),
               Expanded(
                 child: Center(
                   child: BlocConsumer<QrBloc, QrState>(

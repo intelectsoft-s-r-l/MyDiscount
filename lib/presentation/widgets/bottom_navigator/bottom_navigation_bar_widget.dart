@@ -35,6 +35,12 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   }
 
   @override
+  void didChangeDependencies() {
+    Provider.of<ProfileFormBloc>(context).add(UpdateProfileData());
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,8 +59,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
         return const QrPage();
       })),
       bottomNavigationBar:
-          BlocConsumer<BottomNavigatorBarBloc, BottomNavigatorBarState>(
-        listener: (context, state) {},
+          BlocBuilder<BottomNavigatorBarBloc, BottomNavigatorBarState>(
         builder: (context, state) {
           return SafeArea(
             top: true,
@@ -90,20 +95,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                       context.read<ProfileFormBloc>().add(UpdateProfileData());
                     },
                   ),
-                  Expanded(
-                    child: InkResponse(
-                      onTap: () {
-                        context
-                            .read<BottomNavigatorBarBloc>()
-                            .add(QrIconTapped());
-                      },
-                      child: Container(
-                        alignment: Alignment.topCenter,
-                        color: Colors.white,
-                        child: const RipplesAnimation(),
-                      ),
-                    ),
-                  ),
+                  const QrButton(),
                   BottomNavigationItem(
                     state: state is NewsPageState,
                     icon: MdiIcons.newspaper,
@@ -119,6 +111,29 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class QrButton extends StatelessWidget {
+  const QrButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print('qr');
+    return Expanded(
+      child: InkResponse(
+        onTap: () {
+          context.read<BottomNavigatorBarBloc>().add(QrIconTapped());
+        },
+        child: Container(
+          alignment: Alignment.topCenter,
+          color: Colors.white,
+          child: const RipplesAnimation(),
+        ),
       ),
     );
   }
