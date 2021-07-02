@@ -52,10 +52,10 @@ class CardListPage extends StatelessWidget {
                     if (snapshot.hasError) {
                       if (snapshot.error is EmptyList) {
                         return EmptyListWidget(
-                            size: size,
-                            assetPath: 'assets/icons/no_transaction_img.png',
-                            localizationKey: AppLocalizations.of(context)!
-                                .translate('nocards') as String);
+                          size: size,
+                          assetPath: 'assets/icons/no_transaction_img.png',
+                          localizationKey: 'nocards',
+                        );
                       } else {
                         return const NoInternetWidget();
                       }
@@ -88,26 +88,6 @@ class CardListPage extends StatelessWidget {
     );
   }
 }
-/* 
-class NoCardsWidget extends StatelessWidget {
-  const NoCardsWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: FittedBox(
-        fit: BoxFit.fill,
-        child: Image.asset(
-          'assets/icons/no_transaction_img.png',
-          height: MediaQuery.of(context).size.width,
-          width: MediaQuery.of(context).size.width,
-        ),
-      ),
-    );
-  }
-} */
 
 class CardWidget extends StatelessWidget {
   const CardWidget({
