@@ -57,7 +57,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> authenticateWithFacebook() async {
     try {
-      final fbUser = await fb.login(loginBehavior: LoginBehavior.DIALOG_ONLY);
+      final fbUser = await fb.login();
       final fbProfile = await fb.getUserData();
 
       final profile = await _isService.getClientInfo(
@@ -69,9 +69,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final baseUserCredentials =
           fb.toCredMap(token: fbUser.accessToken, profile: fbProfile);
-          
+
       final token = await _firebaseCloudMessageService.getfcmToken();
-      
+
       final credentialsMap = profile.isEmpty
           ? baseUserCredentials.update('PushToken', (_) => token)
           : localCredentialsMap
