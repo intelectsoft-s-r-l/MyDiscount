@@ -20,7 +20,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     try {
       if (await _network.isConnected) {
         final _baseUrl = '$url$urlFragment';
-        return _client.get(_baseUrl).timeout(const Duration(seconds: 3));
+        return _client.get(_baseUrl)/* .timeout(const Duration(seconds: 3)) */;
       } else {
         throw NoInternetConection();
       }
@@ -38,7 +38,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     try {
       if (await _network.isConnected) {
         final _url = '$url$urlFragment';
-        return _client.post(_url, json).timeout(const Duration(seconds: 3));
+        return _client.post(_url, json)/* .timeout(const Duration(seconds: 3)) */;
       } else {
         throw NoInternetConection();
       }
