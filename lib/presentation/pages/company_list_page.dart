@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_discount/aplication/company_list_bloc/companylist_bloc.dart';
+import 'package:my_discount/presentation/widgets/company_page_widgets/companies_list_widget.dart';
 
-import '../../domain/entities/company_model.dart';
-import '../../domain/repositories/is_service_repository.dart';
-import '../../infrastructure/core/failure.dart';
 import '../../injectable.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/company_page_widgets/companies_list_widget.dart';
-import '../widgets/company_page_widgets/noCompani_list_widget.dart';
+import '../widgets/company_page_widgets/no_company_list_widget.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/nointernet_widget.dart';
 
@@ -19,23 +19,27 @@ class CompanyListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageName = ModalRoute.of(context)!.settings.arguments as String?;
 
-    return CustomAppBar(
-      title: pageName,
-      child: Container(
-        color: Colors.white,
-        child: FutureBuilder<List<Company>>(
-          future: getIt<IsService>().getCompanyList(),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasData) {
-              return CompaniesList(snapshot.data);
-            }
-            if (snapshot.hasError) {
-              return snapshot.error is EmptyList
-                  ? const NoCompanieList()
-                  : const NoInternetWidget();
-            }
-            return CircularProgresIndicatorWidget();
-          },
+    return BlocProvider(
+      create: (context) => getIt<CompanylistBloc>()..add(FetchCompanyList()),
+      child: CustomAppBar(
+        title: pageName,
+        child: Container(
+          color: Colors.white,
+          child: BlocConsumer<CompanylistBloc, CompanylistState>(
+            listener: (context, state) {},
+            builder: (BuildContext context, state) {
+              if (state is CompanylistLoaded) {
+                return CompaniesList(state.list);
+              }
+              if (state is EmptyCompanyList) {
+                return const NoCompanyList();
+              }
+              if (state is CompanylistError) {
+                return const NoInternetWidget();
+              }
+              return CircularProgresIndicatorWidget();
+            },
+          ),
         ),
       ),
     );

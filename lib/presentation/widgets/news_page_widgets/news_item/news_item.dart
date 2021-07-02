@@ -6,11 +6,11 @@ import 'detailed_news.dart';
 import 'news_header_widget.dart';
 import 'news_image_widget.dart';
 
-class NewsListItem extends StatelessWidget {
+class NewsItem extends StatelessWidget {
   final News news;
   final Size size;
 
-  const NewsListItem({Key? key,required this.news,required this.size}) : super(key: key);
+  const NewsItem({Key? key,required this.news,required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

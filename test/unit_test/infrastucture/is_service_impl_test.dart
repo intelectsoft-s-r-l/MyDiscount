@@ -22,7 +22,6 @@ import 'package:my_discount/domain/settings/settings.dart';
 import 'package:my_discount/infrastructure/is_service_impl.dart';
 //import 'package:my_discount/aplication/providers/news_settings.dart';
 
-
 import 'package:my_discount/infrastructure/settings/settings_Impl.dart';
 
 import '../fixtures/fixtures_redear.dart';

@@ -40,6 +40,11 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
+  Stream<Profile> updateClientInfo() async* {
+    yield profileBox.watch() as Profile;
+  }
+
+  @override
   List<News> getLocalNews() {
     try {
       final newsList = <News>[];
@@ -235,28 +240,11 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   List<Company> searchCompany(String pattern) {
     if (pattern.isNotEmpty) {
-      final companyNameList = companyBox.values
+      return companyBox.values
           .toList()
-          .cast<Company>()
-          .map((company) => company.name.toLowerCase())
-          .toList()
-          .where((name) => name.startsWith(pattern.toLowerCase()))
+          .where((company) =>
+              company.name.toLowerCase().startsWith(pattern.toLowerCase()))
           .toList();
-
-      final filteredCompanyList = companyBox.values
-          .toList()
-          .map((company) {
-            for (var name in companyNameList) {
-              if (name.startsWith(company.name.toLowerCase())) {
-                return company;
-              }
-            }
-          })
-          .toList()
-          .where((company) => company != null)
-          .toList()
-          .cast<Company>();
-      return filteredCompanyList;
     }
     return companyBox.values.map((company) => company).toList();
   }

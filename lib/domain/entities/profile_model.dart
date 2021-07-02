@@ -4,22 +4,39 @@ import 'dart:typed_data';
 import 'package:hive/hive.dart';
 
 part 'profile_model.g.dart';
+/// Dart object for Profile data provided by back service
+///
+/// Utilize this class for manage user profile data and display it on profile 
+/// page
+/// Obtain it on login or is added by user  
 
 @HiveType(typeId: 0)
 class Profile {
+  ///User first name
   @HiveField(0)
   final String firstName;
+  ///User last name
   @HiveField(1)
   final String lastName;
+  ///User email
   @HiveField(2)
   final String email;
+  ///User phone number 
+  ///added on ProfilePage after SMS verification 
   @HiveField(3)
   final String phone;
+  ///User Profile photo from login account 
+  ///may by changed in ProfilePage 
   @HiveField(4)
   final Uint8List photo;
+  ///Firebase Cloud Messaging token 
   @HiveField(5)
   final String? pushToken;
   @HiveField(6)
+  ///Service register mode 
+  /// 1-Google
+  /// 2-Facebook
+  /// 3-Apple
   final int? registerMode;
 
   Profile({
@@ -36,10 +53,10 @@ class Profile {
     return Profile(
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
-      email: json['Email'] ?? '',
-      phone: json['phone'] ?? '',
+      email: json['Email'],
+      phone: json['phone']??'',
       photo: json['Photo'],
-      pushToken: json['PushToken'] ?? '',
+      pushToken: json['PushToken']??'',
       registerMode: json['mode'],
     );
   }
@@ -54,7 +71,8 @@ class Profile {
       'mode': registerMode,
     };
   }
-
+  ///JSON representation of all user data required to create a new User in 
+  ///MyDiscount service
   Map<String, dynamic> toCreateUser() {
     return {
       'DisplayName': '$firstName $lastName',
@@ -67,7 +85,7 @@ class Profile {
       'access_token': '',
     };
   }
-
+  
   factory Profile.empty() {
     return Profile(
       firstName: '',
@@ -79,7 +97,7 @@ class Profile {
       registerMode: -1,
     );
   }
-
+  
   Profile copyWith({
     String? firstName,
     String? lastName,

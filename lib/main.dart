@@ -68,12 +68,10 @@ void main() async {
   final List<int> hiveKey;
   if (await storage.containsKey(key: key)) {
     hiveKey = base64Decode(await storage.read(key: key) as String).toList();
-    print('stored key:$hiveKey');
   } else {
     final value = Hive.generateSecureKey();
     await storage.write(key: key, value: base64Encode(value));
     hiveKey = base64Decode(await storage.read(key: key) as String).toList();
-    print('generatedkey: $hiveKey');
   }
   await initDB(hiveKey);
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);

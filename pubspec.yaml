@@ -22,11 +22,11 @@ dependencies:
   device_info: ^2.0.0
   equatable: ^2.0.0
   firebase_analytics: ^8.0.0
-  firebase_core: ^1.0.3
+  firebase_core: ^1.3.0
   firebase_crashlytics: ^2.0.0
-  firebase_messaging: ^9.1.1
+  firebase_messaging: ^10.0.3
   flutter_bloc: ^7.0.0
-  flutter_facebook_auth: ^3.3.2+2
+  flutter_facebook_auth: ^3.5.0
   flutter_html: ^2.0.0-nullsafety.0
   flutter_image_compress: ^1.0.0
   flutter_local_notifications: ^5.0.0+1

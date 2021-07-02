@@ -48,10 +48,11 @@ class ImageChanged extends ProfileFormEvent {
 }
 
 class SaveProfileData extends ProfileFormEvent {
- final Profile profile;
+  final Profile profile;
 
   SaveProfileData(this.profile);
 }
+
 class UpdateProfileData extends ProfileFormEvent {
- 
+  UpdateProfileData();
 }

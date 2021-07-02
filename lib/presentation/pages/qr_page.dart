@@ -1,12 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_discount/aplication/profile_bloc/profile_form_bloc.dart';
+import 'package:my_discount/aplication/qr_page/timer_bloc/ticker.dart';
+import 'package:my_discount/aplication/qr_page/timer_bloc/timer_bloc.dart';
+import 'package:my_discount/aplication/qr_page/qr_bloc.dart';
+import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/repositories/is_service_repository.dart';
-import '../../infrastructure/core/internet_connection_service.dart';
 import '../../infrastructure/core/localization/localizations.dart';
+
 import '../../injectable.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/custom_app_bar.dart';
@@ -21,25 +23,12 @@ class QrPage extends StatefulWidget {
   _QrPageState createState() => _QrPageState();
 }
 
-class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
-  final StreamController<bool> _imageController = StreamController.broadcast();
-  final StreamController<double> _progressController =
-      StreamController.broadcast();
-
-  int iterationsNumber = 0;
-  late bool serviceConection;
-  late String tempId = '';
-  late Timer _timer;
-
+class _QrPageState extends State<QrPage> {
   @override
   void initState() {
     super.initState();
-    getIt<IsService>().getClientInfo();
     getIt<IsService>().getCompanyList();
-    if (mounted) _getAuthorization();
-    WidgetsBinding.instance!.addObserver(this);
   }
-
   @override
   void didChangeDependencies() {
     Provider.of<ProfileFormBloc>(context).add(UpdateProfileData());
@@ -47,216 +36,125 @@ class _QrPageState extends State<QrPage> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        _imageController.sink.add(true);
-        
-        _timer.cancel();
-        _getAuthorization();
-        iterationsNumber = 0;
-        _progress = 1.1;
-        break;
-
-      case AppLifecycleState.inactive:
-        _timer.cancel();
-       
-        break;
-      case AppLifecycleState.paused:
-        
-        _timer.cancel();
-        break;
-      case AppLifecycleState.detached:
-       
-        _timer.cancel();
-        break;
-      default:
-        if (_timer.isActive) _timer.cancel();
-        break;
-    }
-  }
-
-  void _changeImages() {
-    _imageController.sink.add(false);
-  }
-
-  double _progress = 1.1;
-
-  void _startTimer() {
-    if (mounted) {
-      var _counter = 11;
-
-      iterationsNumber++;
-
-      _timer = Timer.periodic(const Duration(seconds: 1), (_timer) {
-        if (_counter > 0) {
-          _counter--;
-          _showProgress();
-        } else if (_counter == 0) {
-          if (iterationsNumber < 3) {
-            _getAuthorization();
-            _progress = 1.1;
-            _timer.cancel();
-          } else {
-            _changeImages();
-            _timer.cancel();
-          }
-        } else {
-          _timer.cancel();
-        }
-      });
-    }
-
-    
-  }
-
-  void _showProgress() {
-    _progress -= .1;
-    if (mounted) _progressController.sink.add(_progress);
-  }
-
-  void _getAuthorization() async {
-    try {
-      final netConnection = await getIt<NetworkConnection>().isConnected;
-      if (netConnection) {
-        try {
-          tempId = await getIt<IsService>().getTempId();
-          if (mounted) {
-            setState(() {
-              serviceConection = netConnection;
-            });
-          }
-          if (iterationsNumber == 3) {
-            _changeImages();
-            if (_timer.isActive) _timer.cancel();
-          } else {
-            _startTimer();
-          }
-        } catch (e) {
-          rethrow;
-        }
-      } else {
-        if (mounted) {
-          _changeImages();
-          setState(() {
-            serviceConection = netConnection;
-          });
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        _changeImages();
-        setState(() {
-          serviceConection = false;
-        });
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (mounted) _imageController.close();
-    if (mounted) _progressController.close();
-    if (mounted) _timer.cancel();
-    WidgetsBinding.instance!.removeObserver(this);
-  }
-
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return CustomAppBar(
-      title: AppLocalizations.of(context)!.translate('qr'),
-      child: Container(
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Center(
-                child: StreamBuilder<bool>(
-                  stream: _imageController.stream,
-                  initialData: true,
-                  builder: (context, snapshot) {
-                    return snapshot.data as bool
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            //mainAxisSize:MainAxisSize.min,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!
-                                    .translate('showqr')!,
-                                style: const TextStyle(
-                                    //fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)!
-                                    .translate('qrtime')!,
-                                style: const TextStyle(
-                                    // fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                              SizedBox(
-                                height: size.height * .06,
-                              ),
-                              tempId != ''
-                                  ? QrImageWidget(
-                                      size: size,
-                                      progressController: _progressController,
-                                      future: Future.value(tempId),
-                                    )
-                                  : Container(
-                                      width: size.width * .8,
-                                      height: size.width * .8,
-                                      child: CircularProgresIndicatorWidget(),
-                                    )
-                            ],
-                          )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              serviceConection
-                                  ? const HumanImage()
-                                  : const NoInternetWidget(),
-                              const SizedBox(height: 10.0),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _imageController.add(true);
-                                  _getAuthorization();
-                                  iterationsNumber = 0;
-                                  _progress = 1.1;
-                                },
-                                child: serviceConection
-                                    ? Text(
-                                        AppLocalizations.of(context)!
-                                            .translate('generate')!,
-                                        style: const TextStyle(
-                                          // color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                    : Text(
-                                        AppLocalizations.of(context)!
-                                            .translate('retry')!,
-                                        style: const TextStyle(
-                                          //color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => QrBloc()..add(LoadQrData(0)),
+        ),
+        BlocProvider(create: (context) => TimerBloc(const Ticker()))
+      ],
+      child: CustomAppBar(
+        title: AppLocalizations.of(context)!.translate('qr'),
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BlocConsumer<QrBloc, QrState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    if (state is QrLoaded && state.iteration < 3 ||
+                        state is QrLoading) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: size.height * .06,
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.translate('showqr')!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.translate('qrtime')!,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      );
+                    }
+                    return Container();
+                  }),
+              Expanded(
+                child: Center(
+                  child: BlocConsumer<QrBloc, QrState>(
+                    listener: (context, state) {
+                      if (state is QrLoaded) {
+                        Provider.of<TimerBloc>(context, listen: false)
+                            .add(TimerStarted(
+                          duration: 10,
+                          iteration: state.iteration,
+                        ));
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is QrLoaded) {
+                        return state.iteration < 3
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  QrImageWidget(
+                                    size: size,
+                                    future: state.qrString,
+                                  )
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  const HumanImage(),
+                                  const SizedBox(height: 10.0),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      context.read<QrBloc>().add(LoadQrData(0));
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .translate('generate')!,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                      } else if (state is QrError) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const NoInternetWidget(),
+                            const SizedBox(height: 10.0),
+                            ElevatedButton(
+                              onPressed: () {
+                                context.read<QrBloc>().add(LoadQrData(0));
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .translate('retry')!,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ],
-                          );
-                  },
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Center(
+                          child: CircularProgresIndicatorWidget(),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
-/* edx  (G74,Jr:hL2QNX&V) */

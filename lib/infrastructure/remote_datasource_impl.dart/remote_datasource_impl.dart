@@ -12,7 +12,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   final ServiceClient _client;
   final NetworkConnection _network;
 
-  static const url = 'https://dev.edi.md/ISMobileDiscountService';
+  static const url = 'https://api.edi.md/ISMobileDiscountService';
 
   RemoteDataSourceImpl(this._client, this._network);
   @override

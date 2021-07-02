@@ -87,6 +87,7 @@
     "servererror":"Service error!",
     "scancard":"Scan Card Number",
     "search":"Search",
+    "nocards":"There are currently not Cards",
     
     "savebeforegoout":"Save changes before go out!",
     "savebeforelogout":"Save changes before logout!",

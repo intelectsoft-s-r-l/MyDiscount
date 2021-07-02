@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../domain/entities/news_model.dart';
-import '../news_item/news_item.dart';
+import '../../../domain/entities/news_model.dart';
+import 'news_item/news_item.dart';
 
 class NewsListWidget extends StatelessWidget {
   const NewsListWidget({Key? key, required this.size, required this.newsList})
@@ -24,7 +24,7 @@ class NewsListWidget extends StatelessWidget {
       itemCount: newsList.length,
       itemBuilder: (context, index) {
         final news = newsList[index];
-        return NewsListItem(
+        return NewsItem(
           news: news,
           size: size,
         );

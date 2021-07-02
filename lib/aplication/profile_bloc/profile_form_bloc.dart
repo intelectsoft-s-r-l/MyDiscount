@@ -23,41 +23,26 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
   Stream<ProfileFormState> mapEventToState(
     ProfileFormEvent event,
   ) async* {
+    final profile = _localRepositoryImpl.getLocalClientInfo();
     if (event is FirstNameChanged) {
-      final profile = _localRepositoryImpl.getLocalClientInfo();
       final newProfile = profile.copyWith(firstName: event.firstName);
-      _localRepositoryImpl.saveClientInfoLocal(newProfile);
-      yield ProfileFormDone(newProfile, false);
+      yield* mapProfileToState(newProfile);
     }
     if (event is LastNameChanged) {
-      final profile = _localRepositoryImpl.getLocalClientInfo();
-      final pr = profile.copyWith(lastName: event.lastName);
-
-      _localRepositoryImpl.saveClientInfoLocal(pr);
-      yield ProfileFormDone(pr, false);
+      final newProfile = profile.copyWith(lastName: event.lastName);
+      yield* mapProfileToState(newProfile);
     }
     if (event is EmailChanged) {
-      final profile = _localRepositoryImpl.getLocalClientInfo();
-
-      final pr = profile.copyWith(email: event.email);
-      _localRepositoryImpl.saveClientInfoLocal(pr);
-
-      yield ProfileFormDone(pr, false);
+      final newProfile = profile.copyWith(email: event.email);
+      yield* mapProfileToState(newProfile);
     }
     if (event is PhoneChanged) {
-      final profile = _localRepositoryImpl.getLocalClientInfo();
-
-      final pr = profile.copyWith(phone: event.phone);
-      _localRepositoryImpl.saveClientInfoLocal(pr);
-
-      yield ProfileFormDone(pr, false);
+      final newProfile = profile.copyWith(phone: event.phone);
+      yield* mapProfileToState(newProfile);
     }
     if (event is ImageChanged) {
-      final profile = _localRepositoryImpl.getLocalClientInfo();
-
-      final pr = profile.copyWith(photo: event.bytes);
-      _localRepositoryImpl.saveClientInfoLocal(pr);
-      yield ProfileFormDone(pr, false);
+      final newProfile = profile.copyWith(photo: event.bytes);
+      yield* mapProfileToState(newProfile);
     }
     if (event is UpdateProfileData) {
       final profile = _localRepositoryImpl.getLocalClientInfo();
@@ -67,13 +52,21 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
       try {
         final map =
             await _localRepositoryImpl.returnProfileMapDataAsMap(event.profile);
-        _localRepositoryImpl.saveClientInfoLocal(event.profile);
         await _isServiceImpl.updateClientInfo(json: map);
-        yield ProfileFormDone(event.profile, true);
+        yield* mapProfileToState(event.profile);
       } catch (e) {
         final profile = _localRepositoryImpl.getLocalClientInfo();
         yield ProfileFormError(profile, false);
       }
     }
+    if (event is UpdateProfileData) {
+      final profile = _localRepositoryImpl.getLocalClientInfo();
+      yield ProfileFormDone(profile, true);
+    }
+  }
+
+  Stream<ProfileFormState> mapProfileToState(Profile profile) async* {
+    _localRepositoryImpl.saveClientInfoLocal(profile);
+    yield ProfileFormDone(profile, false);
   }
 }

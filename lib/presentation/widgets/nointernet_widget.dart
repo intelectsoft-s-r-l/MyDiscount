@@ -10,7 +10,7 @@ class NoInternetWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset('assets/icons/no internet.png'),
+          Image.asset('assets/icons/no_internet_img.png'),
           const SizedBox(height: 20.0),
           Text(
             AppLocalizations.of(context)!.translate('nothaveinet')!,

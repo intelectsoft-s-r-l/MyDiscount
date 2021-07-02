@@ -15,6 +15,8 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i16;
 import 'package:is_service/service_client.dart' as _i22;
+import 'package:my_discount/aplication/company_list_bloc/companylist_bloc.dart';
+import 'package:my_discount/aplication/bottom_navigation_bar_bloc/bottom_navigator_bar_bloc.dart';
 
 import 'aplication/auth/auth_bloc.dart' as _i24;
 import 'aplication/auth/sign_in/sign_form_bloc.dart' as _i36;
@@ -84,7 +86,6 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       get<_i3.Box<_i7.Company>>()));
   gh.lazySingleton<_i20.NetworkConnection>(() => _i20.NetworkConnectionImpl(
       connectionChecker: get<_i16.InternetConnectionChecker>()));
- 
   gh.lazySingleton<_i22.ServiceClient>(() => serviceInjectableModule.client);
   gh.lazySingleton<_i23.AppSettings>(
       () => _i23.AppSettings(get<_i3.Box<_i8.Settings>>()));
@@ -93,9 +94,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       _i25.FirebaseCloudMessageService(get<_i12.FirebaseMessaging>(),
           get<_i17.LocalNotificationsService>(), get<_i23.AppSettings>()));
   gh.lazySingleton<_i26.RemoteDataSource>(() => _i27.RemoteDataSourceImpl(
-      get<_i22.ServiceClient>(),
-      
-      get<_i20.NetworkConnection>()));
+      get<_i22.ServiceClient>(), get<_i20.NetworkConnection>()));
   gh.factory<_i28.SettingsBloc>(() => _i28.SettingsBloc(
       get<_i23.AppSettings>(), get<_i25.FirebaseCloudMessageService>()));
   gh.lazySingleton<_i29.IsService>(() => _i30.IsServiceImpl(
@@ -110,12 +109,15 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.factory<_i33.AddCardPageBloc>(() =>
       _i33.AddCardPageBloc(get<_i29.IsService>(), get<_i18.LocalRepository>()));
   gh.lazySingleton<_i34.AuthRepository>(() => _i35.AuthRepositoryImpl(
-      get<_i15.GoogleSignIn>(),
-      get<_i29.IsService>(),
-      get<_i18.LocalRepository>(),
-      get<_i25.FirebaseCloudMessageService>(),));
+        get<_i15.GoogleSignIn>(),
+        get<_i29.IsService>(),
+        get<_i18.LocalRepository>(),
+        get<_i25.FirebaseCloudMessageService>(),
+      ));
   gh.factory<_i36.SignFormBloc>(() => _i36.SignFormBloc(
       get<_i34.AuthRepository>(), get<_i20.NetworkConnection>()));
+  gh.factory<BottomNavigatorBarBloc>(() => BottomNavigatorBarBloc());
+  gh.factory<CompanylistBloc>(() => CompanylistBloc(get<_i29.IsService>()));
   return get;
 }
 

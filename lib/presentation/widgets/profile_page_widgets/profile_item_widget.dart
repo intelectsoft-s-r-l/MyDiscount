@@ -34,7 +34,7 @@ class ProfileImagePicker extends StatelessWidget {
                     height: 110,
                   )
                 : Image.asset(
-                    'assets/icons/profile.png',
+                    'assets/icons/default_profile_img.png',
                     width: 110,
                     height: 110,
                   ),
@@ -96,5 +96,3 @@ class ProfileImagePicker extends StatelessWidget {
     );
   }
 }
-/* 255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 72, 0, 
-   255, 216, 255, 224, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 72, 0  */

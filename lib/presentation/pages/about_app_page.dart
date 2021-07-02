@@ -49,7 +49,7 @@ class _AboutAppPageState extends State<AboutAppPage> {
                     height: size.height * .45,
                     width: size.width,
                     child: Image.asset(
-                      'assets/icons/1.png',
+                      'assets/icons/bacground_image.png',
                       fit: BoxFit.fill,
                     )),
                 Text(
@@ -79,7 +79,7 @@ class _AboutAppPageState extends State<AboutAppPage> {
                   height: 20,
                 ),
                 Image.asset(
-                  'assets/icons/islogo.jpeg',
+                  'assets/icons/intelectsoft_logo.jpeg',
                   fit: BoxFit.fill,
                 ),
               ],

@@ -19,7 +19,6 @@ class SettingsPage extends StatelessWidget {
       final _locale =
           await AppLocalizations.of(context)!.setLocale(language.languageCode);
       MyApp.setLocale(context, _locale);
-     // InitApp.setLocale(context, _locale);
     }
 
     return CustomAppBar(

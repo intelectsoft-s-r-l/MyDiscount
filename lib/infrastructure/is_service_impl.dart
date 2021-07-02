@@ -39,7 +39,7 @@ class IsServiceImpl implements IsService {
             ..parseDateTime(_listNewsMaps, 'CreateDate')
             ..deleteImageFormatAndDecode(_listNewsMaps, 'CompanyLogo')
             ..deleteImageFormatAndDecode(_listNewsMaps, 'Photo');
-
+         
           _localRepository.saveNewsLocal(_listNewsMaps);
           return _localRepository.getLocalNews();
         } else {
@@ -65,11 +65,11 @@ class IsServiceImpl implements IsService {
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       //print(response.statusCode);
       if (response.statusCode == 0) {
-        final profileMap = response.body as Map;
-        _formater.splitDisplayName(profileMap);
-        await _formater.downloadProfileImageOrDecodeString(
-            profileMap as Map<String, dynamic>);
-        _formater.addToProfileMapSignMethod(profileMap, _registerMode);
+        final profileMap = response.body as Map<String, dynamic>;
+        _formater
+          ..splitDisplayName(profileMap)
+          ..addToProfileMapSignMethod(profileMap, _registerMode);
+        await _formater.downloadProfileImageOrDecodeString(profileMap);
         final profile = Profile.fromJson(profileMap);
         _localRepository.saveClientInfoLocal(profile);
         return profile;
@@ -90,16 +90,16 @@ class IsServiceImpl implements IsService {
       final _urlFragment = '/json/GetCompany?ID=${user.id}';
       final response = await remoteDataSourceImpl.getRequest(_urlFragment);
       if (response.statusCode == 0) {
-        final listCompaniesMaps = response.body as List;
-        _formater.deleteImageFormatAndDecode(listCompaniesMaps, 'Logo');
-        final listCompanies = listCompaniesMaps
+        final companyListMaps = response.body as List;
+        _formater.deleteImageFormatAndDecode(companyListMaps, 'Logo');
+        final companyList = companyListMaps
             .map((company) => Company.fromJson(company))
             .toList();
-        _localRepository.saveCompanyListLocal(listCompanies);
-        if (listCompanies.isEmpty) {
+        _localRepository.saveCompanyListLocal(companyList);
+        if (companyList.isEmpty) {
           throw EmptyList();
         }
-        return listCompanies;
+        return companyList;
       } else {
         throw ServerError();
       }

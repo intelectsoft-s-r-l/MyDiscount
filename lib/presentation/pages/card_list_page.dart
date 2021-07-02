@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_discount/presentation/widgets/empty_list_widget.dart';
 
 import '../../domain/entities/card.dart';
 import '../../domain/repositories/is_service_repository.dart';
@@ -13,6 +14,7 @@ class CardListPage extends StatelessWidget {
   const CardListPage();
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       child: CustomAppBar(
         title: AppLocalizations.of(context)!.translate('addedcard'),
@@ -49,7 +51,11 @@ class CardListPage extends StatelessWidget {
                     }
                     if (snapshot.hasError) {
                       if (snapshot.error is EmptyList) {
-                        return const NoCardsWidget();
+                        return EmptyListWidget(
+                            size: size,
+                            assetPath: 'assets/icons/no_transaction_img.png',
+                            localizationKey: AppLocalizations.of(context)!
+                                .translate('nocards') as String);
                       } else {
                         return const NoInternetWidget();
                       }
@@ -82,7 +88,7 @@ class CardListPage extends StatelessWidget {
     );
   }
 }
-
+/* 
 class NoCardsWidget extends StatelessWidget {
   const NoCardsWidget({
     Key? key,
@@ -94,14 +100,14 @@ class NoCardsWidget extends StatelessWidget {
       child: FittedBox(
         fit: BoxFit.fill,
         child: Image.asset(
-          'assets/icons/no_transaction.png',
+          'assets/icons/no_transaction_img.png',
           height: MediaQuery.of(context).size.width,
           width: MediaQuery.of(context).size.width,
         ),
       ),
     );
   }
-}
+} */
 
 class CardWidget extends StatelessWidget {
   const CardWidget({

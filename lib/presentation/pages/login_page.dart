@@ -9,8 +9,8 @@ import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../infrastructure/core/localization/localizations.dart';
 import '../widgets/login_button_widget.dart';
 
-class LoginScreen2 extends StatelessWidget {
-  const LoginScreen2();
+class LoginPage extends StatelessWidget {
+  const LoginPage();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -47,7 +47,7 @@ class LoginScreen2 extends StatelessWidget {
                     height: size.height * .45,
                     width: size.width,
                     child: Image.asset(
-                      'assets/icons/Group.png',
+                      'assets/icons/background.png',
                       fit: BoxFit.fill,
                     )),
                 Positioned(
@@ -98,7 +98,7 @@ class LoginScreen2 extends StatelessWidget {
                   LoginButton(
                     size: size,
                     event: SignInWithGoogle(),
-                    picture: 'assets/icons/icon_google.svg',
+                    picture: 'assets/icons/google_icon.svg',
                     text: AppLocalizations.of(context)!.translate('google'),
                     color: const Color(0xFF406BFB),
                   ),
@@ -108,7 +108,7 @@ class LoginScreen2 extends StatelessWidget {
                   LoginButton(
                     size: size,
                     event: SignInWithFacebook(),
-                    picture: 'assets/icons/icon_facebook.svg',
+                    picture: 'assets/icons/facebook_icon.svg',
                     text: AppLocalizations.of(context)!.translate('facebook'),
                     color: const Color(0xFF2D4CB3),
                   ),
@@ -119,7 +119,7 @@ class LoginScreen2 extends StatelessWidget {
                       ? LoginButton(
                           size: size,
                           event: SignInWithApple(),
-                          picture: 'assets/icons/icon_apple.svg',
+                          picture: 'assets/icons/apple_icon.svg',
                           text:
                               AppLocalizations.of(context)!.translate('apple'),
                           color: Colors.black,

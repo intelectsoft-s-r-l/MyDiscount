@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../infrastructure/core/localization/localizations.dart';
 
-class NoCompanieList extends StatelessWidget {
-  const NoCompanieList({Key? key}) : super(key: key);
+class NoCompanyList extends StatelessWidget {
+  const NoCompanyList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class NoCompanieList extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.1,
           ),
           Image.asset(
-            'assets/icons/companie.jpg',
+            'assets/icons/company_icon.jpg',
             scale: 1.2,
           ),
           Text(

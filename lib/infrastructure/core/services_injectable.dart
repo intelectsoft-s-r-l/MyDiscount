@@ -13,7 +13,6 @@ import '../../domain/entities/profile_model.dart';
 import '../../domain/entities/user_model.dart';
 import '../../domain/settings/settings.dart';
 import '../../infrastructure/core/constants/credentials.dart';
-
 import 'formater.dart';
 
 @module
