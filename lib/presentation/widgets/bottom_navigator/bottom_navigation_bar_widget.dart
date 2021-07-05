@@ -123,7 +123,6 @@ class QrButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('qr');
     return Expanded(
       child: InkResponse(
         onTap: () {

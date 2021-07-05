@@ -22,39 +22,45 @@ class HomePageItems extends StatelessWidget {
           ),
           color: Colors.white,
         ),
-        child: ListView(
-          children: [
-            const HomeItemWidget(
-              icon: Icons.account_circle_outlined,
-              localisationKey: 'profile',
-              routeName: '/profilepage',
-            ),
-            const HomeItemWidget(
-              icon: Icons.apartment_outlined,
-              localisationKey: 'companies',
-              routeName: '/companypage',
-            ),
-            const HomeItemWidget(
-              icon: Icons.card_giftcard_outlined,
-              localisationKey: 'mycards',
-              routeName: '/cardlist',
-            ),
-            const HomeItemWidget(
-              icon: Icons.transfer_within_a_station_outlined,
-              localisationKey: 'transactions',
-              routeName: '/transactionlist',
-            ),
-            const HomeItemWidget(
-              icon: Icons.info_outline,
-              localisationKey: 'Info',
-              routeName: '/infopage',
-            ),
-            const HomeItemWidget(
-              icon: Icons.settings,
-              localisationKey: 'settings',
-              routeName: '/settings',
-            ),
-          ],
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overscroll) {
+            overscroll.disallowGlow();
+            return true;
+          },
+          child: ListView(
+            children: [
+              const HomeItemWidget(
+                icon: Icons.account_circle_outlined,
+                localisationKey: 'profile',
+                routeName: '/profilepage',
+              ),
+              const HomeItemWidget(
+                icon: Icons.apartment_outlined,
+                localisationKey: 'companies',
+                routeName: '/companypage',
+              ),
+              const HomeItemWidget(
+                icon: Icons.card_giftcard_outlined,
+                localisationKey: 'mycards',
+                routeName: '/cardlist',
+              ),
+              const HomeItemWidget(
+                icon: Icons.transfer_within_a_station_outlined,
+                localisationKey: 'transactions',
+                routeName: '/transactionlist',
+              ),
+              const HomeItemWidget(
+                icon: Icons.info_outline,
+                localisationKey: 'Info',
+                routeName: '/infopage',
+              ),
+              const HomeItemWidget(
+                icon: Icons.settings,
+                localisationKey: 'settings',
+                routeName: '/settings',
+              ),
+            ],
+          ),
         ),
       ),
     );

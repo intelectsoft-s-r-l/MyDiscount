@@ -126,15 +126,19 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   void saveCompanyListLocal(List<Company> list) {
     try {
-      final keys = companyBox.keys;
+      if (companyBox.isNotEmpty) {
+        final keys = companyBox.keys;
 
-      for (final key in keys) {
-        if (list.map((company) => company.id).toList().contains(key)) {
-          // ignore: avoid_function_literals_in_foreach_calls
-          list.forEach((company) => companyBox.put(company.id, company));
-        } else {
-          companyBox.delete(key);
+        for (final key in keys) {
+          if (list.map((company) => company.id).toList().contains(key)) {
+            // ignore_for_file: avoid_function_literals_in_foreach_calls
+            list.forEach((company) => companyBox.put(company.id, company));
+          } else {
+            companyBox.delete(key);
+          }
         }
+      } else {
+        list.forEach((company) => companyBox.put(company.id, company));
       }
     } catch (e) {
       throw LocalCacheError();

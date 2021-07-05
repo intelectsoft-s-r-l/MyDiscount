@@ -127,7 +127,7 @@ class QrTimer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        print(state.hashCode);
+        print(state.duration);
         return LinearProgressIndicator(
           value: state.duration / 10,
           backgroundColor: Colors.white,
