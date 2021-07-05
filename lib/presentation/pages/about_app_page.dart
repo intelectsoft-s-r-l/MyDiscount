@@ -49,7 +49,7 @@ class _AboutAppPageState extends State<AboutAppPage> {
                     height: size.height * .45,
                     width: size.width,
                     child: Image.asset(
-                      'assets/icons/bacground_image.png',
+                      'assets/icons/background_image.png',
                       fit: BoxFit.fill,
                     )),
                 Text(
