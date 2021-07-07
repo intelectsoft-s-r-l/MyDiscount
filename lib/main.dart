@@ -74,8 +74,8 @@ void main() async {
     hiveKey = base64Decode(await storage.read(key: key) as String).toList();
   }
   await initDB(hiveKey);
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-  await FirebaseCrashlytics.instance.deleteUnsentReports();
+  /* await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  await FirebaseCrashlytics.instance.deleteUnsentReports(); */
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
