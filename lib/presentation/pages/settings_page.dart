@@ -17,12 +17,12 @@ class SettingsPage extends StatelessWidget {
 
     void _changeLanguage(Language language) async {
       final _locale =
-          await AppLocalizations.of(context)!.setLocale(language.languageCode);
+          await AppLocalizations.of(context).setLocale(language.languageCode);
       MyApp.setLocale(context, _locale);
     }
 
     return CustomAppBar(
-      title: AppLocalizations.of(context)!.translate('settings'),
+      title: AppLocalizations.of(context).translate('settings'),
       child: Container(
         color: Colors.white,
         child: Column(
@@ -41,8 +41,8 @@ class SettingsPage extends StatelessWidget {
                   children: [
                     ListTile(
                       title: Text(
-                        AppLocalizations.of(context)!
-                            .translate('notificationsettings')!,
+                        AppLocalizations.of(context)
+                            .translate('notificationsettings'),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17),
                       ),
@@ -60,7 +60,7 @@ class SettingsPage extends StatelessWidget {
                     ),
                     ListTile(
                       title: Text(
-                        AppLocalizations.of(context)!.translate('news')!,
+                        AppLocalizations.of(context).translate('news'),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17),
                       ),

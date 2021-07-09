@@ -30,7 +30,7 @@ class QrPage extends StatelessWidget {
         BlocProvider(create: (context) => TimerBloc(const Ticker()))
       ],
       child: CustomAppBar(
-        title: AppLocalizations.of(context)!.translate('qr'),
+        title: AppLocalizations.of(context).translate('qr'),
         child: Container(
           color: Colors.white,
           child: Column(
@@ -47,11 +47,11 @@ class QrPage extends StatelessWidget {
                         height: size.height * .06,
                       ),
                       Text(
-                        AppLocalizations.of(context)!.translate('showqr')!,
+                        AppLocalizations.of(context).translate('showqr'),
                         style: const TextStyle(fontSize: 20),
                       ),
                       Text(
-                        AppLocalizations.of(context)!.translate('qrtime')!,
+                        AppLocalizations.of(context).translate('qrtime'),
                         style: const TextStyle(fontSize: 20),
                       ),
                     ],
@@ -94,8 +94,8 @@ class QrPage extends StatelessWidget {
                                       context.read<QrBloc>().add(LoadQrData(0));
                                     },
                                     child: Text(
-                                      AppLocalizations.of(context)!
-                                          .translate('generate')!,
+                                      AppLocalizations.of(context)
+                                          .translate('generate'),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -115,8 +115,8 @@ class QrPage extends StatelessWidget {
                                 context.read<QrBloc>().add(LoadQrData(0));
                               },
                               child: Text(
-                                AppLocalizations.of(context)!
-                                    .translate('retry')!,
+                                AppLocalizations.of(context)
+                                    .translate('retry'),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

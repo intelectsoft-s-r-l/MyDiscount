@@ -18,15 +18,15 @@ class HomeItemWidget extends StatelessWidget {
         GestureDetector(
           onTap: () {
             Navigator.of(context).pushNamed(routeName,
-                arguments: AppLocalizations.of(context)!
-                    .translate(localisationKey) as String);
+                arguments: AppLocalizations.of(context)
+                    .translate(localisationKey) );
           },
           child: ListTile(
             leading:
                 icon != null ? Icon(icon, size: 35, color: Colors.green) : null,
             title: Text(
-              AppLocalizations.of(context)!.translate(localisationKey)
-                  as String,
+              AppLocalizations.of(context).translate(localisationKey)
+                  ,
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

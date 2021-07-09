@@ -3,11 +3,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../domain/core/extension.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/auth_repository.dart';
 import '../domain/repositories/is_service_repository.dart';
 import '../domain/repositories/local_repository.dart';
+import 'core/extension.dart';
 import 'core/fcm_service.dart';
 
 @LazySingleton(as: AuthRepository)
@@ -40,12 +40,11 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final localCredentialsMap = profile.toCreateUser();
       final token = await _firebaseCloudMessageService.getfcmToken();
-      final credentialsMap = profile.isEmpty
-          ? appleCredentials.toMap()
-          : localCredentialsMap
-        ..update('ID', (_) => appleCredentials.userIdentifier)
-        ..update('access_token', (_) => appleCredentials.identityToken)
-        ..update('PushToken', (_) => token);
+      final credentialsMap =
+          profile.isEmpty ? appleCredentials.toMap() : localCredentialsMap
+            ..update('ID', (_) => appleCredentials.userIdentifier)
+            ..update('access_token', (_) => appleCredentials.identityToken)
+            ..update('PushToken', (_) => token);
 
       final localUser = await _isService.updateClientInfo(json: credentialsMap);
       return localUser;
@@ -69,15 +68,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final baseUserCredentials =
           fb.toCredMap(token: fbUser.accessToken, profile: fbProfile);
-          
+
       final token = await _firebaseCloudMessageService.getfcmToken();
-      
-      final credentialsMap = profile.isEmpty
-          ? baseUserCredentials
-          : localCredentialsMap
-        ..update('ID', (_) => fbUser.accessToken!.userId)
-        ..update('access_token', (_) => fbUser.accessToken!.token)
-        ..update('PushToken', (_) => token);
+
+      final credentialsMap =
+          profile.isEmpty ? baseUserCredentials : localCredentialsMap
+            ..update('ID', (_) => fbUser.accessToken!.userId)
+            ..update('access_token', (_) => fbUser.accessToken!.token)
+            ..update('PushToken', (_) => token);
 
       final localUser = await _isService.updateClientInfo(json: credentialsMap);
 
@@ -100,9 +98,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
         final localCredentialsMap = profile.toCreateUser();
         final token = await _firebaseCloudMessageService.getfcmToken();
-        final map = profile.isEmpty
-            ? googleCredentials
-            : localCredentialsMap
+        final map = profile.isEmpty ? googleCredentials : localCredentialsMap
           ..update('ID', (_) => _account.id)
           ..update('access_token', (_) => user.accessToken)
           ..update('PushToken', (_) => token);

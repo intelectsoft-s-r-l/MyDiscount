@@ -49,10 +49,10 @@ class AddCardPageBloc extends Bloc<AddCardPageEvent, AddCardPageState> {
         }
       } on NoInternetConection {
         yield CardError(event.company, event.cardNumer, false,
-            AppLocalizations.of(event.context)!.translate('nothaveinet'));
+            AppLocalizations.of(event.context).translate('nothaveinet'));
       } catch (e) {
         yield CardError(event.company, event.cardNumer, false,
-            AppLocalizations.of(event.context)!.translate('servererror'));
+            AppLocalizations.of(event.context).translate('servererror'));
       }
     }
   }

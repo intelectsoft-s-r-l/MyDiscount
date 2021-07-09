@@ -58,7 +58,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                             });
                           },
                           child: Text(
-                            AppLocalizations.of(context)!.translate('more')!,
+                            AppLocalizations.of(context).translate('more'),
                             style: const TextStyle(
                               fontSize: 15,
                               color: Colors.blue,
@@ -92,7 +92,7 @@ class _DetailedNewsState extends State<DetailedNews> {
                               width: 7,
                             ),
                             Text(
-                              AppLocalizations.of(context)!.translate('less')!,
+                              AppLocalizations.of(context).translate('less'),
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: Colors.blue,

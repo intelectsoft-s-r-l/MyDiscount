@@ -44,8 +44,8 @@ class ProfileImagePicker extends StatelessWidget {
                   bottom: 0,
                   child: Tooltip(
                     preferBelow: false,
-                    message: AppLocalizations.of(context)!
-                        .translate('changeimg') as String,
+                    message: AppLocalizations.of(context)
+                        .translate('changeimg'),
                     child: InkResponse(
                       onTap: isEdit
                           ? () async {

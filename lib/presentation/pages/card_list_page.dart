@@ -17,7 +17,7 @@ class CardListPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       child: CustomAppBar(
-        title: AppLocalizations.of(context)!.translate('addedcard'),
+        title: AppLocalizations.of(context).translate('addedcard'),
         child: Container(
           color: Colors.white,
           height: MediaQuery.of(context).size.height * .85,
@@ -70,14 +70,14 @@ class CardListPage extends StatelessWidget {
                     context,
                     '/addcardcompanylist',
                     arguments:
-                        AppLocalizations.of(context)!.translate('companies'),
+                        AppLocalizations.of(context).translate('companies'),
                   );
                 },
                 child: Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width * .5,
                   child: Text(
-                    AppLocalizations.of(context)!.translate('addcard')!,
+                    AppLocalizations.of(context).translate('addcard'),
                   ),
                 ),
               ),
@@ -137,7 +137,7 @@ class CardWidget extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * .53,
                     child: OverflowBar(children: [
                       Text(
-                        AppLocalizations.of(context)!.translate('card')!,
+                        AppLocalizations.of(context).translate('card'),
                       ),
                       Text(
                         '${card.code}',
@@ -189,8 +189,8 @@ class CheckStatusWidget extends StatelessWidget {
 }
 
 class Status extends StatelessWidget {
-  const Status({this.icon, this.color, this.jKey});
-  final String? jKey;
+  const Status({this.icon, this.color, required this.jKey});
+  final String jKey;
   final IconData? icon;
   final Color? color;
   @override
@@ -198,7 +198,7 @@ class Status extends StatelessWidget {
     return Row(
       children: [
         Text(
-          AppLocalizations.of(context)!.translate(jKey)!,
+          AppLocalizations.of(context).translate(jKey),
           style: TextStyle(color: color),
         ),
         Icon(

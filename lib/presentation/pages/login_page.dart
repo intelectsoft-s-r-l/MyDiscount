@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
           }
           if (state is SignInNetError) {
             Flushbar(
-              message: AppLocalizations.of(context)!.translate('nothaveinet'),
+              message: AppLocalizations.of(context).translate('nothaveinet'),
               duration: const Duration(seconds: 3),
               //backgroundColor: Colors.red,
             ).show(context);
@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget {
                       alignment: Alignment.center,
                       width: size.width,
                       child: Text(
-                        AppLocalizations.of(context)!.translate('welcome')!,
+                        AppLocalizations.of(context).translate('welcome'),
                         style: const TextStyle(
                           color: Colors.white,
                         ),
@@ -83,7 +83,7 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      AppLocalizations.of(context)!.translate('loginwith')!,
+                      AppLocalizations.of(context).translate('loginwith'),
                       style: const TextStyle(
                         color: Colors.black87,
                         fontWeight: FontWeight.bold,
@@ -99,7 +99,7 @@ class LoginPage extends StatelessWidget {
                     size: size,
                     event: SignInWithGoogle(),
                     picture: 'assets/icons/google_icon.svg',
-                    text: AppLocalizations.of(context)!.translate('google'),
+                    text: AppLocalizations.of(context).translate('google'),
                     color: const Color(0xFF406BFB),
                   ),
                   SizedBox(
@@ -109,7 +109,7 @@ class LoginPage extends StatelessWidget {
                     size: size,
                     event: SignInWithFacebook(),
                     picture: 'assets/icons/facebook_icon.svg',
-                    text: AppLocalizations.of(context)!.translate('facebook'),
+                    text: AppLocalizations.of(context).translate('facebook'),
                     color: const Color(0xFF2D4CB3),
                   ),
                   SizedBox(
@@ -121,7 +121,7 @@ class LoginPage extends StatelessWidget {
                           event: SignInWithApple(),
                           picture: 'assets/icons/apple_icon.svg',
                           text:
-                              AppLocalizations.of(context)!.translate('apple'),
+                              AppLocalizations.of(context).translate('apple'),
                           color: Colors.black,
                         )
                       : Container(),

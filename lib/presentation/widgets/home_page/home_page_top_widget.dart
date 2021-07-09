@@ -72,7 +72,7 @@ class HomePageTopWidget extends StatelessWidget {
                       ),
                       if (profile.registerMode == 1)
                         Text(
-                          AppLocalizations.of(context)!.translate('signinG')!,
+                          AppLocalizations.of(context).translate('signinG'),
                           style: const TextStyle(
                             color: Colors.white,
                           ),
@@ -80,7 +80,7 @@ class HomePageTopWidget extends StatelessWidget {
                         ),
                       if (profile.registerMode == 2)
                         Text(
-                          AppLocalizations.of(context)!.translate('signinF')!,
+                          AppLocalizations.of(context).translate('signinF'),
                           style: const TextStyle(
                             color: Colors.white,
                           ),
@@ -88,7 +88,7 @@ class HomePageTopWidget extends StatelessWidget {
                         ),
                       if (profile.registerMode == 3)
                         Text(
-                          AppLocalizations.of(context)!.translate('signinA')!,
+                          AppLocalizations.of(context).translate('signinA'),
                           style: const TextStyle(
                             color: Colors.white,
                           ),

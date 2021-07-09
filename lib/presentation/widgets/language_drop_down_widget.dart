@@ -21,11 +21,11 @@ class LanguageDropDownWidget extends StatelessWidget {
       padding: const EdgeInsets.only(right: 10),
       child: ListTile(
         title: Text(
-          AppLocalizations.of(context)!.translate('lang')!,
+          AppLocalizations.of(context).translate('lang'),
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
         ),
         trailing: FutureBuilder<Language>(
-          future: AppLocalizations.of(context)!.getLanguage(),
+          future: AppLocalizations.of(context).getLanguage(),
           builder: (context, snapshot) => DropdownButton<Language>(
             underline: Container(),
             hint: Container(

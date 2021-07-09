@@ -20,7 +20,7 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return CustomAppBar(
-      title: AppLocalizations.of(context)!.translate('news'),
+      title: AppLocalizations.of(context).translate('news'),
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.white,

@@ -86,7 +86,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                   phoneIsoCode = isoCode;
                                 });
                               },
-                              errorText: AppLocalizations.of(context)!
+                              errorText: AppLocalizations.of(context)
                                   .translate('inputerror'),
                               initialPhoneNumber:
                                   profile.phone.characters.skip(4).toString(),
@@ -122,10 +122,10 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                                   }
                                 : null,
                             child: sendCode
-                                ? Text(AppLocalizations.of(context)!
-                                    .translate('sendcode')!)
-                                : Text(AppLocalizations.of(context)!
-                                    .translate('changephone')!),
+                                ? Text(AppLocalizations.of(context)
+                                    .translate('sendcode'))
+                                : Text(AppLocalizations.of(context)
+                                    .translate('changephone')),
                           ),
                         ],
                       ))
