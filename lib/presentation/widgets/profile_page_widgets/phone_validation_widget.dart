@@ -6,8 +6,8 @@ import '../../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../../infrastructure/core/localization/localizations.dart';
 import '../../pages/phone_validation_page.dart';
 
-class ProfileFieldWidget extends StatefulWidget {
-  const ProfileFieldWidget({
+class ValidatePhoneFormWidget extends StatefulWidget {
+  const ValidatePhoneFormWidget({
     Key? key,
     required this.labelText,
     required this.isEdit,
@@ -16,10 +16,11 @@ class ProfileFieldWidget extends StatefulWidget {
   final String? labelText;
   final bool isEdit;
   @override
-  _ProfileFieldWidgetState createState() => _ProfileFieldWidgetState();
+  _ValidatePhoneFormWidgetState createState() =>
+      _ValidatePhoneFormWidgetState();
 }
 
-class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
+class _ValidatePhoneFormWidgetState extends State<ValidatePhoneFormWidget> {
   final _formKey = GlobalKey<FormState>();
   late bool requestCode;
 
@@ -32,7 +33,7 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
   }
 
   @override
-  void didUpdateWidget(ProfileFieldWidget oldWidget) {
+  void didUpdateWidget(ValidatePhoneFormWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.isEdit != oldWidget.isEdit) requestCode = true;
     if (confirmedNumber.isEmpty) requestCode = true;
@@ -135,14 +136,14 @@ class _ProfileFieldWidgetState extends State<ProfileFieldWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              child: Text(widget.labelText!,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                  )),
+                              child: Text(
+                                widget.labelText!,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
-                            const SizedBox(
-                              height: 9,
-                            ),
+                            const SizedBox(height: 9),
                             Container(
                               child: Text(
                                 profile.phone,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_discount/infrastructure/core/localization/localizations.dart';
+import 'package:my_discount/injectable.dart';
 
 import '../../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../../domain/entities/profile_model.dart';
@@ -44,26 +44,13 @@ class ProfileImagePicker extends StatelessWidget {
                   bottom: 0,
                   child: Tooltip(
                     preferBelow: false,
-                    message: AppLocalizations.of(context)
-                        .translate('changeimg'),
+                    message:
+                        AppLocalizations.of(context).translate('changeimg'),
                     child: InkResponse(
-                      onTap: isEdit
-                          ? () async {
-                              try {
-                                final file = await _picker.getImage(
-                                    source: ImageSource.gallery);
-                                final bytes = await file!.readAsBytes();
-
-                                context
-                                    .read<ProfileFormBloc>()
-                                    .add(ImageChanged(bytes));
-                              } catch (e) {
-                                print('error:$e');
-                              }
-                            }
-                          : null,
+                      onTap: isEdit ? pickImage : null,
                       child: Container(
                         alignment: Alignment.center,
+                        padding: const EdgeInsets.only(right: 5),
                         decoration: const BoxDecoration(
                           color: Colors.black45,
                           borderRadius: BorderRadius.only(
@@ -77,7 +64,7 @@ class ProfileImagePicker extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             const Icon(
-                              Icons.edit,
+                              Icons.photo_camera,
                               color: Colors.white,
                               size: 15,
                             ),
@@ -94,5 +81,16 @@ class ProfileImagePicker extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void pickImage() async {
+    try {
+      final file = await _picker.getImage(source: ImageSource.gallery);
+      final bytes = await file!.readAsBytes();
+
+      getIt<ProfileFormBloc>().add(ImageChanged(bytes));
+    } catch (e) {
+      print('error:$e');
+    }
   }
 }
