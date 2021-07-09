@@ -254,7 +254,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   Future<Uint8List> _readProfileImageFromAssets() async {
-    final list = await rootBundle.load('assets/icons/profile.png');
+    final list = await rootBundle.load('assets/icons/default_profile_img.png');
     return list.buffer.asUint8List();
   }
 }
