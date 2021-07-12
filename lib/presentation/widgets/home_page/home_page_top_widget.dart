@@ -42,7 +42,7 @@ class HomePageTopWidget extends StatelessWidget {
                                   width: 110,
                                   height: 110,
                                 )
-                              : Image.asset('assets/icons/profile.png'),
+                              : Image.asset('assets/icons/default_profile_img.png'),
                         ),
                       ),
                       Row(
