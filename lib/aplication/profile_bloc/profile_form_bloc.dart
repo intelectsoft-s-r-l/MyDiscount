@@ -51,7 +51,7 @@ class ProfileFormBloc extends Bloc<ProfileFormEvent, ProfileFormState> {
     if (event is SaveProfileData) {
       try {
         final map =
-            await _localRepositoryImpl.returnProfileMapDataAsMap(event.profile);
+            await _localRepositoryImpl.returnProfileDataAsMap(event.profile);
         await _isServiceImpl.updateClientInfo(json: map);
         yield* mapProfileToState(event.profile);
       } catch (e) {

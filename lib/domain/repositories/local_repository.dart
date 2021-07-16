@@ -24,7 +24,7 @@ abstract class LocalRepository {
   List<Company> searchCompany(String pattern);
   /// Create a `JSON` object from [Profile] data and [User] data to update 
   /// information on `IsService` updateClientInfo function 
-  Future<Map<String, dynamic>> returnProfileMapDataAsMap(Profile profile);
+  Future<Map<String, dynamic>> returnProfileDataAsMap(Profile profile);
   /// Take a [Profile] data returned from `IsService` getClientInfo or 
   /// updateClientInfo and save it in to `HiveBox`
   void saveClientInfoLocal(Profile profile);

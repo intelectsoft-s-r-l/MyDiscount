@@ -195,7 +195,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> returnProfileMapDataAsMap(
+  Future<Map<String, dynamic>> returnProfileDataAsMap(
     Profile profile,
   ) async {
     try {
@@ -203,10 +203,10 @@ class LocalRepositoryImpl implements LocalRepository {
       final result = await testComporessList(profile.photo);
       // print(result);
       final map = profile.toCreateUser()
-        ..update('ID', (value) => user!.id)
-        ..update('RegisterMode', (value) => user!.registerMode)
-        ..update('access_token', (value) => user!.accessToken)
-        ..update('PhotoUrl', (value) => base64Encode(result.toList()));
+        ..update('ID', (_) => user!.id)
+        ..update('RegisterMode', (_) => user!.registerMode)
+        ..update('access_token', (_) => user!.accessToken)
+        ..update('PhotoUrl', (_) => base64Encode(result.toList()));
       return map;
     } catch (e) {
       throw LocalCacheError();
