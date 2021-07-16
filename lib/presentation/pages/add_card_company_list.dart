@@ -42,6 +42,7 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -62,10 +63,12 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
                       child: search
                           ? TextFormField(
                               focusNode: _node,
-                              decoration:  InputDecoration(
-                                  contentPadding:const EdgeInsets.only(bottom: 8),
-                                 // hintStyle:const TextStyle(),
-                                  hintText: AppLocalizations.of(context).translate('search'),
+                              decoration: InputDecoration(
+                                  contentPadding:
+                                      const EdgeInsets.only(bottom: 8),
+                                  // hintStyle:const TextStyle(),
+                                  hintText: AppLocalizations.of(context)
+                                      .translate('search'),
                                   border: InputBorder.none),
                               onChanged: (value) {
                                 setState(() {
@@ -80,7 +83,7 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
                   ),
                   Container(
                     child: Material(
-                      animationDuration: const Duration(milliseconds: 400),
+                      animationDuration: const Duration(milliseconds: 100),
                       type: MaterialType.transparency,
                       child: InkWell(
                         borderRadius: BorderRadius.only(
@@ -92,7 +95,6 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
                         onTap: () {
                           setState(() {
                             search = !search;
-
                             filteredSearchHistory =
                                 getIt<LocalRepository>().searchCompany('');
                           });
@@ -113,7 +115,6 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
             ),
           ],
         ),
-        elevation: 0,
       ),
       body: Container(
         color: Colors.green,
