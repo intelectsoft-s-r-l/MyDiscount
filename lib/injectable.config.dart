@@ -43,7 +43,7 @@ import 'infrastructure/core/local_notification_service.dart' as _i17;
 import 'infrastructure/core/services_injectable.dart' as _i37;
 import 'infrastructure/is_service_impl.dart' as _i30;
 import 'infrastructure/local_repository_impl.dart' as _i19;
-import 'infrastructure/remote_datasource_impl.dart/remote_datasource_impl.dart'
+import 'infrastructure/remote_datasource_impl/remote_datasource_impl.dart'
     as _i27;
 import 'infrastructure/settings/settings_Impl.dart'
     as _i23; // ignore_for_file: unnecessary_lambdas

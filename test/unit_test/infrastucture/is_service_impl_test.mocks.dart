@@ -118,7 +118,7 @@ class MockLocalRepository extends _i1.Mock implements _i10.LocalRepository {
       (super.noSuchMethod(Invocation.method(#searchCompany, [pattern]),
           returnValue: <_i12.Company>[]) as List<_i12.Company>);
   @override
-  _i8.Future<Map<String, dynamic>> returnProfileMapDataAsMap(
+  _i8.Future<Map<String, dynamic>> returnProfileDataAsMap(
           _i3.Profile? profile) =>
       (super.noSuchMethod(
               Invocation.method(#returnProfileMapDataAsMap, [profile]),
