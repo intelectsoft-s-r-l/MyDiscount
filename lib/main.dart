@@ -106,6 +106,11 @@ void main() async {
 
 Future<void> initDB(List<int> hiveKey) async {
   try {
+    if (Hive.isBoxOpen('profile') && Hive.isBoxOpen('user') ||
+        await Hive.boxExists('user') && await Hive.boxExists('profile')) {
+      await Hive.deleteBoxFromDisk('user');
+      await Hive.deleteBoxFromDisk('profile');
+    }
     await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
     await Hive.openBox<Settings>('settings');
     await Hive.openBox<Profile>('profile',
@@ -116,8 +121,7 @@ Future<void> initDB(List<int> hiveKey) async {
   } catch (e, s) {
     print(e);
     await FirebaseCrashlytics.instance.log(s.toString());
-    await Hive.deleteBoxFromDisk('user');
-    await Hive.deleteBoxFromDisk('profile');
+    await Hive.deleteFromDisk();
     await initDB(hiveKey);
   }
 }
