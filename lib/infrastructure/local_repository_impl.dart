@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:hive/hive.dart';
@@ -200,7 +201,7 @@ class LocalRepositoryImpl implements LocalRepository {
   ) async {
     try {
       final user = userBox.get(1);
-      final result = await testComporessList(profile.photo);
+      final result = await compressedImage(profile.photo);
       // print(result);
       final map = profile.toCreateUser()
         ..update('ID', (_) => user!.id)
@@ -213,20 +214,26 @@ class LocalRepositoryImpl implements LocalRepository {
     }
   }
 
-  Future<Uint8List> testComporessList(Uint8List list) async {
-    try {
-      final result = await FlutterImageCompress.compressWithList(
-        list,
-        minHeight: 110,
-        minWidth: 110,
-        quality: 100,
-        rotate: 0,
-        format: CompressFormat.jpeg,
-      );
-      return result;
-    } catch (e) {
-      return _readProfileImageFromAssets();
+  Future<Uint8List> compressedImage(Uint8List list) async {
+    final decodedImage = await decodeImageFromList(list);
+    final decodedHeight = decodedImage.height;
+    final decodedWidth = decodedImage.width;
+    if (decodedWidth > 110 && decodedHeight > 110) {
+      try {
+        final result = await FlutterImageCompress.compressWithList(
+          list,
+          minHeight: 110,
+          minWidth: 110,
+          quality: 100,
+          rotate: 0,
+          format: CompressFormat.jpeg,
+        );
+        return result;
+      } catch (e) {
+        return _readProfileImageFromAssets();
+      }
     }
+      return list;
   }
 
   @override
