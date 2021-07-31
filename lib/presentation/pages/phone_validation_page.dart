@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -119,8 +120,10 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                     width: size.width * .6,
                     child: PinFieldAutoFill(
                       controller: _codeController,
-                      focusNode: _focusNode,
-                      // autofocus: true,
+                      keyboardType: Platform.isAndroid
+                          ? TextInputType.text
+                          : const TextInputType.numberWithOptions(),
+                      autoFocus: true,
                       codeLength: 4,
                       onCodeChanged: (code) {
                         _currentCode = code as String;
@@ -154,7 +157,6 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                               style: OutlinedButton.styleFrom(
                                 side: const BorderSide(color: Colors.green),
                                 primary: Colors.green,
-                                /* highlightColor: Colors.green, */
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -179,7 +181,6 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: Colors.green),
                           primary: Colors.green,
-                          /* highlightColor: Colors.green, */
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),

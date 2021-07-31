@@ -80,7 +80,7 @@ class ProfilePageForm extends StatelessWidget {
           const Divider(),
           ValidatePhoneFormWidget(
             labelText: AppLocalizations.of(context).translate('phone'),
-            isEdit: !isReadOnly,
+            editForm: !isReadOnly,
           ),
           const Divider(),
           const Expanded(child: SizedBox()),
@@ -100,8 +100,8 @@ class ProfilePageForm extends StatelessWidget {
 
   void _logout() {
     if (isReadOnly) {
-      Navigator.pop(context);
       context.read<SignFormBloc>().add(SignOutEvent());
+      Navigator.pop(context);
       context.read<AuthBloc>().add(SignOut());
     } else {
       Flushbar(

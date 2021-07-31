@@ -37,7 +37,7 @@ class HomePageTopWidget extends StatelessWidget {
                           child: profile.photo.isNotEmpty
                               ? Image.memory(
                                   profile.photo,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                   scale: 0.7,
                                   width: 110,
                                   height: 110,

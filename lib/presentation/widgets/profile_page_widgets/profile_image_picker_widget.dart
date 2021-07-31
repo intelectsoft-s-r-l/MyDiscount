@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_discount/infrastructure/core/localization/localizations.dart';
@@ -28,7 +29,7 @@ class ProfileImagePicker extends StatelessWidget {
             child: profile.photo.isNotEmpty
                 ? Image.memory(
                     profile.photo,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                     scale: 0.7,
                     width: 110,
                     height: 110,
@@ -51,25 +52,19 @@ class ProfileImagePicker extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.only(right: 5),
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Colors.black45,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                          ),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         width: 110,
-                        height: 20,
+                        height: 110,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.photo_camera,
-                              color: Colors.white,
-                              size: 15,
-                            ),
-                            const SizedBox(
-                              width: 5,
+                              color: Colors.white.withOpacity(.5),
+                              size: 55,
                             ),
                           ],
                         ),
@@ -89,8 +84,9 @@ class ProfileImagePicker extends StatelessWidget {
       final bytes = await file!.readAsBytes();
 
       getIt<ProfileFormBloc>().add(ImageChanged(bytes));
-    } catch (e) {
-      print('error:$e');
+    } catch (exception, stack) {
+      print('error:$exception');
+      await FirebaseCrashlytics.instance.recordError(exception, stack);
     }
   }
 }

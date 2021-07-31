@@ -10,11 +10,11 @@ class ValidatePhoneFormWidget extends StatefulWidget {
   const ValidatePhoneFormWidget({
     Key? key,
     required this.labelText,
-    required this.isEdit,
+    required this.editForm,
   }) : super(key: key);
 
   final String? labelText;
-  final bool isEdit;
+  final bool editForm;
   @override
   _ValidatePhoneFormWidgetState createState() =>
       _ValidatePhoneFormWidgetState();
@@ -35,7 +35,7 @@ class _ValidatePhoneFormWidgetState extends State<ValidatePhoneFormWidget> {
   @override
   void didUpdateWidget(ValidatePhoneFormWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isEdit != oldWidget.isEdit) requestCode = true;
+    if (widget.editForm != oldWidget.editForm) requestCode = true;
     if (confirmedNumber.isEmpty) requestCode = true;
   }
 
@@ -52,7 +52,7 @@ class _ValidatePhoneFormWidgetState extends State<ValidatePhoneFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final isEdit = widget.isEdit;
+    final editForm = widget.editForm;
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -67,7 +67,7 @@ class _ValidatePhoneFormWidgetState extends State<ValidatePhoneFormWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                isEdit
+                editForm
                     ? Expanded(
                         child: Column(
                         children: [
@@ -115,9 +115,11 @@ class _ValidatePhoneFormWidgetState extends State<ValidatePhoneFormWidget> {
                                         ),
                                       )
                                           .then((value) {
-                                        setState(() {
-                                          requestCode = !value;
-                                        });
+                                        if (value != null) {
+                                          setState(() {
+                                            requestCode = !value;
+                                          });
+                                        }
                                       });
                                     }
                                   }

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:injectable/injectable.dart';
 import 'package:is_service/service_client.dart';
@@ -12,15 +14,17 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   final ServiceClient _client;
   final NetworkConnection _network;
 
-  static const url = 'https://dev.edi.md/ISMobileDiscountService';
+  static const _url = kDebugMode
+      ? 'https://dev.edi.md/ISMobileDiscountService'
+      : 'https://api.edi.md/ISMobileDiscountService';
 
   RemoteDataSourceImpl(this._client, this._network);
   @override
   Future<IsResponse> getRequest(urlFragment) async {
     try {
       if (await _network.isConnected) {
-        final _baseUrl = '$url$urlFragment';
-        return _client.get(_baseUrl)/* .timeout(const Duration(seconds: 3)) */;
+        final _baseUrl = '$_url$urlFragment';
+        return _client.get(_baseUrl);
       } else {
         throw NoInternetConection();
       }
@@ -37,8 +41,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }) async {
     try {
       if (await _network.isConnected) {
-        final _url = '$url$urlFragment';
-        return _client.post(_url, json)/* .timeout(const Duration(seconds: 3)) */;
+        final _baseUrl = '$_url$urlFragment';
+        return _client.post(_baseUrl, json);
       } else {
         throw NoInternetConection();
       }
