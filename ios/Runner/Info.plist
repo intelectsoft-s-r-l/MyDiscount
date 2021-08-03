@@ -57,9 +57,9 @@
 	<key>FacebookDisplayName</key>
 	<string>MyDiscount</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
+	<true/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
-	<false/>
+	<true/>
 	<key>FirebaseCrashlyticsCollectionEnabled</key>
 	<true/>
 	<key>LSApplicationCategoryType</key>
