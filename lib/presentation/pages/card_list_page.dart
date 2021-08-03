@@ -15,74 +15,72 @@ class CardListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Container(
-      child: CustomAppBar(
-        title: AppLocalizations.of(context).translate('addedcard'),
-        child: Container(
-          color: Colors.white,
-          height: MediaQuery.of(context).size.height * .85,
-          child: Column(
-            children: [
-              Expanded(
-                child: FutureBuilder<List<DiscountCard>>(
-                  future: getIt<IsService>().getRequestActivationCards(),
-                  builder: (context, snapshot) {
-                    final list = snapshot.data;
-                    if (snapshot.hasData) {
-                      return NotificationListener<
-                          OverscrollIndicatorNotification>(
-                        onNotification: (overscroll) {
-                          overscroll.disallowGlow();
-                          return true;
-                        },
-                        child: ListView.separated(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 10, right: 10),
-                          separatorBuilder: (context, index) => Container(
-                            height: 10,
-                          ),
-                          itemCount: list!.length,
-                          itemBuilder: (context, index) {
-                            final card = list[index];
-                            return CardWidget(card: card);
-                          },
+    return CustomAppBar(
+      title: AppLocalizations.of(context).translate('addedcard'),
+      child: Container(
+        color: Colors.white,
+        height: MediaQuery.of(context).size.height * .85,
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder<List<DiscountCard>>(
+                future: getIt<IsService>().getRequestActivationCards(),
+                builder: (context, snapshot) {
+                  final list = snapshot.data;
+                  if (snapshot.hasData) {
+                    return NotificationListener<
+                        OverscrollIndicatorNotification>(
+                      onNotification: (overscroll) {
+                        overscroll.disallowGlow();
+                        return true;
+                      },
+                      child: ListView.separated(
+                        padding: const EdgeInsets.only(
+                            top: 15, left: 10, right: 10),
+                        separatorBuilder: (context, index) => Container(
+                          height: 10,
                         ),
+                        itemCount: list!.length,
+                        itemBuilder: (context, index) {
+                          final card = list[index];
+                          return CardWidget(card: card);
+                        },
+                      ),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    if (snapshot.error is EmptyList) {
+                      return EmptyListWidget(
+                        size: size,
+                        assetPath: 'assets/icons/no_transaction_img.png',
+                        localizationKey: 'nocards',
                       );
+                    } else {
+                      return const NoInternetWidget();
                     }
-                    if (snapshot.hasError) {
-                      if (snapshot.error is EmptyList) {
-                        return EmptyListWidget(
-                          size: size,
-                          assetPath: 'assets/icons/no_transaction_img.png',
-                          localizationKey: 'nocards',
-                        );
-                      } else {
-                        return const NoInternetWidget();
-                      }
-                    }
-                    return CircularProgresIndicatorWidget();
-                  },
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/addcardcompanylist',
-                    arguments:
-                        AppLocalizations.of(context).translate('companies'),
-                  );
+                  }
+                  return CircularProgresIndicatorWidget();
                 },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width * .5,
-                  child: Text(
-                    AppLocalizations.of(context).translate('addcard'),
-                  ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/addcardcompanylist',
+                  arguments:
+                      AppLocalizations.of(context).translate('companies'),
+                );
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width * .5,
+                child: Text(
+                  AppLocalizations.of(context).translate('addcard'),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -109,7 +107,6 @@ class CardWidget extends StatelessWidget {
           right: BorderSide(width: 2, color: Colors.grey),
           bottom: BorderSide(width: 2, color: Colors.grey),
         ),
-        //color: Colors.amber,
       ),
       height: 80,
       child: Column(
