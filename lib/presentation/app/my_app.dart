@@ -35,7 +35,7 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+class _MyAppState extends State<MyApp>  {
   Locale? _locale;
   void setLocale(Locale locale) {
     setState(() {
@@ -43,13 +43,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     });
   }
 
-  @override
-  void initState() {
-   
-
-    super.initState();
-    /*  WidgetsBinding.instance!.addObserver(this); */
-  }
 
   @override
   void didChangeDependencies() {
@@ -59,12 +52,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         _locale = locale;
       });
     });
-  }
-
-  @override
-  void dispose() {
-    // WidgetsBinding.instance!.removeObserver(this);
-    super.dispose();
   }
 
   @override

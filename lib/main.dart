@@ -65,7 +65,6 @@ void main() async {
   getIt<LocalNotificationsService>().getFlutterLocalNotificationPlugin();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // await getIt<FirebaseCloudMessageService>().getfcmToken();
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -93,16 +92,16 @@ Future<void> initDB(FlutterSecureStorage storage, List<int> hiveKey) async {
           await Hive.boxExists('user') && await Hive.boxExists('profile')) {
         await Hive.deleteBoxFromDisk('user');
         await Hive.deleteBoxFromDisk('profile');
-      }
+      }}
       await Hive.openBox<User>('user',
           encryptionCipher: HiveAesCipher(hiveKey));
-      await Hive.openBox<Settings>('settings');
       await Hive.openBox<Profile>('profile',
           encryptionCipher: HiveAesCipher(hiveKey));
+      await Hive.openBox<Settings>('settings');
       await Hive.openBox<News>('news');
       await Hive.openBox<Company>('company');
       await Hive.openBox<String>('locale');
-    }
+    
   } catch (e, s) {
     print(e);
     await FirebaseCrashlytics.instance.log(s.toString());
