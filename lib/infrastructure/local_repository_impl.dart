@@ -218,13 +218,14 @@ class LocalRepositoryImpl implements LocalRepository {
     final decodedImage = await decodeImageFromList(list);
     final decodedHeight = decodedImage.height;
     final decodedWidth = decodedImage.width;
-    if (decodedWidth > 110 && decodedHeight > 110) {
+    if (decodedWidth > 1000 && decodedHeight > 1000) {
       try {
         final result = await FlutterImageCompress.compressWithList(
           list,
           minHeight: 110,
           minWidth: 110,
           quality: 100,
+          inSampleSize: 10,
           rotate: 0,
           format: CompressFormat.jpeg,
         );
@@ -233,7 +234,7 @@ class LocalRepositoryImpl implements LocalRepository {
         return _readProfileImageFromAssets();
       }
     }
-      return list;
+    return list;
   }
 
   @override

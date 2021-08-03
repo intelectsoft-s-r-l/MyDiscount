@@ -33,6 +33,7 @@ class ProfileImagePicker extends StatelessWidget {
                     scale: 0.7,
                     width: 110,
                     height: 110,
+                    filterQuality: FilterQuality.high,
                   )
                 : Image.asset(
                     'assets/icons/default_profile_img.png',
@@ -51,7 +52,6 @@ class ProfileImagePicker extends StatelessWidget {
                       onTap: isEdit ? pickImage : null,
                       child: Container(
                         alignment: Alignment.center,
-                        padding: const EdgeInsets.only(right: 5),
                         decoration: BoxDecoration(
                           color: Colors.black45,
                           borderRadius: BorderRadius.circular(20),
