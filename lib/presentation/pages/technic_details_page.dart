@@ -46,18 +46,18 @@ class _TechnicDetailPageState extends State<TechnicDetailPage> {
                       children: [
                         if (Platform.isAndroid)
                           ListTile(
-                            title: Text(AppLocalizations.of(context)!
-                                .translate('manufacture')!),
+                            title: Text(AppLocalizations.of(context)
+                                .translate('manufacture')),
                             trailing: Text('${map['name'] as String}'),
                           ),
                         ListTile(
-                          title: Text(AppLocalizations.of(context)!
-                              .translate('model')!),
+                          title: Text(AppLocalizations.of(context)
+                              .translate('model')),
                           trailing: Text('${map['model']}'),
                         ),
                         ListTile(
-                          title: Text(AppLocalizations.of(context)!
-                              .translate('version')!),
+                          title: Text(AppLocalizations.of(context)
+                              .translate('version')),
                           trailing: Text('${map['systemVersion']}'),
                         ),
                       ],

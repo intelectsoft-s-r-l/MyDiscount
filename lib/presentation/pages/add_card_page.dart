@@ -127,7 +127,7 @@ class _AddCardPageState extends State<AddCardPage> {
                 ),
                 centerTitle: true,
                 title: Text(
-                  '${AppLocalizations.of(context)!.translate('connectcard')} ${company.name}',
+                  '${AppLocalizations.of(context).translate('connectcard')} ${company.name}',
                   style: const TextStyle(fontSize: 18),
                 ),
                 elevation: 0,
@@ -179,8 +179,8 @@ class _AddCardPageState extends State<AddCardPage> {
                                           .05,
                                     ),
                                     Text(
-                                      AppLocalizations.of(context)!
-                                          .translate('inputcardnumber')!,
+                                      AppLocalizations.of(context)
+                                          .translate('inputcardnumber'),
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
@@ -199,8 +199,8 @@ class _AddCardPageState extends State<AddCardPage> {
                                       decoration: InputDecoration(
                                         suffixIcon: Tooltip(
                                           preferBelow: false,
-                                          message: AppLocalizations.of(context)!
-                                              .translate('scancard') as String,
+                                          message: AppLocalizations.of(context)
+                                              .translate('scancard'),
                                           child: InkWell(
                                             onTap: () {
                                               setState(() {
@@ -220,7 +220,7 @@ class _AddCardPageState extends State<AddCardPage> {
                                       // ignore: missing_return
                                       validator: (code) {
                                         if (code!.isEmpty) {
-                                          return AppLocalizations.of(context)!
+                                          return AppLocalizations.of(context)
                                               .translate('addcardnum');
                                         }
                                       },
@@ -250,8 +250,8 @@ class _AddCardPageState extends State<AddCardPage> {
                                         }
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)!
-                                            .translate('addcard')!,
+                                        AppLocalizations.of(context)
+                                            .translate('addcard'),
                                       ),
                                     ),
                                   ],

@@ -27,7 +27,7 @@ class BottomNavigationItem extends StatelessWidget {
               color: state ? Colors.green : Colors.black,
             ),
             Text(
-              AppLocalizations.of(context)!.translate(localizationKey)!,
+              AppLocalizations.of(context).translate(localizationKey),
               style: TextStyle(
                 color: state ? Colors.green : Colors.black,
               ),

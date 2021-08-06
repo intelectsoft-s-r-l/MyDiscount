@@ -62,12 +62,10 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
                       child: search
                           ? TextFormField(
                               focusNode: _node,
-                              decoration: InputDecoration(
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 8),
-                                  // hintStyle:const TextStyle(),
-                                  hintText: AppLocalizations.of(context)!
-                                      .translate('search'),
+                              decoration:  InputDecoration(
+                                  contentPadding:const EdgeInsets.only(bottom: 8),
+                                 // hintStyle:const TextStyle(),
+                                  hintText: AppLocalizations.of(context).translate('search'),
                                   border: InputBorder.none),
                               onChanged: (value) {
                                 setState(() {

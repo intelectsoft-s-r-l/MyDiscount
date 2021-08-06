@@ -12,7 +12,7 @@ class AppLocalizations {
   );
   // initalize 'locale' box to save curent Locale
   Box<String> localeBox = Hive.box<String>('locale');
-  static AppLocalizations? of(BuildContext context) {
+  static AppLocalizations of(BuildContext context) {
     return Localizations.of(context, AppLocalizations);
   }
 
@@ -23,7 +23,7 @@ class AppLocalizations {
   Future<bool> load() async {
    
     final jsonString =
-        await rootBundle.loadString('lang/${locale!.languageCode}.json');
+        await rootBundle.loadString('lang/${locale?.languageCode}.json');
     final jsonMap = json.decode(jsonString) as Map<String, dynamic>;
 
     _localizedStrings = jsonMap.map<String, String>(
@@ -81,8 +81,8 @@ class AppLocalizations {
     return _language(languageCode);
   }
   /// Retrun a translation for the [key] 
-  String? translate(String? key) {
-    return _localizedStrings[key!] as String?;
+  String translate(String key) {
+    return _localizedStrings[key] as String;
   }
 }
 

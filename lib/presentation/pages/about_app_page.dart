@@ -41,7 +41,7 @@ class _AboutAppPageState extends State<AboutAppPage> {
             child: Column(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.translate('welcome')!,
+                  AppLocalizations.of(context).translate('welcome'),
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -53,26 +53,26 @@ class _AboutAppPageState extends State<AboutAppPage> {
                       fit: BoxFit.fill,
                     )),
                 Text(
-                  '${AppLocalizations.of(context)!.translate('appversion')} $appversion',
+                  '${AppLocalizations.of(context).translate('appversion')} $appversion',
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.translate('aboutpar.1')!,
+                  AppLocalizations.of(context).translate('aboutpar.1'),
                   style: const TextStyle(fontSize: 15),
                 ),
                 Text(
-                  AppLocalizations.of(context)!.translate('aboutpar.2')!,
+                  AppLocalizations.of(context).translate('aboutpar.2'),
                   style: const TextStyle(fontSize: 15),
                 ),
                 Text(
-                  AppLocalizations.of(context)!.translate('aboutpar.3')!,
+                  AppLocalizations.of(context).translate('aboutpar.3'),
                   style: const TextStyle(fontSize: 15),
                 ),
                 Text(
-                  AppLocalizations.of(context)!.translate('aboutpar.4')!,
+                  AppLocalizations.of(context).translate('aboutpar.4'),
                   style: const TextStyle(fontSize: 15),
                 ),
                 const SizedBox(

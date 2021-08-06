@@ -40,7 +40,7 @@ class EmptyListWidget extends StatelessWidget {
               child: Container(
                 width: size.width,
                 child: Text(
-                    AppLocalizations.of(context)!.translate(localizationKey)!,
+                    AppLocalizations.of(context).translate(localizationKey),
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center),

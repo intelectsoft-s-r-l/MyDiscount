@@ -74,7 +74,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
 
     final phone = widget.phone;
     return CustomAppBar(
-      title: AppLocalizations.of(context)!.translate('phoneverification'),
+      title: AppLocalizations.of(context).translate('phoneverification'),
       child: BlocProvider(
         create: (context) =>
             getIt<PhoneValidationBloc>()..add(GetValidationCode(phone)),
@@ -90,7 +90,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                 _focusNode.unfocus();
                 Flushbar(
                   message:
-                      AppLocalizations.of(context)!.translate('incorectcode'),
+                      AppLocalizations.of(context).translate('incorectcode'),
                   duration: const Duration(seconds: 3),
                 ).show(context);
                 context.read<PhoneValidationBloc>();
@@ -105,7 +105,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Text(AppLocalizations.of(context)!.translate('entercode')!,
+                  Text(AppLocalizations.of(context).translate('entercode'),
                       style: const TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold)),
                   const SizedBox(
@@ -164,8 +164,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                                 width: size.width * .3,
                                 child: Text(
                                   snapshot.hasData
-                                      ? '${AppLocalizations.of(context)!.translate('send')}(${snapshot.data})'
-                                      : '${AppLocalizations.of(context)!.translate('send')}',
+                                      ? '${AppLocalizations.of(context).translate('send')}(${snapshot.data})'
+                                      : '${AppLocalizations.of(context).translate('send')}',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -194,7 +194,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                           alignment: Alignment.center,
                           width: size.width * .3,
                           child: Text(
-                            AppLocalizations.of(context)!.translate('verify')!,
+                            AppLocalizations.of(context).translate('verify'),
                           ),
                         ),
                       )

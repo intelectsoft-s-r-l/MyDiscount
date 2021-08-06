@@ -57,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 } else {
                   Flushbar(
                     duration: const Duration(seconds: 3),
-                    message: AppLocalizations.of(context)!
+                    message: AppLocalizations.of(context)
                         .translate('savebeforegoout'),
                   ).show(context);
                 }
@@ -77,8 +77,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 duration: const Duration(milliseconds: 3000),
                 child: IconButton(
                   icon: Tooltip(
-                      message: AppLocalizations.of(context)!
-                          .translate(isReadOnly ? 'edit' : 'save') as String,
+                      message: AppLocalizations.of(context)
+                          .translate(isReadOnly ? 'edit' : 'save'),
                       child: Icon(isReadOnly ? Icons.edit : Icons.save)),
                   onPressed: () {
                     setState(() {
@@ -155,9 +155,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     children: [
                                                       Text(
                                                         AppLocalizations.of(
-                                                                context)!
+                                                                context)
                                                             .translate(
-                                                                'firstname')!,
+                                                                'firstname'),
                                                         style: const TextStyle(
                                                             color:
                                                                 Colors.black),
@@ -205,9 +205,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     children: [
                                                       Text(
                                                         AppLocalizations.of(
-                                                                context)!
+                                                                context)
                                                             .translate(
-                                                                'lastname')!,
+                                                                'lastname'),
                                                         style: const TextStyle(
                                                             color:
                                                                 Colors.black),
@@ -287,7 +287,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     const Divider(),
                                     ProfileFieldWidget(
-                                      labelText: AppLocalizations.of(context)!
+                                      labelText: AppLocalizations.of(context)
                                           .translate('phone'),
                                       isEdit: !isReadOnly,
                                     ),
@@ -314,15 +314,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 duration:
                                                     const Duration(seconds: 3),
                                                 message: AppLocalizations.of(
-                                                        context)!
+                                                        context)
                                                     .translate(
                                                         'savebeforelogout'),
                                               ).show(context);
                                             }
                                           },
                                           child: Text(
-                                              AppLocalizations.of(context)!
-                                                  .translate('logout')!),
+                                              AppLocalizations.of(context)
+                                                  .translate('logout')),
                                         ),
                                       ],
                                     ),
