@@ -88,20 +88,19 @@ void main() async {
 Future<void> initDB(FlutterSecureStorage storage, List<int> hiveKey) async {
   try {
     if (await isAppUpdated(storage)) {
-      if (Hive.isBoxOpen('profile') && Hive.isBoxOpen('user') ||
+      if (!Hive.isBoxOpen('profile') && !Hive.isBoxOpen('user') ||
           await Hive.boxExists('user') && await Hive.boxExists('profile')) {
         await Hive.deleteBoxFromDisk('user');
         await Hive.deleteBoxFromDisk('profile');
-      }}
-      await Hive.openBox<User>('user',
-          encryptionCipher: HiveAesCipher(hiveKey));
-      await Hive.openBox<Profile>('profile',
-          encryptionCipher: HiveAesCipher(hiveKey));
-      await Hive.openBox<Settings>('settings');
-      await Hive.openBox<News>('news');
-      await Hive.openBox<Company>('company');
-      await Hive.openBox<String>('locale');
-    
+      }
+    }
+    await Hive.openBox<User>('user', encryptionCipher: HiveAesCipher(hiveKey));
+    await Hive.openBox<Profile>('profile',
+        encryptionCipher: HiveAesCipher(hiveKey));
+    await Hive.openBox<Settings>('settings');
+    await Hive.openBox<News>('news');
+    await Hive.openBox<Company>('company');
+    await Hive.openBox<String>('locale');
   } catch (e, s) {
     print(e);
     await FirebaseCrashlytics.instance.log(s.toString());
@@ -119,8 +118,6 @@ Future<bool> isAppUpdated(FlutterSecureStorage storage) async {
     oldVersion = await storage.read(key: versionKey) as String;
     if (oldVersion == version) {
       return false;
-    } else {
-      return true;
     }
   }
   await storage.write(key: versionKey, value: version);
