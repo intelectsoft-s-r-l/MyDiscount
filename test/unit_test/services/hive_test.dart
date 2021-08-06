@@ -46,7 +46,7 @@ Future<void> test(int index, [List<int>? key]) async {
 }
 
 void main() async {
-  final path = '${Directory.current.path}/db';
+  final path = '${Directory.current.path}/test/unit_test/services/db';
   Directory(path)
     ..deleteSync(recursive: true)
     ..createSync();
