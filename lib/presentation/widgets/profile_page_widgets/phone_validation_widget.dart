@@ -70,68 +70,72 @@ class _ValidatePhoneFormWidgetState extends State<ValidatePhoneFormWidget> {
                 editForm
                     ? Expanded(
                         child: Column(
-                        children: [
-                          Form(
-                            key: _formKey,
-                            autovalidateMode: AutovalidateMode.always,
-                            child: InternationalPhoneInput(
-                              hintText: 'xxxxxxxx',
-                              onPhoneNumberChange: (String number,
-                                  String? internationalizedPhoneNumber,
-                                  String? isoCode,
-                                  _) {
-                                debugPrint(internationalizedPhoneNumber);
-                                confirmedNumber =
-                                    internationalizedPhoneNumber as String;
-                                setState(() {
-                                  phoneIsoCode = isoCode;
-                                });
-                              },
-                              errorText: AppLocalizations.of(context)
-                                  .translate('inputerror'),
-                              initialPhoneNumber:
-                                  profile.phone.characters.skip(4).toString(),
-                              initialSelection: phoneIsoCode,
-                              enabledCountries: {
-                                '+40': 'RO',
-                                '+7': 'RU',
-                                '+374': 'AM',
-                                '+373': 'MD',
-                              },
+                          children: [
+                            Form(
+                              key: _formKey,
+                              autovalidateMode: AutovalidateMode.always,
+                              child: InternationalPhoneInput(
+                                hintText: 'xxxxxxxx',
+                                onPhoneNumberChange: (String number,
+                                    String? internationalizedPhoneNumber,
+                                    String? isoCode,
+                                    _) {
+                                  debugPrint(internationalizedPhoneNumber);
+                                  confirmedNumber =
+                                      internationalizedPhoneNumber as String;
+                                  setState(() {
+                                    phoneIsoCode = isoCode;
+                                  });
+                                },
+                                errorText: AppLocalizations.of(context)
+                                    .translate('inputerror'),
+                                initialPhoneNumber:
+                                    profile.phone.characters.skip(4).toString(),
+                                initialSelection: phoneIsoCode,
+                                enabledCountries: {
+                                  '+40': 'RO',
+                                  '+7': 'RU',
+                                  '+374': 'AM',
+                                  '+373': 'MD',
+                                },
+                              ),
                             ),
-                          ),
-                          const Divider(),
-                          ElevatedButton(
-                            onPressed: requestCode
-                                ? () {
-                                    if (confirmedNumber.isNotEmpty) {
-                                      Navigator.of(context)
-                                          .push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              PhoneVerificationPage(
-                                            phone: confirmedNumber,
+                            const Divider(),
+                            ElevatedButton(
+                              onPressed: requestCode
+                                  ? () {
+                                      if (confirmedNumber.isNotEmpty) {
+                                        Navigator.of(context)
+                                            .push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PhoneVerificationPage(
+                                              phone: confirmedNumber,
+                                              forAuth: false,
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                          .then((value) {
-                                        if (value != null) {
-                                          setState(() {
-                                            requestCode = !value;
-                                          });
-                                        }
-                                      });
+                                        )
+                                            .then(
+                                          (value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                requestCode = !value;
+                                              });
+                                            }
+                                          },
+                                        );
+                                      }
                                     }
-                                  }
-                                : null,
-                            child: sendCode
-                                ? Text(AppLocalizations.of(context)
-                                    .translate('sendcode'))
-                                : Text(AppLocalizations.of(context)
-                                    .translate('changephone')),
-                          ),
-                        ],
-                      ))
+                                  : null,
+                              child: sendCode
+                                  ? Text(AppLocalizations.of(context)
+                                      .translate('sendcode'))
+                                  : Text(AppLocalizations.of(context)
+                                      .translate('changephone')),
+                            ),
+                          ],
+                        ),
+                      )
                     : Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

@@ -46,6 +46,20 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
         yield const SignInNetError();
       }
     }
+    if (event is SignInWithPhone) {
+      if (await network.isConnected) {
+        yield SignInFormPhone(event.phone);
+      } else {
+        yield const SignInNetError();
+      }
+    }
+    if (event is PhoneChecked) {
+      yield* mapUserToState(
+          _authRepositoryImpl.authenticateWithPhone(event.phone));
+    }
+    if (event is ResetState) {
+      yield SignInFormReseted();
+    }
     if (event is SignOutEvent) {
       _authRepositoryImpl.logOut();
       yield SignFormInitial();

@@ -11,8 +11,10 @@ part 'phone_validation_event.dart';
 part 'phone_validation_state.dart';
 
 @injectable
-class PhoneValidationBloc extends Bloc<PhoneValidationEvent, PhoneValidationState> {
-  PhoneValidationBloc(this._isServiceImpl, this._localRepositoryImpl) : super(PhoneValidationInitial(''));
+class PhoneValidationBloc
+    extends Bloc<PhoneValidationEvent, PhoneValidationState> {
+  PhoneValidationBloc(this._isServiceImpl, this._localRepositoryImpl)
+      : super(PhoneValidationInitial(''));
   final IsService _isServiceImpl;
   final LocalRepository _localRepositoryImpl;
   String code = '';
@@ -21,12 +23,13 @@ class PhoneValidationBloc extends Bloc<PhoneValidationEvent, PhoneValidationStat
     PhoneValidationEvent event,
   ) async* {
     if (event is GetValidationCode) {
-       code = await _isServiceImpl.validatePhone(phone: event.phone);
-      //print(code);
+      code = await _isServiceImpl.validatePhone(phone: event.phone);
+      print(code);
       yield WaitingUserInput(code);
     }
     if (event is UserInputCode) {
-      final isValid = _localRepositoryImpl.smsCodeVerification(event.serverCode, event.userCode);
+      final isValid = _localRepositoryImpl.smsCodeVerification(
+          event.serverCode, event.userCode);
       if (isValid) {
         yield ValidCode(event.userCode);
       } else {

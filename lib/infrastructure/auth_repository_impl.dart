@@ -125,4 +125,35 @@ class AuthRepositoryImpl implements AuthRepository {
     final user = _localRepositoryImpl.getLocalUser();
     return user;
   }
+
+  @override
+  Future<User> authenticateWithPhone(String phone) async {
+    final id = phone.replaceFirst('+', '');
+    final defaultUserData = {
+      'DisplayName': '',
+      'Email': '',
+      'ID': id,
+      'PhotoUrl': '',
+      'PushToken': '',
+      'RegisterMode': 4,
+      'access_token': '',
+      'phone': phone,
+    };
+
+    try {
+      final profile = await _isService.getClientInfo(id: id, registerMode: 4);
+      final localCredentialsMap = profile.toCreateUser();
+      final token = await _firebaseCloudMessageService.getfcmToken() as String;
+
+      final map = profile.isEmpty ? defaultUserData : localCredentialsMap
+        ..update('ID', (_) => id)
+        ..update('access_token', (_) => '')
+        ..update('phone', (_) => phone)
+        ..update('PushToken', (_) => token);
+      final localUser = await _isService.updateClientInfo(json: map);
+      return localUser;
+    } catch (e) {
+      return User.empty();
+    }
+  }
 }

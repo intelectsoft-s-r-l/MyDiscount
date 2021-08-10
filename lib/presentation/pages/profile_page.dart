@@ -98,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Container(
                                 height:
-                                    MediaQuery.of(context).size.height * .858,
+                                    MediaQuery.of(context).size.height * .868,
                                 padding: const EdgeInsets.only(
                                     left: 10, right: 10, top: 10, bottom: 10),
                                 child: ProfilePageForm(
