@@ -16,7 +16,7 @@ class InputPhonePage extends StatefulWidget {
 
 class _InputPhonePageState extends State<InputPhonePage> {
   final _controller = TextEditingController();
-
+  bool isValidPhone = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +47,13 @@ class _InputPhonePageState extends State<InputPhonePage> {
                       print('phone: $internationalizedPhoneNumber');
                       _controller.text = internationalizedPhoneNumber as String;
                     },
-                    decoration: const InputDecoration(
-                      hintText: 'Please enter a valid phone number',
+                    isValidPhoneNumber: (isValid) {
+                      isValidPhone = isValid as bool;
+                    },
+                    decoration: InputDecoration(
+                      hintText:
+                          AppLocalizations.of(context).translate('inputerror'),
+                      hintStyle: const TextStyle(fontSize: 13),
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -74,11 +79,12 @@ class _InputPhonePageState extends State<InputPhonePage> {
                     ),
                   ),
                   onPressed: () {
-                    if (_controller.text.isNotEmpty) {
+                    if (_controller.text.isNotEmpty & isValidPhone) {
                       widget.bloc.add(SignInWithPhone(_controller.text));
                     } else {
                       Flushbar(
-                        message: 'Invalid Phone Number',
+                        message: AppLocalizations.of(context)
+                            .translate('inputerror'),
                         duration: const Duration(seconds: 3),
                       ).show(context);
                       widget.bloc.add(SignOutEvent());

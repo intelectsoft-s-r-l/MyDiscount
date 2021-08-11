@@ -593,7 +593,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "96c0b8b799aea87417055365ec7514b4c973e333"
+      resolved-ref: ca14417651efcfa7b09f89de614d988bab38efcd
       url: "https://github.com/CristeaIon/flutter-international-phone-input.git"
     source: git
     version: "1.0.4"
