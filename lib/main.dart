@@ -9,10 +9,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'domain/entities/company_model.dart';
 import 'domain/entities/news_model.dart';
 import 'domain/entities/profile_model.dart';
@@ -20,7 +20,7 @@ import 'domain/entities/user_model.dart';
 import 'domain/settings/settings.dart';
 import 'infrastructure/core/fcm_service.dart';
 import 'infrastructure/core/local_notification_service.dart';
-import 'initialization.dart'as initialization;
+import 'initialization.dart' as initialization;
 import 'injectable.dart';
 import 'presentation/app/my_app.dart';
 
@@ -38,15 +38,15 @@ void main() async {
       ..registerAdapter<Profile>(ProfileAdapter())
       ..registerAdapter<News>(NewsAdapter())
       ..registerAdapter<Company>(CompanyAdapter());
-    final storage = const FlutterSecureStorage();
+    final storage =await SharedPreferences.getInstance();
     const key = 'hiveKey';
     final List<int> hiveKey;
-    if (await storage.containsKey(key: key)) {
-      hiveKey = base64Decode(await storage.read(key: key) as String).toList();
+    if (storage.containsKey(key)) {
+      hiveKey = base64Decode(storage.getString(key) as String).toList();
     } else {
       final value = Hive.generateSecureKey();
-      await storage.write(key: key, value: base64Encode(value));
-      hiveKey = base64Decode(await storage.read(key: key) as String).toList();
+      await storage.setString(key, base64Encode(value));
+      hiveKey = base64Decode(storage.getString(key) as String).toList();
     }
     await initialization.initDB(storage, hiveKey);
   } catch (exception, stack) {

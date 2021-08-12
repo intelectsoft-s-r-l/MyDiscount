@@ -14,7 +14,7 @@ import 'package:my_discount/domain/settings/settings.dart';
 /// 2. Reads some series of values
 /// 3. Writes new values
 /// 4. Closes
-/* Future<void> test(int index, [List<int>? key]) async {
+Future<void> test(int index, [List<int>? key]) async {
   final boxName = 'box_$index';
   final hasKey = key != null;
   final info = '(box = $boxName, hasKey = $hasKey)';
@@ -49,7 +49,7 @@ import 'package:my_discount/domain/settings/settings.dart';
   print('OK. $info');
 
   // await Hive.deleteBoxFromDisk(boxName);
-} */
+}
 Future<void> initDB(FlutterSecureStorage storage, List<int> hiveKey) async {
   final encriptedBoxes = <String, dynamic>{'user': User, 'profile': Profile};
   final boxNameList = <String, dynamic>{
@@ -94,7 +94,8 @@ Future<void> initDB(FlutterSecureStorage storage, List<int> hiveKey) async {
         default:
       }
     }
-  } catch (e, s) {
+    // await Hive.close();
+  } catch (e) {
     print(e);
     //await FirebaseCrashlytics.instance.log(s.toString());
     await Hive.deleteFromDisk();
@@ -104,20 +105,20 @@ Future<void> initDB(FlutterSecureStorage storage, List<int> hiveKey) async {
 
 void main() async {
   final path = '${Directory.current.path}/test/unit_test/services/db';
-  final storage = const FlutterSecureStorage();
+  //final storage = const FlutterSecureStorage();
   Directory(path)
     ..deleteSync(recursive: true)
     ..createSync();
   var i = 0;
   final key = Hive.generateSecureKey();
   Hive.init(path);
-  while (i < 100) {
-    await initDB(storage, key);
-    await Hive.close();
-    /* await test(1, key); // OK
+  while (i < 10) {
+    //await initDB(storage, key);
+
+    await test(1, key); // OK
     await test(1, key); // OK
     await test(1, key); // OK, Recovering corrupted box.
-    await test(1, null); */ // Crashes!
+    await test(1, null); // Crashes!
     //await Hive.close();
     print('Iteration: $i');
     i++;
@@ -135,9 +136,7 @@ Future<void> _openEncriptedBox<T>({
     }
   }
 
-  await Hive.openBox<T>(
-    boxName, encryptionCipher: HiveAesCipher(key)
-  );
+  await Hive.openBox<T>(boxName, encryptionCipher: HiveAesCipher(key));
   print('box $boxName is openned');
 }
 
@@ -161,7 +160,7 @@ Future<bool> isAppUpdated(FlutterSecureStorage storage) async {
   //final package = await PackageInfo.fromPlatform();
   final version = '2.2.2'; //package.buildNumber;
   if (containsKey) {
-    oldVersion = '2.2.2';
+    oldVersion = '2.2.3';
     if (oldVersion == version) {
       return false;
     }
