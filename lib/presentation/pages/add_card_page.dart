@@ -110,7 +110,9 @@ class _AddCardPageState extends State<AddCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final company = ModalRoute.of(context)!.settings.arguments as Company;
+    final arguments = ModalRoute.of(context)!.settings.arguments as Set<Object>;
+    final company = arguments.first as Company;
+    final fromCompany = arguments.last as bool;
     return !scann
         ? BlocProvider(
             create: (context) => getIt<AddCardPageBloc>(),
@@ -122,7 +124,11 @@ class _AddCardPageState extends State<AddCardPage> {
                       ? Icons.arrow_back_sharp
                       : Icons.arrow_back_ios_sharp),
                   onPressed: () {
-                    Navigator.of(context)..pop()..pop();
+                    if (fromCompany) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.of(context)..pop()..pop();
+                    }
                   },
                 ),
                 centerTitle: true,

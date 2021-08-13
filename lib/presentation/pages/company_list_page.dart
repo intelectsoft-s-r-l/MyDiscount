@@ -29,7 +29,7 @@ class CompanyListPage extends StatelessWidget {
             listener: (context, state) {},
             builder: (BuildContext context, state) {
               if (state is CompanylistLoaded) {
-                return CompaniesList(state.list);
+                return CompaniesList(state.list, true);
               }
               if (state is EmptyCompanyList) {
                 return const NoCompanyList();
