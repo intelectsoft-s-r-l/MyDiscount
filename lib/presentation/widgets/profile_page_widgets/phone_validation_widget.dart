@@ -92,6 +92,7 @@ class _ValidatePhoneFormWidgetState extends State<ValidatePhoneFormWidget> {
                                 initialPhoneNumber:
                                     profile.phone.characters.skip(4).toString(),
                                 initialSelection: phoneIsoCode,
+                                isValidPhoneNumber:(isValid){},
                                 enabledCountries: {
                                   '+40': 'RO',
                                   '+7': 'RU',

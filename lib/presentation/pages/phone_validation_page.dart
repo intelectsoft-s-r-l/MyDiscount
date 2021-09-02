@@ -86,9 +86,12 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
           child: BlocConsumer<PhoneValidationBloc, PhoneValidationState>(
             listener: (context, state) {
               if (state is ValidCode) {
-                context.read<ProfileFormBloc>().add(PhoneChanged(phone));
-                context.read<SignFormBloc>().add(PhoneChecked(phone));
-                if (!widget.forAuth) Navigator.of(context).pop(true);
+                if (!widget.forAuth) {
+                  context.read<ProfileFormBloc>().add(PhoneChanged(phone));
+                  Navigator.of(context).pop(true);
+                } else {
+                  context.read<SignFormBloc>().add(PhoneChecked(phone));
+                }
               } else if (state is InvalidCode) {
                 _focusNode.unfocus();
                 Flushbar(

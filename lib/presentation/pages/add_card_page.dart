@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_discount/infrastructure/core/permisions.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../aplication/card_bloc/add_card_page_bloc.dart';
@@ -64,6 +66,14 @@ class _AddCardPageState extends State<AddCardPage> {
     setState(() {
       scann = false;
     });
+  }
+
+  Future<bool> checkPermissions() async {
+    final status = await PermissionHandler.hasCameraPermision();
+    if (status == PermissionStatus.granted) {
+      return true;
+    }
+    return false;
   }
 
   Widget _buildQrView(BuildContext context) {
@@ -208,10 +218,12 @@ class _AddCardPageState extends State<AddCardPage> {
                                           message: AppLocalizations.of(context)
                                               .translate('scancard'),
                                           child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                scann = !scann;
-                                              });
+                                            onTap: () async {
+                                              if (await checkPermissions()) {
+                                                setState(() {
+                                                  scann = !scann;
+                                                });
+                                              }
                                             },
                                             child: const Icon(
                                               Icons.fit_screen,

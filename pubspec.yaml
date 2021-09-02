@@ -43,6 +43,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.5955-rc.1
   package_info: ^2.0.0
   path_provider: ^2.0.2
+  permission_handler: ^8.1.4+2
   provider: ^5.0.0
   qr_code_scanner: ^0.4.0
   qr_flutter: ^4.0.0
