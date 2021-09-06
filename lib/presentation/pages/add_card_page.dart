@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app_settings/app_settings.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../aplication/card_bloc/add_card_page_bloc.dart';
@@ -110,7 +112,9 @@ class _AddCardPageState extends State<AddCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final company = ModalRoute.of(context)!.settings.arguments as Company;
+    final arguments = ModalRoute.of(context)!.settings.arguments as Set<Object>;
+    final company = arguments.first as Company;
+    final fromCompany = arguments.last as bool;
     return !scann
         ? BlocProvider(
             create: (context) => getIt<AddCardPageBloc>(),
@@ -122,7 +126,11 @@ class _AddCardPageState extends State<AddCardPage> {
                       ? Icons.arrow_back_sharp
                       : Icons.arrow_back_ios_sharp),
                   onPressed: () {
-                    Navigator.of(context)..pop()..pop();
+                    if (fromCompany) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.of(context)..pop()..pop();
+                    }
                   },
                 ),
                 centerTitle: true,
@@ -202,10 +210,29 @@ class _AddCardPageState extends State<AddCardPage> {
                                           message: AppLocalizations.of(context)
                                               .translate('scancard'),
                                           child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                scann = !scann;
-                                              });
+                                            onTap: () async {
+                                              await Permission.camera.request();
+                                              if (await Permission
+                                                  .camera.status.isGranted) {
+                                                setState(() {
+                                                  scann = !scann;
+                                                });
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  backgroundColor: Colors.white,
+                                                  content: Text(
+                                                      'You don\'t have permission. Open Settings?',
+                                                      style: TextStyle(
+                                                          color: Colors.black)),
+                                                  action: SnackBarAction(
+                                                    label: 'Open',
+                                                    onPressed: AppSettings
+                                                        .openAppSettings,
+                                                  ),
+                                                ));
+                                              }
                                             },
                                             child: const Icon(
                                               Icons.fit_screen,

@@ -4,8 +4,9 @@ import '../../../domain/entities/company_model.dart';
 import '../company_page_widgets/companie_widget.dart';
 
 class CompaniesList extends StatelessWidget {
-  const CompaniesList(this.list);
+  const CompaniesList(this.list, this.fromCompany);
   final List<Company> list;
+  final bool fromCompany;
   @override
   Widget build(BuildContext context) {
     return NotificationListener<OverscrollIndicatorNotification>(
@@ -25,7 +26,7 @@ class CompaniesList extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           elevation: 2.0,
-          child: CompanyWidget(list[index]),
+          child: CompanyWidget(list[index], fromCompany),
         ),
       ),
     );

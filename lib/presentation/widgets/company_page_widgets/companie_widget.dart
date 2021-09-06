@@ -4,15 +4,16 @@ import '../../../domain/entities/company_model.dart';
 import '../../../infrastructure/core/localization/localizations.dart';
 
 class CompanyWidget extends StatelessWidget {
-  const CompanyWidget(this.company);
+  const CompanyWidget(this.company, this.fromCompany);
   final Company company;
-
+  final bool fromCompany;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () {
-        Navigator.pushNamed(context, '/addcard', arguments: company);
+        Navigator.pushNamed(context, '/addcard',
+            arguments: {company, fromCompany});
       },
       child: ListTile(
         contentPadding:
@@ -35,7 +36,6 @@ class CompanyWidget extends StatelessWidget {
                 '${company.name}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  //fontSize: 16,
                 ),
                 textAlign: TextAlign.start,
               ),

@@ -130,7 +130,7 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(child: CompaniesList(filteredSearchHistory)),
+                  Expanded(child: CompaniesList(filteredSearchHistory, false)),
                 ],
               ),
             ),

@@ -182,8 +182,14 @@ class IsServiceImpl implements IsService {
       final userMap = _localRepository.returnUserMapToSave(json);
 
       if (response.statusCode == 0) {
+        
         final user = User.fromJson(userMap);
-        _localRepository.saveUserLocal(user);
+         _formater
+          ..splitDisplayName(json)
+          ..addToProfileMapSignMethod(json, user.registerMode);
+        await _formater.downloadProfileImageOrDecodeString(json);
+        final profile = Profile.fromJson(json);
+        _localRepository..saveClientInfoLocal(profile)..saveUserLocal(user);
         return user;
       } else {
         throw ServerError();

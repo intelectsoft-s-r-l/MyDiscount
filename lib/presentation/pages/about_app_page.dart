@@ -47,10 +47,10 @@ class _AboutAppPageState extends State<AboutAppPage> {
                 ),
                 Container(
                     height: size.height * .45,
-                    width: size.width,
+                   // width: size.width,
                     child: Image.asset(
                       'assets/icons/background_image.png',
-                      fit: BoxFit.fill,
+                      //fit: BoxFit.fill,
                     )),
                 Text(
                   '${AppLocalizations.of(context).translate('appversion')} $appversion',

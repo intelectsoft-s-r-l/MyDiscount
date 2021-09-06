@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_discount/aplication/auth/sign_in/sign_form_bloc.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../aplication/phone_validation_bloc/phone_validation_bloc.dart';
@@ -15,8 +16,9 @@ import '../widgets/custom_app_bar.dart';
 class PhoneVerificationPage extends StatefulWidget {
   const PhoneVerificationPage({
     required this.phone,
+    required this.forAuth,
   });
-
+  final bool forAuth;
   final String phone;
   @override
   _PhoneVerificationPageState createState() => _PhoneVerificationPageState();
@@ -84,9 +86,12 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
           child: BlocConsumer<PhoneValidationBloc, PhoneValidationState>(
             listener: (context, state) {
               if (state is ValidCode) {
-                context.read<ProfileFormBloc>().add(PhoneChanged(phone));
-
-                Navigator.of(context).pop(true);
+                if (!widget.forAuth) {
+                  context.read<ProfileFormBloc>().add(PhoneChanged(phone));
+                  Navigator.of(context).pop(true);
+                } else {
+                  context.read<SignFormBloc>().add(PhoneChecked(phone));
+                }
               } else if (state is InvalidCode) {
                 _focusNode.unfocus();
                 Flushbar(

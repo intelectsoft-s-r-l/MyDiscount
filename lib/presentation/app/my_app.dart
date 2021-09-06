@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_discount/aplication/bottom_navigation_bar_bloc/bottom_navigator_bar_bloc.dart';
@@ -24,7 +23,6 @@ import '../../presentation/pages/settings_page.dart';
 import '../../presentation/pages/technic_details_page.dart';
 import '../../presentation/pages/transactions_page.dart';
 import '../../presentation/widgets/bottom_navigator/bottom_navigation_bar_widget.dart';
-import '../../presentation/widgets/circular_progress_indicator_widget.dart';
 
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
@@ -136,7 +134,7 @@ class SplashScreen extends StatelessWidget {
             Navigator.pushReplacementNamed(context, '/login');
           }
         },
-        child: CircularProgresIndicatorWidget(),
+        child: Container(),
       ),
     );
   }

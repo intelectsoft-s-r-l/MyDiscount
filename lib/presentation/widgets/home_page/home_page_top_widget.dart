@@ -95,6 +95,14 @@ class HomePageTopWidget extends StatelessWidget {
                           ),
                           textScaleFactor: 1,
                         ),
+                      if (profile.registerMode == 4)
+                        Text(
+                          AppLocalizations.of(context).translate('signinP'),
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                          textScaleFactor: 1,
+                        ),
                     ],
                   ),
                 ),

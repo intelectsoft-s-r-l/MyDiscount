@@ -66,8 +66,9 @@ class Formater {
   /// Split the full User name on `first name` and `lastName` and add it to json
   /// object
   Map<String, dynamic> splitDisplayName(Map map) {
-    final displayName = map['Name'];
     try {
+      final displayName = map['Name'] ?? map['DisplayName'];
+
       List<dynamic>? listStrings = [];
       if (displayName.contains(' ')) {
         listStrings = displayName.split(' ').map((e) => e.toString()).toList();
@@ -79,8 +80,12 @@ class Formater {
 
       map
         ..putIfAbsent('firstName', () => listStrings![0])
-        ..putIfAbsent('lastName', () => listStrings![1])
-        ..remove('Name');
+        ..putIfAbsent('lastName', () => listStrings![1]);
+      if (map.containsKey('Name')) {
+        map.remove('Name');
+      } else {
+        map.remove('DisplayName');
+      }
 
       return map as Map<String, dynamic>;
     } catch (e) {
@@ -120,6 +125,9 @@ class Formater {
   Map<String, dynamic> addToProfileMapSignMethod(
       Map<String, dynamic> map, int? registerMode) {
     try {
+      if (map.containsKey('RegisterMode')) {
+        map.remove('RegisterMode');
+      }
       map.putIfAbsent('mode', () => registerMode);
       return map;
     } catch (e) {
