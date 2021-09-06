@@ -71,8 +71,11 @@ Future<void> _openEncriptedBox<T>({
       await Hive.deleteBoxFromDisk(boxName);
     }
   }
-
-  await Hive.openBox<T>(boxName, encryptionCipher: HiveAesCipher(key));
+  try {
+    await Hive.openBox<T>(boxName, encryptionCipher: HiveAesCipher(key));
+  } catch (e) {
+    await Hive.deleteBoxFromDisk(boxName);
+  }
 }
 
 Future<void> _openBox<T>({
@@ -84,7 +87,11 @@ Future<void> _openBox<T>({
       await Hive.deleteBoxFromDisk(boxName);
     }
   }
-  await Hive.openBox<T>(boxName);
+  try {
+    await Hive.openBox<T>(boxName);
+  } catch (e) {
+    await Hive.deleteBoxFromDisk(boxName);
+  }
 }
 
 Future<bool> isAppUpdated(SharedPreferences storage) async {

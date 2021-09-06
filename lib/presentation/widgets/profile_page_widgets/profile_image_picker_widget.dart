@@ -1,8 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:app_settings/app_settings.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_discount/infrastructure/core/localization/localizations.dart';
 import 'package:my_discount/injectable.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../../domain/entities/profile_model.dart';
@@ -49,7 +54,7 @@ class ProfileImagePicker extends StatelessWidget {
                     message:
                         AppLocalizations.of(context).translate('changeimg'),
                     child: InkResponse(
-                      onTap: isEdit ? pickImage : null,
+                      onTap: () => isEdit ? pickImage(context) : null,
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -78,15 +83,42 @@ class ProfileImagePicker extends StatelessWidget {
     );
   }
 
-  void pickImage() async {
+  void getImage(BuildContext context) async {
     try {
       final file = await _picker.getImage(source: ImageSource.gallery);
-      final bytes = await file!.readAsBytes();
+      final bytes = await file?.readAsBytes() as Uint8List;
 
       getIt<ProfileFormBloc>().add(ImageChanged(bytes));
     } catch (exception, stack) {
+      if (Platform.isAndroid) showSnackBar(context);
       print('error:$exception');
       await FirebaseCrashlytics.instance.recordError(exception, stack);
+    }
+  }
+
+  void showSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: Colors.white,
+      content: Text('You don\'t have permission. Open Settings?',
+          style: TextStyle(color: Colors.black)),
+      action: SnackBarAction(
+        label: 'Open',
+        onPressed: AppSettings.openAppSettings,
+      ),
+    ));
+  }
+
+  void pickImage(BuildContext context) async {
+    if (Platform.isIOS) {
+      await Permission.photos.request();
+      if (await Permission.photos.status.isGranted &&
+          !await Permission.photos.status.isPermanentlyDenied) {
+        getImage(context);
+      } else {
+        showSnackBar(context);
+      }
+    } else {
+      getImage(context);
     }
   }
 }

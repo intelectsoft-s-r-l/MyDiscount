@@ -12,6 +12,7 @@ class AppLocalizations {
   );
   // initalize 'locale' box to save curent Locale
   Box<String> localeBox = Hive.box<String>('locale');
+  
   static AppLocalizations of(BuildContext context) {
     return Localizations.of(context, AppLocalizations);
   }

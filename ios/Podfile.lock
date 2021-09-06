@@ -1,4 +1,6 @@
 PODS:
+  - "app_settings (3.0.0+1)":
+    - Flutter
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
@@ -162,6 +164,8 @@ PODS:
   - GTMSessionFetcher/Core (1.6.1)
   - image_picker (0.0.1):
     - Flutter
+  - integration_test (0.0.1):
+    - Flutter
   - libphonenumber (0.0.1):
     - Flutter
     - libPhoneNumber-iOS
@@ -214,6 +218,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -226,6 +231,7 @@ DEPENDENCIES:
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -268,6 +274,8 @@ SPEC REPOS:
     - SDWebImageWebPCoder
 
 EXTERNAL SOURCES:
+  app_settings:
+    :path: ".symlinks/plugins/app_settings/ios"
   device_info:
     :path: ".symlinks/plugins/device_info/ios"
   firebase_analytics:
@@ -292,6 +300,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
   libphonenumber:
     :path: ".symlinks/plugins/libphonenumber/ios"
   package_info:
@@ -318,6 +328,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   FBSDKCoreKit: 38c9e29a3f1436362acacff6486d3a28628c288f
@@ -347,6 +358,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
+  integration_test: 6eb66a19f7104200dcfdd62bc0077e1b09686e4f
   libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
@@ -368,6 +380,6 @@ SPEC CHECKSUMS:
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter: 3603125dfd3bcbc9d8d418c3f80aeecf331c068b
 
-PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
+PODFILE CHECKSUM: f211858538a2b5b3bd6aa3248f52f5b22e6a0e54
 
 COCOAPODS: 1.10.2

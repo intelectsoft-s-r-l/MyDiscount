@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_discount/infrastructure/core/permisions.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -66,14 +66,6 @@ class _AddCardPageState extends State<AddCardPage> {
     setState(() {
       scann = false;
     });
-  }
-
-  Future<bool> checkPermissions() async {
-    final status = await PermissionHandler.hasCameraPermision();
-    if (status == PermissionStatus.granted) {
-      return true;
-    }
-    return false;
   }
 
   Widget _buildQrView(BuildContext context) {
@@ -219,10 +211,27 @@ class _AddCardPageState extends State<AddCardPage> {
                                               .translate('scancard'),
                                           child: InkWell(
                                             onTap: () async {
-                                              if (await checkPermissions()) {
+                                              await Permission.camera.request();
+                                              if (await Permission
+                                                  .camera.status.isGranted) {
                                                 setState(() {
                                                   scann = !scann;
                                                 });
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  backgroundColor: Colors.white,
+                                                  content: Text(
+                                                      'You don\'t have permission. Open Settings?',
+                                                      style: TextStyle(
+                                                          color: Colors.black)),
+                                                  action: SnackBarAction(
+                                                    label: 'Open',
+                                                    onPressed: AppSettings
+                                                        .openAppSettings,
+                                                  ),
+                                                ));
                                               }
                                             },
                                             child: const Icon(

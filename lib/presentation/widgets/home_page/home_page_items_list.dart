@@ -37,7 +37,7 @@ class HomePageItems extends StatelessWidget {
               const HomeItemWidget(
                 icon: Icons.apartment_outlined,
                 localisationKey: 'companies',
-                routeName: '/addcardcompanylist',
+                routeName: '/companypage',
               ),
               const HomeItemWidget(
                 icon: Icons.card_giftcard_outlined,
