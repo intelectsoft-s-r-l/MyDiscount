@@ -29,7 +29,6 @@ class _ProfilePageState extends State<ProfilePage> {
     final pageName = ModalRoute.of(context)!.settings.arguments as String;
 
     return BlocConsumer<ProfileFormBloc, ProfileFormState>(
-      listenWhen: (p, c) => p.props.first != c.props.first,
       listener: (context, state) {
         if (state is ProfileFormError) {
           _node.unfocus();
@@ -37,9 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
             duration: const Duration(seconds: 3),
             message: 'Service Error',
           ).show(context);
-          context
-              .read<ProfileFormBloc>()
-              .add(FirstNameChanged(state.profile.firstName));
+          context.read<ProfileFormBloc>().add(const UpdateProfileData());
         }
       },
       builder: (context, state) {
@@ -124,29 +121,22 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void editOrSave(Profile profile) {
-    setState(() {
-      isReadOnly = !isReadOnly;
-    });
-    if (isReadOnly) {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        _formKey.currentState!.context
-            .read<ProfileFormBloc>()
-            .add(SaveProfileData(profile));
+    if (_formKey.currentState!.validate()) {
+      //_formKey.currentState!.save();
+      setState(() {
+        isReadOnly = !isReadOnly;
+      });
+      if (isReadOnly) {
+        context.read<ProfileFormBloc>().add(SaveProfileData(profile));
+      } else {
+        context.read<ProfileFormBloc>().add(const EditProfileData());
+        _node.requestFocus();
       }
-    } else {
-      _node.requestFocus();
     }
   }
 
   void goBack() {
-    if (isReadOnly) {
-      Navigator.pop(context);
-    } else {
-      Flushbar(
-        duration: const Duration(seconds: 3),
-        message: AppLocalizations.of(context).translate('savebeforegoout'),
-      ).show(context);
-    }
+    Navigator.pop(context);
+    context.read<ProfileFormBloc>().add(const RestoreProfileData());
   }
 }

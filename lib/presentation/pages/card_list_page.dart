@@ -35,8 +35,8 @@ class CardListPage extends StatelessWidget {
                         return true;
                       },
                       child: ListView.separated(
-                        padding: const EdgeInsets.only(
-                            top: 15, left: 10, right: 10),
+                        padding:
+                            const EdgeInsets.only(top: 15, left: 10, right: 10),
                         separatorBuilder: (context, index) => Container(
                           height: 10,
                         ),
@@ -65,7 +65,7 @@ class CardListPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(
+                Navigator.pushReplacementNamed(
                   context,
                   '/addcardcompanylist',
                   arguments:

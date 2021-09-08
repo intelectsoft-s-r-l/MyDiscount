@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:my_discount/infrastructure/core/localization/localizations.dart';
+import 'package:my_discount/presentation/widgets/company_page_widgets/no_company_list_widget.dart';
 
 import '../../domain/entities/company_model.dart';
 import '../../domain/repositories/local_repository.dart';
@@ -26,6 +28,7 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
   @override
   void initState() {
     super.initState();
+    getIt<IsService>().getCompanyList();
     filteredSearchHistory = getIt<LocalRepository>().searchCompany('');
     _node.requestFocus();
   }
@@ -36,7 +39,6 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
     super.dispose();
   }
 
-  bool first = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +68,6 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
                               decoration: InputDecoration(
                                   contentPadding:
                                       const EdgeInsets.only(bottom: 8),
-                                  // hintStyle:const TextStyle(),
                                   hintText: AppLocalizations.of(context)
                                       .translate('search'),
                                   border: InputBorder.none),
@@ -130,7 +131,10 @@ class _AddCardCompanyListPageState extends State<AddCardCompanyListPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(child: CompaniesList(filteredSearchHistory, false)),
+                  Expanded(
+                      child: filteredSearchHistory.isNotEmpty
+                          ? CompaniesList(filteredSearchHistory, false)
+                          : const NoCompanyList()),
                 ],
               ),
             ),

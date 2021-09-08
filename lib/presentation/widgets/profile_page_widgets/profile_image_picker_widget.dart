@@ -17,10 +17,14 @@ class ProfileImagePicker extends StatelessWidget {
     Key? key,
     required this.profile,
     required this.isEdit,
+    required this.updateImage,
+    required this.forAuth
   }) : super(key: key);
   final _picker = ImagePicker();
   final Profile profile;
   final bool isEdit;
+  final Function(bool) updateImage;
+  final bool forAuth;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +44,7 @@ class ProfileImagePicker extends StatelessWidget {
                     height: 110,
                     filterQuality: FilterQuality.high,
                   )
-                : Image.asset(
-                    'assets/icons/default_profile_img.png',
+                : Container(
                     width: 110,
                     height: 110,
                   ),
@@ -89,6 +92,7 @@ class ProfileImagePicker extends StatelessWidget {
       final bytes = await file?.readAsBytes() as Uint8List;
 
       getIt<ProfileFormBloc>().add(ImageChanged(bytes));
+      updateImage(true);
     } catch (exception, stack) {
       if (Platform.isAndroid) showSnackBar(context);
       print('error:$exception');
@@ -97,12 +101,12 @@ class ProfileImagePicker extends StatelessWidget {
   }
 
   void showSnackBar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: Colors.white,
-      content: Text('You don\'t have permission. Open Settings?',
-          style: TextStyle(color: Colors.black)),
+      content: Text(AppLocalizations.of(context).translate('permission'),
+          style: const TextStyle(color: Colors.black)),
       action: SnackBarAction(
-        label: 'Open',
+        label: AppLocalizations.of(context).translate('open'),
         onPressed: AppSettings.openAppSettings,
       ),
     ));

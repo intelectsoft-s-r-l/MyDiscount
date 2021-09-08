@@ -54,5 +54,13 @@ class SaveProfileData extends ProfileFormEvent {
 }
 
 class UpdateProfileData extends ProfileFormEvent {
-  UpdateProfileData();
+  const UpdateProfileData();
+}
+
+class RestoreProfileData extends ProfileFormEvent {
+  const RestoreProfileData();
+}
+
+class EditProfileData extends ProfileFormEvent {
+  const EditProfileData();
 }

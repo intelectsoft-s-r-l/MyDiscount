@@ -1,3 +1,5 @@
+import 'package:my_discount/domain/entities/profile_model.dart';
+
 import '../entities/user_model.dart';
 
 /// [AuthRepository] is a interface for authorization and creation of user in
@@ -13,7 +15,7 @@ abstract class AuthRepository {
   /// Only for iOS platform
   Future<User> authenticateWithApple();
 
-  Future<User> authenticateWithPhone(String phone);
+  Future<User> authenticateWithPhone(String phone,Profile profile);
 
   /// check if exist an authenticated user
   User getAuthUser();

@@ -8,6 +8,7 @@ class ProfileFormWidget extends StatelessWidget {
     required this.isReadOnly,
     required this.keyboardType,
     required this.onChanged,
+    required this.validator,
   }) : super(key: key);
 
   final String title;
@@ -15,6 +16,7 @@ class ProfileFormWidget extends StatelessWidget {
   final bool isReadOnly;
   final TextInputType keyboardType;
   final void Function(String) onChanged;
+  final String? Function(String?) validator;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class ProfileFormWidget extends StatelessWidget {
           ),
           Container(
             child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               keyboardType: keyboardType,
               initialValue: initialValue,
               decoration: const InputDecoration(
@@ -36,6 +39,7 @@ class ProfileFormWidget extends StatelessWidget {
                 focusColor: Colors.red,
               ),
               onChanged: onChanged,
+              validator: validator,
               readOnly: isReadOnly,
               style: const TextStyle(
                 color: Colors.black,

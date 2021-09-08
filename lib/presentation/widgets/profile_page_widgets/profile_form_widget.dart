@@ -1,9 +1,10 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_discount/aplication/auth/auth_bloc.dart';
 import 'package:my_discount/aplication/auth/sign_in/sign_form_bloc.dart';
 import 'package:my_discount/aplication/profile_bloc/profile_form_bloc.dart';
 import 'package:my_discount/domain/entities/profile_model.dart';
+import 'package:my_discount/infrastructure/core/constants/credentials.dart';
 import 'package:my_discount/infrastructure/core/localization/localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +37,17 @@ class ProfilePageForm extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              ProfileImagePicker(profile: profile, isEdit: !isReadOnly),
+              ProfileImagePicker(
+                  profile: profile,
+                  isEdit: !isReadOnly,
+                  forAuth: false,
+                  updateImage: (updated) {
+                    if (updated) {
+                      context
+                          .read<ProfileFormBloc>()
+                          .add(const UpdateProfileData());
+                    }
+                  }),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -52,6 +63,14 @@ class ProfilePageForm extends StatelessWidget {
                       onChanged: (val) => context
                           .read<ProfileFormBloc>()
                           .add(FirstNameChanged(val)),
+                      validator: (value) {
+                        if (value != null) {
+                          if (value.isEmpty) {
+                            return AppLocalizations.of(context)
+                                .translate('nameerror');
+                          }
+                        }
+                      },
                     ),
                     const Divider(),
                     ProfileFormWidget(
@@ -62,6 +81,14 @@ class ProfilePageForm extends StatelessWidget {
                       onChanged: (val) => context
                           .read<ProfileFormBloc>()
                           .add(LastNameChanged(val)),
+                      validator: (value) {
+                        if (value != null) {
+                          if (value.isEmpty) {
+                            return AppLocalizations.of(context)
+                                .translate('nameerror');
+                          }
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -76,6 +103,16 @@ class ProfilePageForm extends StatelessWidget {
             isReadOnly: isReadOnly,
             onChanged: (val) =>
                 context.read<ProfileFormBloc>().add(EmailChanged(val)),
+            validator: (value) {
+              if (value != null) {
+                if (value.isEmpty) {
+                  return 'Email can\'t be empty';
+                }
+                if (!value.contains(Credentials.emailregexp)) {
+                  return AppLocalizations.of(context).translate('emailerror');
+                }
+              }
+            },
           ),
           const Divider(),
           ValidatePhoneFormWidget(
@@ -99,15 +136,8 @@ class ProfilePageForm extends StatelessWidget {
   }
 
   void _logout() {
-    if (isReadOnly) {
-      context.read<SignFormBloc>().add(SignOutEvent());
-      Navigator.pop(context);
-      context.read<AuthBloc>().add(SignOut());
-    } else {
-      Flushbar(
-        duration: const Duration(seconds: 3),
-        message: AppLocalizations.of(context).translate('savebeforelogout'),
-      ).show(context);
-    }
+    Navigator.pop(context);
+    context.read<SignFormBloc>().add(SignOutEvent());
+    context.read<AuthBloc>().add(SignOut());
   }
 }

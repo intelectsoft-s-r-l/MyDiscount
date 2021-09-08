@@ -114,7 +114,6 @@ class _AddCardPageState extends State<AddCardPage> {
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)!.settings.arguments as Set<Object>;
     final company = arguments.first as Company;
-    final fromCompany = arguments.last as bool;
     return !scann
         ? BlocProvider(
             create: (context) => getIt<AddCardPageBloc>(),
@@ -126,11 +125,7 @@ class _AddCardPageState extends State<AddCardPage> {
                       ? Icons.arrow_back_sharp
                       : Icons.arrow_back_ios_sharp),
                   onPressed: () {
-                    if (fromCompany) {
-                      Navigator.pop(context);
-                    } else {
-                      Navigator.of(context)..pop()..pop();
-                    }
+                    Navigator.pop(context);
                   },
                 ),
                 centerTitle: true,
@@ -154,8 +149,8 @@ class _AddCardPageState extends State<AddCardPage> {
                       child: BlocConsumer<AddCardPageBloc, AddCardPageState>(
                         listener: (context, state) {
                           if (state is SavedCardForm) {
-                            Navigator.popUntil(
-                                context, ModalRoute.withName('/cardlist'));
+                            Navigator.pushReplacementNamed(
+                                context, '/cardlist');
                           }
                           if (state is CardError) {
                             Flushbar(
