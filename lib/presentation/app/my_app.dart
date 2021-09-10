@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp>  {
         ),
         BlocProvider(
           create: (context) =>
-              getIt<ProfileFormBloc>()..add(UpdateProfileData()),
+              getIt<ProfileFormBloc>()..add(const UpdateProfileData()),
         ),
         BlocProvider(
           create: (context) => getIt<SettingsBloc>(),

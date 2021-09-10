@@ -12,7 +12,7 @@ class CompanyWidget extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () {
-        Navigator.pushNamed(context, '/addcard',
+        Navigator.pushReplacementNamed(context, '/addcard',
             arguments: {company, fromCompany});
       },
       child: ListTile(

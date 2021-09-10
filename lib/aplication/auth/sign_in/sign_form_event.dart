@@ -15,8 +15,9 @@ class SignInWithPhone extends SignFormEvent {
 
 class PhoneChecked extends SignFormEvent {
   final String phone;
+  final Profile profile;
 
-  PhoneChecked(this.phone);
+  PhoneChecked(this.phone,this.profile);
 }
 
 class ResetState extends SignFormEvent {}

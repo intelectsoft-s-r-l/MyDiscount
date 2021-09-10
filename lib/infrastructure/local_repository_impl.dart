@@ -168,7 +168,7 @@ class LocalRepositoryImpl implements LocalRepository {
   void deleteLocalUser() {
     try {
       userBox.delete(1);
-      profileBox.delete(1);
+      profileBox..delete(1)..delete(2);
     } catch (e) {
       throw LocalCacheError();
     }
@@ -225,7 +225,7 @@ class LocalRepositoryImpl implements LocalRepository {
           minHeight: 110,
           minWidth: 110,
           quality: 100,
-          inSampleSize: 10,
+          inSampleSize: 5,
           rotate: 0,
           format: CompressFormat.jpeg,
         );
@@ -264,6 +264,27 @@ class LocalRepositoryImpl implements LocalRepository {
   Future<Uint8List> _readProfileImageFromAssets() async {
     final list = await rootBundle.load('assets/icons/default_profile_img.png');
     return list.buffer.asUint8List();
+  }
+
+  @override
+  void deleteOldProfileData() {
+    profileBox.delete(2);
+  }
+
+  @override
+  Profile getOldProfileData() {
+    if (profileBox.containsKey(2)) {
+      return profileBox.get(2) as Profile;
+    } else if (profileBox.containsKey(1)) {
+      return profileBox.get(1) as Profile;
+    } else {
+      return Profile.empty();
+    }
+  }
+
+  @override
+  void saveOldProfileData({required Profile profile}) {
+    profileBox.put(2, profile);
   }
 }
 

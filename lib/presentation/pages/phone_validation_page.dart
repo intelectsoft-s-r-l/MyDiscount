@@ -5,6 +5,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_discount/aplication/auth/sign_in/sign_form_bloc.dart';
+import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../aplication/phone_validation_bloc/phone_validation_bloc.dart';
@@ -12,6 +13,7 @@ import '../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../widgets/custom_app_bar.dart';
+import 'login_profile_data_page.dart';
 
 class PhoneVerificationPage extends StatefulWidget {
   const PhoneVerificationPage({
@@ -84,17 +86,30 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
         child: Container(
           color: Colors.white,
           child: BlocConsumer<PhoneValidationBloc, PhoneValidationState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is ValidCode) {
                 if (!widget.forAuth) {
                   context.read<ProfileFormBloc>().add(PhoneChanged(phone));
                   Navigator.of(context).pop(true);
                 } else {
-                  context.read<SignFormBloc>().add(PhoneChecked(phone));
+                  final id = phone.replaceFirst('+', '');
+                  final profile = await getIt<IsService>()
+                      .getClientInfo(id: id, registerMode: 4);
+                  if (profile.isEmpty) {
+                    await Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginProfileData(phone: phone)),
+                    );
+                  } else {
+                    context
+                        .read<SignFormBloc>()
+                        .add(PhoneChecked(phone, profile));
+                  }
                 }
               } else if (state is InvalidCode) {
                 _focusNode.unfocus();
-                Flushbar(
+                await Flushbar(
                   message:
                       AppLocalizations.of(context).translate('incorectcode'),
                   duration: const Duration(seconds: 3),
@@ -147,11 +162,11 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                             return OutlinedButton(
                               onPressed: snapshot.data == 0
                                   ? () {
-                                      if (_currentCode != '') {
-                                        context
-                                            .read<PhoneValidationBloc>()
-                                            .add(GetValidationCode(phone));
-                                      }
+                                      /* if (_currentCode != '') { */
+                                      context
+                                          .read<PhoneValidationBloc>()
+                                          .add(GetValidationCode(phone));
+                                      /* } */
                                       setState(() {
                                         isActive = true;
                                         _duration = 60;

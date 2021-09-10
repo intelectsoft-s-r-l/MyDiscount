@@ -36,7 +36,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<ProfileFormBloc>(context).add(UpdateProfileData());
+    Provider.of<ProfileFormBloc>(context).add(const UpdateProfileData());
     super.didChangeDependencies();
   }
 
@@ -92,7 +92,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
                       context
                           .read<BottomNavigatorBarBloc>()
                           .add(HomeIconTapped());
-                      context.read<ProfileFormBloc>().add(UpdateProfileData());
+                      context.read<ProfileFormBloc>().add(const UpdateProfileData());
                     },
                   ),
                   const QrButton(),

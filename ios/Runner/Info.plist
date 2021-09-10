@@ -73,6 +73,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Is not used in MyDiscount</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Use camera to change User avatar</string>
 	<key>NSPhotoLibraryUsageDescription</key>

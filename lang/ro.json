@@ -93,5 +93,10 @@
     "savebeforelogout": "Salvați modificările înainte de a vă deloga!",
     "edit": "Editează",
     "save": "Salvează",
-    "changeimg": "Schimbă"
+    "changeimg": "Schimbă",    
+    "permission":"Nu aveți permisiunile necesare. Deschideți Setările ?",
+    "open":"Deschide",
+    "completeprofile":"Complețati datele dvs. de profil",
+    "nameerror":"Cîmpul nu trebue sa fie gol",
+    "emailerror":"Adauga-ți un email valid"
 }

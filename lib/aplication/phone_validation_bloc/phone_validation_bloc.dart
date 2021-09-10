@@ -24,7 +24,7 @@ class PhoneValidationBloc
   ) async* {
     if (event is GetValidationCode) {
       code = await _isServiceImpl.validatePhone(phone: event.phone);
-      print(code);
+      //print(code);
       yield WaitingUserInput(code);
     }
     if (event is UserInputCode) {

@@ -1,6 +1,7 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_discount/domain/entities/profile_model.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../domain/entities/user_model.dart';
@@ -127,25 +128,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> authenticateWithPhone(String phone) async {
+  Future<User> authenticateWithPhone(String phone, Profile profile) async {
     final id = phone.replaceFirst('+', '');
-    final defaultUserData = {
-      'DisplayName': '',
-      'Email': '',
-      'ID': id,
-      'PhotoUrl': '',
-      'PushToken': '',
-      'RegisterMode': 4,
-      'access_token': '',
-      'phone': phone,
-    };
+    final defaultUserData = profile.toCreateUser()
+      ..update('RegisterMode', (value) => 4);
 
     try {
-      final profile = await _isService.getClientInfo(id: id, registerMode: 4);
-      final localCredentialsMap = profile.toCreateUser();
+      /* final profile = await _isService.getClientInfo(id: id, registerMode: 4);
+      final localCredentialsMap = profile.toCreateUser(); */
       final token = await _firebaseCloudMessageService.getfcmToken() as String;
 
-      final map = profile.isEmpty ? defaultUserData : localCredentialsMap
+      final map = defaultUserData
         ..update('ID', (_) => id)
         ..update('access_token', (_) => '')
         ..update('phone', (_) => phone)

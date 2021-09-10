@@ -95,5 +95,10 @@
     "savebeforelogout":"Save changes before logout!",
     "edit":"Edit",
     "save":"Save",
-    "changeimg":"Change"    
+    "changeimg":"Change",
+    "permission":"You don't have permission. Open Settings",
+    "open":"Open",
+    "completeprofile":"Complete your profile data",
+    "nameerror":"Fild must not be empty",
+    "emailerror":"Add a valid email"
 }

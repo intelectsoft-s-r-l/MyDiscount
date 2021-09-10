@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_discount/domain/entities/profile_model.dart';
 
 import '../../../domain/entities/user_model.dart';
 import '../../../domain/repositories/auth_repository.dart';
@@ -54,8 +55,8 @@ class SignFormBloc extends Bloc<SignFormEvent, SignFormState> {
       }
     }
     if (event is PhoneChecked) {
-      yield* mapUserToState(
-          _authRepositoryImpl.authenticateWithPhone(event.phone));
+      yield* mapUserToState(_authRepositoryImpl.authenticateWithPhone(
+          event.phone, event.profile));
     }
     if (event is ResetState) {
       yield SignInFormReseted();
