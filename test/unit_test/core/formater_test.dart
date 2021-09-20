@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:my_discount/infrastructure/core/formater.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:my_discount/infrastructure/core/formater.dart';
 
 import '../fixtures/fixtures_redear.dart';
 

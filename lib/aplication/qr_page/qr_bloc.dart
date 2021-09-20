@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:my_discount/domain/repositories/is_service_repository.dart';
-import 'package:my_discount/infrastructure/core/internet_connection_service.dart';
+import '../../domain/repositories/is_service_repository.dart';
+import '../../infrastructure/core/internet_connection_service.dart';
 
 import '../../injectable.dart';
 

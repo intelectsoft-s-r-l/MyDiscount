@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:my_discount/domain/entities/company_model.dart';
-import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/infrastructure/core/failure.dart';
+
+import '../../domain/entities/company_model.dart';
+import '../../domain/repositories/is_service_repository.dart';
+import '../../infrastructure/core/failure.dart';
 
 part 'companylist_event.dart';
 part 'companylist_state.dart';

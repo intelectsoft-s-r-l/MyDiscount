@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_discount/aplication/auth/auth_bloc.dart';
-import 'package:my_discount/aplication/auth/sign_in/sign_form_bloc.dart';
-import 'package:my_discount/aplication/profile_bloc/profile_form_bloc.dart';
-import 'package:my_discount/domain/entities/profile_model.dart';
-import 'package:my_discount/infrastructure/core/constants/credentials.dart';
-import 'package:my_discount/infrastructure/core/localization/localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../../aplication/auth/auth_bloc.dart';
+import '../../../aplication/auth/sign_in/sign_form_bloc.dart';
+import '../../../aplication/profile_bloc/profile_form_bloc.dart';
+import '../../../domain/entities/profile_model.dart';
+import '../../../infrastructure/core/constants/credentials.dart';
+import '../../../infrastructure/core/localization/localizations.dart';
 import 'phone_validation_widget.dart';
 import 'profile_image_picker_widget.dart';
 import 'profile_text_field_widget.dart';

@@ -5,12 +5,12 @@ import 'package:app_settings/app_settings.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:my_discount/infrastructure/core/localization/localizations.dart';
-import 'package:my_discount/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../../domain/entities/profile_model.dart';
+import '../../../infrastructure/core/localization/localizations.dart';
+import '../../../injectable.dart';
 
 class ProfileImagePicker extends StatelessWidget {
   ProfileImagePicker({

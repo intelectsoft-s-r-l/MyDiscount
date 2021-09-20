@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_discount/aplication/company_list_bloc/companylist_bloc.dart';
-import 'package:my_discount/presentation/widgets/company_page_widgets/companies_list_widget.dart';
 
+import '../../aplication/company_list_bloc/companylist_bloc.dart';
 import '../../injectable.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/company_page_widgets/companies_list_widget.dart';

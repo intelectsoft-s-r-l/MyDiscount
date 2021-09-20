@@ -1,11 +1,11 @@
-import 'package:is_service/service_client.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:is_service/service_client.dart';
 
 import '../../domain/entities/company_model.dart';
 import '../../domain/entities/news_model.dart';

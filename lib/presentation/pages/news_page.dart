@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_discount/presentation/widgets/empty_list_widget.dart';
 
 import '../../domain/entities/news_model.dart';
 import '../../domain/repositories/is_service_repository.dart';
@@ -7,6 +6,7 @@ import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/empty_list_widget.dart';
 import '../widgets/news_page_widgets/news_list.dart';
 
 class NotificationPage extends StatefulWidget {

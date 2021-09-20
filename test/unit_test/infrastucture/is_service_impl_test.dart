@@ -2,14 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:is_service/service_client_response.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_discount/infrastructure/core/failure.dart';
-
-import 'package:my_discount/infrastructure/core/formater.dart';
-import 'package:my_discount/infrastructure/core/internet_connection_service.dart';
 import 'package:my_discount/domain/data_source/remote_datasource.dart';
 import 'package:my_discount/domain/entities/card.dart';
 import 'package:my_discount/domain/entities/company_model.dart';
@@ -19,6 +14,9 @@ import 'package:my_discount/domain/entities/tranzaction_model.dart';
 import 'package:my_discount/domain/entities/user_model.dart';
 import 'package:my_discount/domain/repositories/local_repository.dart';
 import 'package:my_discount/domain/settings/settings.dart';
+import 'package:my_discount/infrastructure/core/failure.dart';
+import 'package:my_discount/infrastructure/core/formater.dart';
+import 'package:my_discount/infrastructure/core/internet_connection_service.dart';
 import 'package:my_discount/infrastructure/is_service_impl.dart';
 //import 'package:my_discount/aplication/providers/news_settings.dart';
 

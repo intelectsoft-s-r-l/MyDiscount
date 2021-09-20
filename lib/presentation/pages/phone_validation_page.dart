@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_discount/aplication/auth/sign_in/sign_form_bloc.dart';
-import 'package:my_discount/domain/repositories/is_service_repository.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
+import '../../aplication/auth/sign_in/sign_form_bloc.dart';
 import '../../aplication/phone_validation_bloc/phone_validation_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
+import '../../domain/repositories/is_service_repository.dart';
 import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../widgets/custom_app_bar.dart';

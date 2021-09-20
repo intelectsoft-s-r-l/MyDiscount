@@ -1,9 +1,9 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_discount/domain/entities/profile_model.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../domain/entities/profile_model.dart';
 import '../domain/entities/user_model.dart';
 import '../domain/repositories/auth_repository.dart';
 import '../domain/repositories/is_service_repository.dart';

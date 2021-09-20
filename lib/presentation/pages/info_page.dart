@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_discount/presentation/widgets/home_page/home_item_widget.dart';
 
 import '../widgets/custom_app_bar.dart';
+import '../widgets/home_page/home_item_widget.dart';
 
 class InformationPage extends StatelessWidget {
   const InformationPage();

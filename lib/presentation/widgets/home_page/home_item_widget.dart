@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_discount/infrastructure/core/localization/localizations.dart';
+import '../../../infrastructure/core/localization/localizations.dart';
 
 class HomeItemWidget extends StatelessWidget {
   const HomeItemWidget({

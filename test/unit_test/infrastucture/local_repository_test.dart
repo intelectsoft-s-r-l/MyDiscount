@@ -1,13 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:my_discount/domain/entities/company_model.dart';
 import 'package:my_discount/domain/entities/news_model.dart';
 import 'package:my_discount/domain/entities/profile_model.dart';
 import 'package:my_discount/domain/entities/user_model.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:my_discount/infrastructure/local_repository_impl.dart';
 
 import '../fixtures/fixtures_redear.dart';

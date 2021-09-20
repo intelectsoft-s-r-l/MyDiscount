@@ -15,8 +15,8 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i16;
 import 'package:is_service/service_client.dart' as _i22;
-import 'package:my_discount/aplication/company_list_bloc/companylist_bloc.dart';
 import 'package:my_discount/aplication/bottom_navigation_bar_bloc/bottom_navigator_bar_bloc.dart';
+import 'package:my_discount/aplication/company_list_bloc/companylist_bloc.dart';
 
 import 'aplication/auth/auth_bloc.dart' as _i24;
 import 'aplication/auth/sign_in/sign_form_bloc.dart' as _i36;

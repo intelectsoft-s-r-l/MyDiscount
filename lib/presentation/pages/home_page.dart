@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_discount/presentation/widgets/home_page/home_page_items_list.dart';
+import '../widgets/home_page/home_page_items_list.dart';
 
 import '../widgets/home_page/home_page_top_widget.dart';
 

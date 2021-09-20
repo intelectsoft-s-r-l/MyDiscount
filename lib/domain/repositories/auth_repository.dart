@@ -1,4 +1,4 @@
-import 'package:my_discount/domain/entities/profile_model.dart';
+import '../entities/profile_model.dart';
 
 import '../entities/user_model.dart';
 

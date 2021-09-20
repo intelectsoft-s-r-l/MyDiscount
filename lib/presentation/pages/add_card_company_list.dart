@@ -1,14 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:my_discount/domain/repositories/is_service_repository.dart';
-import 'package:my_discount/infrastructure/core/localization/localizations.dart';
-import 'package:my_discount/presentation/widgets/company_page_widgets/no_company_list_widget.dart';
 
 import '../../domain/entities/company_model.dart';
+import '../../domain/repositories/is_service_repository.dart';
 import '../../domain/repositories/local_repository.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 import '../../injectable.dart';
 import '../widgets/company_page_widgets/companies_list_widget.dart';
+import '../widgets/company_page_widgets/no_company_list_widget.dart';
 
 class AddCardCompanyListPage extends StatefulWidget {
   const AddCardCompanyListPage({

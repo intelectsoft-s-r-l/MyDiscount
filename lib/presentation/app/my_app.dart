@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:my_discount/aplication/bottom_navigation_bar_bloc/bottom_navigator_bar_bloc.dart';
 
 import '../../aplication/auth/auth_bloc.dart';
 import '../../aplication/auth/sign_in/sign_form_bloc.dart';
+import '../../aplication/bottom_navigation_bar_bloc/bottom_navigator_bar_bloc.dart';
 import '../../aplication/profile_bloc/profile_form_bloc.dart';
 import '../../aplication/settings/settings_bloc.dart';
 import '../../infrastructure/core/localization/localizations.dart';

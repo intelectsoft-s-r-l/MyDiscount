@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
-
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:is_service/service_client.dart';
 import 'package:is_service/service_client_response.dart';

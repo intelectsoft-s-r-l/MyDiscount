@@ -6,8 +6,6 @@ import 'dart:async' as _i8;
 
 import 'package:is_service/service_client_response.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:my_discount/infrastructure/core/formater.dart' as _i13;
-import 'package:my_discount/infrastructure/core/internet_connection_service.dart' as _i7;
 import 'package:my_discount/domain/data_source/remote_datasource.dart' as _i14;
 import 'package:my_discount/domain/entities/company_model.dart' as _i12;
 import 'package:my_discount/domain/entities/news_model.dart' as _i11;
@@ -15,6 +13,8 @@ import 'package:my_discount/domain/entities/profile_model.dart' as _i3;
 import 'package:my_discount/domain/entities/user_model.dart' as _i4;
 import 'package:my_discount/domain/repositories/local_repository.dart' as _i10;
 import 'package:my_discount/domain/settings/settings.dart' as _i2;
+import 'package:my_discount/infrastructure/core/formater.dart' as _i13;
+import 'package:my_discount/infrastructure/core/internet_connection_service.dart' as _i7;
 import 'package:my_discount/infrastructure/settings/settings_Impl.dart' as _i6;
 
 // ignore_for_file: comment_references

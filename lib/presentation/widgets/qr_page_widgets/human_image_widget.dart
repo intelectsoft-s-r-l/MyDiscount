@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_discount/aplication/qr_page/qr_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../aplication/qr_page/qr_bloc.dart';
 import '../../../infrastructure/core/localization/localizations.dart';
 
 class HumanImage extends StatefulWidget {

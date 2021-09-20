@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_discount/domain/entities/profile_model.dart';
 
-import '../../aplication/profile_bloc/profile_form_bloc.dart';
-import '../../infrastructure/core/localization/localizations.dart';
 import '/presentation/widgets/profile_page_widgets/profile_form_widget.dart';
+import '../../aplication/profile_bloc/profile_form_bloc.dart';
+import '../../domain/entities/profile_model.dart';
+import '../../infrastructure/core/localization/localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage();

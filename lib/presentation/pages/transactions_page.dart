@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:my_discount/domain/entities/tranzaction_model.dart';
-import 'package:my_discount/domain/repositories/is_service_repository.dart';
-import 'package:my_discount/infrastructure/core/failure.dart';
-import 'package:my_discount/presentation/widgets/circular_progress_indicator_widget.dart';
-import 'package:my_discount/presentation/widgets/empty_list_widget.dart';
-import 'package:my_discount/presentation/widgets/nointernet_widget.dart';
-import 'package:my_discount/presentation/widgets/transaction_page_widgets/transaction_list_widget.dart';
 
+import '../../domain/entities/tranzaction_model.dart';
+import '../../domain/repositories/is_service_repository.dart';
+import '../../infrastructure/core/failure.dart';
 import '../../injectable.dart';
+import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/empty_list_widget.dart';
+import '../widgets/nointernet_widget.dart';
+import '../widgets/transaction_page_widgets/transaction_list_widget.dart';
 
 class TransactionsPage extends StatelessWidget {
   const TransactionsPage();

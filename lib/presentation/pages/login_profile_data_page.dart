@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_discount/aplication/auth/sign_in/sign_form_bloc.dart';
-import 'package:my_discount/aplication/profile_bloc/profile_form_bloc.dart';
-import 'package:my_discount/infrastructure/core/constants/credentials.dart';
-import 'package:my_discount/infrastructure/core/localization/localizations.dart';
-import 'package:my_discount/presentation/widgets/custom_app_bar.dart';
-import 'package:my_discount/presentation/widgets/profile_page_widgets/profile_image_picker_widget.dart';
-import 'package:my_discount/presentation/widgets/profile_page_widgets/profile_text_field_widget.dart';
+import '../../aplication/auth/sign_in/sign_form_bloc.dart';
+import '../../aplication/profile_bloc/profile_form_bloc.dart';
+import '../../infrastructure/core/constants/credentials.dart';
+import '../../infrastructure/core/localization/localizations.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/profile_page_widgets/profile_image_picker_widget.dart';
+import '../widgets/profile_page_widgets/profile_text_field_widget.dart';
 
 class LoginProfileData extends StatefulWidget {
   LoginProfileData({Key? key, required this.phone}) : super(key: key);

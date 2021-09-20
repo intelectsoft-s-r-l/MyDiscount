@@ -1,9 +1,9 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:international_phone_input/international_phone_input.dart';
-import 'package:my_discount/aplication/auth/sign_in/sign_form_bloc.dart';
-import 'package:my_discount/infrastructure/core/localization/localizations.dart';
-import 'package:my_discount/presentation/widgets/custom_app_bar.dart';
+import '../../aplication/auth/sign_in/sign_form_bloc.dart';
+import '../../infrastructure/core/localization/localizations.dart';
+import '../widgets/custom_app_bar.dart';
 
 class InputPhonePage extends StatefulWidget {
   const InputPhonePage({Key? key, required this.bloc, required this.size})

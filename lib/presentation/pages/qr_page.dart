@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_discount/aplication/qr_page/timer_bloc/ticker.dart';
-import 'package:my_discount/aplication/qr_page/timer_bloc/timer_bloc.dart';
-import 'package:my_discount/aplication/qr_page/qr_bloc.dart';
-
 import 'package:provider/provider.dart';
 
+import '../../aplication/qr_page/qr_bloc.dart';
+import '../../aplication/qr_page/timer_bloc/ticker.dart';
+import '../../aplication/qr_page/timer_bloc/timer_bloc.dart';
 import '../../infrastructure/core/localization/localizations.dart';
-
 import '../widgets/circular_progress_indicator_widget.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/nointernet_widget.dart';
