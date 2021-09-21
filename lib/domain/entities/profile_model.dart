@@ -53,7 +53,7 @@ class Profile {
     return Profile(
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
-      email: json['Email'],
+      email: json['Email']??'',
       phone: json['phone']??'',
       photo: json['Photo'],
       pushToken: json['PushToken']??'',
